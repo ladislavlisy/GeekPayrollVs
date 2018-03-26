@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ElementsLib
 {
-    public class Class1
+    public class ElementsModule
     {
+        public ElementsModule()
+        {
+
+        }
     }
 }
