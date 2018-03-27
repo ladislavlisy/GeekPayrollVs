@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.ModuleConfig.Targets
+namespace ElementsLib.ModuleConfig.Articles
 {
-    using TargetCode = ArticleCode;
+    using ExtendedCode = PayrollCzCode;
     public class UnknownArticle : GeneralArticleSource
     {
-        public UnknownArticle() : base(TargetCode.ARTICLE_UNKNOWN)
+        public UnknownArticle() : base(ExtendedCode.ARTCODE_UNKNOWN)
         {
 
         }

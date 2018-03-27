@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib
 {
     using ContractCode = UInt16;
     using PositionCode = UInt16;
-    using TargetCode = ArticleCode;
-    using TargetSeed = UInt16;
+    using ExtendedCode = UInt16;
+    using ExtendedSeed = UInt16;
 
-    public class ArticleTarget : IComparable<ArticleTarget>, IEquatable<ArticleTarget>
+    using Interfaces;
+    using Libs;
+
+    public class ArticleTarget : IComparable<ArticleTarget>, IEquatable<ArticleTarget> 
     {
         public ContractCode Contract { get; protected set; }
         public PositionCode Position { get; protected set; }
-        public TargetCode Code { get; protected set; }
-        public TargetSeed Seed { get; protected set; }
+        public ExtendedCode Code { get; protected set; }
+        public ExtendedSeed Seed { get; protected set; }
 
-        public ArticleTarget(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed)
+        public ArticleTarget(ContractCode contract, PositionCode position, ExtendedCode code, ExtendedSeed seed)
         {
             this.Contract = contract;
             this.Position = position;
@@ -101,8 +100,8 @@ namespace ElementsLib
         }
 
         public static bool operator >=(ArticleTarget x, ArticleTarget y)
-        {
-            if (x.IsEqualToSame(y))
+        {                                                                         
+            if (x.IsEqualToSame(y))                               
             {
                 return true;
             }
@@ -127,6 +126,7 @@ namespace ElementsLib
             return this.IsEqualToSame(other);
         }
 
+
         public override int GetHashCode()
         {
             int prime = 31;
@@ -140,15 +140,22 @@ namespace ElementsLib
             return result;
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0}-{1}-{2}-{3}", this.Contract.ToString(), this.Position.ToString(), this.Code.GetSymbol(), this.Seed.ToString());
-        }
-
         public virtual object Clone()
         {
             ArticleTarget clone = (ArticleTarget)this.MemberwiseClone();
             return clone;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}-{1}-{2}-{3}", this.Contract.ToString(), this.Position.ToString(), this.Code.ToString(), this.Seed.ToString());
+        }
+
+        public string SymbolDescription<TENUM>() where TENUM : struct, IComparable
+        {
+            TENUM typeCode = this.Code.ToEnum<TENUM>();
+
+            return string.Format("{0}-{1}-{2}-{3}", this.Contract.ToString(), this.Position.ToString(), typeCode.ToString(), this.Seed.ToString());
         }
     }
 }

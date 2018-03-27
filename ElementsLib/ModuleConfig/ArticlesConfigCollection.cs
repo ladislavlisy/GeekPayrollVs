@@ -1,56 +1,35 @@
-﻿using ElementsLib.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace ElementsLib
 {
-    using SymbolName = String;
+    using ConfigCode = UInt16;
 
-    public abstract class ArticlesConfigCollection<AIDX> : GeneralConfigCollection<IArticleSource, AIDX, UInt16>
+    using Common;
+    using Interfaces;
+    using ModuleConfig.Json;
+    using System.Collections.Generic;
+
+    public class ArticlesConfigCollection : GeneralConfigCollection<IArticleConfig, ConfigCode>
     {
         public ArticlesConfigCollection() : base()
         {
         }
 
-        public IArticleSource FindArticle(UInt16 articleCode)
+        public void LoadConfigJson(IList<ArticleConfigJson> configList, IArticleConfigFactory configFactory)
         {
-            IArticleSource articleModel = FindInstanceForCode(articleCode);
+            foreach (var config in configList)
+            {
+                ArticleConfig configModel = configFactory.CreateConfig(config);
 
-            return articleModel;
+                ConfigureModel(configModel, configModel.Code);
+            }
         }
 
-        public IArticleSource ConfigureArticleModel(Assembly configAssembly, ArticleCode article, SymbolName concept)
+        public IArticleConfig FindArticleConfig(ConfigCode modelCode)
         {
-            // ArticleConfig = 
-            // ArticleCode, 
-            // ConceptCode, 
-            // ArticleVals, 
-            // ResolveCodes, xx 
-            // SummaryCodes, 
-            // IncomesRules
-            // Create ArticleSource
+            IArticleConfig configModel = FindInstanceForCode(modelCode);
 
-            //IArticleSource articleInstance = GeneralPayrollArticle.CreateArticle(
-            //    article, concept, category, pendingNames, summaryNames,
-            //    taxingIncome, healthIncome, socialIncome, grossSummary, nettoSummary, nettoDeducts);
-
-            //return ConfigureModel(articleInstance, article);
-            return null;
+            return configModel;
         }
-
-        #region implemented abstract members of GeneralCollection
-
-        protected override IArticleSource InstanceFor(Assembly configAssembly, SymbolName configSymbol)
-        {
-            IArticleSource emptyArticle = ArticleSourceFactory.ArticleSourceFor(configAssembly, configSymbol);
-
-            return emptyArticle;
-        }
-
-        #endregion
     }
 }

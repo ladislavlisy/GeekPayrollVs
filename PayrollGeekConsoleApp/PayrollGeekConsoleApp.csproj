@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{225677A7-3074-408C-9015-F0461FE79E48}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{F666BE4B-8BDC-46B0-ACFD-16F617F5DF15}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElementsLib</RootNamespace>
-    <AssemblyName>ElementsLib</AssemblyName>
+    <RootNamespace>PayrollGeekConsoleApp</RootNamespace>
+    <AssemblyName>PayrollGeekConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,34 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractArticleBucket.cs" />
-    <Compile Include="ArticleBucket.cs" />
-    <Compile Include="ArticleCodeFactory.cs" />
-    <Compile Include="ArticleConfigFactory.cs" />
-    <Compile Include="ArticleRoleFactory.cs" />
-    <Compile Include="ArticleTarget.cs" />
-    <Compile Include="Common\GeneralConfigCollection.cs" />
-    <Compile Include="Common\GeneralFactory.cs" />
-    <Compile Include="Common\GeneralSourceCollection.cs" />
-    <Compile Include="ElementsModule.cs" />
-    <Compile Include="Interfaces\IArticleConfig.cs" />
-    <Compile Include="Interfaces\IArticleConfigFactory.cs" />
-    <Compile Include="ModuleConfig.Json\ArticleConfigJson.cs" />
-    <Compile Include="ModuleConfig.Json\ConfigJsonReader.cs" />
-    <Compile Include="ArticleConfig.cs" />
-    <Compile Include="ModuleConfig\GeneralArticleSource.cs" />
-    <Compile Include="Interfaces\IArticleSource.cs" />
-    <Compile Include="ModuleConfig.Articles\ContractTermArticle.cs" />
-    <Compile Include="ModuleConfig.Articles\UnknownArticle.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Libs\StringUtilsExtensions.cs" />
-    <Compile Include="ModuleConfig\ArticlesConfigCollection.cs" />
-    <Compile Include="TargetConst.cs" />
-    <Compile Include="ArticleSourceFactory.cs" />
-    <Compile Include="TargetSelector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElementsLib\ElementsLib.csproj">
+      <Project>{225677a7-3074-408c-9015-f0461fe79e48}</Project>
+      <Name>ElementsLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

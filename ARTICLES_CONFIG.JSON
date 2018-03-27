@@ -1,0 +1,19 @@
+[
+  {
+    "Code": "ARTCODE_UNKNOWN",
+    "Role": "ARTROLE_UNKNOWN",
+    "ResolvePath": []
+  },
+  {
+    "Code": "ARTCODE_CONTRACT_TERM",
+    "Role": "ARTROLE_CONTRACT_TERM",
+    "ResolvePath": []
+  },
+  {
+    "Code": "ARTCODE_POSITION_TERM",
+    "Role": "ARTROLE_POSITION_TERM",
+    "ResolvePath": [
+      "ARTCODE_CONTRACT_TERM"
+    ]
+  }
+]

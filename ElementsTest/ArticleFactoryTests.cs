@@ -11,8 +11,10 @@ namespace ElementsTest
 {
     using ContractCode = UInt16;
     using PositionCode = UInt16;
-    using TargetCode = ArticleCode;
-    using TargetSeed = UInt16;
+    using ExtendedCode = PayrollCzCode;
+    using ExtendedSeed = UInt16;
+
+    using ElementsLib.Interfaces;
 
     [TestFixture]
     public class ArticleFactoryTests
@@ -20,11 +22,11 @@ namespace ElementsTest
         [Test]
         public void Test_CreateArticleTarget()
         {
-            string testTargetLabel = "ARTICLE_CONTRACT_TERM";
+            string testTargetLabel = "ARTCODE_CONTRACT_TERM";
 
             Assembly configAssembly = typeof(ElementsModule).Assembly;
 
-            IArticleSource testSource = ArticleSourceFactory.ArticleSourceFor(configAssembly, TargetCode.ARTICLE_CONTRACT_TERM.GetSymbol());
+            IArticleSource testSource = ArticleSourceFactory.ArticleSourceFor(configAssembly, ExtendedCode.ARTCODE_CONTRACT_TERM.GetSymbol());
 
             Assert.AreEqual(testTargetLabel, testSource.ToString());
         }

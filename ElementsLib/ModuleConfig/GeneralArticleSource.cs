@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib
 {
-    using TargetCode = ArticleCode;
+    using ExtendedCode = PayrollCzCode;
 
+    using Interfaces;
     public class GeneralArticleSource : IArticleSource
     {
-        public GeneralArticleSource(TargetCode article)
+        public GeneralArticleSource(ExtendedCode code)
         {
-            Code = article;
+            Code = code;
         }
 
-        public TargetCode Code { get; protected set; }
+        public ExtendedCode Code { get; protected set; }
 
         public override string ToString()
         {

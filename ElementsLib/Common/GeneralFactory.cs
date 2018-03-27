@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace ElementsLib.Common
 {
-    public class GeneralFactory<T>
+    public static class GeneralFactory<T>
     {
         public static T InstanceFor(Assembly assembly, string namespacePrefix, string className)
         {

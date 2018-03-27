@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ElementsLib.Libs;
-using ElementsLib.Common;
-
+﻿
 namespace ElementsLib
 {
-    public class ArticleSourceFactory
+    using System;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using Libs;
+    using Common;
+    using Interfaces;
+
+    public static class ArticleSourceFactory
     {
         private const string NAME_CLASS_POSTFIX = "Article";
-        private const string NAME_CLASS_PATTERN = "ARTICLE_(.*)";
+        private const string NAME_CLASS_PATTERN = "ARTCODE_(.*)";
         private const string NAME_SPACE_PREFIX = "ElementsLib.ModuleConfig.Articles";
 
         public static IArticleSource ArticleSourceFor(Assembly configAssembly, string articleName)

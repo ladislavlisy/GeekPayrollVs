@@ -9,37 +9,20 @@ namespace ElementsLib.Common
 {
     using SymbolName = String;
 
-    public abstract class GeneralConfigCollection<T, ENUM, IDX>
+    public abstract class GeneralConfigCollection<TConfig, TIndex>
     {
         public GeneralConfigCollection()
         {
-            this.Models = new Dictionary<IDX, T>();
+            this.Models = new Dictionary<TIndex, TConfig>();
         }
 
-        public IDictionary<IDX, T> Models { get; protected set; }
+        public IDictionary<TIndex, TConfig> Models { get; protected set; }
 
-        public IDX DefaultCode { get; protected set; }
+        public TIndex DefaultCode { get; protected set; }
 
-        public T InstanceFromModels(Assembly configAssembly, IDX configCode)
+        public TConfig ConfigureModel(TConfig baseInstance, TIndex configCode)
         {
-            T modelInstance = default(T);
-
-            if (!Models.ContainsKey(configCode))
-            {
-                T baseInstance = CreateInstanceForCode(configAssembly, configCode);
-
-                modelInstance = ConfigureModel(baseInstance, configCode);
-            }
-            else
-            {
-                modelInstance = FindInstanceForCode(configCode);
-            }
-            return modelInstance;
-        }
-
-        public T ConfigureModel(T baseInstance, IDX configCode)
-        {
-            T modelInstance = baseInstance;
+            TConfig modelInstance = baseInstance;
 
             if (modelInstance != null)
             {
@@ -52,18 +35,9 @@ namespace ElementsLib.Common
             return modelInstance;
         }
 
-        public T FindInstanceForEnum(ENUM configIndex)
+        public TConfig FindInstanceForCode(TIndex configCode)
         {
-            IDX configCode = GetCode(configIndex);
-
-            T baseInstance = FindInstanceForCode(configCode);
-
-            return baseInstance;
-        }
-
-        public T FindInstanceForCode(IDX configCode)
-        {
-            T baseInstance = default(T);
+            TConfig baseInstance = default(TConfig);
 
             if (Models.ContainsKey(configCode))
             {
@@ -75,28 +49,5 @@ namespace ElementsLib.Common
             }
             return baseInstance;
         }
-
-        public T CreateInstanceForCode(Assembly configAssembly, IDX configCode)
-        {
-            SymbolName configSymbol = GetSymbol(configCode);
-
-            T emptyInstance = InstanceFor(configAssembly, configSymbol);
-
-            return emptyInstance;
-        }
-
-        public T CloneInstanceForCode(IDX configCode)
-        {
-            T emptyInstance = FindInstanceForCode(configCode);
-
-            return emptyInstance; //.Clone();
-        }
-
-        protected abstract IDX GetCode(ENUM configIndex);
-
-        protected abstract SymbolName GetSymbol(IDX configCode);
-
-        protected abstract T InstanceFor(Assembly configAssembly, SymbolName configSymbol);
-
     }
 }
