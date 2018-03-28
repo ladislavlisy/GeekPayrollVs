@@ -1,23 +1,29 @@
 ﻿using System;
 
-namespace ElementsLib
+namespace ElementsLib.ModuleBucket
 {
     using ContractCode = UInt16;
     using PositionCode = UInt16;
-    using ExtendedCode = UInt16;
-    using ExtendedSeed = UInt16;
+    using TargetCode = UInt16;
+    using TargetSeed = UInt16;
 
     using Interfaces;
     using Libs;
 
     public class ArticleTarget : IComparable<ArticleTarget>, IEquatable<ArticleTarget> 
     {
+        public const ContractCode CONTRACT_CODE_NULL = 0;
+        public const PositionCode POSITION_CODE_NULL = 0;
+
+        public const TargetSeed SEED_NULL = 0;
+        public const TargetSeed SEED_FIRST = 1;
+
         public ContractCode Contract { get; protected set; }
         public PositionCode Position { get; protected set; }
-        public ExtendedCode Code { get; protected set; }
-        public ExtendedSeed Seed { get; protected set; }
+        public TargetCode Code { get; protected set; }
+        public TargetSeed Seed { get; protected set; }
 
-        public ArticleTarget(ContractCode contract, PositionCode position, ExtendedCode code, ExtendedSeed seed)
+        public ArticleTarget(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed)
         {
             this.Contract = contract;
             this.Position = position;

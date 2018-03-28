@@ -1,14 +1,18 @@
-﻿using ElementsLib.ModuleConfig.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib.Interfaces
 {
+    using ConfigCode = UInt16;
+    using ConfigItem = IArticleConfig;
+    using ConfigPair = KeyValuePair<UInt16, IArticleConfig>;
+
+    using ModuleConfig.Json;
+
     public interface IArticleConfigFactory
     {
-        ArticleConfig CreateConfig(ArticleConfigJson configJson);
+        IEnumerable<ConfigPair> CreateConfigList();
+        ConfigItem CreateConfigItem(ArticleConfigNameJson configJson);
+        ConfigCode CreateConfigCode(ArticleConfigNameJson configJson);
     }
 }

@@ -1,18 +1,20 @@
 ﻿using System;
 
-namespace ElementsLib
+namespace ElementsLib.ModuleConfig
 {
-    using ExtendedCode = PayrollCzCode;
+    using ArticleCode = Codes.ArticleCzCode;
 
     using Interfaces;
+    using Codes;
+
     public class GeneralArticleSource : IArticleSource
     {
-        public GeneralArticleSource(ExtendedCode code)
+        public GeneralArticleSource(ArticleCode code)
         {
             Code = code;
         }
 
-        public ExtendedCode Code { get; protected set; }
+        public ArticleCode Code { get; protected set; }
 
         public override string ToString()
         {

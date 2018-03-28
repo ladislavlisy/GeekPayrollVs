@@ -13,41 +13,35 @@ namespace ElementsLib.Common
     {
         public GeneralConfigCollection()
         {
+            this.ModelPath = new List<TIndex>();
+
             this.Models = new Dictionary<TIndex, TConfig>();
         }
 
-        public IDictionary<TIndex, TConfig> Models { get; protected set; }
+        protected IList<TIndex> ModelPath { get; set; }
+        protected IDictionary<TIndex, TConfig> Models { get; set; }
 
-        public TIndex DefaultCode { get; protected set; }
+        protected TIndex DefaultCode { get; set; }
 
-        public TConfig ConfigureModel(TConfig baseInstance, TIndex configCode)
+        protected void ConfigureModel(IEnumerable<KeyValuePair<TIndex, TConfig>> configList)
         {
-            TConfig modelInstance = baseInstance;
+            Models = configList.ToDictionary(kv => kv.Key, kv => kv.Value);
 
-            if (modelInstance != null)
-            {
-                Models[configCode] = modelInstance;
-            }
-            else if (Models.ContainsKey(configCode))
-            {
-                modelInstance = Models[configCode];
-            }
-            return modelInstance;
+            ModelPath = Models.Keys.ToList();
         }
-
-        public TConfig FindInstanceForCode(TIndex configCode)
+        protected TConfig FindConfigByCode(TIndex configCode)
         {
-            TConfig baseInstance = default(TConfig);
+            TConfig modelInstance = default(TConfig);
 
             if (Models.ContainsKey(configCode))
             {
-                baseInstance = Models[configCode];
+                modelInstance = Models[configCode];
             }
             else
             {
-                baseInstance = Models[DefaultCode];
+                modelInstance = Models[DefaultCode];
             }
-            return baseInstance;
+            return modelInstance;
         }
     }
 }

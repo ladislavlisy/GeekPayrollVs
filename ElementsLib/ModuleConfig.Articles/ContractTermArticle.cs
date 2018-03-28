@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib.ModuleConfig.Articles
 {
-    using ExtendedCode = PayrollCzCode;
+    using ArticleCode = Codes.ArticleCzCode;
     public class ContractTermArticle : GeneralArticleSource
     {
-        public ContractTermArticle() : base(ExtendedCode.ARTCODE_CONTRACT_TERM)
+        public ContractTermArticle() : base(ArticleCode.ARTCODE_CONTRACT_TERM)
         {
 
         }

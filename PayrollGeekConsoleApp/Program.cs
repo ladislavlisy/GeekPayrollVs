@@ -1,10 +1,11 @@
-﻿using ElementsLib;
-using ElementsLib.ModuleConfig.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ElementsLib;
+using ElementsLib.ModuleConfig.Json;
+using ElementsLib.ModuleConfig;
 
 namespace PayrollGeekConsoleApp
 {
@@ -15,31 +16,37 @@ namespace PayrollGeekConsoleApp
             string configFolder = ConfigFilesFolder();
 
             SaveConfigToJson(configFolder);
+
+            ArticlesConfigCollection service = new ArticlesConfigCollection();
+
+            ArticleConfigFactory factory = new ArticleConfigFactory();
+
+            service.InitConfigModel(factory);
         }
 
         private static void SaveConfigToJson(string configFolder)
         {
-            IList<ArticleConfigJson> configList = new List<ArticleConfigJson>()
+            IList<ArticleConfigNameJson> configList = new List<ArticleConfigNameJson>()
             {
-                new ArticleConfigJson() {
+                new ArticleConfigNameJson() {
                     Code = "ARTCODE_UNKNOWN", Role = "ARTROLE_UNKNOWN", ResolvePath = new string[] { }
                 },
-                new ArticleConfigJson() {
+                new ArticleConfigNameJson() {
                     Code = "ARTCODE_CONTRACT_TERM", Role = "ARTROLE_CONTRACT_TERM", ResolvePath = new string[] { }
                 },
-                new ArticleConfigJson() {
+                new ArticleConfigNameJson() {
                     Code = "ARTCODE_POSITION_TERM", Role = "ARTROLE_POSITION_TERM", ResolvePath = new string[] { "ARTCODE_CONTRACT_TERM" }
                 },
             };
 
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_CONFIG.JSON");
-            ConfigJsonReader.SaveJsonData<ArticleConfigJson>(configFilePath, configList);
+            ConfigJsonReader.SaveJsonData<ArticleConfigNameJson>(configFilePath, configList);
         }
         private static void loadConfigFromJson(string configFolder)
         {
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_CONFIG.JSON");
 
-            IList<ArticleConfigJson> configList = ConfigJsonReader.ReadJsonData<ArticleConfigJson>(configFilePath);
+            IList<ArticleConfigNameJson> configList = ConfigJsonReader.ReadJsonData<ArticleConfigNameJson>(configFilePath);
         }
 
         private static string ConfigFilesFolder()

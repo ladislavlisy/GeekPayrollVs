@@ -1,5 +1,5 @@
 ﻿
-namespace ElementsLib
+namespace ElementsLib.ModuleBucket
 {
     using System;
     using System.Reflection;

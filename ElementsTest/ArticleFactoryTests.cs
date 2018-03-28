@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using ElementsLib;
 using System.Reflection;
+using ElementsLib.ModuleConfig.Codes;
 
 namespace ElementsTest
 {
-    using ContractCode = UInt16;
-    using PositionCode = UInt16;
-    using ExtendedCode = PayrollCzCode;
-    using ExtendedSeed = UInt16;
+    using ArticleCode = ArticleCzCode;
 
     using ElementsLib.Interfaces;
+    using ElementsLib.ModuleBucket;
 
     [TestFixture]
     public class ArticleFactoryTests
@@ -26,7 +25,7 @@ namespace ElementsTest
 
             Assembly configAssembly = typeof(ElementsModule).Assembly;
 
-            IArticleSource testSource = ArticleSourceFactory.ArticleSourceFor(configAssembly, ExtendedCode.ARTCODE_CONTRACT_TERM.GetSymbol());
+            IArticleSource testSource = ArticleSourceFactory.ArticleSourceFor(configAssembly, ArticleCode.ARTCODE_CONTRACT_TERM.GetSymbol());
 
             Assert.AreEqual(testTargetLabel, testSource.ToString());
         }

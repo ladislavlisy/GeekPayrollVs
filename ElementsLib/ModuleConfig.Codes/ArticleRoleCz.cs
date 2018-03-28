@@ -1,12 +1,8 @@
-﻿namespace ElementsLib
+﻿using System;
+
+namespace ElementsLib.ModuleConfig.Codes
 {
-    using PayrollRole = PayrollCzRole;
-
-    using System;
-    using Libs;
-    using Interfaces;
-
-    public enum PayrollCzRole : UInt16
+    public enum ArticleCzRole : UInt16
     {
         ARTROLE_UNKNOWN = 0,
         ARTROLE_CONTRACT_TERM,
@@ -54,35 +50,11 @@
         //ARTROLE_INCOME_GROSS,
         //ARTROLE_INCOME_NETTO
     }
-    public static class PayrollCzRoleExtensions
+    public static class ArticleCzRoleExtensions
     {
-        public static string GetSymbol(this PayrollCzRole article)
+        public static string GetSymbol(this ArticleCzRole article)
         {
             return article.ToString();
-        }
-    }
-
-    public class ArticleRoleFactory
-    {
-        public static PayrollRole CreateEnum(UInt16 symbolNumb)
-        {
-            return symbolNumb.ToEnum<PayrollRole>(GetDefaultCode());
-        }
-        public static PayrollRole CreateEnum(string symbolName)
-        {
-            return symbolName.ToEnum<PayrollRole>(GetDefaultCode());
-        }
-        public static UInt16 CreateCode(UInt16 symbolNumb)
-        {
-            return (UInt16)symbolNumb.ToEnum<PayrollRole>(GetDefaultCode());
-        }
-        public static UInt16 CreateCode(string symbolName)
-        {
-            return (UInt16)symbolName.ToEnum<PayrollRole>(GetDefaultCode());
-        }
-        private static PayrollRole GetDefaultCode()
-        {
-            return PayrollRole.ARTROLE_UNKNOWN;
         }
     }
 }

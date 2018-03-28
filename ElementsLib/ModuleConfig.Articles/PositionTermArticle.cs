@@ -3,9 +3,9 @@
 namespace ElementsLib.ModuleConfig.Articles
 {
     using ArticleCode = Codes.ArticleCzCode;
-    public class UnknownArticle : GeneralArticleSource
+    public class PositionTermArticle : GeneralArticleSource
     {
-        public UnknownArticle() : base(ArticleCode.ARTCODE_UNKNOWN)
+        public PositionTermArticle() : base(ArticleCode.ARTCODE_POSITION_TERM)
         {
 
         }

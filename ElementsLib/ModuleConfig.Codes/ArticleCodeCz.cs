@@ -1,12 +1,8 @@
 ﻿using System;
 
-namespace ElementsLib
+namespace ElementsLib.ModuleConfig.Codes
 {
-    using PayrollCode = PayrollCzCode;
-
-    using Libs;
-
-    public enum PayrollCzCode : UInt16
+    public enum ArticleCzCode : UInt16
     {
         ARTCODE_UNKNOWN = 0,
         ARTCODE_CONTRACT_TERM,
@@ -54,35 +50,11 @@ namespace ElementsLib
         //ARTCODE_INCOME_GROSS,
         //ARTCODE_INCOME_NETTO
     }
-    public static class PayrollCzCodeExtensions
+    public static class ArticleCzCodeExtensions
     {
-        public static string GetSymbol(this PayrollCzCode article)
+        public static string GetSymbol(this ArticleCzCode article)
         {
             return article.ToString();
-        }
-    }
-
-    public class ArticleCodeFactory
-    {
-        public static PayrollCode CreateEnum(UInt16 symbolNumb)
-        {
-            return symbolNumb.ToEnum<PayrollCode>(GetDefaultCode());
-        }
-        public static PayrollCode CreateEnum(string symbolName)
-        {
-            return symbolName.ToEnum<PayrollCode>(GetDefaultCode());
-        }
-        public static UInt16 CreateCode(UInt16 symbolNumb)
-        {
-            return (UInt16)symbolNumb.ToEnum<PayrollCode>(GetDefaultCode());
-        }
-        public static UInt16 CreateCode(string symbolName)
-        {
-            return (UInt16)symbolName.ToEnum<PayrollCode>(GetDefaultCode());
-        }
-        private static PayrollCode GetDefaultCode()
-        {
-            return PayrollCode.ARTCODE_UNKNOWN;
         }
     }
 }

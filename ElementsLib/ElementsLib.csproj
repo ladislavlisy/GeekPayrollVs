@@ -44,21 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractArticleBucket.cs" />
-    <Compile Include="ArticleBucket.cs" />
-    <Compile Include="ArticleCodeFactory.cs" />
-    <Compile Include="ArticleConfigFactory.cs" />
-    <Compile Include="ArticleRoleFactory.cs" />
-    <Compile Include="ArticleTarget.cs" />
+    <Compile Include="Libs\ArrayUtilsExtensions.cs" />
+    <Compile Include="Libs\DictionaryUtilsExtension.cs" />
+    <Compile Include="ModuleBucket\AbstractArticleBucket.cs" />
+    <Compile Include="ModuleBucket\ArticleBucket.cs" />
+    <Compile Include="ModuleConfig.Articles\PositionTermArticle.cs" />
+    <Compile Include="ModuleConfig.Codes\ArticleCodeAdapter.cs" />
+    <Compile Include="ModuleConfig\ArticleConfigFactory.cs" />
+    <Compile Include="ModuleConfig.Codes\ArticleRoleAdapter.cs" />
+    <Compile Include="ModuleBucket\ArticleTarget.cs" />
     <Compile Include="Common\GeneralConfigCollection.cs" />
     <Compile Include="Common\GeneralFactory.cs" />
     <Compile Include="Common\GeneralSourceCollection.cs" />
     <Compile Include="ElementsModule.cs" />
     <Compile Include="Interfaces\IArticleConfig.cs" />
     <Compile Include="Interfaces\IArticleConfigFactory.cs" />
+    <Compile Include="ModuleConfig.Codes\ArticleCodeCz.cs" />
+    <Compile Include="ModuleConfig.Codes\ArticleRoleCz.cs" />
     <Compile Include="ModuleConfig.Json\ArticleConfigJson.cs" />
     <Compile Include="ModuleConfig.Json\ConfigJsonReader.cs" />
-    <Compile Include="ArticleConfig.cs" />
+    <Compile Include="ModuleConfig\ArticleConfig.cs" />
     <Compile Include="ModuleConfig\GeneralArticleSource.cs" />
     <Compile Include="Interfaces\IArticleSource.cs" />
     <Compile Include="ModuleConfig.Articles\ContractTermArticle.cs" />
@@ -66,9 +71,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Libs\StringUtilsExtensions.cs" />
     <Compile Include="ModuleConfig\ArticlesConfigCollection.cs" />
-    <Compile Include="TargetConst.cs" />
-    <Compile Include="ArticleSourceFactory.cs" />
-    <Compile Include="TargetSelector.cs" />
+    <Compile Include="ModuleBucket\ArticleSourceFactory.cs" />
+    <Compile Include="ModuleBucket\TargetSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
