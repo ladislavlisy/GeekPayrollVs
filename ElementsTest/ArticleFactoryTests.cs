@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using ElementsLib;
 using System.Reflection;
-using ElementsLib.ModuleConfig.Codes;
+using ElementsLib;
+using ElementsLib.Module.Codes;
+using ElementsLib.Module.Interfaces;
+using ElementsLib.Elements.Config;
 
 namespace ElementsTest
 {
     using ArticleCode = ArticleCzCode;
-
-    using ElementsLib.Interfaces;
-    using ElementsLib.ModuleBucket;
 
     [TestFixture]
     public class ArticleFactoryTests

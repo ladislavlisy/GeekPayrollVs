@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ElementsLib.Matrixus.Config;
+using ElementsLib.Module.Json;
+using ElementsLib.Elements.Config;
+using System.Reflection;
 using ElementsLib;
-using ElementsLib.ModuleConfig.Json;
-using ElementsLib.ModuleConfig;
 
 namespace PayrollGeekConsoleApp
 {
@@ -15,9 +14,22 @@ namespace PayrollGeekConsoleApp
         {
             string configFolder = ConfigFilesFolder();
 
-            SaveConfigToJson(configFolder);
+            LoadSourceModel();
+        }
 
-            ArticlesConfigCollection service = new ArticlesConfigCollection();
+        private static void LoadSourceModel()
+        {
+            ArticleSourceCollection service = new ArticleSourceCollection();
+
+            Assembly configAssembly = typeof(ElementsModule).Assembly;
+
+            service.InitConfigModel(configAssembly);
+
+            return;
+        }
+        private static void LoadConfigModel()
+        {
+            ArticleConfigCollection service = new ArticleConfigCollection();
 
             ArticleConfigFactory factory = new ArticleConfigFactory();
 

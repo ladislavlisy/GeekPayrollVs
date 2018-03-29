@@ -1,8 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
-using ElementsLib;
-using ElementsLib.ModuleConfig.Codes;
-using ElementsLib.ModuleBucket;
+using ElementsLib.Module.Codes;
+using ElementsLib.Elements;
 
 namespace ElementsTest
 {
@@ -27,7 +26,7 @@ namespace ElementsTest
         {
             ArticleTarget testArticle = new ArticleTarget(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-0";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddTargetToEmptyDict()
@@ -36,7 +35,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToBack()
@@ -49,7 +48,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToFront()
@@ -62,7 +61,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddSecondTargetToDictBetween()
@@ -79,7 +78,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToBackNonEmpty()
@@ -98,7 +97,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-5";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToFrontNonEmpty()
@@ -117,7 +116,7 @@ namespace ElementsTest
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-4";
-            Assert.AreEqual(testArticleLabel, testArticle.SymbolDescription<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
     }
 }

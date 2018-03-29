@@ -44,39 +44,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Libs\ArrayUtilsExtensions.cs" />
-    <Compile Include="Libs\DictionaryUtilsExtension.cs" />
-    <Compile Include="ModuleBucket\AbstractArticleBucket.cs" />
-    <Compile Include="ModuleBucket\ArticleBucket.cs" />
-    <Compile Include="ModuleConfig.Articles\PositionTermArticle.cs" />
-    <Compile Include="ModuleConfig.Codes\ArticleCodeAdapter.cs" />
-    <Compile Include="ModuleConfig\ArticleConfigFactory.cs" />
-    <Compile Include="ModuleConfig.Codes\ArticleRoleAdapter.cs" />
-    <Compile Include="ModuleBucket\ArticleTarget.cs" />
-    <Compile Include="Common\GeneralConfigCollection.cs" />
-    <Compile Include="Common\GeneralFactory.cs" />
-    <Compile Include="Common\GeneralSourceCollection.cs" />
+    <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
+    <Compile Include="Module.Interfaces\IArticleSourceFactory.cs" />
+    <Compile Include="Module.Libs\ArrayUtilsExtensions.cs" />
+    <Compile Include="Module.Libs\DictionaryUtilsExtension.cs" />
+    <Compile Include="Elements\AbstractArticleBucket.cs" />
+    <Compile Include="Elements\ArticleBucket.cs" />
+    <Compile Include="Elements.Config.Articles\PositionTermArticle.cs" />
+    <Compile Include="Module.Codes\ArticleCodeAdapter.cs" />
+    <Compile Include="Matrixus.Config\ArticleConfigFactory.cs" />
+    <Compile Include="Module.Codes\ArticleRoleAdapter.cs" />
+    <Compile Include="Elements\ArticleTarget.cs" />
+    <Compile Include="Module.Common\GeneralConfigCollection.cs" />
+    <Compile Include="Module.Common\GeneralFactory.cs" />
+    <Compile Include="Module.Common\GeneralSourceCollection.cs" />
     <Compile Include="ElementsModule.cs" />
-    <Compile Include="Interfaces\IArticleConfig.cs" />
-    <Compile Include="Interfaces\IArticleConfigFactory.cs" />
-    <Compile Include="ModuleConfig.Codes\ArticleCodeCz.cs" />
-    <Compile Include="ModuleConfig.Codes\ArticleRoleCz.cs" />
-    <Compile Include="ModuleConfig.Json\ArticleConfigJson.cs" />
-    <Compile Include="ModuleConfig.Json\ConfigJsonReader.cs" />
-    <Compile Include="ModuleConfig\ArticleConfig.cs" />
-    <Compile Include="ModuleConfig\GeneralArticleSource.cs" />
-    <Compile Include="Interfaces\IArticleSource.cs" />
-    <Compile Include="ModuleConfig.Articles\ContractTermArticle.cs" />
-    <Compile Include="ModuleConfig.Articles\UnknownArticle.cs" />
+    <Compile Include="Module.Interfaces\IArticleConfig.cs" />
+    <Compile Include="Module.Interfaces\IArticleConfigFactory.cs" />
+    <Compile Include="Module.Codes\ArticleCodeCz.cs" />
+    <Compile Include="Module.Codes\ArticleRoleCz.cs" />
+    <Compile Include="Module.Json\ArticleConfigJson.cs" />
+    <Compile Include="Module.Json\ConfigJsonReader.cs" />
+    <Compile Include="Matrixus.Config\ArticleConfig.cs" />
+    <Compile Include="Elements.Config\ArticleGeneralSource.cs" />
+    <Compile Include="Module.Interfaces\IArticleSource.cs" />
+    <Compile Include="Elements.Config.Articles\ContractTermArticle.cs" />
+    <Compile Include="Elements.Config.Articles\UnknownArticle.cs" />
+    <Compile Include="Module.Libs\EnumUtilsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Libs\StringUtilsExtensions.cs" />
-    <Compile Include="ModuleConfig\ArticlesConfigCollection.cs" />
-    <Compile Include="ModuleBucket\ArticleSourceFactory.cs" />
-    <Compile Include="ModuleBucket\TargetSelector.cs" />
+    <Compile Include="Module.Libs\StringUtilsExtensions.cs" />
+    <Compile Include="Matrixus.Config\ArticleConfigCollection.cs" />
+    <Compile Include="Elements.Config\ArticleSourceFactory.cs" />
+    <Compile Include="Elements.Libs\TargetSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
