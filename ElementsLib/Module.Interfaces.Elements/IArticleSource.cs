@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElementsLib.Module.Interfaces
+namespace ElementsLib.Module.Interfaces.Elements
 {
     using SourceCode = UInt16;
     public interface IArticleSource

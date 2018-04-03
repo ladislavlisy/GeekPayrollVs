@@ -8,7 +8,7 @@ namespace ElementsLib.Matrixus.Config
     using ConfigRole = UInt16;
     using SymbolCode = Module.Codes.ArticleCzCode;
 
-    using Module.Interfaces;
+    using Module.Interfaces.Elements;
     using Module.Codes;
 
     // ArticleConfig = 

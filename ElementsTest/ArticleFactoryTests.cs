@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Reflection;
 using ElementsLib;
 using ElementsLib.Module.Codes;
-using ElementsLib.Module.Interfaces;
+using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Elements.Config;
 
 namespace ElementsTest

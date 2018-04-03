@@ -8,7 +8,7 @@ namespace ElementsLib.Elements
     using TargetCode = UInt16;
     using TargetSeed = UInt16;
 
-    using Module.Interfaces;
+    using Module.Interfaces.Elements;
     using Libs;
 
     public abstract class AbstractArticleBucket

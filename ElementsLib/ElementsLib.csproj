@@ -45,7 +45,75 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
-    <Compile Include="Module.Interfaces\IArticleSourceFactory.cs" />
+    <Compile Include="Legalist.Config\EmployProperties.cs" />
+    <Compile Include="Legalist.Config\HealthProperties.cs" />
+    <Compile Include="Legalist.Config\PenzixProperties.cs" />
+    <Compile Include="Legalist.Config\SocialProperties.cs" />
+    <Compile Include="Legalist.Config\TaxingProperties.cs" />
+    <Compile Include="Legalist.Guides.Employ\EmployGuides.cs" />
+    <Compile Include="Legalist.Guides.Employ\EmployGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Health\HealthGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Health\HealthGuides.cs" />
+    <Compile Include="Legalist.Guides.Health\IHealthGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Penzix\IPenzixGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Penzix\PenzixGuides.cs" />
+    <Compile Include="Legalist.Guides.Penzix\PenzixGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Social\ISocialGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Social\SocialGuides.cs" />
+    <Compile Include="Legalist.Guides.Social\SocialGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Taxing\ITaxingGuidesBuilder.cs" />
+    <Compile Include="Legalist.Guides.Taxing\TaxingGuides.cs" />
+    <Compile Include="Legalist.Guides.Taxing\TaxingGuidesBuilder.cs" />
+    <Compile Include="Legalist.Operations\OperationsEmploy.cs" />
+    <Compile Include="Legalist.Profiles.Health\HealthBuilder.cs" />
+    <Compile Include="Legalist.Profiles.Health\IHealthProfilePrototype.cs" />
+    <Compile Include="Legalist.Profiles.Penzix\PenzixBuilder.cs" />
+    <Compile Include="Legalist.Profiles.Penzix\IPenzixProfilePrototype.cs" />
+    <Compile Include="Legalist.Profiles.Social\ISocialProfilePrototype.cs" />
+    <Compile Include="Legalist.Profiles.Social\SocialBuilder.cs" />
+    <Compile Include="Legalist.Profiles.Taxing\ITaxingProfilePrototype.cs" />
+    <Compile Include="Legalist.Profiles.Taxing\TaxingBuilder.cs" />
+    <Compile Include="Legalist.Versions.Health\HealthGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Health\HealthProfileVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Penzix\PenzixGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Penzix\PenzixProfileVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Social\SocialGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Social\SocialProfileVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Taxing\TaxingGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Taxing\TaxingProfileVersion2018.cs" />
+    <Compile Include="Legalist\GeneralGuides.cs" />
+    <Compile Include="Legalist.Profiles.Employ\EmployBuilder.cs" />
+    <Compile Include="Legalist.Guides.Employ\IEmployGuidesBuilder.cs" />
+    <Compile Include="Legalist.Profiles.Employ\IEmployProfilePrototype.cs" />
+    <Compile Include="Legalist\BundleProfileVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
+    <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IHealthBuilder.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IPenzixBuilder.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ISocialBuilder.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ITaxingBuilder.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IEmployBuilder.cs" />
+    <Compile Include="Legalist\LegalistService.cs" />
+    <Compile Include="Legalist\PeriodProfile.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleSourceFactory.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IEmployGuides.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IEmployProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IHealthGuides.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IHealthProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IPenzixProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ISocialProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ITaxingProfile.cs" />
+    <Compile Include="Module.Interfaces\ILegalistService.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IPenzixGuides.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IPeriodProfile.cs" />
+    <Compile Include="Module.Interfaces\IPeriodSelect.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ISocialGuides.cs" />
+    <Compile Include="Module.Interfaces.Legalist\ITaxingGuides.cs" />
+    <Compile Include="Module.Items.Utils\PeriodFmt.cs" />
+    <Compile Include="Module.Items.Utils\PeriodUtils.cs" />
+    <Compile Include="Module.Items\Period.cs" />
     <Compile Include="Module.Libs\ArrayUtilsExtensions.cs" />
     <Compile Include="Module.Libs\DictionaryUtilsExtension.cs" />
     <Compile Include="Elements\AbstractArticleBucket.cs" />
@@ -59,15 +127,15 @@
     <Compile Include="Module.Common\GeneralFactory.cs" />
     <Compile Include="Module.Common\GeneralSourceCollection.cs" />
     <Compile Include="ElementsModule.cs" />
-    <Compile Include="Module.Interfaces\IArticleConfig.cs" />
-    <Compile Include="Module.Interfaces\IArticleConfigFactory.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleConfig.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleCodeCz.cs" />
     <Compile Include="Module.Codes\ArticleRoleCz.cs" />
     <Compile Include="Module.Json\ArticleConfigJson.cs" />
     <Compile Include="Module.Json\ConfigJsonReader.cs" />
     <Compile Include="Matrixus.Config\ArticleConfig.cs" />
     <Compile Include="Elements.Config\ArticleGeneralSource.cs" />
-    <Compile Include="Module.Interfaces\IArticleSource.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleSource.cs" />
     <Compile Include="Elements.Config.Articles\ContractTermArticle.cs" />
     <Compile Include="Elements.Config.Articles\UnknownArticle.cs" />
     <Compile Include="Module.Libs\EnumUtilsExtensions.cs" />
@@ -80,7 +148,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Module.Interfaces.Matrixus\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

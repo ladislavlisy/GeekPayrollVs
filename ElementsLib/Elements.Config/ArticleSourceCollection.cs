@@ -8,8 +8,8 @@ namespace ElementsLib.Elements.Config
     using SymbolCode = Module.Codes.ArticleCzCode;
 
     using SourceCode = UInt16;
-    using SourceItem = Module.Interfaces.IArticleSource;
-    using SourcePair = KeyValuePair<UInt16, Module.Interfaces.IArticleSource>;
+    using SourceItem = Module.Interfaces.Elements.IArticleSource;
+    using SourcePair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
     using Module.Common;
     using Module.Interfaces;

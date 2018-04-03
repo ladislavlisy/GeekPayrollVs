@@ -5,8 +5,8 @@ namespace ElementsLib.Elements.Config
     using SourceCode = UInt16;
     using SymbolCode = Module.Codes.ArticleCzCode;
 
-    using Module.Interfaces;
     using Module.Codes;
+    using Module.Interfaces.Elements;
 
     // ArticleConfig = 
     // ArticleCode, 

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.IArticleConfig;
-    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.IArticleConfig>;
+    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
+    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>;
 
     using Module.Common;
-    using Module.Interfaces;
+    using Module.Interfaces.Elements;
     using Module.Libs;
     using Module.Codes;
     using Module.Json;

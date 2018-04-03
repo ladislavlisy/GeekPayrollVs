@@ -6,7 +6,7 @@ namespace ElementsLib.Elements
     using SymbolName = String;
     using ConfigCode = UInt16;
 
-    using Module.Interfaces;
+    using Module.Interfaces.Elements;
     using Module.Codes;
     using Config;
 

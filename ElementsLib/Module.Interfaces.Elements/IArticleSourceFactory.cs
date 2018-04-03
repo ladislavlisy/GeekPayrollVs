@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Module.Interfaces
+namespace ElementsLib.Module.Interfaces.Elements
 {
     using SourceCode = UInt16;
     using SourceItem = IArticleConfig;

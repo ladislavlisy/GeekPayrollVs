@@ -8,7 +8,7 @@ namespace ElementsLib.Elements.Config
 
     using Module.Libs;
     using Module.Common;
-    using Module.Interfaces;
+    using Module.Interfaces.Elements;
 
     public static class ArticleSourceFactory
     {
