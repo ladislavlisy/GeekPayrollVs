@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Guides.Employ
 {
+    using TSeconds = Int32;
+    using THours = Int32;
+    using TDays = Int16;
+
     using Module.Interfaces.Legalist;
     using Module.Items;
     using Operations;
@@ -14,11 +18,11 @@ namespace ElementsLib.Legalist.Guides.Employ
     {
         protected Period InternalPeriod { get; set; }
 
-        protected readonly Int32 __WeeklyWorkingDays;
+        protected readonly TDays __WeeklyWorkingDays;
 
-        protected readonly Int32 __DailyWorkingHours;
+        protected readonly THours __DailyWorkingHours;
 
-        public EmployGuides(Period period, Int32 weeklyWorkingDays, Int32 dailyWorkingHours)
+        public EmployGuides(Period period, TDays weeklyWorkingDays, THours dailyWorkingHours)
         {
             InternalPeriod = period;
 
@@ -27,19 +31,19 @@ namespace ElementsLib.Legalist.Guides.Employ
             __DailyWorkingHours = dailyWorkingHours;
         }
 
-        public Int32 WeeklyWorkingDays()
+        public TDays WeeklyWorkingDays()
         {
             return __WeeklyWorkingDays;
         }
-        public Int32 DailyWorkingHours()
+        public THours DailyWorkingHours()
         {
             return __DailyWorkingHours;
         }
-        public Int32 WeeklyWorkingSeconds()
+        public TSeconds WeeklyWorkingSeconds()
         {
             return OperationsEmploy.WorkingSecondsWeekly(__WeeklyWorkingDays, __DailyWorkingHours);
         }
-        public Int32 DailyWorkingSeconds()
+        public TSeconds DailyWorkingSeconds()
         {
             return OperationsEmploy.WorkingSecondsDaily(__DailyWorkingHours);
         }

@@ -10,7 +10,7 @@ namespace ElementsLib.Legalist.Versions.Health
     {
         public IHealthProfile CreatePeriodProfile(Period period, IHealthGuides guides)
         {
-            throw new NotImplementedException();
+            return new HealthGuidingProfile(period, guides);
         }
     }
 }

@@ -6,34 +6,40 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Operations
 {
+    using TSeconds = Int32;
+    using THours = Int32;
+    using TDays = Int16;
+    using TDay = Byte;
+    using TDate = DateTime;
+
     using Module.Items;
     public static class OperationsEmploy
     {
         public const Int32 TIME_MULTIPLY_SIXTY = 60;
 
-        public static int WorkingSecondsDaily(int workingHours)
+        public static int WorkingSecondsDaily(THours workingHours)
         {
-            Int32 secondsInHour = (TIME_MULTIPLY_SIXTY * TIME_MULTIPLY_SIXTY);
+            TSeconds secondsInHour = (TIME_MULTIPLY_SIXTY * TIME_MULTIPLY_SIXTY);
 
             return (workingHours * secondsInHour);
         }
 
-        public static int WorkingSecondsWeekly(int workingDays, int workingHours)
+        public static int WorkingSecondsWeekly(TDays workingDays, THours workingHours)
         {
-            Int32 secondsDaily = WorkingSecondsDaily(workingHours);
+            TSeconds secondsDaily = WorkingSecondsDaily(workingHours);
 
             return (workingDays * secondsDaily);
         }
 
-        public static uint DateFromInPeriod(Period period, DateTime? dateFrom)
+        public static TDay DateFromInPeriod(Period period, TDate? dateFrom)
         {
-            uint dayTermFrom = Period.TERM_BEG_FINISHED;
+            TDay dayTermFrom = Period.TERM_BEG_FINISHED;
 
-            DateTime periodDateBeg = new DateTime((int)period.Year(), (int)period.Month(), 1);
+            var periodDateBeg = new DateTime((int)period.Year(), (int)period.Month(), 1);
 
             if (dateFrom != null)
             {
-                dayTermFrom = (uint)dateFrom.Value.Day;
+                dayTermFrom = (TDay)dateFrom.Value.Day;
             }
 
             if (dateFrom == null || dateFrom < periodDateBeg)
@@ -43,16 +49,16 @@ namespace ElementsLib.Legalist.Operations
             return dayTermFrom;
         }
 
-        public static uint DateEndsInPeriod(Period period, DateTime? dateEnds)
+        public static TDay DateEndsInPeriod(Period period, DateTime? dateEnds)
         {
-            uint dayTermEnd = Period.TERM_END_FINISHED;
-            uint daysPeriod = (uint)DateTime.DaysInMonth((int)period.Year(), (int)period.Month());
+            TDay dayTermEnd = Period.TERM_END_FINISHED;
+            TDay daysPeriod = (TDay)DateTime.DaysInMonth((int)period.Year(), (int)period.Month());
 
-            DateTime periodDateEnd = new DateTime((int)period.Year(), (int)period.Month(), (int)daysPeriod);
+            var periodDateEnd = new DateTime((int)period.Year(), (int)period.Month(), (int)daysPeriod);
 
             if (dateEnds != null)
             {
-                dayTermEnd = (uint)dateEnds.Value.Day;
+                dayTermEnd = (TDay)dateEnds.Value.Day;
             }
 
             if (dateEnds == null || dateEnds > periodDateEnd)

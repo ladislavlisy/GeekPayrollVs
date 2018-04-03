@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Legalist
+namespace ElementsLib.Legalist.Bundles
 {
     using BundleVersion = UInt16;
 

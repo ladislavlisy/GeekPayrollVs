@@ -6,35 +6,20 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist
 {
-    using BundleFocus = UInt16;
+    using VersionCode = UInt16;
+
+    using VersionItem = Module.Interfaces.Legalist.IBundleProfile;
+    using VersionPair = KeyValuePair<UInt16, Module.Interfaces.Legalist.IBundleProfile>;
 
     using Module.Interfaces;
     using Module.Interfaces.Legalist;
     using Module.Items;
+    using Exceptions;
+    using Bundles;
+    using System.Reflection;
+
     public class LegalistService : ILegalistService
     {
-        public LegalistService()
-        {
-            this.Profiles = new Dictionary<BundleFocus, IBundleProfile>();
-        }
-
-        public IPeriodProfile GetPeriodProfile(Period period)
-        {
-            var profile = Profiles.FirstOrDefault((p) => IsValidForPeriod(period, p.Key));
-
-            if (profile.Value == null)
-            {
-                return null;
-            }
-            return new PeriodProfile(period, profile.Value);
-        }
-
-        private bool IsValidForPeriod(Period period, BundleFocus profileKey)
-        {
-            return (period.YearUInt() == profileKey);
-        }
-
-        protected IDictionary<BundleFocus, IBundleProfile> Profiles;
 
     }
 }

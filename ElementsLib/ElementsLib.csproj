@@ -45,11 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
+    <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
+    <Compile Include="Legalist.Config\BundleVersionFactory.cs" />
     <Compile Include="Legalist.Config\EmployProperties.cs" />
     <Compile Include="Legalist.Config\HealthProperties.cs" />
     <Compile Include="Legalist.Config\PenzixProperties.cs" />
     <Compile Include="Legalist.Config\SocialProperties.cs" />
     <Compile Include="Legalist.Config\TaxingProperties.cs" />
+    <Compile Include="Legalist.Exceptions\ProfileMapExceptions.cs" />
     <Compile Include="Legalist.Guides.Employ\EmployGuides.cs" />
     <Compile Include="Legalist.Guides.Employ\EmployGuidesBuilder.cs" />
     <Compile Include="Legalist.Guides.Health\HealthGuidesBuilder.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="Legalist.Guides.Taxing\TaxingGuides.cs" />
     <Compile Include="Legalist.Guides.Taxing\TaxingGuidesBuilder.cs" />
     <Compile Include="Legalist.Operations\OperationsEmploy.cs" />
+    <Compile Include="Legalist.Operations\OperationsPeriod.cs" />
     <Compile Include="Legalist.Profiles.Health\HealthBuilder.cs" />
     <Compile Include="Legalist.Profiles.Health\IHealthProfilePrototype.cs" />
     <Compile Include="Legalist.Profiles.Penzix\PenzixBuilder.cs" />
@@ -73,24 +77,31 @@
     <Compile Include="Legalist.Profiles.Social\SocialBuilder.cs" />
     <Compile Include="Legalist.Profiles.Taxing\ITaxingProfilePrototype.cs" />
     <Compile Include="Legalist.Profiles.Taxing\TaxingBuilder.cs" />
+    <Compile Include="Legalist.Versions.Employ\EmployGuidingProfile.cs" />
     <Compile Include="Legalist.Versions.Health\HealthGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Health\HealthGuidingProfile.cs" />
     <Compile Include="Legalist.Versions.Health\HealthProfileVersion2018.cs" />
     <Compile Include="Legalist.Versions.Penzix\PenzixGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Penzix\PenzixGuidingProfile.cs" />
     <Compile Include="Legalist.Versions.Penzix\PenzixProfileVersion2018.cs" />
     <Compile Include="Legalist.Versions.Social\SocialGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Social\SocialGuidingProfile.cs" />
     <Compile Include="Legalist.Versions.Social\SocialProfileVersion2018.cs" />
     <Compile Include="Legalist.Versions.Taxing\TaxingGuidesVersion2018.cs" />
+    <Compile Include="Legalist.Versions.Taxing\TaxingGuidingProfile.cs" />
     <Compile Include="Legalist.Versions.Taxing\TaxingProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralGuides.cs" />
     <Compile Include="Legalist.Profiles.Employ\EmployBuilder.cs" />
     <Compile Include="Legalist.Guides.Employ\IEmployGuidesBuilder.cs" />
     <Compile Include="Legalist.Profiles.Employ\IEmployProfilePrototype.cs" />
-    <Compile Include="Legalist\BundleProfileVersion2018.cs" />
+    <Compile Include="Legalist.Bundles\BundleProfileVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IBundleVersionFactory.cs" />
     <Compile Include="Module.Interfaces.Legalist\IHealthBuilder.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPenzixBuilder.cs" />
+    <Compile Include="Module.Interfaces.Legalist\IProfileBundleCollection.cs" />
     <Compile Include="Module.Interfaces.Legalist\ISocialBuilder.cs" />
     <Compile Include="Module.Interfaces.Legalist\ITaxingBuilder.cs" />
     <Compile Include="Module.Interfaces.Legalist\IEmployBuilder.cs" />

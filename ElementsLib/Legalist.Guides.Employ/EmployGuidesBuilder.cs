@@ -9,25 +9,28 @@ using ElementsLib.Module.Items;
 namespace ElementsLib.Legalist.Guides.Employ
 {
     using BundleVersion = UInt16;
+    using TSeconds = Int32;
+    using THours = Int32;
+    using TDays = Int16;
 
     using Operations;
 
     public abstract class EmployGuidesBuilder : GeneralGuides, IEmployGuidesBuilder
     {
-        protected readonly Int32 __WeeklyWorkingDays;
+        protected readonly TDays __WeeklyWorkingDays;
 
-        protected readonly Int32 __DailyWorkingHours;
+        protected readonly THours __DailyWorkingHours;
 
         protected EmployGuidesBuilder(BundleVersion version,
-            Int32 weeklyWorkingDays, Int32 dailyWorkingHours) : base(version)
+            TDays weeklyWorkingDays, THours dailyWorkingHours) : base(version)
 		{
             __WeeklyWorkingDays = weeklyWorkingDays;
 
             __DailyWorkingHours = dailyWorkingHours;
         }
-        public abstract Int32 WeeklyWorkingDays(Period period);
+        public abstract TDays WeeklyWorkingDays(Period period);
 
-        public abstract Int32 DailyWorkingHours(Period period);
+        public abstract THours DailyWorkingHours(Period period);
 
         public BundleVersion BuilderVersion()
         {

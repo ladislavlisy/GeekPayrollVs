@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Items
 {
     using PeriodCode = UInt16;
-    using PeriodTerm = UInt16;
+    using PeriodTerm = Byte;
     using PeriodYear = UInt16;
     using PeriodMnth = Byte;
 

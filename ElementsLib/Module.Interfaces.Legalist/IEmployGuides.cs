@@ -2,12 +2,16 @@
 
 namespace ElementsLib.Module.Interfaces.Legalist
 {
+    using TSeconds = Int32;
+    using THours = Int32;
+    using TDays = Int16;
+
     public interface IEmployGuides
     {
-        Int32 WeeklyWorkingDays();
-        Int32 DailyWorkingHours();
-        Int32 DailyWorkingSeconds();
-        Int32 WeeklyWorkingSeconds();
+        TDays WeeklyWorkingDays();
+        THours DailyWorkingHours();
+        TSeconds DailyWorkingSeconds();
+        TSeconds WeeklyWorkingSeconds();
  
     }
 }

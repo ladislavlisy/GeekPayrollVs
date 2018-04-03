@@ -2,6 +2,10 @@
 
 namespace ElementsLib.Legalist.Versions.Employ
 {
+    using TSeconds = Int32;
+    using THours = Int32;
+    using TDays = Int16;
+
     using Config;
     using Guides.Employ;
     using Module.Items;
@@ -15,12 +19,12 @@ namespace ElementsLib.Legalist.Versions.Employ
         {
         }
 
-        public override Int32 WeeklyWorkingDays(Period period)
+        public override TDays WeeklyWorkingDays(Period period)
         {
             return __WeeklyWorkingDays;
         }
 
-        public override Int32 DailyWorkingHours(Period period)
+        public override THours DailyWorkingHours(Period period)
         {
             return __DailyWorkingHours;
         }

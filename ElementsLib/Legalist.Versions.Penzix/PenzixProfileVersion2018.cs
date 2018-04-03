@@ -10,7 +10,7 @@ namespace ElementsLib.Legalist.Versions.Penzix
     {
         public IPenzixProfile CreatePeriodProfile(Period period, IPenzixGuides guides)
         {
-            throw new NotImplementedException();
+            return new PenzixGuidingProfile(period, guides);
         }
     }
 }

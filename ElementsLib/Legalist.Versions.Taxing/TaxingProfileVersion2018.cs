@@ -10,7 +10,7 @@ namespace ElementsLib.Legalist.Versions.Taxing
     {
         public ITaxingProfile CreatePeriodProfile(Period period, ITaxingGuides guides)
         {
-            throw new NotImplementedException();
+            return new TaxingGuidingProfile(period, guides);
         }
     }
 }

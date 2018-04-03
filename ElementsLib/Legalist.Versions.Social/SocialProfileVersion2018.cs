@@ -10,7 +10,7 @@ namespace ElementsLib.Legalist.Versions.Social
     {
         public ISocialProfile CreatePeriodProfile(Period period, ISocialGuides guides)
         {
-            throw new NotImplementedException();
+            return new SocialGuidingProfile(period, guides);
         }
     }
 }

@@ -10,7 +10,8 @@ namespace ElementsLib.Legalist.Versions.Employ
     {
         public IEmployProfile CreatePeriodProfile(Period period, IEmployGuides guides)
         {
-            throw new NotImplementedException();
+            return new EmployGuidingProfile(period, guides);
         }
+
     }
 }
