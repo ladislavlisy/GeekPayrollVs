@@ -5,6 +5,7 @@ using ElementsLib.Module.Json;
 using ElementsLib.Elements.Config;
 using System.Reflection;
 using ElementsLib;
+using ElementsLib.Module.Interfaces.Elements;
 
 namespace PayrollGeekConsoleApp
 {
@@ -23,7 +24,9 @@ namespace PayrollGeekConsoleApp
 
             Assembly configAssembly = typeof(ElementsModule).Assembly;
 
-            service.InitConfigModel(configAssembly);
+            IArticleSourceFactory configFactory = new ArticleSourceFactory();
+
+            service.InitConfigModel(configAssembly, configFactory);
 
             return;
         }

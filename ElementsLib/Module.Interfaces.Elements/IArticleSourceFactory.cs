@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
     using SourceCode = UInt16;
-    using SourceItem = IArticleConfig;
+    using SourceItem = IArticleSource;
     using SourcePair = KeyValuePair<UInt16, IArticleSource>;
 
     public interface IArticleSourceFactory
     {
-        IEnumerable<SourcePair> CreateSourceList();
+        IEnumerable<SourcePair> CreateSourceList(Assembly configAssembly);
+        SourceItem CreateSourceItem(Assembly configAssembly, SourceCode symbolCode, SourceCode backupCode);
     }
 }

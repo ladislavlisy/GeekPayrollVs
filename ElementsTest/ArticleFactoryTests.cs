@@ -20,7 +20,9 @@ namespace ElementsTest
 
             Assembly configAssembly = typeof(ElementsModule).Assembly;
 
-            IArticleSource testSource = ArticleSourceFactory.ArticleSourceFor(configAssembly, ArticleCode.ARTCODE_CONTRACT_TERM.GetSymbol());
+            IArticleSourceFactory configFactory = new ArticleSourceFactory();
+
+            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ArticleCode.ARTCODE_CONTRACT_TERM, (UInt16)ArticleCode.ARTCODE_UNKNOWN);
 
             Assert.AreEqual(testTargetLabel, testSource.ToString());
         }

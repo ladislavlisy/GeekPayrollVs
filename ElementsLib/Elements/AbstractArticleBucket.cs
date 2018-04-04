@@ -7,17 +7,24 @@ namespace ElementsLib.Elements
     using PositionCode = UInt16;
     using TargetCode = UInt16;
     using TargetSeed = UInt16;
+    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16>;
 
     using Module.Interfaces.Elements;
     using Libs;
+    using Exceptions;
+    using System.Reflection;
 
     public abstract class AbstractArticleBucket
     {
+        SourceDict TemplateArticles { get; set; }
+
         IDictionary<ArticleTarget, IArticleSource> model; 
 
-        public AbstractArticleBucket()
+        public AbstractArticleBucket(SourceDict templates)
         {
             model = new Dictionary<ArticleTarget, IArticleSource>();
+
+            TemplateArticles = templates;
         }
 
         public ArticleTarget AddContractTarget()
@@ -29,7 +36,7 @@ namespace ElementsLib.Elements
             return AddGeneralItem(CONTRACT_CODE, POSITION_CODE, ARTICLE_CODE, ArticleTarget.SEED_NULL);
         }
 
-        internal abstract TargetCode GetContractArticleCode();
+        public abstract TargetCode GetContractArticleCode();
 
         public ArticleTarget AddPositionTarget(ContractCode contract)
         {
@@ -39,7 +46,7 @@ namespace ElementsLib.Elements
             return AddGeneralItem(contract, POSITION_CODE, ARTICLE_CODE, ArticleTarget.SEED_NULL);
         }
 
-        internal abstract TargetCode GetPositionArticleCode();
+        public abstract TargetCode GetPositionArticleCode();
 
         public ArticleTarget AddContractItem(ContractCode contract, TargetCode code)
         {
@@ -68,8 +75,13 @@ namespace ElementsLib.Elements
             return newTarget;
         }
 
-        internal abstract IArticleSource GetTemplateSourceForArticle(TargetCode code);
-
-        internal abstract string GetSymbol(TargetCode code);
+        protected IArticleSource GetTemplateSourceForArticle(TargetCode code)
+        {
+            if (TemplateArticles == null)
+            {
+                throw new NoneExistingConfig();
+            }
+            return TemplateArticles.CloneInstanceForCode(code);
+        }
     }
 }

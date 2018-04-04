@@ -4,33 +4,29 @@ using System.Reflection;
 namespace ElementsLib.Elements
 {
     using SymbolName = String;
-    using ConfigCode = UInt16;
+    using TargetCode = UInt16;
+
+    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16>;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
     using Config;
+    using Exceptions;
 
     public class ArticleBucket : AbstractArticleBucket
     {
-        Assembly configAssembly = typeof(ElementsModule).Assembly;
-        internal override ConfigCode GetContractArticleCode()
+        public ArticleBucket(SourceDict templates) : base(templates)
         {
-            return (ConfigCode)ArticleCodeAdapter.CreateContractCode();
         }
 
-        internal override ConfigCode GetPositionArticleCode()
+        public override TargetCode GetContractArticleCode()
         {
-            return (ConfigCode)ArticleCodeAdapter.CreatePositionCode();
+            return (TargetCode)ArticleCodeAdapter.CreateContractCode();
         }
 
-        internal override SymbolName GetSymbol(ConfigCode code)
+        public override TargetCode GetPositionArticleCode()
         {
-            return ArticleCodeAdapter.CreateEnum(code).GetSymbol();
-        }
-
-        internal override IArticleSource GetTemplateSourceForArticle(ConfigCode code)
-        {
-            return ArticleSourceFactory.ArticleSourceFor(configAssembly, GetSymbol(code), GetSymbol(code));
+            return (TargetCode)ArticleCodeAdapter.CreatePositionCode();
         }
     }
 }

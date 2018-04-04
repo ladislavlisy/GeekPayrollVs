@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using ElementsLib.Module.Codes;
 using ElementsLib.Elements;
+using ElementsLib.Elements.Config;
+using ElementsLib.Module.Interfaces.Elements;
 
 namespace ElementsTest
 {
@@ -11,6 +13,8 @@ namespace ElementsTest
     using ConfigCode = UInt16;
     using SymbolCode = ArticleCzCode;
     using TargetSeed = UInt16;
+    using System.Reflection;
+    using ElementsLib;
 
     [TestFixture]
     public class ArticleTargetsTests
@@ -31,7 +35,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddTargetToEmptyDict()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
@@ -40,7 +46,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddSecondTargetToDictToBack()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             const TargetSeed TestFirstSeed = 1;
 
@@ -53,7 +61,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddSecondTargetToDictToFront()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             const TargetSeed TestFirstSeed = 2;
 
@@ -66,7 +76,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddSecondTargetToDictBetween()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             const TargetSeed TestSeed01 = 1;
             const TargetSeed TestSeed02 = 3;
@@ -83,7 +95,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddSecondTargetToDictToBackNonEmpty()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             const TargetSeed TestSeed01 = 1;
             const TargetSeed TestSeed02 = 2;
@@ -102,7 +116,9 @@ namespace ElementsTest
         [Test]
         public void Test_AddSecondTargetToDictToFrontNonEmpty()
         {
-            ArticleBucket testBucket = new ArticleBucket();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = InitConfigModel();
+
+            ArticleBucket testBucket = new ArticleBucket(configTemplate);
 
             const TargetSeed TestSeed01 = 1;
             const TargetSeed TestSeed02 = 2;
@@ -117,6 +133,17 @@ namespace ElementsTest
             ArticleTarget testArticle = testBucket.AddGeneralItem(CONTRACT_NULL, POSITION_NULL, TARGET_CODE_TEST, TARGET_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-4";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+        }
+
+        private static ISourceCollection<IArticleSource, ConfigCode> InitConfigModel()
+        {
+            Assembly configAssembly = typeof(ElementsModule).Assembly;
+            IArticleSourceFactory configFactory = new ArticleSourceFactory();
+            ISourceCollection<IArticleSource, ConfigCode> configTemplate = new ArticleSourceCollection();
+
+            configTemplate.InitConfigModel(configAssembly, configFactory);
+
+            return configTemplate;
         }
     }
 }

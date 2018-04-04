@@ -5,11 +5,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Module.Common
+namespace ElementsLib.Elements.Config
 {
     using SymbolName = String;
 
-    public abstract class GeneralConfigCollection<TConfig, TIndex>
+    using Interfaces.Matrixus;
+    using Module.Interfaces.Elements;
+
+    public abstract class GeneralConfigCollection<TConfig, TIndex> : IConfigCollection<TConfig, TIndex>
     {
         public GeneralConfigCollection()
         {
@@ -43,5 +46,7 @@ namespace ElementsLib.Module.Common
             }
             return modelInstance;
         }
+
+        public abstract TConfig FindArticleConfig(TIndex modelCode);
     }
 }

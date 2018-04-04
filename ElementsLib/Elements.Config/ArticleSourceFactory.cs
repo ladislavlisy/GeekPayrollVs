@@ -1,35 +1,80 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace ElementsLib.Elements.Config
 {
     using SymbolName = String;
+    using SymbolCode = Module.Codes.ArticleCzCode;
+
+    using SourceCode = UInt16;
+    using SourceItem = Module.Interfaces.Elements.IArticleSource;
+    using SourcePair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
     using Module.Libs;
     using Module.Common;
     using Module.Interfaces.Elements;
+    using Module.Codes;
 
-    public static class ArticleSourceFactory
+    public class ArticleSourceFactory : IArticleSourceFactory
     {
         private const string NAME_CLASS_POSTFIX = "Article";
         private const string NAME_CLASS_PATTERN = "ARTCODE_(.*)";
         private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Articles";
 
-        public static IArticleSource ArticleSourceFor(Assembly configAssembly, SymbolName symbolName, SymbolName holderName = "")
+        public IEnumerable<SourcePair> CreateSourceList(Assembly configAssembly)
+        {
+            IList<SymbolCode> symbolList = EnumUtilsExtensions.GetAllItems<SymbolCode>().ToList();
+
+            IEnumerable<SourceCode> configList = symbolList.Select((c) => ((SourceCode)c)).ToList();
+
+            SourceCode backupCode = (SourceCode)SymbolCode.ARTCODE_UNKNOWN;
+
+            IList<SourcePair> sourceList = configList.Select((c) => (new SourcePair(
+                c, CreateSourceItem(configAssembly, c, backupCode)))).ToList();
+
+            return sourceList;
+        }
+
+        protected SourcePair CreateSourcePair(Assembly configAssembly, SourceCode sourceCode, SourceCode backupCode)
+        {
+            SourceItem configItem = CreateSourceItem(configAssembly, sourceCode, backupCode);
+
+            return new SourcePair(sourceCode, configItem);
+        }
+
+        public SourceItem CreateSourceItem(Assembly configAssembly, SourceCode symbolCode, SourceCode backupCode)
+        {
+            SymbolName sourceName = CreateSourceName(symbolCode);
+
+            SymbolName backupName = CreateSourceName(backupCode);
+
+            SourceItem sourceItem = ArticleSourceFor(configAssembly, sourceName, backupName);
+
+            return sourceItem;
+        }
+
+        protected SymbolName CreateSourceName(SourceCode symbolCode)
+        {
+            return ArticleCodeAdapter.CreateEnum(symbolCode).GetSymbol();
+        }
+
+        protected IArticleSource ArticleSourceFor(Assembly configAssembly, SymbolName symbolName, SymbolName backupName = "")
         {
             string symbolClass = ClassNameFor(symbolName);
 
-            string holderClass = "";
-            if (holderName != "")
+            string backupClass = "";
+            if (backupName != "")
             {
-                holderClass = ClassNameFor(holderName);
+                backupClass = ClassNameFor(backupName);
             }
 
-            return GeneralFactory<IArticleSource>.InstanceFor(configAssembly, NAME_SPACE_PREFIX, symbolClass, holderClass);
+            return GeneralFactory<IArticleSource>.InstanceFor(configAssembly, NAME_SPACE_PREFIX, symbolClass, backupClass);
         }
 
-        public static string ClassNameFor(string targetName)
+        protected string ClassNameFor(string targetName)
         {
             Regex regexObj = new Regex(NAME_CLASS_PATTERN, RegexOptions.Singleline);
             Match matchResult = regexObj.Match(targetName);
@@ -46,5 +91,6 @@ namespace ElementsLib.Elements.Config
 
             return className;
         }
+
     }
 }

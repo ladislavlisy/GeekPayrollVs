@@ -13,6 +13,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Libs;
     using Module.Codes;
     using Module.Json;
+    using Elements.Config;
 
     public class ArticleConfigCollection : GeneralConfigCollection<ConfigItem, ConfigCode>
     {
@@ -39,12 +40,13 @@ namespace ElementsLib.Matrixus.Config
             ConfigureModelPath();
         }
 
-        public ConfigItem FindArticleConfig(ConfigCode modelCode)
+        public override ConfigItem FindArticleConfig(ConfigCode modelCode)
         {
             ConfigItem configModel = FindConfigByCode(modelCode);
 
             return configModel;
         }
+
         protected void ConfigureModelPath()
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsZero = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();

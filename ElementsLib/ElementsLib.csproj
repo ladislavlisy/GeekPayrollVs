@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
+    <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
     <Compile Include="Legalist.Config\BundleVersionFactory.cs" />
     <Compile Include="Legalist.Config\EmployProperties.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IConfigCollection.cs" />
+    <Compile Include="Module.Interfaces.Elements\ISourceCollection.cs" />
     <Compile Include="Module.Interfaces.Legalist\IBundleVersionFactory.cs" />
     <Compile Include="Module.Interfaces.Legalist\IHealthBuilder.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPenzixBuilder.cs" />
@@ -134,9 +137,9 @@
     <Compile Include="Matrixus.Config\ArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleRoleAdapter.cs" />
     <Compile Include="Elements\ArticleTarget.cs" />
-    <Compile Include="Module.Common\GeneralConfigCollection.cs" />
+    <Compile Include="Matrixus.Config\GeneralConfigCollection.cs" />
     <Compile Include="Module.Common\GeneralFactory.cs" />
-    <Compile Include="Module.Common\GeneralSourceCollection.cs" />
+    <Compile Include="Elements.Config\GeneralSourceCollection.cs" />
     <Compile Include="ElementsModule.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfig.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfigFactory.cs" />
@@ -159,9 +162,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Module.Interfaces.Matrixus\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
