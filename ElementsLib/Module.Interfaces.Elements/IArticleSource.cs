@@ -6,5 +6,9 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleSource
     {
         SourceCode Code();
+
+        ISourceValues ExportSourceValues();
+
+        void ImportSourceValues(ISourceValues values);
     }
 }

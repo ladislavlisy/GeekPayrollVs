@@ -31,6 +31,15 @@ namespace ElementsLib.Elements.Config
             return InternalCode;
         }
 
+        public ISourceValues ExportSourceValues()
+        {
+            return null;
+        }
+
+        public void ImportSourceValues(ISourceValues values)
+        {
+        }
+
         public override string ToString()
         {
             SymbolCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);

@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
+    <Compile Include="Elements.Config.Source\PositionScheduleSource.cs" />
+    <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
@@ -53,6 +56,8 @@
     <Compile Include="Legalist.Config\PenzixProperties.cs" />
     <Compile Include="Legalist.Config\SocialProperties.cs" />
     <Compile Include="Legalist.Config\TaxingProperties.cs" />
+    <Compile Include="Legalist.Constants\ContractConstants.cs" />
+    <Compile Include="Legalist.Constants\PositionConstants.cs" />
     <Compile Include="Legalist.Exceptions\ProfileMapExceptions.cs" />
     <Compile Include="Legalist.Guides.Employ\EmployGuides.cs" />
     <Compile Include="Legalist.Guides.Employ\EmployGuidesBuilder.cs" />
@@ -99,6 +104,7 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Elements\ISourceValues.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IConfigCollection.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceCollection.cs" />
     <Compile Include="Module.Interfaces.Legalist\IBundleVersionFactory.cs" />
@@ -128,6 +134,9 @@
     <Compile Include="Module.Items.Utils\PeriodFmt.cs" />
     <Compile Include="Module.Items.Utils\PeriodUtils.cs" />
     <Compile Include="Module.Items\Period.cs" />
+    <Compile Include="Module.Json\ResultValuesJson.cs" />
+    <Compile Include="Module.Json\SourceValuesJson.cs" />
+    <Compile Include="Module.Json\ValuesJsonConverters.cs" />
     <Compile Include="Module.Libs\ArrayUtilsExtensions.cs" />
     <Compile Include="Module.Libs\DictionaryUtilsExtension.cs" />
     <Compile Include="Elements\AbstractArticleBucket.cs" />

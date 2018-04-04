@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ElementsLib.Module.Libs
 {
@@ -92,6 +93,16 @@ namespace ElementsLib.Module.Libs
             }
 
             return (T)Enum.ToObject(typeof(T), value);
+        }
+    }
+
+    public static class StringJsonExtension
+    {
+        public static T FromJSON<T>(this string str)
+        {
+            var serializer = new JsonSerializer { DateFormatString = "dd'.'MM'.'yyyy" };
+
+            return serializer.Deserialize<T>(new JsonTextReader(new System.IO.StringReader(str)));
         }
     }
 }

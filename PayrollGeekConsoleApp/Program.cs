@@ -6,6 +6,7 @@ using ElementsLib.Elements.Config;
 using System.Reflection;
 using ElementsLib;
 using ElementsLib.Module.Interfaces.Elements;
+using ElementsLib.Elements.Config.Source;
 
 namespace PayrollGeekConsoleApp
 {
@@ -15,7 +16,16 @@ namespace PayrollGeekConsoleApp
         {
             string configFolder = ConfigFilesFolder();
 
-            LoadSourceModel();
+            LoadSourceJson();
+        }
+
+        private static void LoadSourceJson()
+        {
+            ContractTermSource articleSource = new ContractTermSource();
+
+            string json = "{ \"DateFrom\": \"1.1.2010\", \"DateStop\": \"\", \"ContractType\": \"WORKTERM_EMPLOYMENT_1\"  }";
+
+            articleSource.DeserializeValues(json);
         }
 
         private static void LoadSourceModel()
