@@ -11,7 +11,9 @@ namespace ElementsLib.Elements.Config
 
     using Module.Interfaces.Elements;
 
-    public abstract class GeneralSourceCollection<TConfig, TIndex> : ISourceCollection<TConfig, TIndex>
+    public abstract class GeneralSourceCollection<TConfig, TIndex, TValues> : ISourceCollection<TConfig, TIndex, TValues> 
+        where TConfig : IArticleSource
+        where TValues : ISourceValues
     {
         public GeneralSourceCollection()
         {
@@ -42,12 +44,7 @@ namespace ElementsLib.Elements.Config
             return baseInstance;
         }
 
-        public TConfig CloneInstanceForCode(TIndex configCode)
-        {
-            TConfig emptyInstance = FindInstanceForCode(configCode);
-
-            return emptyInstance; //.Clone();
-        }
+        public abstract TConfig CloneInstanceForCode(TIndex configCode, TValues sourceVals);
 
         public abstract void InitConfigModel(Assembly configAssembly, IArticleSourceFactory configFactory);
     }

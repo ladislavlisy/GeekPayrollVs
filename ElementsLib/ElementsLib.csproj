@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
+    <Compile Include="Elements.Config.Source\ArticleEmptySource.cs" />
     <Compile Include="Elements.Config.Source\PositionScheduleSource.cs" />
     <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Module.Items.Utils\PeriodFmt.cs" />
     <Compile Include="Module.Items.Utils\PeriodUtils.cs" />
     <Compile Include="Module.Items\Period.cs" />
+    <Compile Include="Module.Json\ArticleJsonConverter.cs" />
     <Compile Include="Module.Json\ResultValuesJson.cs" />
     <Compile Include="Module.Json\SourceValuesJson.cs" />
     <Compile Include="Module.Json\ValuesJsonConverters.cs" />

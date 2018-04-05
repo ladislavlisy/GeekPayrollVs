@@ -10,7 +10,7 @@ namespace ElementsLib.Module.Json
     using Libs;
     using Newtonsoft.Json;
 
-    public class WorkEmployTermsConverter : JsonConverter<WorkEmployTerms>
+    public class WorkEmployeeTermConverter : JsonConverter<WorkEmployTerms>
     {
         public override void WriteJson(JsonWriter writer, WorkEmployTerms value, JsonSerializer serializer)
         {

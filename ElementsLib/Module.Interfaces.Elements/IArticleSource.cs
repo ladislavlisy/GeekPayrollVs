@@ -10,5 +10,6 @@ namespace ElementsLib.Module.Interfaces.Elements
         ISourceValues ExportSourceValues();
 
         void ImportSourceValues(ISourceValues values);
+        IArticleSource CloneSourceAndSetValues(ISourceValues values);
     }
 }

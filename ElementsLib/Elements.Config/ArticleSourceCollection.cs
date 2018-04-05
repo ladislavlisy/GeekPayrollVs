@@ -9,6 +9,7 @@ namespace ElementsLib.Elements.Config
 
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
+    using SourceVals = Module.Interfaces.Elements.ISourceValues;
     using SourcePair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
     using Module.Common;
@@ -18,7 +19,7 @@ namespace ElementsLib.Elements.Config
     using Module.Libs;
     using Module.Interfaces.Elements;
 
-    public class ArticleSourceCollection : GeneralSourceCollection<SourceItem, SourceCode>
+    public class ArticleSourceCollection : GeneralSourceCollection<SourceItem, SourceCode, SourceVals>
     {
         public ArticleSourceCollection()
         {
@@ -31,5 +32,13 @@ namespace ElementsLib.Elements.Config
 
             ConfigureModel(configTypeList);
         }
+
+        public override SourceItem CloneInstanceForCode(SourceCode configCode, SourceVals sourceVals)
+        {
+            SourceItem emptyInstance = FindInstanceForCode(configCode);
+
+            return emptyInstance.CloneSourceAndSetValues(sourceVals);
+        }
+
     }
 }

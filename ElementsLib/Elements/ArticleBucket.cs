@@ -6,7 +6,7 @@ namespace ElementsLib.Elements
     using SymbolName = String;
     using TargetCode = UInt16;
 
-    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16>;
+    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
 
     using Module.Interfaces.Elements;
     using Module.Codes;

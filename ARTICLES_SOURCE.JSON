@@ -1,0 +1,18 @@
+[
+  {
+    "Code": "ARTCODE_CONTRACT_TERM",
+    "SourceValues": {
+      "DateFrom": "1.1.2010",
+      "DateStop": null,
+      "ContractType": "WORKTERM_EMPLOYMENT_1"
+    }
+  },
+  {
+    "Code": "ARTCODE_POSITION_TERM",
+    "SourceValues": {
+      "DateFrom": "1.1.2010",
+      "DateStop": null,
+      "PositionType": "POSITION_EXCLUSIVE"
+    }
+  }
+]

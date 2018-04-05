@@ -1,0 +1,14 @@
+{
+  "CollectionToSerialize": [
+    {
+      "$type": "TestClassThatImplementsTestInterface1",
+      "Guid": "a6d0cadb-09b7-491a-8981-e7f45f9206b6",
+      "Something1": "Some1"
+    },
+    {
+      "$type": "TestClassThatImplementsTestInterface2",
+      "Guid": "b821e892-7ad7-40da-8a73-ae8535cb5632",
+      "Something2": "Some2"
+    }
+  ]
+}

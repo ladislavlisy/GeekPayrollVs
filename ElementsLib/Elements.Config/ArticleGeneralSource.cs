@@ -17,7 +17,7 @@ namespace ElementsLib.Elements.Config
     // IncomesRules
     // Create ArticleSource
 
-    public class ArticleGeneralSource : IArticleSource
+    public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
         public ArticleGeneralSource(SourceCode code)
         {
@@ -36,10 +36,17 @@ namespace ElementsLib.Elements.Config
             return null;
         }
 
-        public void ImportSourceValues(ISourceValues values)
-        {
-        }
+        public abstract void ImportSourceValues(ISourceValues values);
 
+        public abstract IArticleSource CloneSourceAndSetValues(ISourceValues values);
+
+        public virtual object Clone()
+        {
+            ArticleGeneralSource clone = (ArticleGeneralSource)this.MemberwiseClone();
+            clone.InternalCode = this.InternalCode;
+
+            return clone;
+        }
         public override string ToString()
         {
             SymbolCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);

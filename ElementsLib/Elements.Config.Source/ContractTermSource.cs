@@ -13,7 +13,7 @@ namespace ElementsLib.Elements.Config.Source
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public class ContractTermSource : ISourceValues
+    public class ContractTermSource : ISourceValues, ICloneable
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateStop { get; set; }
@@ -25,13 +25,22 @@ namespace ElementsLib.Elements.Config.Source
             DateStop = null;
             ContractType = WorkEmployTerms.WORKTERM_UNKNOWN_TYPE;
         }
-        public void DeserializeValues(string json)
+        public ContractTermSource(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms termType)
         {
-            var ImportDateTimeCoverter = new IsoDateTimeConverter() { DateTimeFormat = "d.M.yyyy" };
-            var ImportEmpTermsConverter = new WorkEmployTermsConverter();
+            DateFrom = dateFrom;
+            DateStop = dateStop;
+            ContractType = termType;
+        }
 
-            var dataStr = JsonConvert.DeserializeObject<ContractTermSourceJson>(json);
-            var dataObj = JsonConvert.DeserializeObject<ContractTermSource>(json, ImportDateTimeCoverter, ImportEmpTermsConverter);
+        public virtual object Clone()
+        {
+            ContractTermSource clone = (ContractTermSource)this.MemberwiseClone();
+
+            clone.DateFrom = DateFrom;
+            clone.DateStop = DateStop;
+            clone.ContractType = ContractType;
+
+            return clone;
         }
     }
 }

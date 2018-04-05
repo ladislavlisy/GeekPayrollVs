@@ -8,17 +8,33 @@ namespace ElementsLib.Elements.Config.Source
 {
     using Legalist.Constants;
     using Module.Interfaces.Elements;
-    public class PositionTermSource : ISourceValues
+    public class PositionTermSource : ISourceValues, ICloneable
     {
-        public DateTime? DateFrom { get; private set; }
-        public DateTime? DateStop { get; private set; }
-        public WorkPositionType PositionType { get; private set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateStop { get; set; }
+        public WorkPositionType PositionType { get; set; }
 
         public PositionTermSource()
         {
             DateFrom = null;
             DateStop = null;
             PositionType = WorkPositionType.POSITION_EXCLUSIVE;
+        }
+        public PositionTermSource(DateTime? dateFrom, DateTime? dateStop, WorkPositionType termType)
+        {
+            DateFrom = dateFrom;
+            DateStop = dateStop;
+            PositionType = termType;
+        }
+        public virtual object Clone()
+        {
+            PositionTermSource clone = (PositionTermSource)this.MemberwiseClone();
+
+            clone.DateFrom = DateFrom;
+            clone.DateStop = DateStop;
+            clone.PositionType = PositionType;
+
+            return clone;
         }
     }
 }
