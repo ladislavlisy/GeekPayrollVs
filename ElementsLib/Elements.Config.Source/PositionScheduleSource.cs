@@ -23,5 +23,22 @@ namespace ElementsLib.Elements.Config.Source
             ShiftActual = 0;
             ScheduleType = WorkScheduleType.SCHEDULE_NORMALY_WEEK;
         }
+        public PositionScheduleSource(TSeconds shiftLiable, TSeconds shiftActual, WorkScheduleType scheduleType)
+        {
+            ShiftLiable = shiftLiable;
+            ShiftActual = shiftActual;
+            ScheduleType = scheduleType;
+        }
+
+        public virtual object Clone()
+        {
+            PositionScheduleSource clone = (PositionScheduleSource)this.MemberwiseClone();
+
+            clone.ShiftLiable = ShiftLiable;
+            clone.ShiftActual = ShiftActual;
+            clone.ScheduleType = ScheduleType;
+
+            return clone;
+        }
     }
 }

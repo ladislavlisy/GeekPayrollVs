@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements.Config.Articles\PositionScheduleArticle.cs" />
     <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
     <Compile Include="Elements.Config.Source\ArticleEmptySource.cs" />
     <Compile Include="Elements.Config.Source\PositionScheduleSource.cs" />

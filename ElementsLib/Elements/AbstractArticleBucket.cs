@@ -13,12 +13,25 @@ namespace ElementsLib.Elements
     using Libs;
     using Exceptions;
     using System.Reflection;
+    using System.Collections;
 
-    public abstract class AbstractArticleBucket
+    public abstract class AbstractArticleBucket : IEnumerable<KeyValuePair<ArticleTarget, IArticleSource>>
     {
         SourceDict TemplateArticles { get; set; }
 
-        IDictionary<ArticleTarget, IArticleSource> model; 
+        #region TARGET_SOURCE_MODEL
+        IDictionary<ArticleTarget, IArticleSource> model;
+
+        public IEnumerator<KeyValuePair<ArticleTarget, IArticleSource>> GetEnumerator()
+        {
+            return model.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return model.GetEnumerator();
+        }
+        #endregion
 
         public AbstractArticleBucket(SourceDict templates)
         {

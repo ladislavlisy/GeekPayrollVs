@@ -3,9 +3,12 @@
 namespace ElementsLib.Elements
 {
     using ContractCode = UInt16;
+    using ContractSort = UInt16;
     using PositionCode = UInt16;
+    using PositionSort = UInt16;
     using TargetCode = UInt16;
     using TargetSeed = UInt16;
+    using TargetSort = UInt16;
 
     using Module.Libs;
 
@@ -21,6 +24,7 @@ namespace ElementsLib.Elements
         public PositionCode Position { get; protected set; }
         public TargetCode Code { get; protected set; }
         public TargetSeed Seed { get; protected set; }
+        public TargetSort Sort { get; protected set; }
 
         public ArticleTarget(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed)
         {
