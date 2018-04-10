@@ -8,7 +8,7 @@ using ElementsLib.Elements.Config;
 
 namespace ElementsTest
 {
-    using ArticleCode = ArticleCzCode;
+    using MarkCode = ArticleCzCode;
 
     [TestFixture]
     public class ArticleFactoryTests
@@ -22,7 +22,7 @@ namespace ElementsTest
 
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
 
-            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ArticleCode.ARTCODE_CONTRACT_TERM, (UInt16)ArticleCode.ARTCODE_UNKNOWN);
+            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)MarkCode.ARTCODE_CONTRACT_TERM, (UInt16)MarkCode.ARTCODE_UNKNOWN);
 
             Assert.AreEqual(testTargetLabel, testSource.ToString());
         }

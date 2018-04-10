@@ -2,36 +2,34 @@
 
 namespace ElementsLib.Elements
 {
-    using ContractCode = UInt16;
-    using ContractSort = UInt16;
-    using PositionCode = UInt16;
-    using PositionSort = UInt16;
-    using TargetCode = UInt16;
-    using TargetSeed = UInt16;
-    using TargetSort = UInt16;
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
+    using BodyCode = UInt16;
+    using BodySeed = UInt16;
+    using BodySort = UInt16;
 
     using Module.Libs;
 
     public class ArticleTarget : IComparable<ArticleTarget>, IEquatable<ArticleTarget> 
     {
-        public const ContractCode CONTRACT_CODE_NULL = 0;
-        public const PositionCode POSITION_CODE_NULL = 0;
+        public const HeadCode HEAD_CODE_NULL = 0;
+        public const PartCode PART_CODE_NULL = 0;
 
-        public const TargetSeed SEED_NULL = 0;
-        public const TargetSeed SEED_FIRST = 1;
+        public const BodySeed BODY_SEED_NULL = 0;
+        public const BodySeed BODY_SEED_FIRST = 1;
 
-        public ContractCode Contract { get; protected set; }
-        public PositionCode Position { get; protected set; }
-        public TargetCode Code { get; protected set; }
-        public TargetSeed Seed { get; protected set; }
-        public TargetSort Sort { get; protected set; }
+        public HeadCode Head { get; protected set; }
+        public PartCode Part { get; protected set; }
+        public BodyCode Code { get; protected set; }
+        public BodySeed Seed { get; protected set; }
+        public BodySort Sort { get; protected set; }
 
-        public ArticleTarget(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed)
+        public ArticleTarget(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody)
         {
-            this.Contract = contract;
-            this.Position = position;
-            this.Code = code;
-            this.Seed = seed;
+            this.Head = codeHead;
+            this.Part = codePart;
+            this.Code = codeBody;
+            this.Seed = seedBody;
         }
 
         public int CompareTo(ArticleTarget other)
@@ -52,13 +50,13 @@ namespace ElementsLib.Elements
 
         private bool IsGreaterToSame(ArticleTarget other)
         {
-            if (this.Contract != other.Contract)
+            if (this.Head != other.Head)
             {
-                return (this.Contract > other.Contract);
+                return (this.Head > other.Head);
             }
-            if (this.Position != other.Position)
+            if (this.Part != other.Part)
             {
-                return (this.Position > other.Position);
+                return (this.Part > other.Part);
             }
             if (this.Code != other.Code)
             {
@@ -69,13 +67,13 @@ namespace ElementsLib.Elements
 
         private bool IsSmallerToSame(ArticleTarget other)
         {
-            if (this.Contract != other.Contract)
+            if (this.Head != other.Head)
             {
-                return (this.Contract < other.Contract);
+                return (this.Head < other.Head);
             }
-            if (this.Position != other.Position)
+            if (this.Part != other.Part)
             {
-                return (this.Position < other.Position);
+                return (this.Part < other.Part);
             }
             if (this.Code != other.Code)
             {
@@ -86,7 +84,7 @@ namespace ElementsLib.Elements
 
         private bool IsEqualToSame(ArticleTarget other)
         {
-            return (this.Contract == other.Contract && this.Position == other.Position && this.Code == other.Code && this.Seed == other.Seed);
+            return (this.Head == other.Head && this.Part == other.Part && this.Code == other.Code && this.Seed == other.Seed);
         }
 
         public static bool operator <(ArticleTarget x, ArticleTarget y)
@@ -141,8 +139,8 @@ namespace ElementsLib.Elements
             int prime = 31;
             int result = 1;
 
-            result += prime * result + (int)this.Position;
-            result += prime * result + (int)this.Contract;
+            result += prime * result + (int)this.Part;
+            result += prime * result + (int)this.Head;
             result += prime * result + (int)this.Code;
             result += prime * result + (int)this.Seed;
 
@@ -157,14 +155,14 @@ namespace ElementsLib.Elements
 
         public override string ToString()
         {
-            return string.Format("{0}-{1}-{2}-{3}", this.Contract.ToString(), this.Position.ToString(), this.Code.ToString(), this.Seed.ToString());
+            return string.Format("{0}-{1}-{2}-{3}", this.Head.ToString(), this.Part.ToString(), this.Code.ToString(), this.Seed.ToString());
         }
 
         public string ToSymbolString<TENUM>() where TENUM : struct, IComparable
         {
-            TENUM typeCode = this.Code.ToEnum<TENUM>();
+            TENUM codeEnum = this.Code.ToEnum<TENUM>();
 
-            return string.Format("{0}-{1}-{2}-{3}", this.Contract.ToString(), this.Position.ToString(), typeCode.ToString(), this.Seed.ToString());
+            return string.Format("{0}-{1}-{2}-{3}", this.Head.ToString(), this.Part.ToString(), codeEnum.ToString(), this.Seed.ToString());
         }
     }
 }

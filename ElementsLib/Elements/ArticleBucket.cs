@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace ElementsLib.Elements
 {
-    using SymbolName = String;
-    using TargetCode = UInt16;
+    using MarkName = String;
+    using BodyCode = UInt16;
 
-    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
+    using TempDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
@@ -15,18 +15,18 @@ namespace ElementsLib.Elements
 
     public class ArticleBucket : AbstractArticleBucket
     {
-        public ArticleBucket(SourceDict templates) : base(templates)
+        public ArticleBucket(TempDict templates) : base(templates)
         {
         }
 
-        public override TargetCode GetContractArticleCode()
+        public override BodyCode GetHeadBodyCode()
         {
-            return (TargetCode)ArticleCodeAdapter.CreateContractCode();
+            return (BodyCode)ArticleCodeAdapter.CreateContractCode();
         }
 
-        public override TargetCode GetPositionArticleCode()
+        public override BodyCode GetPartBodyCode()
         {
-            return (TargetCode)ArticleCodeAdapter.CreatePositionCode();
+            return (BodyCode)ArticleCodeAdapter.CreatePositionCode();
         }
     }
 }

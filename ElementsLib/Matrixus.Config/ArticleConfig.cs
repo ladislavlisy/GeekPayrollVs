@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace ElementsLib.Matrixus.Config
 {
-    using ConfigCode = UInt16;
-    using ConfigRole = UInt16;
-    using SymbolCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+    using BodyRole = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
@@ -22,33 +22,33 @@ namespace ElementsLib.Matrixus.Config
 
     public class ArticleConfig : IArticleConfig
     {
-        public ArticleConfig(ConfigCode articleCode, ConfigRole articleRole, params ConfigCode[] resolvePath)
+        public ArticleConfig(BodyCode codeBody, BodyRole roleBody, params BodyCode[] codePath)
         {
-            InternalCode = articleCode;
-            InternalRole = articleRole;
-            ResolvePath = resolvePath.ToList();
+            InternalCode = codeBody;
+            InternalRole = roleBody;
+            ResolvePath = codePath.ToList();
         }
 
-        protected ConfigCode InternalCode { get; set; }
-        protected ConfigRole InternalRole { get; set; }
-        protected IList<ConfigCode> ResolvePath { get; set; }
+        protected BodyCode InternalCode { get; set; }
+        protected BodyRole InternalRole { get; set; }
+        protected IList<BodyCode> ResolvePath { get; set; }
 
-        public ConfigCode Code()
+        public BodyCode Code()
         {
             return InternalCode;
         }
-        public ConfigRole Role()
+        public BodyRole Role()
         {
             return InternalRole;
         }
-        public ConfigCode[] Path()
+        public BodyCode[] Path()
         {
             return ResolvePath.ToArray();
         }
 
         public override string ToString()
         {
-            SymbolCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
+            MarkCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
 
             return symbol.GetSymbol();
         }

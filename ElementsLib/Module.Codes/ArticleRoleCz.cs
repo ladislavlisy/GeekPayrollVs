@@ -2,7 +2,8 @@
 
 namespace ElementsLib.Module.Codes
 {
-    public enum ArticleCzRole : UInt16
+    using EnumCode = UInt16;
+    public enum ArticleCzRole : EnumCode
     {
         ARTROLE_UNKNOWN = 0,
         ARTROLE_CONTRACT_TERM,

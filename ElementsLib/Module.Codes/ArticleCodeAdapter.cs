@@ -2,39 +2,40 @@
 
 namespace ElementsLib.Module.Codes
 {
-    using ArticleCode = ArticleCzCode;
+    using MarkCode = ArticleCzCode;
+    using EnumCode = UInt16;
 
     using Libs;
 
     public class ArticleCodeAdapter
     {
-        public static ArticleCode CreateContractCode()
+        public static MarkCode CreateContractCode()
         {
-            return ArticleCode.ARTCODE_CONTRACT_TERM;
+            return MarkCode.ARTCODE_CONTRACT_TERM;
         }
-        public static ArticleCode CreatePositionCode()
+        public static MarkCode CreatePositionCode()
         {
-            return ArticleCode.ARTCODE_POSITION_TERM;
+            return MarkCode.ARTCODE_POSITION_TERM;
         }
-        public static ArticleCode CreateEnum(UInt16 symbolNumb)
+        public static MarkCode CreateEnum(EnumCode symbolNumb)
         {
-            return symbolNumb.ToEnum<ArticleCode>(GetDefaultCode());
+            return symbolNumb.ToEnum<MarkCode>(GetDefaultCode());
         }
-        public static ArticleCode CreateEnum(string symbolName)
+        public static MarkCode CreateEnum(string symbolName)
         {
-            return symbolName.ToEnum<ArticleCode>(GetDefaultCode());
+            return symbolName.ToEnum<MarkCode>(GetDefaultCode());
         }
-        public static UInt16 CreateCode(UInt16 symbolNumb)
+        public static EnumCode CreateCode(EnumCode symbolNumb)
         {
-            return (UInt16)symbolNumb.ToEnum<ArticleCode>(GetDefaultCode());
+            return (EnumCode)symbolNumb.ToEnum<MarkCode>(GetDefaultCode());
         }
-        public static UInt16 CreateCode(string symbolName)
+        public static EnumCode CreateCode(string symbolName)
         {
-            return (UInt16)symbolName.ToEnum<ArticleCode>(GetDefaultCode());
+            return (EnumCode)symbolName.ToEnum<MarkCode>(GetDefaultCode());
         }
-        private static ArticleCode GetDefaultCode()
+        private static MarkCode GetDefaultCode()
         {
-            return ArticleCode.ARTCODE_UNKNOWN;
+            return MarkCode.ARTCODE_UNKNOWN;
         }
     }
 }

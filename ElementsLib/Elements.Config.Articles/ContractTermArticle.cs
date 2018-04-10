@@ -2,14 +2,15 @@
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using SymbolCode = Module.Codes.ArticleCzCode;
-    using SourceCode = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+
     using Source;
     using Module.Interfaces.Elements;
 
     public class ContractTermArticle : ArticleGeneralSource, ICloneable
     {
-        public ContractTermArticle() : base((SourceCode)SymbolCode.ARTCODE_CONTRACT_TERM)
+        public ContractTermArticle() : base((BodyCode)MarkCode.ARTCODE_CONTRACT_TERM)
         {
             SourceValues = new ContractTermSource();
         }
@@ -20,6 +21,7 @@ namespace ElementsLib.Elements.Config.Articles
 
             SourceValues = (ContractTermSource)sourceValues.Clone();
         }
+
         public ContractTermSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
@@ -40,10 +42,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            ContractTermArticle clone = (ContractTermArticle)this.MemberwiseClone();
-            clone.InternalCode = this.InternalCode;
+            ContractTermArticle cloneArticle = (ContractTermArticle)this.MemberwiseClone();
 
-            return clone;
+            cloneArticle.InternalCode = this.InternalCode;
+
+            return cloneArticle;
         }
+
     }
 }

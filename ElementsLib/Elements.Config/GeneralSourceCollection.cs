@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config
 {
-    using SymbolName = String;
-
     using Module.Interfaces.Elements;
 
     public abstract class GeneralSourceCollection<TConfig, TIndex, TValues> : ISourceCollection<TConfig, TIndex, TValues> 

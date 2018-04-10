@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5925665-28DB-468F-8671-83DC183B16CF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClazzGeneratorConsoleApp</RootNamespace>
+    <AssemblyName>ClazzGeneratorConsoleApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Defs\ArticleDefinition.cs" />
+    <Compile Include="Defs\ClazzArticlesBook.cs" />
+    <Compile Include="Defs\ClazzArticlesGenerator.cs" />
+    <Compile Include="Defs\ClazzArticleSourceBlock.cs" />
+    <Compile Include="Defs\ClazzArticleValuesBlock.cs" />
+    <Compile Include="Defs\ClazzSourceBlock.cs" />
+    <Compile Include="Definitions\ContractAbsenceDefinition.cs" />
+    <Compile Include="Definitions\ContractTermDefinition.cs" />
+    <Compile Include="Definitions\ContractTimesheetDefinition.cs" />
+    <Compile Include="Definitions\ContractWorkingDefinition.cs" />
+    <Compile Include="Definitions\IncomeGrossDefinition.cs" />
+    <Compile Include="Definitions\IncomeNettoDefinition.cs" />
+    <Compile Include="Definitions\InsHealthBaseDefinition.cs" />
+    <Compile Include="Definitions\InsHealthDeclarationDefinition.cs" />
+    <Compile Include="Definitions\InsHealthFinalDefinition.cs" />
+    <Compile Include="Definitions\InsIncomesHealthDefinition.cs" />
+    <Compile Include="Definitions\InsIncomesSocialDefinition.cs" />
+    <Compile Include="Definitions\InsSocialBaseDefinition.cs" />
+    <Compile Include="Definitions\InsSocialDeclarationDefinition.cs" />
+    <Compile Include="Definitions\InsSocialFinalDefinition.cs" />
+    <Compile Include="Definitions\PositionAbsenceDefinition.cs" />
+    <Compile Include="Definitions\PositionMonthlyAmountDefinition.cs" />
+    <Compile Include="Definitions\PositionScheduleDefinition.cs" />
+    <Compile Include="Definitions\PositionTermDefinition.cs" />
+    <Compile Include="Definitions\PositionTimesheetDefinition.cs" />
+    <Compile Include="Definitions\PositionWorkingDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvanceBaseDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvanceDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvanceFinalDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvanceHealthDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvancePartDefinition.cs" />
+    <Compile Include="Definitions\TaxAdvanceSocialDefinition.cs" />
+    <Compile Include="Definitions\TaxBonusChildDefinition.cs" />
+    <Compile Include="Definitions\TaxClaimChildDefinition.cs" />
+    <Compile Include="Definitions\TaxClaimDisabilityDefinition.cs" />
+    <Compile Include="Definitions\TaxClaimPayerDefinition.cs" />
+    <Compile Include="Definitions\TaxClaimStudyingDefinition.cs" />
+    <Compile Include="Definitions\TaxDeclarationDefinition.cs" />
+    <Compile Include="Definitions\TaxIncomesAdvanceDefinition.cs" />
+    <Compile Include="Definitions\TaxIncomesGeneralDefinition.cs" />
+    <Compile Include="Definitions\TaxIncomesWithholdDefinition.cs" />
+    <Compile Include="Definitions\TaxReliefChildDefinition.cs" />
+    <Compile Include="Definitions\TaxReliefPayerDefinition.cs" />
+    <Compile Include="Definitions\TaxSolidaryBaseDefinition.cs" />
+    <Compile Include="Definitions\TaxSolidaryDefinition.cs" />
+    <Compile Include="Definitions\TaxWithholdBaseDefinition.cs" />
+    <Compile Include="Definitions\TaxWithholdFinalDefinition.cs" />
+    <Compile Include="Definitions\TaxWithholdHealthDefinition.cs" />
+    <Compile Include="Definitions\TaxWithholdPartDefinition.cs" />
+    <Compile Include="Definitions\TaxWithholdSocialDefinition.cs" />
+    <Compile Include="Definitions\UnknownDefinition.cs" />
+    <Compile Include="Defs\ClazzSourcesGenerator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgramModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Defs\StringExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElementsLib\ElementsLib.csproj">
+      <Project>{225677a7-3074-408c-9015-f0461fe79e48}</Project>
+      <Name>ElementsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -2,13 +2,19 @@
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using SymbolCode = Module.Codes.ArticleCzCode;
-    using SourceCode = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+
+    using Source;
     using Module.Interfaces.Elements;
 
     public class UnknownArticle : ArticleGeneralSource, ICloneable
     {
-        public UnknownArticle() : base((SourceCode)SymbolCode.ARTCODE_UNKNOWN)
+        public UnknownArticle() : base((BodyCode)MarkCode.ARTCODE_UNKNOWN)
+        {
+        }
+
+        public UnknownArticle(ISourceValues values) : this()
         {
         }
 
@@ -27,10 +33,11 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            UnknownArticle clone = (UnknownArticle)this.MemberwiseClone();
-            clone.InternalCode = this.InternalCode;
+            UnknownArticle cloneArticle = (UnknownArticle)this.MemberwiseClone();
 
-            return clone;
+            cloneArticle.InternalCode = this.InternalCode;
+
+            return cloneArticle;
         }
 
     }

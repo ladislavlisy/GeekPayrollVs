@@ -2,10 +2,10 @@
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using SourceCode = UInt16;
+    using BodyCode = UInt16;
     public interface IArticleSource
     {
-        SourceCode Code();
+        BodyCode Code();
 
         ISourceValues ExportSourceValues();
 

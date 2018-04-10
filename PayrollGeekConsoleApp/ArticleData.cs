@@ -8,19 +8,19 @@ using ElementsLib.Module.Interfaces.Elements;
 
 namespace PayrollGeekConsoleApp
 {
-    using ArticleCode = UInt16;
-    using ServiceCode = UInt16;
-    using EpisodeCode = UInt16;
-    using ArticleVals = ISourceValues;
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
+    using BodyCode = UInt16;
+    using BodySeed = UInt16;
+    using BodyTags = ISourceValues;
 
     public class ArticleData
     {
-        public ServiceCode Service { get; set; }
-        public EpisodeCode Episode { get; set; }
-        public EpisodeCode Placing { get; set; }
-        public EpisodeCode Sorting { get; set; }
-        public ArticleCode Article { get; set; }
-        public ArticleVals Records { get; set; }
+        public HeadCode Head { get; set; }
+        public PartCode Part { get; set; }
+        public BodyCode Code { get; set; }
+        public BodySeed Seed { get; set; }
+        public BodyTags Tags { get; set; }
 
     }
 

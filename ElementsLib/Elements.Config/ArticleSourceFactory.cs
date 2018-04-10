@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace ElementsLib.Elements.Config
 {
-    using SymbolName = String;
-    using SymbolCode = Module.Codes.ArticleCzCode;
+    using MarkName = String;
+    using MarkCode = Module.Codes.ArticleCzCode;
 
-    using SourceCode = UInt16;
-    using SourceItem = Module.Interfaces.Elements.IArticleSource;
-    using SourcePair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
+    using BodyCode = UInt16;
+    using BodyItem = Module.Interfaces.Elements.IArticleSource;
+    using BodyPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
     using Module.Libs;
     using Module.Common;
@@ -24,44 +24,44 @@ namespace ElementsLib.Elements.Config
         private const string NAME_CLASS_PATTERN = "ARTCODE_(.*)";
         private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Articles";
 
-        public IEnumerable<SourcePair> CreateSourceList(Assembly configAssembly)
+        public IEnumerable<BodyPair> CreateSourceList(Assembly configAssembly)
         {
-            IList<SymbolCode> symbolList = EnumUtilsExtensions.GetAllItems<SymbolCode>().ToList();
+            IList<MarkCode> symbolList = EnumUtilsExtensions.GetSelectedItems<MarkCode>().ToList();
 
-            IEnumerable<SourceCode> configList = symbolList.Select((c) => ((SourceCode)c)).ToList();
+            IEnumerable<BodyCode> configList = symbolList.Select((c) => ((BodyCode)c)).ToList();
 
-            SourceCode backupCode = (SourceCode)SymbolCode.ARTCODE_UNKNOWN;
+            BodyCode backupCode = (BodyCode)MarkCode.ARTCODE_UNKNOWN;
 
-            IList<SourcePair> sourceList = configList.Select((c) => (new SourcePair(
+            IList<BodyPair> sourceList = configList.Select((c) => (new BodyPair(
                 c, CreateSourceItem(configAssembly, c, backupCode)))).ToList();
 
             return sourceList;
         }
 
-        protected SourcePair CreateSourcePair(Assembly configAssembly, SourceCode sourceCode, SourceCode backupCode)
+        protected BodyPair CreateSourcePair(Assembly configAssembly, BodyCode sourceCode, BodyCode backupCode)
         {
-            SourceItem configItem = CreateSourceItem(configAssembly, sourceCode, backupCode);
+            BodyItem configItem = CreateSourceItem(configAssembly, sourceCode, backupCode);
 
-            return new SourcePair(sourceCode, configItem);
+            return new BodyPair(sourceCode, configItem);
         }
 
-        public SourceItem CreateSourceItem(Assembly configAssembly, SourceCode symbolCode, SourceCode backupCode)
+        public BodyItem CreateSourceItem(Assembly configAssembly, BodyCode symbolCode, BodyCode backupCode)
         {
-            SymbolName sourceName = CreateSourceName(symbolCode);
+            MarkName sourceName = CreateSourceName(symbolCode);
 
-            SymbolName backupName = CreateSourceName(backupCode);
+            MarkName backupName = CreateSourceName(backupCode);
 
-            SourceItem sourceItem = ArticleSourceFor(configAssembly, sourceName, backupName);
+            BodyItem sourceItem = ArticleSourceFor(configAssembly, sourceName, backupName);
 
             return sourceItem;
         }
 
-        protected SymbolName CreateSourceName(SourceCode symbolCode)
+        protected MarkName CreateSourceName(BodyCode symbolCode)
         {
             return ArticleCodeAdapter.CreateEnum(symbolCode).GetSymbol();
         }
 
-        protected IArticleSource ArticleSourceFor(Assembly configAssembly, SymbolName symbolName, SymbolName backupName = "")
+        protected IArticleSource ArticleSourceFor(Assembly configAssembly, MarkName symbolName, MarkName backupName = "")
         {
             string symbolClass = ClassNameFor(symbolName);
 

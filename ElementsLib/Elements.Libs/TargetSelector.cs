@@ -4,58 +4,58 @@ using System.Linq;
 
 namespace ElementsLib.Elements.Libs
 {
-    using ContractCode = UInt16;
-    using PositionCode = UInt16;
-    using TargetCode = UInt16;
-    using TargetSeed = UInt16;
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
+    using BodyCode = UInt16;
+    using BodySeed = UInt16;
 
     public static class TargetSelector
     {
-        static public TargetSeed GetFirstTargetSeed(IEnumerable<ArticleTarget> targetList, ContractCode contract, PositionCode position, TargetCode code)
+        static public BodySeed GetFirstTargetSeed(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, contract, position, code);
+            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
 
-            IEnumerable<TargetSeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
+            IEnumerable<BodySeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
 
             return FirstSeedFromList(oneCodeSeeds.OrderBy(x => x).ToArray());
         }
 
-        static public TargetSeed GetSeedToNewTarget(IEnumerable<ArticleTarget> targetList, ContractCode contract, PositionCode position, TargetCode code)
+        static public BodySeed GetSeedToNewTarget(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, contract, position, code);
+            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
 
-            IEnumerable<TargetSeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
+            IEnumerable<BodySeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
 
             return NewSeqSeedFromList(oneCodeSeeds.OrderBy(x => x).ToArray());
         }
 
-        static private IEnumerable<ArticleTarget> SelectEquals(IEnumerable<ArticleTarget> targetList, ContractCode contract, PositionCode position, TargetCode code)
+        static private IEnumerable<ArticleTarget> SelectEquals(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            return targetList.Where(x => (EqualitySelector(x, contract, position, code))).ToList();
+            return targetList.Where(x => (EqualitySelector(x, codeHead, codePart, codeBody))).ToList();
         }
 
-        static private IEnumerable<TargetSeed> ExtractCodeSeed(IEnumerable<ArticleTarget> selectedTargets)
+        static private IEnumerable<BodySeed> ExtractCodeSeed(IEnumerable<ArticleTarget> selectedTargets)
         {
             return selectedTargets.Select(x => x.Seed).ToList();
         }
 
-        static private TargetSeed FirstSeedFromList(IEnumerable<TargetSeed> selectedSeeds)
+        static private BodySeed FirstSeedFromList(IEnumerable<BodySeed> selectedSeeds)
         {
-            TargetSeed firstSeed = selectedSeeds.DefaultIfEmpty(ArticleTarget.SEED_FIRST).First();
+            BodySeed firstSeed = selectedSeeds.DefaultIfEmpty(ArticleTarget.BODY_SEED_FIRST).First();
 
             return firstSeed;
         }
 
-        static private TargetSeed NewSeqSeedFromList(IEnumerable<TargetSeed> selectedSeeds)
+        static private BodySeed NewSeqSeedFromList(IEnumerable<BodySeed> selectedSeeds)
         {
-            TargetSeed lastSeed = selectedSeeds.Aggregate(ArticleTarget.SEED_NULL, (agr, x) => (((x > agr) && (x - agr) > 1) ? agr : x));
+            BodySeed lastSeed = selectedSeeds.Aggregate(ArticleTarget.BODY_SEED_NULL, (agr, x) => (((x > agr) && (x - agr) > 1) ? agr : x));
 
-            return (TargetSeed)(lastSeed + 1);
+            return (BodySeed)(lastSeed + 1);
         }
 
-        public static bool EqualitySelector(ArticleTarget target, ContractCode contract, PositionCode position, TargetCode code)
+        public static bool EqualitySelector(ArticleTarget target, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            return (target.Contract == contract && target.Position == position && target.Code == code);
+            return (target.Head == codeHead && target.Part == codePart && target.Code == codeBody);
         }
 
     }

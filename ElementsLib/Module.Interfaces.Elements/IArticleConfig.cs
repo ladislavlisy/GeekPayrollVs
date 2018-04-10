@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using ConfigCode = UInt16;
-    using ConfigRole = UInt16;
+    using BodyCode = UInt16;
+    using BodyRole = UInt16;
 
     public interface IArticleConfig
     {
-        ConfigCode Code();
-        ConfigRole Role();
-        ConfigCode[] Path();
+        BodyCode Code();
+        BodyRole Role();
+        BodyCode[] Path();
     }
 }

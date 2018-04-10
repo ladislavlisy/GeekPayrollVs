@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Collections;
 
 namespace ElementsLib.Elements
 {
-    using ContractCode = UInt16;
-    using PositionCode = UInt16;
-    using TargetCode = UInt16;
-    using TargetSeed = UInt16;
-    using SourceDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
+    using BodyCode = UInt16;
+    using BodySeed = UInt16;
+    using BodySort = UInt16;
+
+    using Stencils = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
 
     using Module.Interfaces.Elements;
     using Libs;
     using Exceptions;
-    using System.Reflection;
-    using System.Collections;
 
     public abstract class AbstractArticleBucket : IEnumerable<KeyValuePair<ArticleTarget, IArticleSource>>
     {
-        SourceDict TemplateArticles { get; set; }
+        Stencils TemplateCollection { get; set; }
 
         #region TARGET_SOURCE_MODEL
         IDictionary<ArticleTarget, IArticleSource> model;
@@ -33,68 +35,68 @@ namespace ElementsLib.Elements
         }
         #endregion
 
-        public AbstractArticleBucket(SourceDict templates)
+        public AbstractArticleBucket(Stencils templates)
         {
             model = new Dictionary<ArticleTarget, IArticleSource>();
 
-            TemplateArticles = templates;
+            TemplateCollection = templates;
         }
 
-        public ArticleTarget AddContractHead(ISourceValues values)
+        public ArticleTarget AddMainHead(ISourceValues tagsBody)
         {
-            ContractCode CONTRACT_CODE = ArticleTarget.CONTRACT_CODE_NULL;
-            PositionCode POSITION_CODE = ArticleTarget.POSITION_CODE_NULL;
-            TargetCode ARTICLE_CODE = GetContractArticleCode();
+            HeadCode HEAD_CODE = ArticleTarget.HEAD_CODE_NULL;
+            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
+            BodyCode BODY_CODE = GetHeadBodyCode();
 
-            return AddGeneralItem(CONTRACT_CODE, POSITION_CODE, ARTICLE_CODE, ArticleTarget.SEED_NULL, values);
+            return AddGeneralItem(HEAD_CODE, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
 
-        public abstract TargetCode GetContractArticleCode();
+        public abstract BodyCode GetHeadBodyCode();
 
-        public ArticleTarget AddPositionHead(ContractCode contract, ISourceValues values)
+        public ArticleTarget AddMainPart(HeadCode codeHead, ISourceValues tagsBody)
         {
-            PositionCode POSITION_CODE = ArticleTarget.POSITION_CODE_NULL;
-            TargetCode ARTICLE_CODE = GetPositionArticleCode();
+            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
+            BodyCode BODY_CODE = GetPartBodyCode();
 
-            return AddGeneralItem(contract, POSITION_CODE, ARTICLE_CODE, ArticleTarget.SEED_NULL, values);
+            return AddGeneralItem(codeHead, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
 
-        public abstract TargetCode GetPositionArticleCode();
+        public abstract BodyCode GetPartBodyCode();
 
-        public ArticleTarget AddContractItem(ContractCode contract, TargetCode code, ISourceValues values)
+        public ArticleTarget AddHeadItem(HeadCode codeHead, BodyCode codeBody, ISourceValues tagsBody)
         {
-            PositionCode POSITION_CODE = ArticleTarget.POSITION_CODE_NULL;
+            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
 
-            return AddGeneralItem(contract, POSITION_CODE, code, ArticleTarget.SEED_NULL, values);
+            return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public ArticleTarget AddPositionItem(ContractCode contract, PositionCode position, TargetCode code, ISourceValues values)
+        public ArticleTarget AddPartItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, ISourceValues tagsBody)
         {
-            return AddGeneralItem(contract, position, code, ArticleTarget.SEED_NULL, values);
+            return AddGeneralItem(codeHead, codePart, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public ArticleTarget AddGeneralItem(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed, ISourceValues values)
+        public ArticleTarget AddGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
         {
-            TargetSeed newTargetSeed = TargetSelector.GetSeedToNewTarget(model.Keys, contract, position, code);
+            BodySeed newBodySeed = TargetSelector.GetSeedToNewTarget(model.Keys, codeHead, codePart, codeBody);
 
-            return StoreGeneralItem(contract, position, code, newTargetSeed, values);
+            return StoreGeneralItem(codeHead, codePart, codeBody, newBodySeed, tagsBody);
         }
-        public ArticleTarget StoreGeneralItem(ContractCode contract, PositionCode position, TargetCode code, TargetSeed seed, ISourceValues values)
+        public ArticleTarget StoreGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
         {
-            ArticleTarget newTarget = new ArticleTarget(contract, position, code, seed);
+            ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
 
-            IArticleSource newSource = GetTemplateSourceForArticle(code, values);
+            IArticleSource newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
 
             model.Add(newTarget, newSource);
 
             return newTarget;
         }
 
-        protected IArticleSource GetTemplateSourceForArticle(TargetCode code, ISourceValues values)
+        protected IArticleSource GetTemplateSourceForArticle(BodyCode codeBody, ISourceValues tagsBody)
         {
-            if (TemplateArticles == null)
+            if (TemplateCollection == null)
             {
                 throw new NoneExistingConfig();
             }
-            return TemplateArticles.CloneInstanceForCode(code, values);
+            return TemplateCollection.CloneInstanceForCode(codeBody, tagsBody);
         }
     }
 }

@@ -45,10 +45,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements.Config.Articles\PositionScheduleArticle.cs" />
+    <Compile Include="Elements.Config.Source\ContractAbsenceSource.cs" />
     <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
     <Compile Include="Elements.Config.Source\ArticleEmptySource.cs" />
+    <Compile Include="Elements.Config.Source\ContractTimesheetSource.cs" />
+    <Compile Include="Elements.Config.Source\ContractWorkingSource.cs" />
+    <Compile Include="Elements.Config.Source\PositionAbsenceSource.cs" />
     <Compile Include="Elements.Config.Source\PositionScheduleSource.cs" />
     <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
+    <Compile Include="Elements.Config.Source\PositionTimesheetSource.cs" />
+    <Compile Include="Elements.Config.Source\PositionWorkingSource.cs" />
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
@@ -174,7 +180,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Elements.Config.ArticlesGen\" />
+    <Folder Include="Elements.Config.SourceGen\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

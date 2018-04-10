@@ -22,6 +22,17 @@ namespace ElementsLib.Module.Libs
             }
         }
 
+        public static IEnumerable<T> GetSelectedItems<T>(this Enum value)
+        {
+            foreach (object item in Enum.GetValues(typeof(T)))
+            {
+                if ((UInt16)item < 10000)
+                {
+                    yield return (T)item;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets all items for an enum type.
         /// </summary>
@@ -33,6 +44,16 @@ namespace ElementsLib.Module.Libs
             foreach (object item in Enum.GetValues(typeof(T)))
             {
                 yield return (T)item;
+            }
+        }
+        public static IEnumerable<T> GetSelectedItems<T>() where T : struct
+        {
+            foreach (object item in Enum.GetValues(typeof(T)))
+            {
+                if ((UInt16)item < 10000)
+                {
+                    yield return (T)item;
+                }
             }
         }
     }

@@ -2,31 +2,32 @@
 
 namespace ElementsLib.Module.Codes
 {
-    using ArticleRole = ArticleCzRole;
+    using MarkRole = ArticleCzRole;
+    using EnumRole = UInt16;
 
     using Libs;
 
     public class ArticleRoleAdapter
     {
-        public static ArticleRole CreateEnum(UInt16 symbolNumb)
+        public static MarkRole CreateEnum(EnumRole symbolNumb)
         {
-            return symbolNumb.ToEnum<ArticleRole>(GetDefaultCode());
+            return symbolNumb.ToEnum<MarkRole>(GetDefaultCode());
         }
-        public static ArticleRole CreateEnum(string symbolName)
+        public static MarkRole CreateEnum(string symbolName)
         {
-            return symbolName.ToEnum<ArticleRole>(GetDefaultCode());
+            return symbolName.ToEnum<MarkRole>(GetDefaultCode());
         }
-        public static UInt16 CreateCode(UInt16 symbolNumb)
+        public static EnumRole CreateCode(EnumRole symbolNumb)
         {
-            return (UInt16)symbolNumb.ToEnum<ArticleRole>(GetDefaultCode());
+            return (EnumRole)symbolNumb.ToEnum<MarkRole>(GetDefaultCode());
         }
-        public static UInt16 CreateCode(string symbolName)
+        public static EnumRole CreateCode(string symbolName)
         {
-            return (UInt16)symbolName.ToEnum<ArticleRole>(GetDefaultCode());
+            return (EnumRole)symbolName.ToEnum<MarkRole>(GetDefaultCode());
         }
-        private static ArticleRole GetDefaultCode()
+        private static MarkRole GetDefaultCode()
         {
-            return ArticleRole.ARTROLE_UNKNOWN;
+            return MarkRole.ARTROLE_UNKNOWN;
         }
     }
 }

@@ -2,14 +2,15 @@
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using SymbolCode = Module.Codes.ArticleCzCode;
-    using SourceCode = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+
     using Source;
     using Module.Interfaces.Elements;
 
     public class PositionScheduleArticle : ArticleGeneralSource, ICloneable
     {
-        public PositionScheduleArticle() : base((SourceCode)SymbolCode.ARTCODE_POSITION_SCHEDULE)
+        public PositionScheduleArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_SCHEDULE)
         {
             SourceValues = new PositionScheduleSource();
         }
@@ -41,10 +42,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            PositionScheduleArticle clone = (PositionScheduleArticle)this.MemberwiseClone();
-            clone.InternalCode = this.InternalCode;
+            PositionScheduleArticle cloneArticle = (PositionScheduleArticle)this.MemberwiseClone();
 
-            return clone;
+            cloneArticle.InternalCode = this.InternalCode;
+
+            return cloneArticle;
         }
+
     }
 }

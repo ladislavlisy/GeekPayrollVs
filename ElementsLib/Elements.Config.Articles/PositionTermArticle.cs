@@ -2,14 +2,15 @@
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using SymbolCode = Module.Codes.ArticleCzCode;
-    using SourceCode = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+
     using Source;
     using Module.Interfaces.Elements;
 
     public class PositionTermArticle : ArticleGeneralSource, ICloneable
     {
-        public PositionTermArticle() : base((SourceCode)SymbolCode.ARTCODE_POSITION_TERM)
+        public PositionTermArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_TERM)
         {
             SourceValues = new PositionTermSource();
         }
@@ -41,10 +42,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            PositionTermArticle clone = (PositionTermArticle)this.MemberwiseClone();
-            clone.InternalCode = this.InternalCode;
+            PositionTermArticle cloneArticle = (PositionTermArticle)this.MemberwiseClone();
 
-            return clone;
+            cloneArticle.InternalCode = this.InternalCode;
+
+            return cloneArticle;
         }
+
     }
 }

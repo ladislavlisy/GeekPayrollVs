@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Matrixus.Config
 {
-    using ConfigCode = UInt16;
-    using ConfigRole = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
-    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>;
+    using BodyCode = UInt16;
+    using BodyRole = UInt16;
+    using BodyItem = Module.Interfaces.Elements.IArticleConfig;
+    using BodyPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>;
 
-    using SymbolCode = Module.Codes.ArticleCzCode;
-    using SymbolRole = Module.Codes.ArticleCzRole;
+    using MarkCode = Module.Codes.ArticleCzCode;
+    using MarkRole = Module.Codes.ArticleCzRole;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
@@ -18,59 +18,59 @@ namespace ElementsLib.Matrixus.Config
 
     public class ArticleConfigFactory : IArticleConfigFactory
     {
-        public IEnumerable<ConfigPair> CreateConfigList()
+        public IEnumerable<BodyPair> CreateConfigList()
         {
-            IList<ConfigPair> configList = new List<ConfigPair>()
+            IList<BodyPair> configList = new List<BodyPair>()
             {
-                CreateConfigPair(SymbolCode.ARTCODE_UNKNOWN, SymbolRole.ARTROLE_UNKNOWN),
-                CreateConfigPair(SymbolCode.ARTCODE_CONTRACT_TERM, SymbolRole.ARTROLE_CONTRACT_TERM),
-                CreateConfigPair(SymbolCode.ARTCODE_POSITION_TERM, SymbolRole.ARTROLE_POSITION_TERM,
-                    SymbolCode.ARTCODE_CONTRACT_TERM),
-                CreateConfigPair(SymbolCode.ARTCODE_POSITION_SCHEDULE, SymbolRole.ARTROLE_POSITION_SCHEDULE,
-                    SymbolCode.ARTCODE_POSITION_TERM),
-                CreateConfigPair(SymbolCode.ARTCODE_POSITION_TIMESHEET, SymbolRole.ARTROLE_POSITION_TIMESHEET,
-                    SymbolCode.ARTCODE_POSITION_SCHEDULE),
-                CreateConfigPair(SymbolCode.ARTCODE_POSITION_WORKING, SymbolRole.ARTROLE_POSITION_WORKING,
-                    SymbolCode.ARTCODE_POSITION_TIMESHEET),
-                CreateConfigPair(SymbolCode.ARTCODE_POSITION_ABSENCE, SymbolRole.ARTROLE_POSITION_ABSENCE,
-                    SymbolCode.ARTCODE_POSITION_TIMESHEET),
-                CreateConfigPair(SymbolCode.ARTCODE_CONTRACT_TIMESHEET, SymbolRole.ARTROLE_CONTRACT_TIMESHEET,
-                    SymbolCode.ARTCODE_CONTRACT_TERM, SymbolCode.ARTCODE_POSITION_TIMESHEET),
-                CreateConfigPair(SymbolCode.ARTCODE_CONTRACT_WORKING, SymbolRole.ARTROLE_CONTRACT_WORKING,
-                    SymbolCode.ARTCODE_CONTRACT_TIMESHEET, SymbolCode.ARTCODE_POSITION_WORKING),
-                CreateConfigPair(SymbolCode.ARTCODE_CONTRACT_ABSENCE, SymbolRole.ARTROLE_CONTRACT_ABSENCE,
-                    SymbolCode.ARTCODE_CONTRACT_TIMESHEET, SymbolCode.ARTCODE_POSITION_ABSENCE),
+                CreateConfigPair(MarkCode.ARTCODE_UNKNOWN, MarkRole.ARTROLE_UNKNOWN),
+                CreateConfigPair(MarkCode.ARTCODE_CONTRACT_TERM, MarkRole.ARTROLE_CONTRACT_TERM),
+                CreateConfigPair(MarkCode.ARTCODE_POSITION_TERM, MarkRole.ARTROLE_POSITION_TERM,
+                    MarkCode.ARTCODE_CONTRACT_TERM),
+                CreateConfigPair(MarkCode.ARTCODE_POSITION_SCHEDULE, MarkRole.ARTROLE_POSITION_SCHEDULE,
+                    MarkCode.ARTCODE_POSITION_TERM),
+                CreateConfigPair(MarkCode.ARTCODE_POSITION_TIMESHEET, MarkRole.ARTROLE_POSITION_TIMESHEET,
+                    MarkCode.ARTCODE_POSITION_SCHEDULE),
+                CreateConfigPair(MarkCode.ARTCODE_POSITION_WORKING, MarkRole.ARTROLE_POSITION_WORKING,
+                    MarkCode.ARTCODE_POSITION_TIMESHEET),
+                CreateConfigPair(MarkCode.ARTCODE_POSITION_ABSENCE, MarkRole.ARTROLE_POSITION_ABSENCE,
+                    MarkCode.ARTCODE_POSITION_TIMESHEET),
+                CreateConfigPair(MarkCode.ARTCODE_CONTRACT_TIMESHEET, MarkRole.ARTROLE_CONTRACT_TIMESHEET,
+                    MarkCode.ARTCODE_CONTRACT_TERM, MarkCode.ARTCODE_POSITION_TIMESHEET),
+                CreateConfigPair(MarkCode.ARTCODE_CONTRACT_WORKING, MarkRole.ARTROLE_CONTRACT_WORKING,
+                    MarkCode.ARTCODE_CONTRACT_TIMESHEET, MarkCode.ARTCODE_POSITION_WORKING),
+                CreateConfigPair(MarkCode.ARTCODE_CONTRACT_ABSENCE, MarkRole.ARTROLE_CONTRACT_ABSENCE,
+                    MarkCode.ARTCODE_CONTRACT_TIMESHEET, MarkCode.ARTCODE_POSITION_ABSENCE),
             };
             return configList;
         }
-        public ConfigItem CreateConfigItem(ArticleConfigNameJson configJson)
+        public BodyItem CreateConfigItem(ArticleConfigNameJson configJson)
         {
-            ConfigCode code = ArticleCodeAdapter.CreateCode(configJson.Code);
+            BodyCode code = ArticleCodeAdapter.CreateCode(configJson.Code);
 
-            ConfigRole role = ArticleRoleAdapter.CreateCode(configJson.Role);
+            BodyRole role = ArticleRoleAdapter.CreateCode(configJson.Role);
 
-            ConfigCode[] path = configJson.ResolvePath.Select((p) => (ArticleCodeAdapter.CreateCode(p))).ToArray();
+            BodyCode[] path = configJson.ResolvePath.Select((p) => (ArticleCodeAdapter.CreateCode(p))).ToArray();
 
             ArticleConfig config = new ArticleConfig(code, role, path);
 
             return config;
         }
-        public ConfigCode CreateConfigCode(ArticleConfigNameJson configJson)
+        public BodyCode CreateConfigCode(ArticleConfigNameJson configJson)
         {
-            ConfigCode code = ArticleCodeAdapter.CreateCode(configJson.Code);
+            BodyCode code = ArticleCodeAdapter.CreateCode(configJson.Code);
 
             return code;
         }
 
-        protected ConfigPair CreateConfigPair(SymbolCode extCode, SymbolRole extRole, params SymbolCode[] extPath)
+        protected BodyPair CreateConfigPair(MarkCode extCode, MarkRole extRole, params MarkCode[] extPath)
         {
-            ConfigCode code = (ConfigCode)extCode;
+            BodyCode code = (BodyCode)extCode;
 
-            ConfigRole role = (ConfigRole)extRole;
+            BodyRole role = (BodyRole)extRole;
 
-            ConfigCode[] path = extPath.Select((p) => ((ConfigCode)p)).ToArray();
+            BodyCode[] path = extPath.Select((p) => ((BodyCode)p)).ToArray();
 
-            return new ConfigPair(code, new ArticleConfig(code, role, path)); 
+            return new BodyPair(code, new ArticleConfig(code, role, path)); 
         }
     }
 }

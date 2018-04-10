@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ElementsLib.Module.Json
 {
-    using SymbolCode = Module.Codes.ArticleCzCode;
+    using MarkCode = Module.Codes.ArticleCzCode;
 
     using Codes;
     using Interfaces.Elements;
@@ -32,7 +32,7 @@ namespace ElementsLib.Module.Json
 
             JObject o = (JObject)t;
 
-            SymbolCode articleSymbol = ArticleCodeAdapter.CreateEnum(value.Code());
+            MarkCode articleSymbol = ArticleCodeAdapter.CreateEnum(value.Code());
 
             JValue codeValue = (JValue)articleSymbol.GetSymbol();
 

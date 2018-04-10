@@ -2,31 +2,22 @@
 
 namespace ElementsLib.Elements.Config
 {
-    using SourceCode = UInt16;
-    using SymbolCode = Module.Codes.ArticleCzCode;
+    using BodyCode = UInt16;
+    using MarkCode = Module.Codes.ArticleCzCode;
 
     using Module.Codes;
     using Module.Interfaces.Elements;
 
-    // ArticleConfig = 
-    // ArticleCode, 
-    // ConceptCode, 
-    // ArticleVals, 
-    // ResolveCodes, xx 
-    // SummaryCodes, 
-    // IncomesRules
-    // Create ArticleSource
-
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
-        public ArticleGeneralSource(SourceCode code)
+        public ArticleGeneralSource(BodyCode code)
         {
             InternalCode = code;
         }
 
-        protected SourceCode InternalCode { get; set; }
+        protected BodyCode InternalCode { get; set; }
 
-        public SourceCode Code()
+        public BodyCode Code()
         {
             return InternalCode;
         }
@@ -42,14 +33,14 @@ namespace ElementsLib.Elements.Config
 
         public virtual object Clone()
         {
-            ArticleGeneralSource clone = (ArticleGeneralSource)this.MemberwiseClone();
-            clone.InternalCode = this.InternalCode;
+            ArticleGeneralSource cloneArticle = (ArticleGeneralSource)this.MemberwiseClone();
+            cloneArticle.InternalCode = this.InternalCode;
 
-            return clone;
+            return cloneArticle;
         }
         public override string ToString()
         {
-            SymbolCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
+            MarkCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
 
             return symbol.GetSymbol();
         }

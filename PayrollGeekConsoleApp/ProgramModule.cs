@@ -20,9 +20,9 @@ using ElementsLib.Module.Codes;
 
 namespace PayrollGeekConsoleApp
 {
-    using ArticleCode = ArticleCzCode;
-    using SeasoneCode = UInt16;
-    using EpisodeCode = UInt16;
+    using MarkCode = ArticleCzCode;
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
     static class ProgramModule
     {
         public static void CreatePayrollData(string configFolder)
@@ -37,6 +37,8 @@ namespace PayrollGeekConsoleApp
 
             var payrollData = new ArticleBucket(payrollSource);
 
+            #region TEST_VALUES
+
             DateTime? TestDateFrom = new DateTime(2010, 1, 1);
             DateTime? TestDateStop = null;
             var TestEmployeeTerm = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
@@ -44,21 +46,22 @@ namespace PayrollGeekConsoleApp
             Int32 TestShiftLiable = 0;
             Int32 TestShiftActual = 0;
             WorkScheduleType TestScheduleType = WorkScheduleType.SCHEDULE_NORMALY_WEEK;
+            
+            #endregion
 
             ArticleData[] payrollLoad = new ArticleData[]
             {
                 new ArticleData() {
-                    Service = 0, Episode = 0, Placing = 0, Article = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
-//                  Service = 0, Episode = 0, Sorting = 0, Article = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
-                    Records = new ContractTermSource(TestDateFrom, TestDateStop, TestEmployeeTerm),
+                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
+                    Tags = new ContractTermSource(TestDateFrom, TestDateStop, TestEmployeeTerm),
                 },
                 new ArticleData() {
-                    Service = 0, Episode = 0, Placing = 0, Article = (UInt16)ArticleCzCode.ARTCODE_POSITION_TERM,
-                    Records = new PositionTermSource(TestDateFrom, TestDateStop, TestPositionTerm),
+                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_TERM,
+                    Tags = new PositionTermSource(TestDateFrom, TestDateStop, TestPositionTerm),
                 },
                 new ArticleData() {
-                    Service = 0, Episode = 0, Placing = 0, Article = (UInt16)ArticleCzCode.ARTCODE_POSITION_SCHEDULE,
-                    Records = new PositionScheduleSource(TestShiftLiable, TestShiftActual, TestScheduleType),
+                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_SCHEDULE,
+                    Tags = new PositionScheduleSource(TestShiftLiable, TestShiftActual, TestScheduleType),
                 },
                 //ARTCODE_POSITION_TIMESHEET,
                 //ARTCODE_POSITION_WORKING,
@@ -70,8 +73,12 @@ namespace PayrollGeekConsoleApp
 
             foreach (var data in payrollLoad)
             {
-                payrollData.AddGeneralItem(data.Service, data.Episode, data.Article, data.Placing, data.Records);
+                payrollData.AddGeneralItem(data.Head, data.Part, data.Code, data.Seed, data.Tags);
             }
+
+            // Sort <CODE, SORT> SortedConfig
+            // payrollData.ModelList + ResolvePath - Codes => Sort by SortedConfig
+            // payrollData.ModelList - Evaluate => Results 
 
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_PAYROLL.TXT");
 
