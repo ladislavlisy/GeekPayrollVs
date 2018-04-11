@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Collections;
+using System.Linq;
 
 namespace ElementsLib.Elements
 {
@@ -22,7 +23,7 @@ namespace ElementsLib.Elements
         Stencils TemplateCollection { get; set; }
 
         #region TARGET_SOURCE_MODEL
-        IDictionary<ArticleTarget, IArticleSource> model;
+        protected IDictionary<ArticleTarget, IArticleSource> model;
 
         public IEnumerator<KeyValuePair<ArticleTarget, IArticleSource>> GetEnumerator()
         {
@@ -33,6 +34,15 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
+        public ICollection<ArticleTarget> Keys
+        {
+            get { return model.Keys; }
+        }
+        public IEnumerable<ArticleTarget> GetTargets()
+        {
+            return model.Keys.ToList();
+        }
+
         #endregion
 
         public AbstractArticleBucket(Stencils templates)

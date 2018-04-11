@@ -8,17 +8,33 @@ namespace ElementsLib.Matrixus.Config
     using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
     using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>;
 
+    using HeadCode = UInt16;
+    using PartCode = UInt16;
+    using BodyType = UInt16;
+    using BodyCode = UInt16;
+    using BodySeed = UInt16;
+
     using Module.Common;
     using Module.Interfaces.Elements;
     using Module.Libs;
     using Module.Codes;
     using Module.Json;
     using Elements.Config;
+    using Elements;
 
     public class ArticleConfigCollection : GeneralConfigCollection<ConfigItem, ConfigCode>
     {
-        public ArticleConfigCollection() : base()
+        BodyType NO_HEAD_PART_TYPE = 0;
+
+        BodyType HEAD_CODE_ARTICLE = 1;
+        BodyType PART_CODE_ARTICLE = 2;
+
+        protected ConfigCode ContractCode { get; set; }
+        protected ConfigCode PositionCode { get; set; }
+        public ArticleConfigCollection(ConfigCode contractCode, ConfigCode positionCode) : base()
         {
+            ContractCode = contractCode;
+            PositionCode = positionCode;
         }
 
         public void LoadConfigJson(IList<ArticleConfigNameJson> configList, IArticleConfigFactory configFactory)
@@ -51,11 +67,11 @@ namespace ElementsLib.Matrixus.Config
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsZero = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
-            var ModelOrderDict = Models.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveModelPath(agr, c.Value.Code(), c.Value.Path(), Models)));
+            ModelResolve = Models.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveModelPath(agr, c.Value.Code(), c.Value.Path(), Models)));
 
             IList<ConfigCode> TempModelPath = Models.Keys.ToList();
 
-            ModelPath = TempModelPath.OrderBy((x) => (x), new CompareConfigCode(ModelOrderDict)).ToList();
+            ModelPath = TempModelPath.OrderBy((x) => (x), new CompareConfigCode(ModelResolve)).Select((k, i) => (new KeyValuePair<ConfigCode, Int32>(k, i))).ToList();
         }
 
         protected ConfigCode[] ResolveModelPath(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
@@ -105,6 +121,72 @@ namespace ElementsLib.Matrixus.Config
 
             return resolveSink;
         }
+
+        public IEnumerable<ArticleTarget> GetTargets(IEnumerable<ArticleTarget> targetsInit)
+        {
+            IEnumerable<ArticleTarget> targetsZero = new List<ArticleTarget>();
+
+            var contractsHead = targetsInit.Where((ch) => (ch.Code == ContractCode)).Select((cv) => (cv.Seed));
+            var positionsPart = targetsInit.Where((ch) => (ch.Code == PositionCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head, cv.Seed));
+
+            IEnumerable<ArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, ModelResolve)));
+
+            return targetsCalc.Distinct();
+        }
+
+        private IEnumerable<ArticleTarget> ResolveTargets(ArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ushort, IEnumerable<ushort>> modelResolve)
+        {
+            IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == target.Code)).Value.ToList();
+
+            IEnumerable<ArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, Models))).ToList();
+
+            return targetResolve.Where((c) => (c.Code != 0));
+        }
+
+        private IEnumerable<ArticleTarget> CreateTarget(ConfigCode codeConfig, ArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ConfigCode, ConfigItem> models)
+        {
+            IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
+
+            ConfigItem configItem = models.FirstOrDefault((c) => (c.Key == codeConfig)).Value;
+
+            HeadCode codeHead = 0;
+            PartCode codePart = 0;
+            BodyCode codeBody = codeConfig;
+            BodySeed seedBody = 0;
+
+            if (configItem.Type() == NO_HEAD_PART_TYPE)
+            {
+                targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+            }
+            if (configItem.Type() == HEAD_CODE_ARTICLE)
+            {
+                if (target.Head != 0)
+                {
+                    codeHead = target.Head;
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+                }
+                else
+                {
+                    targetList = contractsHead.Select((ch) => (new ArticleTarget(ch, codePart, codeBody, seedBody))).ToList();
+                }
+            }
+            else if (configItem.Type() == PART_CODE_ARTICLE)
+            {
+                if (target.Head != 0 && target.Part != 0)
+                {
+                    codeHead = target.Head;
+                    codePart = target.Part;
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+                }
+                else
+                {
+                    targetList = positionsPart.Select((pp) => (new ArticleTarget(pp.Item1, pp.Item2, codeBody, seedBody))).ToList();
+                }
+            }
+
+            return targetList;
+        }
+
         protected ConfigCode[] ResolveModelCode(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             ConfigItem articleItem;

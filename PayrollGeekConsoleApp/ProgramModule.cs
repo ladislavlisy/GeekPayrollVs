@@ -23,17 +23,32 @@ namespace PayrollGeekConsoleApp
     using MarkCode = ArticleCzCode;
     using HeadCode = UInt16;
     using PartCode = UInt16;
+    using ConfigCode = UInt16;
+
+    using TargetItem = ArticleTarget;
+    using TargezVals = IArticleSource;
+    using TargetPair = KeyValuePair<ArticleTarget, IArticleSource>;
     static class ProgramModule
     {
         public static void CreatePayrollData(string configFolder)
         {
-            ArticleSourceCollection payrollSource = new ArticleSourceCollection();
-
             Assembly configAssembly = typeof(ElementsModule).Assembly;
 
-            IArticleSourceFactory configFactory = new ArticleSourceFactory();
+            ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
-            payrollSource.InitConfigModel(configAssembly, configFactory);
+            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
+            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
+
+            ArticleConfigCollection payrollConfig = new ArticleConfigCollection((ConfigCode)contractCode, (ConfigCode)positionCode);
+            
+            payrollConfig.InitConfigModel(articleConfigFactory);
+
+            IArticleSourceFactory articleSourceFactory = new ArticleSourceFactory();
+
+            ArticleSourceCollection payrollSource = new ArticleSourceCollection();
+            
+            payrollSource.InitConfigModel(configAssembly, articleSourceFactory);
+
 
             var payrollData = new ArticleBucket(payrollSource);
 
@@ -52,16 +67,20 @@ namespace PayrollGeekConsoleApp
             ArticleData[] payrollLoad = new ArticleData[]
             {
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
                     Tags = new ContractTermSource(TestDateFrom, TestDateStop, TestEmployeeTerm),
                 },
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_TERM,
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_TERM,
                     Tags = new PositionTermSource(TestDateFrom, TestDateStop, TestPositionTerm),
                 },
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 0, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_SCHEDULE,
+                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_SCHEDULE,
                     Tags = new PositionScheduleSource(TestShiftLiable, TestShiftActual, TestScheduleType),
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_WORKING,
+                    Tags = null,
                 },
                 //ARTCODE_POSITION_TIMESHEET,
                 //ARTCODE_POSITION_WORKING,
@@ -73,9 +92,22 @@ namespace PayrollGeekConsoleApp
 
             foreach (var data in payrollLoad)
             {
-                payrollData.AddGeneralItem(data.Head, data.Part, data.Code, data.Seed, data.Tags);
+                payrollData.StoreGeneralItem(data.Head, data.Part, data.Code, data.Seed, data.Tags);
             }
 
+            IEnumerable<ArticleTarget> targetsInit = payrollData.GetTargets();
+
+            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit);
+
+            foreach (var calc in targetsCalc)
+            {
+                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head, calc.Part, calc.Code)))==null)
+                {
+                    payrollData.AddGeneralItem(calc.Head, calc.Part, calc.Code, calc.Seed, null);
+                }
+            }
+
+            IList<TargetPair> evaluationSteps = payrollData.PrepareEvaluationPath(payrollConfig.ModelPath);
             // Sort <CODE, SORT> SortedConfig
             // payrollData.ModelList + ResolvePath - Codes => Sort by SortedConfig
             // payrollData.ModelList - Evaluate => Results 
@@ -86,9 +118,11 @@ namespace PayrollGeekConsoleApp
             {
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
 
-                foreach (var item in payrollData)
+                foreach (var item in evaluationSteps)
                 {
-                    writerFile.WriteLine(item.ToString());
+                    writerFile.Write(item.Key.ToString());
+                    writerFile.Write("   ");
+                    writerFile.WriteLine(item.Value.ToString());
                 }
 
                 writerFile.Flush();
@@ -144,7 +178,10 @@ namespace PayrollGeekConsoleApp
         }
         public static void LoadConfigModel()
         {
-            ArticleConfigCollection service = new ArticleConfigCollection();
+            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
+            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
+
+            ArticleConfigCollection service = new ArticleConfigCollection((ConfigCode)contractCode, (ConfigCode)positionCode);
 
             ArticleConfigFactory factory = new ArticleConfigFactory();
 

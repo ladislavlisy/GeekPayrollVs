@@ -6,6 +6,7 @@ namespace ElementsLib.Matrixus.Config
 {
     using BodyCode = UInt16;
     using BodyRole = UInt16;
+    using BodyType = UInt16;
     using MarkCode = Module.Codes.ArticleCzCode;
 
     using Module.Interfaces.Elements;
@@ -22,15 +23,17 @@ namespace ElementsLib.Matrixus.Config
 
     public class ArticleConfig : IArticleConfig
     {
-        public ArticleConfig(BodyCode codeBody, BodyRole roleBody, params BodyCode[] codePath)
+        public ArticleConfig(BodyCode codeBody, BodyRole roleBody, BodyType typeBody, params BodyCode[] codePath)
         {
             InternalCode = codeBody;
             InternalRole = roleBody;
+            InternalType = typeBody;
             ResolvePath = codePath.ToList();
         }
 
         protected BodyCode InternalCode { get; set; }
         protected BodyRole InternalRole { get; set; }
+        protected BodyType InternalType { get; set; } 
         protected IList<BodyCode> ResolvePath { get; set; }
 
         public BodyCode Code()
@@ -40,6 +43,10 @@ namespace ElementsLib.Matrixus.Config
         public BodyRole Role()
         {
             return InternalRole;
+        }
+        public BodyType Type()
+        {
+            return InternalType;
         }
         public BodyCode[] Path()
         {

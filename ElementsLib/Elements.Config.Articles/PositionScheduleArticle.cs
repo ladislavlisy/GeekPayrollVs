@@ -26,9 +26,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            PositionScheduleSource sourceValues = values as PositionScheduleSource;
-
-            SourceValues = (PositionScheduleSource)sourceValues.Clone();
+            SourceValues = SetSourceValues<PositionScheduleSource>(values);
         }
 
         public override IArticleSource CloneSourceAndSetValues(ISourceValues values)

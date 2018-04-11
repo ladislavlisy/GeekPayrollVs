@@ -26,9 +26,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            ContractTermSource sourceValues = values as ContractTermSource;
-
-            SourceValues = (ContractTermSource)sourceValues.Clone();
+            SourceValues = SetSourceValues<ContractTermSource>(values);
         }
 
         public override IArticleSource CloneSourceAndSetValues(ISourceValues values)

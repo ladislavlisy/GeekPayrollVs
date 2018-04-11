@@ -87,6 +87,11 @@ namespace ElementsLib.Elements
             return (this.Head == other.Head && this.Part == other.Part && this.Code == other.Code && this.Seed == other.Seed);
         }
 
+        public bool IsEqualToHeadPartCode(HeadCode otherHead, PartCode otherPart, BodyCode otherCode)
+        {
+            return (this.Head == otherHead && this.Part == otherPart && this.Code == otherCode);
+        }
+
         public static bool operator <(ArticleTarget x, ArticleTarget y)
         {
             return x.IsSmallerToSame(y);

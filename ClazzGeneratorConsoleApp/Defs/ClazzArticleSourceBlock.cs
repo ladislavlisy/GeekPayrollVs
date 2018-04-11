@@ -98,9 +98,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBlokLine(writer, "public override void ImportSourceValues(ISourceValues values)");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, ValsClassName + " sourceValues = values as " + ValsClassName + ";");
-            DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "SourceValues = (" + ValsClassName + ")sourceValues.Clone();");
+            WriteIndentBlokLine(writer, 1, "SourceValues = SetSourceValues<" + ValsClassName + ">(values);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ISourceValues values)");

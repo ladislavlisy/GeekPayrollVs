@@ -16,13 +16,16 @@ namespace ElementsLib.Elements.Config
     {
         public GeneralConfigCollection()
         {
-            this.ModelPath = new List<TIndex>();
+            this.ModelPath = new List<KeyValuePair<TIndex, Int32>>();
 
             this.Models = new Dictionary<TIndex, TConfig>();
+
+            this.ModelResolve = new Dictionary<TIndex, IEnumerable<TIndex>>();
         }
 
-        protected IList<TIndex> ModelPath { get; set; }
+        public IList<KeyValuePair<TIndex, Int32>> ModelPath { get; protected set; }
         protected IDictionary<TIndex, TConfig> Models { get; set; }
+        protected IDictionary<TIndex, IEnumerable<TIndex>> ModelResolve { get; set; }
 
         protected TIndex DefaultCode { get; set; }
 
@@ -30,7 +33,7 @@ namespace ElementsLib.Elements.Config
         {
             Models = configList.ToDictionary(kv => kv.Key, kv => kv.Value);
 
-            ModelPath = Models.Keys.ToList();
+            ModelPath = Models.Keys.Select((k, i) => (new KeyValuePair<TIndex, Int32>(k, i))).ToList();
         }
         protected TConfig FindConfigByCode(TIndex configCode)
         {

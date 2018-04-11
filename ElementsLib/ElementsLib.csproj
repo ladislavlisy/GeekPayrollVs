@@ -44,7 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements.Config.Articles\ContractAbsenceArticle.cs" />
+    <Compile Include="Elements.Config.Articles\ContractTimesheetArticle.cs" />
+    <Compile Include="Elements.Config.Articles\ContractWorkingArticle.cs" />
+    <Compile Include="Elements.Config.Articles\PositionAbsenceArticle.cs" />
     <Compile Include="Elements.Config.Articles\PositionScheduleArticle.cs" />
+    <Compile Include="Elements.Config.Articles\PositionTimesheetArticle.cs" />
+    <Compile Include="Elements.Config.Articles\PositionWorkingArticle.cs" />
     <Compile Include="Elements.Config.Source\ContractAbsenceSource.cs" />
     <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
     <Compile Include="Elements.Config.Source\ArticleEmptySource.cs" />

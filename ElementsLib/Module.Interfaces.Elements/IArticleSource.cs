@@ -6,9 +6,7 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleSource
     {
         BodyCode Code();
-
         ISourceValues ExportSourceValues();
-
         void ImportSourceValues(ISourceValues values);
         IArticleSource CloneSourceAndSetValues(ISourceValues values);
     }

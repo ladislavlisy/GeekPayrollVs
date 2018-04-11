@@ -26,9 +26,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            PositionTermSource sourceValues = values as PositionTermSource;
-
-            SourceValues = (PositionTermSource)sourceValues.Clone();
+            SourceValues = SetSourceValues<PositionTermSource>(values);
         }
 
         public override IArticleSource CloneSourceAndSetValues(ISourceValues values)

@@ -29,6 +29,17 @@ namespace ElementsLib.Elements.Config
 
         public abstract void ImportSourceValues(ISourceValues values);
 
+        public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
+        {
+            T sourceValues = values as T;
+
+            if (sourceValues == null)
+            {
+                return null;
+            }
+            return (T)sourceValues.Clone();
+        }
+
         public abstract IArticleSource CloneSourceAndSetValues(ISourceValues values);
 
         public virtual object Clone()
