@@ -29,12 +29,8 @@ namespace ElementsLib.Matrixus.Config
         BodyType HEAD_CODE_ARTICLE = 1;
         BodyType PART_CODE_ARTICLE = 2;
 
-        protected ConfigCode ContractCode { get; set; }
-        protected ConfigCode PositionCode { get; set; }
-        public ArticleConfigCollection(ConfigCode contractCode, ConfigCode positionCode) : base()
+        public ArticleConfigCollection() : base()
         {
-            ContractCode = contractCode;
-            PositionCode = positionCode;
         }
 
         public void LoadConfigJson(IList<ArticleConfigNameJson> configList, IArticleConfigFactory configFactory)
@@ -47,7 +43,7 @@ namespace ElementsLib.Matrixus.Config
             ConfigureModelPath();
         }
 
-        public void InitConfigModel(IArticleConfigFactory configFactory)
+        public override void InitConfigModel(IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configFactory.CreateConfigList();
 
@@ -122,12 +118,12 @@ namespace ElementsLib.Matrixus.Config
             return resolveSink;
         }
 
-        public IEnumerable<ArticleTarget> GetTargets(IEnumerable<ArticleTarget> targetsInit)
+        public IEnumerable<ArticleTarget> GetTargets(IEnumerable<ArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
             IEnumerable<ArticleTarget> targetsZero = new List<ArticleTarget>();
 
-            var contractsHead = targetsInit.Where((ch) => (ch.Code == ContractCode)).Select((cv) => (cv.Seed));
-            var positionsPart = targetsInit.Where((ch) => (ch.Code == PositionCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head, cv.Seed));
+            var contractsHead = targetsInit.Where((ch) => (ch.Code == headCode)).Select((cv) => (cv.Seed));
+            var positionsPart = targetsInit.Where((ch) => (ch.Code == partCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head, cv.Seed));
 
             IEnumerable<ArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, ModelResolve)));
 

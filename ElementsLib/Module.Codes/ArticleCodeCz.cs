@@ -58,4 +58,15 @@ namespace ElementsLib.Module.Codes
             return article.ToString();
         }
     }
+    public static class ArticleCzCodeUtil
+    {
+        public static EnumCode GetContractCode()
+        {
+            return (EnumCode)ArticleCzCode.ARTCODE_CONTRACT_TERM;
+        }
+        public static EnumCode GetPositionCode()
+        {
+            return (EnumCode)ArticleCzCode.ARTCODE_POSITION_TERM;
+        }
+    }
 }

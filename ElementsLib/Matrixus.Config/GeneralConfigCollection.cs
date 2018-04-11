@@ -9,8 +9,8 @@ namespace ElementsLib.Elements.Config
 {
     using SymbolName = String;
 
-    using Interfaces.Matrixus;
     using Module.Interfaces.Elements;
+    using Module.Interfaces.Matrixus;
 
     public abstract class GeneralConfigCollection<TConfig, TIndex> : IConfigCollection<TConfig, TIndex>
     {
@@ -50,6 +50,7 @@ namespace ElementsLib.Elements.Config
             return modelInstance;
         }
 
+        public abstract void InitConfigModel(IArticleConfigFactory configFactory);
         public abstract TConfig FindArticleConfig(TIndex modelCode);
     }
 }

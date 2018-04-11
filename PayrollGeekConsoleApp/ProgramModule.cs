@@ -36,10 +36,7 @@ namespace PayrollGeekConsoleApp
 
             ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
-            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
-            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
-
-            ArticleConfigCollection payrollConfig = new ArticleConfigCollection((ConfigCode)contractCode, (ConfigCode)positionCode);
+            ArticleConfigCollection payrollConfig = new ArticleConfigCollection();
             
             payrollConfig.InitConfigModel(articleConfigFactory);
 
@@ -97,7 +94,10 @@ namespace PayrollGeekConsoleApp
 
             IEnumerable<ArticleTarget> targetsInit = payrollData.GetTargets();
 
-            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit);
+            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
+            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
+
+            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, (UInt16)contractCode, (UInt16)positionCode);
 
             foreach (var calc in targetsCalc)
             {
@@ -178,10 +178,7 @@ namespace PayrollGeekConsoleApp
         }
         public static void LoadConfigModel()
         {
-            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
-            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
-
-            ArticleConfigCollection service = new ArticleConfigCollection((ConfigCode)contractCode, (ConfigCode)positionCode);
+            ArticleConfigCollection service = new ArticleConfigCollection();
 
             ArticleConfigFactory factory = new ArticleConfigFactory();
 
