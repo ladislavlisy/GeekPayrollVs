@@ -9,8 +9,9 @@ namespace ElementsLib.Elements
     using BodySort = UInt16;
 
     using Module.Libs;
+    using Module.Interfaces.Elements;
 
-    public class ArticleTarget : IComparable<ArticleTarget>, IEquatable<ArticleTarget> 
+    public class ArticleTarget : IArticleTarget 
     {
         public const HeadCode HEAD_CODE_NULL = 0;
         public const PartCode PART_CODE_NULL = 0;
@@ -18,21 +19,41 @@ namespace ElementsLib.Elements
         public const BodySeed BODY_SEED_NULL = 0;
         public const BodySeed BODY_SEED_FIRST = 1;
 
-        public HeadCode Head { get; protected set; }
-        public PartCode Part { get; protected set; }
-        public BodyCode Code { get; protected set; }
-        public BodySeed Seed { get; protected set; }
-        public BodySort Sort { get; protected set; }
+        protected HeadCode InternalHead { get; set; }
+        protected PartCode InternalPart { get; set; }
+        protected BodyCode InternalCode { get; set; }
+        protected BodySeed InternalSeed { get; set; }
+        protected BodySort InternalSort { get; set; }
+
+        public HeadCode Head()
+        {
+            return InternalHead;
+        }
+
+        public PartCode Part()
+        {
+            return InternalPart;
+        }
+
+        public BodyCode Code()
+        {
+            return InternalCode;
+        }
+
+        public BodySeed Seed()
+        {
+            return InternalSeed;
+        }
 
         public ArticleTarget(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody)
         {
-            this.Head = codeHead;
-            this.Part = codePart;
-            this.Code = codeBody;
-            this.Seed = seedBody;
+            this.InternalHead = codeHead;
+            this.InternalPart = codePart;
+            this.InternalCode = codeBody;
+            this.InternalSeed = seedBody;
         }
 
-        public int CompareTo(ArticleTarget other)
+        public int CompareTo(IArticleTarget other)
         {
             if (IsEqualToSame(other))
             {
@@ -48,48 +69,48 @@ namespace ElementsLib.Elements
             }
         }
 
-        private bool IsGreaterToSame(ArticleTarget other)
+        private bool IsGreaterToSame(IArticleTarget other)
         {
-            if (this.Head != other.Head)
+            if (this.InternalHead != other.Head())
             {
-                return (this.Head > other.Head);
+                return (this.InternalHead > other.Head());
             }
-            if (this.Part != other.Part)
+            if (this.InternalPart != other.Part())
             {
-                return (this.Part > other.Part);
+                return (this.InternalPart > other.Part());
             }
-            if (this.Code != other.Code)
+            if (this.InternalCode != other.Code())
             {
-                return (this.Code > other.Code);
+                return (this.InternalCode > other.Code());
             }
-            return (this.Seed > other.Seed);
+            return (this.InternalSeed > other.Seed());
         }
 
-        private bool IsSmallerToSame(ArticleTarget other)
+        private bool IsSmallerToSame(IArticleTarget other)
         {
-            if (this.Head != other.Head)
+            if (this.InternalHead != other.Head())
             {
-                return (this.Head < other.Head);
+                return (this.InternalHead < other.Head());
             }
-            if (this.Part != other.Part)
+            if (this.InternalPart != other.Part())
             {
-                return (this.Part < other.Part);
+                return (this.InternalPart < other.Part());
             }
-            if (this.Code != other.Code)
+            if (this.InternalCode != other.Code())
             {
-                return (this.Code < other.Code);
+                return (this.InternalCode < other.Code());
             }
-            return (this.Seed < other.Seed);
+            return (this.InternalSeed < other.Seed());
         }
 
-        private bool IsEqualToSame(ArticleTarget other)
+        private bool IsEqualToSame(IArticleTarget other)
         {
-            return (this.Head == other.Head && this.Part == other.Part && this.Code == other.Code && this.Seed == other.Seed);
+            return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code() && this.InternalSeed == other.Seed());
         }
 
         public bool IsEqualToHeadPartCode(HeadCode otherHead, PartCode otherPart, BodyCode otherCode)
         {
-            return (this.Head == otherHead && this.Part == otherPart && this.Code == otherCode);
+            return (this.InternalHead == otherHead && this.InternalPart == otherPart && this.InternalCode == otherCode);
         }
 
         public static bool operator <(ArticleTarget x, ArticleTarget y)
@@ -121,7 +142,7 @@ namespace ElementsLib.Elements
         }
 
 
-        public bool Equals(ArticleTarget other)
+        public bool Equals(IArticleTarget other)
         {
             return this.IsEqualToSame(other);
         }
@@ -144,10 +165,10 @@ namespace ElementsLib.Elements
             int prime = 31;
             int result = 1;
 
-            result += prime * result + (int)this.Part;
-            result += prime * result + (int)this.Head;
-            result += prime * result + (int)this.Code;
-            result += prime * result + (int)this.Seed;
+            result += prime * result + (int)this.InternalPart;
+            result += prime * result + (int)this.InternalHead;
+            result += prime * result + (int)this.InternalCode;
+            result += prime * result + (int)this.InternalSeed;
 
             return result;
         }
@@ -160,14 +181,15 @@ namespace ElementsLib.Elements
 
         public override string ToString()
         {
-            return string.Format("{0}-{1}-{2}-{3}", this.Head.ToString(), this.Part.ToString(), this.Code.ToString(), this.Seed.ToString());
+            return string.Format("{0}-{1}-{2}-{3}", this.InternalHead.ToString(), this.InternalPart.ToString(), this.InternalCode.ToString(), this.InternalSeed.ToString());
         }
 
         public string ToSymbolString<TENUM>() where TENUM : struct, IComparable
         {
-            TENUM codeEnum = this.Code.ToEnum<TENUM>();
+            TENUM codeEnum = this.InternalCode.ToEnum<TENUM>();
 
-            return string.Format("{0}-{1}-{2}-{3}", this.Head.ToString(), this.Part.ToString(), codeEnum.ToString(), this.Seed.ToString());
+            return string.Format("{0}-{1}-{2}-{3}", this.InternalHead.ToString(), this.InternalPart.ToString(), codeEnum.ToString(), this.InternalSeed.ToString());
         }
+
     }
 }

@@ -21,13 +21,14 @@ using ElementsLib.Module.Codes;
 namespace PayrollGeekConsoleApp
 {
     using MarkCode = ArticleCzCode;
+    using MarkUtil = ArticleCzCodeUtil;
     using HeadCode = UInt16;
     using PartCode = UInt16;
     using ConfigCode = UInt16;
 
-    using TargetItem = ArticleTarget;
+    using TargetItem = IArticleTarget;
     using TargezVals = IArticleSource;
-    using TargetPair = KeyValuePair<ArticleTarget, IArticleSource>;
+    using TargetPair = KeyValuePair<IArticleTarget, IArticleSource>;
     static class ProgramModule
     {
         public static void CreatePayrollData(string configFolder)
@@ -92,18 +93,18 @@ namespace PayrollGeekConsoleApp
                 payrollData.StoreGeneralItem(data.Head, data.Part, data.Code, data.Seed, data.Tags);
             }
 
-            IEnumerable<ArticleTarget> targetsInit = payrollData.GetTargets();
+            IEnumerable<IArticleTarget> targetsInit = payrollData.GetTargets();
 
-            MarkCode contractCode = ArticleCodeAdapter.CreateContractCode();
-            MarkCode positionCode = ArticleCodeAdapter.CreatePositionCode();
+            ConfigCode contractCode = MarkUtil.GetContractCode();
+            ConfigCode positionCode = MarkUtil.GetPositionCode();
 
-            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, (UInt16)contractCode, (UInt16)positionCode);
+            IEnumerable<IArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, contractCode, positionCode);
 
             foreach (var calc in targetsCalc)
             {
-                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head, calc.Part, calc.Code)))==null)
+                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head(), calc.Part(), calc.Code())))==null)
                 {
-                    payrollData.AddGeneralItem(calc.Head, calc.Part, calc.Code, calc.Seed, null);
+                    payrollData.AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
                 }
             }
 

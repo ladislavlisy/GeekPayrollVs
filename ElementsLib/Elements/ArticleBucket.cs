@@ -10,9 +10,9 @@ namespace ElementsLib.Elements
 
     using TempDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
 
-    using TargetItem = ArticleTarget;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargezVals = Module.Interfaces.Elements.IArticleSource;
-    using TargetPair = KeyValuePair<ArticleTarget, Module.Interfaces.Elements.IArticleSource>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
 
     using SortedPair = KeyValuePair<UInt16, Int32>;
 
@@ -39,13 +39,13 @@ namespace ElementsLib.Elements
 
         public IList<TargetPair> PrepareEvaluationPath(IList<SortedPair> modelPath)
         {
-            IList<ArticleTarget> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
+            IList<IArticleTarget> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
 
             return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
         }
     }
 
-    internal class CompareEvaluationTargets : IComparer<ArticleTarget>
+    internal class CompareEvaluationTargets : IComparer<TargetItem>
     {
         private IList<SortedPair> ModelOrderList;
 
@@ -54,25 +54,25 @@ namespace ElementsLib.Elements
             this.ModelOrderList = modelOrderList;
         }
 
-        public int Compare(ArticleTarget x, ArticleTarget y)
+        public int Compare(TargetItem x, TargetItem y)
         {
             if (x == y)
             {
                 return 0;
             }
 
-            SortedPair xResolve = ModelOrderList.SingleOrDefault((xk) => (xk.Key == x.Code));
+            SortedPair xResolve = ModelOrderList.SingleOrDefault((xk) => (xk.Key == x.Code()));
 
             Int32 xResolverOrder = 0;
-            if (xResolve.Key == x.Code)
+            if (xResolve.Key == x.Code())
             {
                 xResolverOrder = xResolve.Value;
             }
 
-            SortedPair yResolve = ModelOrderList.SingleOrDefault((yk) => (yk.Key == y.Code));
+            SortedPair yResolve = ModelOrderList.SingleOrDefault((yk) => (yk.Key == y.Code()));
 
             Int32 yResolverOrder = 0;
-            if (yResolve.Key == y.Code)
+            if (yResolve.Key == y.Code())
             {
                 yResolverOrder = yResolve.Value;
             }
@@ -82,17 +82,17 @@ namespace ElementsLib.Elements
             {
                 return compareCode;
             }
-            compareCode = x.Head.CompareTo(y.Head);
+            compareCode = x.Head().CompareTo(y.Head());
             if (compareCode != 0)
             {
                 return compareCode;
             }
-            compareCode = x.Part.CompareTo(y.Part);
+            compareCode = x.Part().CompareTo(y.Part());
             if (compareCode != 0)
             {
                 return compareCode;
             }
-            compareCode = x.Seed.CompareTo(y.Seed);
+            compareCode = x.Seed().CompareTo(y.Seed());
             return compareCode;
         }
     }

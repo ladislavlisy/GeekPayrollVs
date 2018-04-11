@@ -9,34 +9,36 @@ namespace ElementsLib.Elements.Libs
     using BodyCode = UInt16;
     using BodySeed = UInt16;
 
+    using Module.Interfaces.Elements;
+
     public static class TargetSelector
     {
-        static public BodySeed GetFirstTargetSeed(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
+        static public BodySeed GetFirstTargetSeed(IEnumerable<IArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
+            IEnumerable<IArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
 
             IEnumerable<BodySeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
 
             return FirstSeedFromList(oneCodeSeeds.OrderBy(x => x).ToArray());
         }
 
-        static public BodySeed GetSeedToNewTarget(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
+        static public BodySeed GetSeedToNewTarget(IEnumerable<IArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            IEnumerable<ArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
+            IEnumerable<IArticleTarget> selectedTargets = SelectEquals(targetList, codeHead, codePart, codeBody);
 
             IEnumerable<BodySeed> oneCodeSeeds = ExtractCodeSeed(selectedTargets);
 
             return NewSeqSeedFromList(oneCodeSeeds.OrderBy(x => x).ToArray());
         }
 
-        static private IEnumerable<ArticleTarget> SelectEquals(IEnumerable<ArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
+        static private IEnumerable<IArticleTarget> SelectEquals(IEnumerable<IArticleTarget> targetList, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
             return targetList.Where(x => (EqualitySelector(x, codeHead, codePart, codeBody))).ToList();
         }
 
-        static private IEnumerable<BodySeed> ExtractCodeSeed(IEnumerable<ArticleTarget> selectedTargets)
+        static private IEnumerable<BodySeed> ExtractCodeSeed(IEnumerable<IArticleTarget> selectedTargets)
         {
-            return selectedTargets.Select(x => x.Seed).ToList();
+            return selectedTargets.Select(x => x.Seed()).ToList();
         }
 
         static private BodySeed FirstSeedFromList(IEnumerable<BodySeed> selectedSeeds)
@@ -53,9 +55,9 @@ namespace ElementsLib.Elements.Libs
             return (BodySeed)(lastSeed + 1);
         }
 
-        public static bool EqualitySelector(ArticleTarget target, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
+        public static bool EqualitySelector(IArticleTarget target, HeadCode codeHead, PartCode codePart, BodyCode codeBody)
         {
-            return (target.Head == codeHead && target.Part == codePart && target.Code == codeBody);
+            return (target.Head() == codeHead && target.Part() == codePart && target.Code() == codeBody);
         }
 
     }

@@ -118,28 +118,28 @@ namespace ElementsLib.Matrixus.Config
             return resolveSink;
         }
 
-        public IEnumerable<ArticleTarget> GetTargets(IEnumerable<ArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
+        public IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
-            IEnumerable<ArticleTarget> targetsZero = new List<ArticleTarget>();
+            IEnumerable<IArticleTarget> targetsZero = new List<IArticleTarget>();
 
-            var contractsHead = targetsInit.Where((ch) => (ch.Code == headCode)).Select((cv) => (cv.Seed));
-            var positionsPart = targetsInit.Where((ch) => (ch.Code == partCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head, cv.Seed));
+            var contractsHead = targetsInit.Where((ch) => (ch.Code() == headCode)).Select((cv) => (cv.Seed()));
+            var positionsPart = targetsInit.Where((ch) => (ch.Code() == partCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head(), cv.Seed()));
 
-            IEnumerable<ArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, ModelResolve)));
+            IEnumerable<IArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, ModelResolve)));
 
             return targetsCalc.Distinct();
         }
 
-        private IEnumerable<ArticleTarget> ResolveTargets(ArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ushort, IEnumerable<ushort>> modelResolve)
+        private IEnumerable<IArticleTarget> ResolveTargets(IArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ushort, IEnumerable<ushort>> modelResolve)
         {
-            IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == target.Code)).Value.ToList();
+            IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == target.Code())).Value.ToList();
 
-            IEnumerable<ArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, Models))).ToList();
+            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, Models))).ToList();
 
-            return targetResolve.Where((c) => (c.Code != 0));
+            return targetResolve.Where((c) => (c.Code() != 0));
         }
 
-        private IEnumerable<ArticleTarget> CreateTarget(ConfigCode codeConfig, ArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ConfigCode, ConfigItem> models)
+        private IEnumerable<ArticleTarget> CreateTarget(ConfigCode codeConfig, IArticleTarget target, IEnumerable<HeadCode> contractsHead, IEnumerable<Tuple<HeadCode, PartCode>> positionsPart, IDictionary<ConfigCode, ConfigItem> models)
         {
             IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
 
@@ -156,9 +156,9 @@ namespace ElementsLib.Matrixus.Config
             }
             if (configItem.Type() == HEAD_CODE_ARTICLE)
             {
-                if (target.Head != 0)
+                if (target.Head() != 0)
                 {
-                    codeHead = target.Head;
+                    codeHead = target.Head();
                     targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
                 }
                 else
@@ -168,10 +168,10 @@ namespace ElementsLib.Matrixus.Config
             }
             else if (configItem.Type() == PART_CODE_ARTICLE)
             {
-                if (target.Head != 0 && target.Part != 0)
+                if (target.Head() != 0 && target.Part() != 0)
                 {
-                    codeHead = target.Head;
-                    codePart = target.Part;
+                    codeHead = target.Head();
+                    codePart = target.Part();
                     targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
                 }
                 else

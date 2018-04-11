@@ -18,14 +18,14 @@ namespace ElementsLib.Elements
     using Libs;
     using Exceptions;
 
-    public abstract class AbstractArticleBucket : IEnumerable<KeyValuePair<ArticleTarget, IArticleSource>>
+    public abstract class AbstractArticleBucket : IArticleBucket
     {
         Stencils TemplateCollection { get; set; }
 
         #region TARGET_SOURCE_MODEL
-        protected IDictionary<ArticleTarget, IArticleSource> model;
+        protected IDictionary<IArticleTarget, IArticleSource> model;
 
-        public IEnumerator<KeyValuePair<ArticleTarget, IArticleSource>> GetEnumerator()
+        public IEnumerator<KeyValuePair<IArticleTarget, IArticleSource>> GetEnumerator()
         {
             return model.GetEnumerator();
         }
@@ -34,11 +34,11 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
-        public ICollection<ArticleTarget> Keys
+        public ICollection<IArticleTarget> Keys
         {
             get { return model.Keys; }
         }
-        public IEnumerable<ArticleTarget> GetTargets()
+        public IEnumerable<IArticleTarget> GetTargets()
         {
             return model.Keys.ToList();
         }
@@ -47,7 +47,7 @@ namespace ElementsLib.Elements
 
         public AbstractArticleBucket(Stencils templates)
         {
-            model = new Dictionary<ArticleTarget, IArticleSource>();
+            model = new Dictionary<IArticleTarget, IArticleSource>();
 
             TemplateCollection = templates;
         }

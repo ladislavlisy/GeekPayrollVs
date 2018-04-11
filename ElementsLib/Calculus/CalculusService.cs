@@ -55,5 +55,33 @@ namespace ElementsLib.Calculus
 
             SourceBundler.InitConfigModel(moduleAssembly, SourceFactory);
         }
+
+        public void EvaluateBucket()
+        {
+            /*
+            var payrollData = new ArticleBucket(payrollSource);
+
+            IEnumerable<ArticleTarget> targetsInit = payrollData.GetTargets();
+
+            ConfigCode contractCode = MarkUtil.GetContractCode();
+            ConfigCode positionCode = MarkUtil.GetPositionCode();
+
+            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, contractCode, positionCode);
+
+            foreach (var calc in targetsCalc)
+            {
+                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head, calc.Part, calc.Code)))==null)
+                {
+                    payrollData.AddGeneralItem(calc.Head, calc.Part, calc.Code, calc.Seed, null);
+                }
+            }
+
+            IList<TargetPair> evaluationSteps = payrollData.PrepareEvaluationPath(payrollConfig.ModelPath);
+            // Sort <CODE, SORT> SortedConfig
+            // payrollData.ModelList + ResolvePath - Codes => Sort by SortedConfig
+            // payrollData.ModelList - Evaluate => Results 
+
+             */
+        }
     }
 }

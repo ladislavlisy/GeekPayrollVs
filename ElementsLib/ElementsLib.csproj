@@ -119,6 +119,8 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleBucket.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleTarget.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceValues.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IConfigCollection.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceCollection.cs" />
