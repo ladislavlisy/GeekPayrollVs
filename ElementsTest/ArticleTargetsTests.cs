@@ -151,7 +151,7 @@ namespace ElementsTest
 
         private static ISourceCollection<IArticleSource, BodyCode, ISourceValues> InitConfigModel()
         {
-            Assembly configAssembly = typeof(ElementsModule).Assembly;
+            Assembly configAssembly = typeof(ElementsService).Assembly;
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = new ArticleSourceCollection();
 

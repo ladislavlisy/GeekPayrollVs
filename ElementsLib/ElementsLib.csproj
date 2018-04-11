@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculus\CalculusService.cs" />
     <Compile Include="Elements.Config.Articles\ContractAbsenceArticle.cs" />
     <Compile Include="Elements.Config.Articles\ContractTimesheetArticle.cs" />
     <Compile Include="Elements.Config.Articles\ContractWorkingArticle.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="Module.Interfaces.Legalist\IPenzixProfile.cs" />
     <Compile Include="Module.Interfaces.Legalist\ISocialProfile.cs" />
     <Compile Include="Module.Interfaces.Legalist\ITaxingProfile.cs" />
+    <Compile Include="Module.Interfaces\ICalculusService.cs" />
+    <Compile Include="Module.Interfaces\IElementsService.cs" />
     <Compile Include="Module.Interfaces\ILegalistService.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPenzixGuides.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPeriodProfile.cs" />
@@ -164,7 +167,7 @@
     <Compile Include="Matrixus.Config\GeneralConfigCollection.cs" />
     <Compile Include="Module.Common\GeneralFactory.cs" />
     <Compile Include="Elements.Config\GeneralSourceCollection.cs" />
-    <Compile Include="ElementsModule.cs" />
+    <Compile Include="Elements\ElementsService.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfig.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleCodeCz.cs" />
@@ -189,6 +192,7 @@
   <ItemGroup>
     <Folder Include="Elements.Config.ArticlesGen\" />
     <Folder Include="Elements.Config.SourceGen\" />
+    <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -32,7 +32,7 @@ namespace PayrollGeekConsoleApp
     {
         public static void CreatePayrollData(string configFolder)
         {
-            Assembly configAssembly = typeof(ElementsModule).Assembly;
+            Assembly configAssembly = typeof(ElementsService).Assembly;
 
             ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
@@ -168,7 +168,7 @@ namespace PayrollGeekConsoleApp
         {
             ArticleSourceCollection service = new ArticleSourceCollection();
 
-            Assembly configAssembly = typeof(ElementsModule).Assembly;
+            Assembly configAssembly = typeof(ElementsService).Assembly;
 
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
 

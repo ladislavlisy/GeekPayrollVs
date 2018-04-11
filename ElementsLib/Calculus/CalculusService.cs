@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib
+namespace ElementsLib.Calculus
 {
-    public class ElementsModule
+    using Module.Interfaces;
+    public class CalculusService : ICalculusService
     {
-        public ElementsModule()
+        public CalculusService()
         {
 
         }
+
     }
 }

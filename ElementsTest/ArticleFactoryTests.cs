@@ -5,6 +5,7 @@ using ElementsLib;
 using ElementsLib.Module.Codes;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Elements.Config;
+using ElementsLib.Elements;
 
 namespace ElementsTest
 {
@@ -18,7 +19,7 @@ namespace ElementsTest
         {
             string testTargetLabel = "ARTCODE_CONTRACT_TERM";
 
-            Assembly configAssembly = typeof(ElementsModule).Assembly;
+            Assembly configAssembly = typeof(ElementsService).Assembly;
 
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
 
