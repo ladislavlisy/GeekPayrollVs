@@ -112,19 +112,9 @@ namespace PayrollGeekConsoleApp
             {
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
 
-                foreach (var item in evaluationPath)
-                {
-                    writerFile.Write(item.Key.ToString());
-                    writerFile.Write("   ");
-                    if (item.Value.IsFailure)
-                    {
-                        writerFile.WriteLine(item.Value.Error);
-                    }
-                    else
-                    {
-                        writerFile.WriteLine(item.Value.Value.ToString());
-                    }
-                }
+                List<string> evaluationText = evaluationPath.Select((e) => string.Format("{0}  {1}", e.Key, e.Value.IsFailure ? e.Value.Error : e.Value.Value.ToString())).ToList();
+
+                evaluationText.ForEach((c) => writerFile.WriteLine(c));
 
                 writerFile.Flush();
 

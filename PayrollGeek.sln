@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultMonadLib", "ResultMon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaybeMonadLib", "MaybeMonadLib\MaybeMonadLib.csproj", "{13211D6F-48ED-41D5-A87C-C040BFABDD53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaybeMonadExtensionsLib", "MaybeMonadExtensionsLib\MaybeMonadExtensionsLib.csproj", "{FDBE4CF4-985C-4ED1-A27A-F42A69AC3D8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultMonadExtensionsLib", "ResultMonadExtensionsLib\ResultMonadExtensionsLib.csproj", "{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{13211D6F-48ED-41D5-A87C-C040BFABDD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13211D6F-48ED-41D5-A87C-C040BFABDD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13211D6F-48ED-41D5-A87C-C040BFABDD53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDBE4CF4-985C-4ED1-A27A-F42A69AC3D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBE4CF4-985C-4ED1-A27A-F42A69AC3D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBE4CF4-985C-4ED1-A27A-F42A69AC3D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBE4CF4-985C-4ED1-A27A-F42A69AC3D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

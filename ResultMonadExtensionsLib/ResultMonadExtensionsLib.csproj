@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{13211D6F-48ED-41D5-A87C-C040BFABDD53}</ProjectGuid>
+    <ProjectGuid>{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MaybyMonadLib</RootNamespace>
-    <AssemblyName>MaybyMonadLib</AssemblyName>
+    <RootNamespace>ResultMonadExtensionsLib</RootNamespace>
+    <AssemblyName>ResultMonadExtensionsLib</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,12 +40,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Maybe.cs" />
-    <Compile Include="MaybeMessages.cs" />
-    <Compile Include="MaybeStatus.cs" />
+    <Compile Include="Extensions.ResultWithErrorMonad\EnsureExtensions.cs" />
+    <Compile Include="Extensions.ResultWithErrorMonad\OnSuccessExtensions.cs" />
+    <Compile Include="Extensions.ResultWithValueAndErrorMonad\EnsureExtensions.cs" />
+    <Compile Include="Extensions.ResultWithValueAndErrorMonad\MapExtensions.cs" />
+    <Compile Include="Extensions.ResultWithValueAndErrorMonad\OnErrorExtensions.cs" />
+    <Compile Include="Extensions.ResultWithValueAndErrorMonad\OnSuccessExtensions.cs" />
+    <Compile Include="Extensions.ResultWithValueMonad\OnSuccessExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MaybeMonadLib\MaybeMonadLib.csproj">
+      <Project>{13211d6f-48ed-41d5-a87c-c040bfabdd53}</Project>
+      <Name>MaybeMonadLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMonadLib\ResultMonadLib.csproj">
+      <Project>{cda383ff-7518-4621-9710-d48ebfb901e1}</Project>
+      <Name>ResultMonadLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
