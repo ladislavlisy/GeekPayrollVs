@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces
 {
+    using TargetPair = KeyValuePair<Elements.IArticleTarget, Elements.IArticleSource>;
     public interface ICalculusService
     {
+        void Initialize();
+        void EvaluateBucket(Elements.IArticleBucket source);
+        IList<TargetPair> GetEvaluationPath();
     }
 }

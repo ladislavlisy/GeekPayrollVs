@@ -30,7 +30,7 @@ namespace ElementsTest
         [Test]
         public void Test_CreateArticleTarget()
         {
-            ArticleTarget testArticle = new ArticleTarget(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL);
+            IArticleTarget testArticle = new ArticleTarget(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-0";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -43,7 +43,7 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -58,9 +58,9 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
+            IArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -75,9 +75,9 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
+            IArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -94,11 +94,11 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            ArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            ArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -116,12 +116,12 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            ArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            ArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
-            ArticleTarget backArticle4 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed04, values);
+            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleTarget backArticle4 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed04, values);
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-5";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }
@@ -139,12 +139,12 @@ namespace ElementsTest
 
             ISourceValues values = new ArticleEmptySource();
 
-            ArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            ArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            ArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
-            ArticleTarget backArticle5 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed05, values);
+            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleTarget backArticle5 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed05, values);
 
-            ArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-4";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
         }

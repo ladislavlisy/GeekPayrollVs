@@ -18,6 +18,8 @@ namespace ElementsLib.Module.Interfaces.Elements
         PartCode Part();
         BodyCode Code();
         BodySeed Seed();
+        bool IsEqualToHeadPartCode(IArticleTarget other);
         bool IsEqualToHeadPartCode(HeadCode otherHead, PartCode otherPart, BodyCode otherCode);
+        string ToSymbolString<TENUM>() where TENUM : struct, IComparable;
     }
 }

@@ -5,25 +5,19 @@ using System.Linq;
 
 namespace ElementsLib.Elements.Config
 {
-    using MarkName = String;
-    using MarkCode = Module.Codes.ArticleCzCode;
-
     using BodyCode = UInt16;
     using BodyItem = Module.Interfaces.Elements.IArticleSource;
     using BodyVals = Module.Interfaces.Elements.ISourceValues;
     using BodyPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
-    using Module.Common;
-    using Module.Interfaces;
     using Module.Codes;
-    using Module.Libs;
     using Module.Interfaces.Elements;
 
     public class ArticleSourceCollection : GeneralSourceCollection<BodyItem, BodyCode, BodyVals>
     {
         public ArticleSourceCollection()
         {
-            DefaultCode = (BodyCode)MarkCode.ARTCODE_UNKNOWN;
+            DefaultCode = ArticleCodeAdapter.GetDefaultsCode();
         }
 
         public override void InitConfigModel(Assembly configAssembly, IArticleSourceFactory configFactory)

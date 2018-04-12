@@ -15,13 +15,13 @@ namespace ElementsLib.Calculus
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
 
     using Module.Interfaces;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
     using System.Reflection;
     using Elements;
-    using Module.Codes;
 
     public class CalculusService : ICalculusService
     {
@@ -32,6 +32,16 @@ namespace ElementsLib.Calculus
         IConfigCollection<ConfigItem, ConfigCode> ConfigBundler { get; set; }
 
         ISourceCollection<SourceItem, SourceCode, SourceVals> SourceBundler { get; set; }
+
+        IArticleBucket SourceStreamy { get; set; }
+
+        IList<TargetPair> EvaluationPath { get; set; }
+
+        Assembly ModuleAssembly { get; set; }
+
+        ConfigCode ContractCode { get; set; }
+        ConfigCode PositionCode { get; set; }
+
 
         public CalculusService(IArticleConfigFactory configFactory, 
             IArticleSourceFactory sourceFactory, 
@@ -46,42 +56,33 @@ namespace ElementsLib.Calculus
 
         public void Initialize()
         {
-            Assembly moduleAssembly = typeof(ElementsService).Assembly;
+            ModuleAssembly = typeof(ElementsService).Assembly;
 
-            ConfigCode contractCode = SymbolUtil.GetContractCode();
-            ConfigCode positionCode = SymbolUtil.GetPositionCode();
+            ContractCode = SymbolUtil.GetContractCode();
+            PositionCode = SymbolUtil.GetPositionCode();
 
             ConfigBundler.InitConfigModel(ConfigFactory);
 
-            SourceBundler.InitConfigModel(moduleAssembly, SourceFactory);
+            SourceBundler.InitConfigModel(ModuleAssembly, SourceFactory);
+
+            SourceStreamy = new ArticleBucket(SourceBundler);
+
+            EvaluationPath = new List<TargetPair>();
         }
 
-        public void EvaluateBucket()
+        public void EvaluateBucket(IArticleBucket source)
         {
+            SourceStreamy.CopyTargets(source);
+
+            EvaluationPath = SourceStreamy.PrepareEvaluationPath(ConfigBundler, ContractCode, PositionCode);
             /*
-            var payrollData = new ArticleBucket(payrollSource);
-
-            IEnumerable<ArticleTarget> targetsInit = payrollData.GetTargets();
-
-            ConfigCode contractCode = MarkUtil.GetContractCode();
-            ConfigCode positionCode = MarkUtil.GetPositionCode();
-
-            IEnumerable<ArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, contractCode, positionCode);
-
-            foreach (var calc in targetsCalc)
-            {
-                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head, calc.Part, calc.Code)))==null)
-                {
-                    payrollData.AddGeneralItem(calc.Head, calc.Part, calc.Code, calc.Seed, null);
-                }
-            }
-
-            IList<TargetPair> evaluationSteps = payrollData.PrepareEvaluationPath(payrollConfig.ModelPath);
-            // Sort <CODE, SORT> SortedConfig
-            // payrollData.ModelList + ResolvePath - Codes => Sort by SortedConfig
             // payrollData.ModelList - Evaluate => Results 
+            */
+        }
 
-             */
+        public IList<TargetPair> GetEvaluationPath()
+        {
+            return EvaluationPath.ToList();
         }
     }
 }

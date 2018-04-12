@@ -7,7 +7,6 @@ namespace ElementsLib.Matrixus.Config
     using BodyCode = UInt16;
     using BodyRole = UInt16;
     using BodyType = UInt16;
-    using MarkCode = Module.Codes.ArticleCzCode;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
@@ -55,9 +54,7 @@ namespace ElementsLib.Matrixus.Config
 
         public override string ToString()
         {
-            MarkCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
-
-            return symbol.GetSymbol();
+            return ArticleCodeAdapter.GetSymbol(InternalCode);
         }
     }
 }

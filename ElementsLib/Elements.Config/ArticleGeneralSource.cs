@@ -3,7 +3,6 @@
 namespace ElementsLib.Elements.Config
 {
     using BodyCode = UInt16;
-    using MarkCode = Module.Codes.ArticleCzCode;
 
     using Module.Codes;
     using Module.Interfaces.Elements;
@@ -51,9 +50,7 @@ namespace ElementsLib.Elements.Config
         }
         public override string ToString()
         {
-            MarkCode symbol = ArticleCodeAdapter.CreateEnum(InternalCode);
-
-            return symbol.GetSymbol();
+            return ArticleCodeAdapter.GetSymbol(InternalCode);
         }
     }
 }

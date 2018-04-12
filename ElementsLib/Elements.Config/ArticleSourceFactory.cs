@@ -7,7 +7,6 @@ using System.Linq;
 namespace ElementsLib.Elements.Config
 {
     using MarkName = String;
-    using MarkCode = Module.Codes.ArticleCzCode;
 
     using BodyCode = UInt16;
     using BodyItem = Module.Interfaces.Elements.IArticleSource;
@@ -26,11 +25,9 @@ namespace ElementsLib.Elements.Config
 
         public IEnumerable<BodyPair> CreateSourceList(Assembly configAssembly)
         {
-            IList<MarkCode> symbolList = EnumUtilsExtensions.GetSelectedItems<MarkCode>().ToList();
+            IEnumerable<BodyCode> configList = ArticleCodeAdapter.GetSelectedCodes();
 
-            IEnumerable<BodyCode> configList = symbolList.Select((c) => ((BodyCode)c)).ToList();
-
-            BodyCode backupCode = (BodyCode)MarkCode.ARTCODE_UNKNOWN;
+            BodyCode backupCode = ArticleCodeAdapter.GetDefaultsCode();
 
             IList<BodyPair> sourceList = configList.Select((c) => (new BodyPair(
                 c, CreateSourceItem(configAssembly, c, backupCode)))).ToList();

@@ -29,6 +29,9 @@ namespace PayrollGeekConsoleApp
     using TargetItem = IArticleTarget;
     using TargezVals = IArticleSource;
     using TargetPair = KeyValuePair<IArticleTarget, IArticleSource>;
+    using ElementsLib.Module.Interfaces;
+    using ElementsLib.Calculus;
+
     static class ProgramModule
     {
         public static void CreatePayrollData(string configFolder)
@@ -93,25 +96,14 @@ namespace PayrollGeekConsoleApp
                 payrollData.StoreGeneralItem(data.Head, data.Part, data.Code, data.Seed, data.Tags);
             }
 
-            IEnumerable<IArticleTarget> targetsInit = payrollData.GetTargets();
+            ICalculusService payrollService = new CalculusService(
+                articleConfigFactory, articleSourceFactory, payrollConfig, payrollSource);
 
-            ConfigCode contractCode = MarkUtil.GetContractCode();
-            ConfigCode positionCode = MarkUtil.GetPositionCode();
+            payrollService.Initialize();
 
-            IEnumerable<IArticleTarget> targetsCalc = payrollConfig.GetTargets(targetsInit, contractCode, positionCode);
+            payrollService.EvaluateBucket(payrollData);
 
-            foreach (var calc in targetsCalc)
-            {
-                if (payrollData.Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc.Head(), calc.Part(), calc.Code())))==null)
-                {
-                    payrollData.AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
-                }
-            }
-
-            IList<TargetPair> evaluationSteps = payrollData.PrepareEvaluationPath(payrollConfig.ModelPath);
-            // Sort <CODE, SORT> SortedConfig
-            // payrollData.ModelList + ResolvePath - Codes => Sort by SortedConfig
-            // payrollData.ModelList - Evaluate => Results 
+            IList<TargetPair> evaluationPath = payrollService.GetEvaluationPath();
 
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_PAYROLL.TXT");
 
@@ -119,7 +111,7 @@ namespace PayrollGeekConsoleApp
             {
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
 
-                foreach (var item in evaluationSteps)
+                foreach (var item in evaluationPath)
                 {
                     writerFile.Write(item.Key.ToString());
                     writerFile.Write("   ");

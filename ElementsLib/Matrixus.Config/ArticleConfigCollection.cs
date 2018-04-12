@@ -63,11 +63,11 @@ namespace ElementsLib.Matrixus.Config
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsZero = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
-            ModelResolve = Models.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveModelPath(agr, c.Value.Code(), c.Value.Path(), Models)));
+            InternalModelResolve = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveModelPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
 
-            IList<ConfigCode> TempModelPath = Models.Keys.ToList();
+            IList<ConfigCode> TempModelPath = InternalModels.Keys.ToList();
 
-            ModelPath = TempModelPath.OrderBy((x) => (x), new CompareConfigCode(ModelResolve)).Select((k, i) => (new KeyValuePair<ConfigCode, Int32>(k, i))).ToList();
+            InternalModelPath = TempModelPath.OrderBy((x) => (x), new CompareConfigCode(InternalModelResolve)).Select((k, i) => (new KeyValuePair<ConfigCode, Int32>(k, i))).ToList();
         }
 
         protected ConfigCode[] ResolveModelPath(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
@@ -118,14 +118,14 @@ namespace ElementsLib.Matrixus.Config
             return resolveSink;
         }
 
-        public IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
+        public override IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
             IEnumerable<IArticleTarget> targetsZero = new List<IArticleTarget>();
 
             var contractsHead = targetsInit.Where((ch) => (ch.Code() == headCode)).Select((cv) => (cv.Seed()));
             var positionsPart = targetsInit.Where((ch) => (ch.Code() == partCode)).Select((cv) => new Tuple<HeadCode, PartCode>(cv.Head(), cv.Seed()));
 
-            IEnumerable<IArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, ModelResolve)));
+            IEnumerable<IArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, InternalModelResolve)));
 
             return targetsCalc.Distinct();
         }
@@ -134,7 +134,7 @@ namespace ElementsLib.Matrixus.Config
         {
             IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == target.Code())).Value.ToList();
 
-            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, Models))).ToList();
+            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, InternalModels))).ToList();
 
             return targetResolve.Where((c) => (c.Code() != 0));
         }

@@ -14,12 +14,16 @@ namespace ElementsLib.Elements
     using TargezVals = Module.Interfaces.Elements.IArticleSource;
     using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
 
+    using ConfigCode = UInt16;
+    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
+
     using SortedPair = KeyValuePair<UInt16, Int32>;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
     using Config;
     using Exceptions;
+    using Module.Interfaces.Matrixus;
 
     public class ArticleBucket : AbstractArticleBucket
     {
@@ -29,16 +33,22 @@ namespace ElementsLib.Elements
 
         public override BodyCode GetHeadBodyCode()
         {
-            return (BodyCode)ArticleCodeAdapter.CreateContractCode();
+            return ArticleCodeAdapter.GetContractCode();
         }
 
         public override BodyCode GetPartBodyCode()
         {
-            return (BodyCode)ArticleCodeAdapter.CreatePositionCode();
+            return ArticleCodeAdapter.GetPositionCode();
         }
 
-        public IList<TargetPair> PrepareEvaluationPath(IList<SortedPair> modelPath)
+        public override IList<TargetPair> PrepareEvaluationPath(IConfigCollection<ConfigItem, ConfigCode> configBundler, BodyCode contractCode, BodyCode positionCode)
         {
+            IEnumerable<IArticleTarget> targetsInit = GetTargets();
+            IEnumerable<IArticleTarget> targetsCalc = configBundler.GetTargets(targetsInit, contractCode, positionCode);
+            IList<SortedPair> modelPath = configBundler.ModelPath();
+
+            ComplementTrace(targetsCalc);
+
             IList<IArticleTarget> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
 
             return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();

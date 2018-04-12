@@ -13,10 +13,16 @@ namespace ElementsLib.Elements
     using BodySort = UInt16;
 
     using Stencils = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
+    using SortedPair = KeyValuePair<UInt16, Int32>;
+
+    using ConfigCode = UInt16;
+    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
 
     using Module.Interfaces.Elements;
     using Libs;
     using Exceptions;
+    using Module.Interfaces.Matrixus;
 
     public abstract class AbstractArticleBucket : IArticleBucket
     {
@@ -43,6 +49,11 @@ namespace ElementsLib.Elements
             return model.Keys.ToList();
         }
 
+        public IEnumerable<KeyValuePair<IArticleTarget, IArticleSource>> GetModel()
+        {
+            return model.ToList();
+        }
+
         #endregion
 
         public AbstractArticleBucket(Stencils templates)
@@ -52,7 +63,22 @@ namespace ElementsLib.Elements
             TemplateCollection = templates;
         }
 
-        public ArticleTarget AddMainHead(ISourceValues tagsBody)
+        public void CopyTargets(IArticleBucket source)
+        {
+            model = source.GetModel().ToDictionary((kv) => (kv.Key), (kv) => (kv.Value));
+        }
+        public void ComplementTrace(IEnumerable<IArticleTarget> targets)
+        {
+            foreach (var calc in targets)
+            {
+                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc))) == null)
+                {
+                    AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
+                }
+            }
+        }
+
+        public IArticleTarget AddMainHead(ISourceValues tagsBody)
         {
             HeadCode HEAD_CODE = ArticleTarget.HEAD_CODE_NULL;
             PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
@@ -63,7 +89,7 @@ namespace ElementsLib.Elements
 
         public abstract BodyCode GetHeadBodyCode();
 
-        public ArticleTarget AddMainPart(HeadCode codeHead, ISourceValues tagsBody)
+        public IArticleTarget AddMainPart(HeadCode codeHead, ISourceValues tagsBody)
         {
             PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
             BodyCode BODY_CODE = GetPartBodyCode();
@@ -73,23 +99,31 @@ namespace ElementsLib.Elements
 
         public abstract BodyCode GetPartBodyCode();
 
-        public ArticleTarget AddHeadItem(HeadCode codeHead, BodyCode codeBody, ISourceValues tagsBody)
+        public IArticleTarget AddHeadItem(HeadCode codeHead, BodyCode codeBody, ISourceValues tagsBody)
         {
             PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
 
             return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public ArticleTarget AddPartItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, ISourceValues tagsBody)
+        public IArticleTarget AddPartItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, ISourceValues tagsBody)
         {
             return AddGeneralItem(codeHead, codePart, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public ArticleTarget AddGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
+        public IArticleTarget AddGeneralItem(IArticleTarget target, ISourceValues tagsBody)
+        {
+            return AddGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
+        }
+        public IArticleTarget AddGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
         {
             BodySeed newBodySeed = TargetSelector.GetSeedToNewTarget(model.Keys, codeHead, codePart, codeBody);
 
             return StoreGeneralItem(codeHead, codePart, codeBody, newBodySeed, tagsBody);
         }
-        public ArticleTarget StoreGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
+        public IArticleTarget StoreGeneralItem(IArticleTarget target, ISourceValues tagsBody)
+        {
+            return StoreGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
+        }
+        public IArticleTarget StoreGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
         {
             ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
 
@@ -108,5 +142,7 @@ namespace ElementsLib.Elements
             }
             return TemplateCollection.CloneInstanceForCode(codeBody, tagsBody);
         }
+        public abstract IList<TargetPair> PrepareEvaluationPath(IConfigCollection<ConfigItem, ConfigCode> configBundler,
+            ConfigCode contractCode, ConfigCode positionCode);
     }
 }

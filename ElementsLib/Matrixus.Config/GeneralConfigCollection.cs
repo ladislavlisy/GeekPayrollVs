@@ -16,41 +16,47 @@ namespace ElementsLib.Elements.Config
     {
         public GeneralConfigCollection()
         {
-            this.ModelPath = new List<KeyValuePair<TIndex, Int32>>();
+            this.InternalModelPath = new List<KeyValuePair<TIndex, Int32>>();
 
-            this.Models = new Dictionary<TIndex, TConfig>();
+            this.InternalModels = new Dictionary<TIndex, TConfig>();
 
-            this.ModelResolve = new Dictionary<TIndex, IEnumerable<TIndex>>();
+            this.InternalModelResolve = new Dictionary<TIndex, IEnumerable<TIndex>>();
         }
 
-        public IList<KeyValuePair<TIndex, Int32>> ModelPath { get; protected set; }
-        protected IDictionary<TIndex, TConfig> Models { get; set; }
-        protected IDictionary<TIndex, IEnumerable<TIndex>> ModelResolve { get; set; }
+        protected IList<KeyValuePair<TIndex, Int32>> InternalModelPath { get; set; }
+        protected IDictionary<TIndex, TConfig> InternalModels { get; set; }
+        protected IDictionary<TIndex, IEnumerable<TIndex>> InternalModelResolve { get; set; }
 
         protected TIndex DefaultCode { get; set; }
 
         protected void ConfigureModel(IEnumerable<KeyValuePair<TIndex, TConfig>> configList)
         {
-            Models = configList.ToDictionary(kv => kv.Key, kv => kv.Value);
+            InternalModels = configList.ToDictionary(kv => kv.Key, kv => kv.Value);
 
-            ModelPath = Models.Keys.Select((k, i) => (new KeyValuePair<TIndex, Int32>(k, i))).ToList();
+            InternalModelPath = InternalModels.Keys.Select((k, i) => (new KeyValuePair<TIndex, Int32>(k, i))).ToList();
         }
         protected TConfig FindConfigByCode(TIndex configCode)
         {
             TConfig modelInstance = default(TConfig);
 
-            if (Models.ContainsKey(configCode))
+            if (InternalModels.ContainsKey(configCode))
             {
-                modelInstance = Models[configCode];
+                modelInstance = InternalModels[configCode];
             }
             else
             {
-                modelInstance = Models[DefaultCode];
+                modelInstance = InternalModels[DefaultCode];
             }
             return modelInstance;
         }
 
         public abstract void InitConfigModel(IArticleConfigFactory configFactory);
         public abstract TConfig FindArticleConfig(TIndex modelCode);
+        public abstract IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, TIndex headCode, TIndex partCode);
+
+        public IList<KeyValuePair<TIndex, Int32>> ModelPath()
+        {
+            return InternalModelPath.ToList();
+        }
     }
 }
