@@ -66,6 +66,10 @@
       <Project>{13211d6f-48ed-41d5-a87c-c040bfabdd53}</Project>
       <Name>MaybeMonadLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResultMonadExtensionsLib\ResultMonadExtensionsLib.csproj">
+      <Project>{5675BF8A-CCEB-44BD-97B0-A15C05CE3E1A}</Project>
+      <Name>ResultMonadExtensionsLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResultMonadLib\ResultMonadLib.csproj">
       <Project>{cda383ff-7518-4621-9710-d48ebfb901e1}</Project>
       <Name>ResultMonadLib</Name>
