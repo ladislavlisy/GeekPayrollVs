@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MaybeMonad;
+using System;
 using System.Diagnostics;
-using MaybeMonad;
 
 namespace ResultMonad
 {

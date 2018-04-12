@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Module.Interfaces
 {
-    using TargetPair = KeyValuePair<Elements.IArticleTarget, Elements.IArticleSource>;
+    using TargetPair = KeyValuePair<Elements.IArticleTarget, ResultMonad.Result<Elements.IArticleSource, string>>;
     public interface ICalculusService
     {
         void Initialize();

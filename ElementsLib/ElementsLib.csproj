@@ -197,10 +197,6 @@
     <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaybyMonadLib\MaybeMonadLib.csproj">
-      <Project>{13211d6f-48ed-41d5-a87c-c040bfabdd53}</Project>
-      <Name>MaybeMonadLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ResultMonadLib\ResultMonadLib.csproj">
       <Project>{cda383ff-7518-4621-9710-d48ebfb901e1}</Project>
       <Name>ResultMonadLib</Name>

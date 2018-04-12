@@ -27,7 +27,7 @@ namespace ElementsLib.Elements.Config
             Models = configList.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        public TConfig FindInstanceForCode(TIndex configCode)
+        public ResultMonad.Result<TConfig, string> FindInstanceForCode(TIndex configCode)
         {
             TConfig baseInstance = default(TConfig);
 
@@ -39,10 +39,10 @@ namespace ElementsLib.Elements.Config
             {
                 baseInstance = Models[DefaultCode];
             }
-            return baseInstance;
+            return ResultMonad.Result.Ok<TConfig, string>(baseInstance);
         }
 
-        public abstract TConfig CloneInstanceForCode(TIndex configCode, TValues sourceVals);
+        public abstract ResultMonad.Result<TConfig, string> CloneInstanceForCode(TIndex configCode, TValues sourceVals);
 
         public abstract void InitConfigModel(Assembly configAssembly, IArticleSourceFactory configFactory);
     }

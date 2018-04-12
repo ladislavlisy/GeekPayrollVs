@@ -15,7 +15,7 @@ namespace ElementsLib.Calculus
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
-    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
 
     using Module.Interfaces;
     using Module.Interfaces.Elements;

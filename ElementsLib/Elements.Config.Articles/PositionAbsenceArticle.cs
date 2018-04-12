@@ -29,15 +29,6 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionAbsenceSource>(values);
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
-        {
-            PositionAbsenceArticle cloneArticle = (PositionAbsenceArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
-        }
-
         public override object Clone()
         {
             PositionAbsenceArticle cloneArticle = (PositionAbsenceArticle)this.MemberwiseClone();

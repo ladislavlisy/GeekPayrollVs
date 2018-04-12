@@ -29,15 +29,6 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionWorkingSource>(values);
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
-        {
-            PositionWorkingArticle cloneArticle = (PositionWorkingArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
-        }
-
         public override object Clone()
         {
             PositionWorkingArticle cloneArticle = (PositionWorkingArticle)this.MemberwiseClone();

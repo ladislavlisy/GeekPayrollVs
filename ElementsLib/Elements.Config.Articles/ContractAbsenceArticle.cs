@@ -29,15 +29,6 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractAbsenceSource>(values);
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
-        {
-            ContractAbsenceArticle cloneArticle = (ContractAbsenceArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
-        }
-
         public override object Clone()
         {
             ContractAbsenceArticle cloneArticle = (ContractAbsenceArticle)this.MemberwiseClone();

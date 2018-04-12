@@ -11,8 +11,8 @@ namespace ElementsLib.Elements
     using TempDict = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-    using TargezVals = Module.Interfaces.Elements.IArticleSource;
-    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
+    using TargetVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
 
     using ConfigCode = UInt16;
     using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
@@ -44,7 +44,6 @@ namespace ElementsLib.Elements
 
         public override IList<TargetPair> PrepareEvaluationPath(IConfigCollection<ConfigItem, ConfigCode> configBundler, BodyCode contractCode, BodyCode positionCode)
         {
-            IEnumerable<Result<IArticleTarget>> targetInitM = GetTargetsM();
             IEnumerable<IArticleTarget> targetsInit = GetTargets();
             IEnumerable<IArticleTarget> targetsCalc = configBundler.GetTargets(targetsInit, contractCode, positionCode);
             IList<SortedPair> modelPath = configBundler.ModelPath();

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using MaybeMonad;
 using ResultMonad.Extensions.ResultWithValueAndErrorMonad.Map;
+using MaybeMonad;
 
 namespace ResultMonad
 {

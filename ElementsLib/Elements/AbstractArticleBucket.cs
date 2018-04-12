@@ -13,27 +13,31 @@ namespace ElementsLib.Elements
     using BodySort = UInt16;
 
     using Stencils = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
-    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, Module.Interfaces.Elements.IArticleSource>;
+    using TargetVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SortedPair = KeyValuePair<UInt16, Int32>;
 
     using ConfigCode = UInt16;
     using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
+
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
     using Module.Interfaces.Elements;
     using Libs;
     using Exceptions;
     using Module.Interfaces.Matrixus;
     using ResultMonad;
-    using MaybeMonad;
 
     public abstract class AbstractArticleBucket : IArticleBucket
     {
+        public static string EXCEPTION_CONFIG_NULL_TEXT = "Config Collection doesn't exist!";
+
         Stencils TemplateCollection { get; set; }
 
         #region TARGET_SOURCE_MODEL
-        protected IDictionary<IArticleTarget, IArticleSource> model;
+        protected IDictionary<IArticleTarget, SourcePack> model;
 
-        public IEnumerator<KeyValuePair<IArticleTarget, IArticleSource>> GetEnumerator()
+        public IEnumerator<KeyValuePair<IArticleTarget, SourcePack>> GetEnumerator()
         {
             return model.GetEnumerator();
         }
@@ -50,12 +54,8 @@ namespace ElementsLib.Elements
         {
             return model.Keys.ToList();
         }
-        public IEnumerable<Result<IArticleTarget>> GetTargetsM()
-        {
-            return model.Keys.Select((a) => (Result.Ok<IArticleTarget>(a))).ToList();
-        }
 
-        public IEnumerable<KeyValuePair<IArticleTarget, IArticleSource>> GetModel()
+        public IEnumerable<KeyValuePair<IArticleTarget, SourcePack>> GetModel()
         {
             return model.ToList();
         }
@@ -64,7 +64,7 @@ namespace ElementsLib.Elements
 
         public AbstractArticleBucket(Stencils templates)
         {
-            model = new Dictionary<IArticleTarget, IArticleSource>();
+            model = new Dictionary<IArticleTarget, SourcePack>();
 
             TemplateCollection = templates;
         }
@@ -133,18 +133,18 @@ namespace ElementsLib.Elements
         {
             ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
 
-            IArticleSource newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
+            SourcePack newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
 
             model.Add(newTarget, newSource);
 
             return newTarget;
         }
 
-        protected IArticleSource GetTemplateSourceForArticle(BodyCode codeBody, ISourceValues tagsBody)
+        protected SourcePack GetTemplateSourceForArticle(BodyCode codeBody, ISourceValues tagsBody)
         {
             if (TemplateCollection == null)
             {
-                throw new NoneExistingConfig();
+                return Result.Fail<IArticleSource, string>(EXCEPTION_CONFIG_NULL_TEXT);
             }
             return TemplateCollection.CloneInstanceForCode(codeBody, tagsBody);
         }

@@ -39,7 +39,21 @@ namespace ElementsLib.Elements.Config
             return (T)sourceValues.Clone();
         }
 
-        public abstract IArticleSource CloneSourceAndSetValues(ISourceValues values);
+        public ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ISourceValues values) where T : class, IArticleSource
+        {
+            T cloneArticle = (T)Clone();
+
+            try
+            {
+                cloneArticle.ImportSourceValues(values);
+            }
+            catch (Exception e)
+            {
+                return ResultMonad.Result.Fail<IArticleSource, string>(e.ToString());
+            }
+
+            return ResultMonad.Result.Ok<IArticleSource, string>(cloneArticle);
+        }
 
         public virtual object Clone()
         {

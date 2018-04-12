@@ -9,15 +9,15 @@ namespace ElementsLib.Module.Interfaces.Elements
     using ConfigCode = UInt16;
     using ConfigItem = IArticleConfig;
 
-    using TargetPair = KeyValuePair<IArticleTarget, IArticleSource>;
-    using SortedPair = KeyValuePair<UInt16, Int32>;
+    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
     using Matrixus;
 
-    public interface IArticleBucket : IEnumerable<KeyValuePair<IArticleTarget, IArticleSource>>
+    public interface IArticleBucket : IEnumerable<KeyValuePair<IArticleTarget, SourcePack>>
     {
         IEnumerable<IArticleTarget> GetTargets();
-        IEnumerable<KeyValuePair<IArticleTarget, IArticleSource>> GetModel();
+        IEnumerable<KeyValuePair<IArticleTarget, SourcePack>> GetModel();
         void CopyTargets(IArticleBucket source);
         void ComplementTrace(IEnumerable<IArticleTarget> targets);
 

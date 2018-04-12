@@ -27,8 +27,9 @@ namespace PayrollGeekConsoleApp
     using ConfigCode = UInt16;
 
     using TargetItem = IArticleTarget;
-    using TargezVals = IArticleSource;
-    using TargetPair = KeyValuePair<IArticleTarget, IArticleSource>;
+    using TargetVals = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>;
+    using TargetPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
+
     using ElementsLib.Module.Interfaces;
     using ElementsLib.Calculus;
 
@@ -115,7 +116,14 @@ namespace PayrollGeekConsoleApp
                 {
                     writerFile.Write(item.Key.ToString());
                     writerFile.Write("   ");
-                    writerFile.WriteLine(item.Value.ToString());
+                    if (item.Value.IsFailure)
+                    {
+                        writerFile.WriteLine(item.Value.Error);
+                    }
+                    else
+                    {
+                        writerFile.WriteLine(item.Value.Value.ToString());
+                    }
                 }
 
                 writerFile.Flush();

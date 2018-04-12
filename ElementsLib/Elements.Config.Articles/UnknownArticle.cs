@@ -22,15 +22,6 @@ namespace ElementsLib.Elements.Config.Articles
         {
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
-        {
-            UnknownArticle cloneArticle = (UnknownArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
-        }
-
         public override object Clone()
         {
             UnknownArticle cloneArticle = (UnknownArticle)this.MemberwiseClone();

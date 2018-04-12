@@ -50,8 +50,8 @@
     <Compile Include="Result_With_Value_And_Error.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaybyMonadLib\MaybeMonadLib.csproj">
-      <Project>{13211d6f-48ed-41d5-a87c-c040bfabdd53}</Project>
+    <ProjectReference Include="..\MaybeMonadLib\MaybeMonadLib.csproj">
+      <Project>{13211D6F-48ED-41D5-A87C-C040BFABDD53}</Project>
       <Name>MaybeMonadLib</Name>
     </ProjectReference>
   </ItemGroup>

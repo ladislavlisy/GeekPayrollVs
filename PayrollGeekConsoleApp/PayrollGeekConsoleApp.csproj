@@ -62,6 +62,14 @@
       <Project>{225677a7-3074-408c-9015-f0461fe79e48}</Project>
       <Name>ElementsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MaybeMonadLib\MaybeMonadLib.csproj">
+      <Project>{13211d6f-48ed-41d5-a87c-c040bfabdd53}</Project>
+      <Name>MaybeMonadLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMonadLib\ResultMonadLib.csproj">
+      <Project>{cda383ff-7518-4621-9710-d48ebfb901e1}</Project>
+      <Name>ResultMonadLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

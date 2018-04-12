@@ -27,11 +27,15 @@ namespace ElementsLib.Elements.Config
             ConfigureModel(configTypeList);
         }
 
-        public override BodyItem CloneInstanceForCode(BodyCode configCode, BodyVals sourceVals)
+        public override ResultMonad.Result<BodyItem, string> CloneInstanceForCode(BodyCode configCode, BodyVals sourceVals)
         {
-            BodyItem emptyInstance = FindInstanceForCode(configCode);
+            ResultMonad.Result<BodyItem, string> emptyInstance = FindInstanceForCode(configCode);
 
-            return emptyInstance.CloneSourceAndSetValues(sourceVals);
+            if (emptyInstance.IsFailure)
+            {
+                return emptyInstance;
+            }
+            return emptyInstance.Value.CloneSourceAndSetValues<BodyItem>(sourceVals);
         }
 
     }

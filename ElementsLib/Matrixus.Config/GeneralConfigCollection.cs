@@ -11,6 +11,7 @@ namespace ElementsLib.Elements.Config
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
+    using ResultMonad;
 
     public abstract class GeneralConfigCollection<TConfig, TIndex> : IConfigCollection<TConfig, TIndex>
     {

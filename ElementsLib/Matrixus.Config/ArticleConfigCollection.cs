@@ -21,6 +21,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Json;
     using Elements.Config;
     using Elements;
+    using ResultMonad;
 
     public class ArticleConfigCollection : GeneralConfigCollection<ConfigItem, ConfigCode>
     {
