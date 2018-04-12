@@ -182,6 +182,7 @@
     <Compile Include="Elements.Config.Articles\ContractTermArticle.cs" />
     <Compile Include="Elements.Config.Articles\UnknownArticle.cs" />
     <Compile Include="Module.Libs\EnumUtilsExtensions.cs" />
+    <Compile Include="Module.Libs\ResultMonadExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Module.Libs\StringUtilsExtensions.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigCollection.cs" />

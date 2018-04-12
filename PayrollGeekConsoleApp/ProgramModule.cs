@@ -32,6 +32,7 @@ namespace PayrollGeekConsoleApp
 
     using ElementsLib.Module.Interfaces;
     using ElementsLib.Calculus;
+    using ElementsLib.Module.Libs;
 
     static class ProgramModule
     {
@@ -104,7 +105,7 @@ namespace PayrollGeekConsoleApp
 
             payrollService.EvaluateBucket(payrollData);
 
-            IList<TargetPair> evaluationPath = payrollService.GetEvaluationPath();
+            List<TargetPair> evaluationPath = payrollService.GetEvaluationPath();
 
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_PAYROLL.TXT");
 
@@ -112,9 +113,7 @@ namespace PayrollGeekConsoleApp
             {
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
 
-                List<string> evaluationText = evaluationPath.Select((e) => string.Format("{0}  {1}", e.Key, e.Value.IsFailure ? e.Value.Error : e.Value.Value.ToString())).ToList();
-
-                evaluationText.ForEach((c) => writerFile.WriteLine(c));
+                evaluationPath.ForEach((c) => writerFile.WriteLine(c.Description()));
 
                 writerFile.Flush();
 

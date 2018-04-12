@@ -8,6 +8,6 @@ namespace ElementsLib.Module.Interfaces
     {
         void Initialize();
         void EvaluateBucket(Elements.IArticleBucket source);
-        IList<TargetPair> GetEvaluationPath();
+        List<TargetPair> GetEvaluationPath();
     }
 }

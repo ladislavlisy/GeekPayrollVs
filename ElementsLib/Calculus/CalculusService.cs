@@ -80,7 +80,7 @@ namespace ElementsLib.Calculus
             */
         }
 
-        public IList<TargetPair> GetEvaluationPath()
+        public List<TargetPair> GetEvaluationPath()
         {
             return EvaluationPath.ToList();
         }

@@ -41,7 +41,6 @@ namespace ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess
             {
                 onSuccessAction(result.Value);
             }
-;
             return result;
         }
     }
