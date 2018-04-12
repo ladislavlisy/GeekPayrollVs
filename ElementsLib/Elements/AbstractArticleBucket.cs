@@ -23,6 +23,8 @@ namespace ElementsLib.Elements
     using Libs;
     using Exceptions;
     using Module.Interfaces.Matrixus;
+    using ResultMonad;
+    using MaybeMonad;
 
     public abstract class AbstractArticleBucket : IArticleBucket
     {
@@ -47,6 +49,10 @@ namespace ElementsLib.Elements
         public IEnumerable<IArticleTarget> GetTargets()
         {
             return model.Keys.ToList();
+        }
+        public IEnumerable<Result<IArticleTarget>> GetTargetsM()
+        {
+            return model.Keys.Select((a) => (Result.Ok<IArticleTarget>(a))).ToList();
         }
 
         public IEnumerable<KeyValuePair<IArticleTarget, IArticleSource>> GetModel()

@@ -24,6 +24,7 @@ namespace ElementsLib.Elements
     using Config;
     using Exceptions;
     using Module.Interfaces.Matrixus;
+    using ResultMonad;
 
     public class ArticleBucket : AbstractArticleBucket
     {
@@ -43,6 +44,7 @@ namespace ElementsLib.Elements
 
         public override IList<TargetPair> PrepareEvaluationPath(IConfigCollection<ConfigItem, ConfigCode> configBundler, BodyCode contractCode, BodyCode positionCode)
         {
+            IEnumerable<Result<IArticleTarget>> targetInitM = GetTargetsM();
             IEnumerable<IArticleTarget> targetsInit = GetTargets();
             IEnumerable<IArticleTarget> targetsCalc = configBundler.GetTargets(targetsInit, contractCode, positionCode);
             IList<SortedPair> modelPath = configBundler.ModelPath();
