@@ -12,6 +12,9 @@ namespace ElementsLib.Elements.Config.Articles
 
     using Source;
     using Module.Interfaces.Elements;
+    using Module.Items;
+    using Module.Interfaces.Legalist;
+    using Module.Libs;
 
     public class ContractTermArticle : ArticleGeneralSource, ICloneable
     {
@@ -37,6 +40,16 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override IEnumerable<ResultPack> EvaluateResults()
         {
+            IEmployProfile employProfile = null;
+            if (employProfile == null)
+            {
+                return ErrorToResults("Employ profile is null!");
+            }
+            //Period period;
+            //IPeriodProfile : Employ()
+            //uint dayTermFrom = DateFromInPeriod(period, this.DateFrom);
+            //uint dayTermStop = DateFromInPeriod(period, this.DateStop);
+
             //SourceValues.DateFrom;
             //SourceValues.DateStop;
             //SourceValues.ContractType;

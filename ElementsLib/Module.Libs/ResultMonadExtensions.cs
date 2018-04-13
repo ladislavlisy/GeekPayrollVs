@@ -39,6 +39,10 @@ namespace ElementsLib.Module.Libs
 
             return onSuccessFunc(result.Value);
         }
+        public static IEnumerable<ResultPack> ToList(this ResultPack result)
+        {
+            return new List<ResultPack>() { result };
+        }
     }
     public static class ResultMonadKeyValueExtensions
     {

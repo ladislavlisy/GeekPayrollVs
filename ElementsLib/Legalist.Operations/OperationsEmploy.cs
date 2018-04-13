@@ -49,23 +49,23 @@ namespace ElementsLib.Legalist.Operations
             return dayTermFrom;
         }
 
-        public static TDay DateEndsInPeriod(Period period, DateTime? dateEnds)
+        public static TDay DateStopInPeriod(Period period, DateTime? dateStop)
         {
-            TDay dayTermEnd = Period.TERM_END_FINISHED;
-            TDay daysPeriod = (TDay)DateTime.DaysInMonth((int)period.Year(), (int)period.Month());
+            TDay dayTermStop = Period.TERM_END_FINISHED;
+            TDay daysPeriods = (TDay)DateTime.DaysInMonth((int)period.Year(), (int)period.Month());
 
-            var periodDateEnd = new DateTime((int)period.Year(), (int)period.Month(), (int)daysPeriod);
+            var periodDateEnd = new DateTime((int)period.Year(), (int)period.Month(), (int)daysPeriods);
 
-            if (dateEnds != null)
+            if (dateStop != null)
             {
-                dayTermEnd = (TDay)dateEnds.Value.Day;
+                dayTermStop = (TDay)dateStop.Value.Day;
             }
 
-            if (dateEnds == null || dateEnds > periodDateEnd)
+            if (dateStop == null || dateStop > periodDateEnd)
             {
-                dayTermEnd = daysPeriod;
+                dayTermStop = daysPeriods;
             }
-            return dayTermEnd;
+            return dayTermStop;
         }
 
         public static Int32[] WeekSchedule(Period period, Int32 secondsWeekly, Int32 workdaysWeekly)

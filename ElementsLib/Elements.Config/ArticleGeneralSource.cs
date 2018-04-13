@@ -13,6 +13,7 @@ namespace ElementsLib.Elements.Config
 
     using Module.Codes;
     using Module.Interfaces.Elements;
+    using Module.Libs;
 
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
@@ -62,6 +63,12 @@ namespace ElementsLib.Elements.Config
 
             return ResultMonad.Result.Ok<IArticleSource, string>(cloneArticle);
         }
+
+        protected IEnumerable<ResultPack> ErrorToResults(string errorText)
+        {
+            return Result.Fail<IArticleResult, string>(errorText).ToList();
+        }
+
         public virtual IEnumerable<ResultPack> EvaluateResults()
         {
             return new List<ResultPack>() { Result.Fail<IArticleResult, string>(EXCEPTION_RESULT_NULL_TEXT) };
