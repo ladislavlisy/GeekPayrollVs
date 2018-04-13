@@ -28,6 +28,8 @@ namespace ClazzGeneratorConsoleApp.Defs
         public override void StartBlok(StreamWriter writer)
         {
             WriteBaseBlokLine(writer, "using System;");
+            WriteBaseBlokLine(writer, "using System.Collections.Generic;");
+            WriteBaseBlokLine(writer, "using ResultMonad;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "namespace " + NamespaceName);
             WriteBaseBlokLine(writer, "{");
@@ -73,6 +75,9 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using MarkCode = Module.Codes.ArticleCzCode;");
             WriteBaseBlokLine(writer, "using BodyCode = UInt16;");
             DelimitLine(writer);
+            WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
+            WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");           
+            DelimitLine(writer);
             WriteBaseBlokLine(writer, "using Source;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             DelimitLine(writer);
@@ -82,6 +87,8 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void BlokBody(StreamWriter writer)
         {
+            WriteBlokLine(writer, "public static string " + ClassCode.GetSymbol() + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + ((UInt16)ClassCode).ToString() + "): Evaluate Results is not implemented!\";");
+            DelimitLine(writer);
             WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)MarkCode." + ClassCode.GetSymbol() + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
@@ -101,6 +108,12 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "SourceValues = SetSourceValues<" + ValsClassName + ">(values);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
+            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults()");
+            WriteBlokLine(writer, "{");
+            WriteIndentBlokLine(writer, 1, "return new List<ResultPack>() { Result.Fail<IArticleResult, string>(" + ClassCode.GetSymbol() + "_EXCEPTION_RESULT_NULL_TEXT) };");
+            WriteBlokLine(writer, "}");
+            DelimitLine(writer);
+
             //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ISourceValues values)");
             //WriteBlokLine(writer, "{");
             //WriteIndentBlokLine(writer, 1, FullClassName + " cloneArticle = (" + FullClassName + ")Clone();");

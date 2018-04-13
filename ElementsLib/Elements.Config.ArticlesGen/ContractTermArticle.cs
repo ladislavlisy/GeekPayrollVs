@@ -1,15 +1,22 @@
 using System;
+using System.Collections.Generic;
+using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
     using MarkCode = Module.Codes.ArticleCzCode;
     using BodyCode = UInt16;
 
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
+
     using Source;
     using Module.Interfaces.Elements;
 
     public class ContractTermArticle : ArticleGeneralSource, ICloneable
     {
+        public static string ARTCODE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT = "ContractTermArticle(1): Evaluate Results is not implemented!";
+
         public ContractTermArticle() : base((BodyCode)MarkCode.ARTCODE_CONTRACT_TERM)
         {
             SourceValues = new ContractTermSource();
@@ -26,25 +33,19 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            ContractTermSource sourceValues = values as ContractTermSource;
-
-            SourceValues = (ContractTermSource)sourceValues.Clone();
+            SourceValues = SetSourceValues<ContractTermSource>(values);
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
+        public override IEnumerable<ResultPack> EvaluateResults()
         {
-            ContractTermArticle cloneArticle = (ContractTermArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
+            return new List<ResultPack>() { Result.Fail<IArticleResult, string>(ARTCODE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT) };
         }
 
         public override object Clone()
         {
             ContractTermArticle cloneArticle = (ContractTermArticle)this.MemberwiseClone();
 
-            clone.InternalCode = this.InternalCode;
+            cloneArticle.InternalCode = this.InternalCode;
 
             return cloneArticle;
         }

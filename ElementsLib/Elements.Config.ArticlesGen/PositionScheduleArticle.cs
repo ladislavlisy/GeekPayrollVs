@@ -1,15 +1,22 @@
 using System;
+using System.Collections.Generic;
+using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
     using MarkCode = Module.Codes.ArticleCzCode;
     using BodyCode = UInt16;
 
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
+
     using Source;
     using Module.Interfaces.Elements;
 
     public class PositionScheduleArticle : ArticleGeneralSource, ICloneable
     {
+        public static string ARTCODE_POSITION_SCHEDULE_EXCEPTION_RESULT_NULL_TEXT = "PositionScheduleArticle(3): Evaluate Results is not implemented!";
+
         public PositionScheduleArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_SCHEDULE)
         {
             SourceValues = new PositionScheduleSource();
@@ -26,25 +33,19 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            PositionScheduleSource sourceValues = values as PositionScheduleSource;
-
-            SourceValues = (PositionScheduleSource)sourceValues.Clone();
+            SourceValues = SetSourceValues<PositionScheduleSource>(values);
         }
 
-        public override IArticleSource CloneSourceAndSetValues(ISourceValues values)
+        public override IEnumerable<ResultPack> EvaluateResults()
         {
-            PositionScheduleArticle cloneArticle = (PositionScheduleArticle)Clone();
-
-            cloneArticle.ImportSourceValues(values);
-
-            return cloneArticle;
+            return new List<ResultPack>() { Result.Fail<IArticleResult, string>(ARTCODE_POSITION_SCHEDULE_EXCEPTION_RESULT_NULL_TEXT) };
         }
 
         public override object Clone()
         {
             PositionScheduleArticle cloneArticle = (PositionScheduleArticle)this.MemberwiseClone();
 
-            clone.InternalCode = this.InternalCode;
+            cloneArticle.InternalCode = this.InternalCode;
 
             return cloneArticle;
         }
