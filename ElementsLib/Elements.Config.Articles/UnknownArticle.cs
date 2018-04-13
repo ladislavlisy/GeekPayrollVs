@@ -22,6 +22,11 @@ namespace ElementsLib.Elements.Config.Articles
         {
         }
 
+        public override string ArticleDecorateMessage(string message)
+        {
+            return string.Format("UnknownArticle(ARTCODE_UNKNOWN, 0): {0}", message);
+        }
+
         public override object Clone()
         {
             UnknownArticle cloneArticle = (UnknownArticle)this.MemberwiseClone();

@@ -30,10 +30,14 @@ namespace PayrollGeekConsoleApp
     using SourceVals = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>;
     using SourcePair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
     using ResultPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultPack = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>;
 
     using ElementsLib.Module.Interfaces;
     using ElementsLib.Calculus;
     using ElementsLib.Module.Libs;
+    using ElementsLib.Module.Items;
+    using ElementsLib.Module.Interfaces.Legalist;
+    using ElementsLib.Legalist.Config;
 
     static class ProgramModule
     {
@@ -104,7 +108,17 @@ namespace PayrollGeekConsoleApp
 
             payrollService.Initialize();
 
-            payrollService.EvaluateStore(payrollData);
+            IBundleVersionFactory payrollExpertFactory = new BundleVersionFactory();
+
+            IBundleVersionCollection payrollExpert = new BundleVersionCollection();
+
+            payrollExpert.InitBundleProfiles(configAssembly, payrollExpertFactory);
+
+            Period evalPeriod = new Period(2018, 1);
+
+            IPeriodProfile evalProfile = payrollExpert.GetPeriodProfile(evalPeriod);
+
+            payrollService.EvaluateStore(payrollData, evalPeriod, evalProfile);
 
             List<SourcePair> evaluationPath = payrollService.GetEvaluationPath();
 
@@ -117,6 +131,8 @@ namespace PayrollGeekConsoleApp
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
 
                 evaluationPath.ForEach((c) => writerFile.WriteLine(c.Description()));
+
+                evaluationCase.ForEach((c) => writerFile.WriteLine(c.Description()));
 
                 writerFile.Flush();
 

@@ -7,18 +7,20 @@ namespace ElementsLib.Elements.Config.Articles
     using MarkCode = Module.Codes.ArticleCzCode;
     using BodyCode = UInt16;
 
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Source;
-    using Module.Interfaces.Elements;
     using Module.Items;
-    using Module.Interfaces.Legalist;
     using Module.Libs;
+    using Module.Interfaces.Elements;
+    using Module.Interfaces.Legalist;
 
     public class ContractTermArticle : ArticleGeneralSource, ICloneable
     {
-        public static string EXCEPTION_ARTICLE_RESULT_NULL_TEXT = "ContractTermArticle: Evaluate Results is not implemented!";
+        public static string ARTCODE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT = "ContractTermArticle(1): Evaluate Results is not implemented!";
+
         public ContractTermArticle() : base((BodyCode)MarkCode.ARTCODE_CONTRACT_TERM)
         {
             SourceValues = new ContractTermSource();
@@ -38,9 +40,14 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractTermSource>(values);
         }
 
-        public override IEnumerable<ResultPack> EvaluateResults()
+        public override string ArticleDecorateMessage(string message)
         {
-            IEmployProfile employProfile = null;
+            return string.Format("ContractTermSource(ARTCODE_CONTRACT_TERM, 1): { 0 }", message);
+        }
+
+        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        {
+            IEmployProfile employProfile = evalProfile.Employ();
             if (employProfile == null)
             {
                 return ErrorToResults("Employ profile is null!");
@@ -54,7 +61,7 @@ namespace ElementsLib.Elements.Config.Articles
             //SourceValues.DateStop;
             //SourceValues.ContractType;
 
-            return new List<ResultPack>() { Result.Fail<IArticleResult, string>(EXCEPTION_ARTICLE_RESULT_NULL_TEXT) };
+            return ErrorToResults(ARTCODE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()

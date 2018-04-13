@@ -30,10 +30,12 @@ namespace ElementsLib.Calculus
     using Elements;
     using ResultMonad;
     using Module.Libs;
+    using Module.Items;
+    using Module.Interfaces.Legalist;
 
     public class CalculusService : ICalculusService
     {
-        private readonly Func<IArticleSource, IEnumerable<ResultPack>> _evaluateResultsFunc = s => s.EvaluateResults();
+        private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
 
         IArticleConfigFactory ConfigFactory { get; set; }
 
@@ -84,7 +86,7 @@ namespace ElementsLib.Calculus
             EvaluationPath = new List<SourcePair>();
         }
 
-        public void EvaluateStore(IArticleSourceStore source)
+        public void EvaluateStore(IArticleSourceStore source, Period evalPeriod, IPeriodProfile evalProfile)
         {
             StreamSources.CopyModel(source);
 
@@ -92,19 +94,22 @@ namespace ElementsLib.Calculus
             /*
             // payrollData.ModelList - Evaluate => Results 
             */
-            EvaluationCase = EvaluateStream(EvaluationPath);
+            EvaluationCase = EvaluateStream(EvaluationPath, evalPeriod, evalProfile);
         }
 
-        public IEnumerable<ResultPair> EvaluateStream(IEnumerable<SourcePair> sourceStream)
+        public IEnumerable<ResultPair> EvaluateStream(IEnumerable<SourcePair> sourceStream, Period evalPeriod, IPeriodProfile evalProfile)
         {
-            return sourceStream.SelectMany((s) => EvaluateSourceItem(s)).ToList();
+            IEnumerable<ResultPack> initResults = new List<ResultPack>();
+
+            return sourceStream.SelectMany((s) => EvaluateSourceItem(s, evalPeriod, evalProfile, initResults)).ToList();
         }
 
-        private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem)
+        private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
+            TargetItem targetInResult = sourceItem.Key;
             SourcePack sourceInResult = sourceItem.Value;
 
-            IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessToResultSet(_evaluateResultsFunc);
+            IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessEvaluateToResultSet(targetInResult, evalPeriod, evalProfile, evalResults, _evaluateResultsFunc);
 
             return resultList.Select((r) => (new ResultPair(sourceItem.Key, r))).ToList();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Items
 {
-    using PeriodCode = UInt16;
+    using PeriodCode = UInt32;
     using PeriodTerm = Byte;
     using PeriodYear = UInt16;
     using PeriodMnth = Byte;
@@ -38,7 +38,7 @@ namespace ElementsLib.Module.Items
 
         public PeriodYear YearUInt()
         {
-            return ((PeriodCode)(Code / 100));
+            return ((PeriodYear)(Code / 100));
         }
 
         public PeriodMnth MonthByte()

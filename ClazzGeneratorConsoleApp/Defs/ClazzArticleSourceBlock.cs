@@ -75,11 +75,15 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using MarkCode = Module.Codes.ArticleCzCode;");
             WriteBaseBlokLine(writer, "using BodyCode = UInt16;");
             DelimitLine(writer);
+            WriteBaseBlokLine(writer, "using TargetItem = Module.Interfaces.Elements.IArticleTarget;");
             WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");           
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using Source;");
+            WriteBaseBlokLine(writer, "using Module.Items;");
+            WriteBaseBlokLine(writer, "using Module.Libs;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
+            WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public class " + FullClassName + " : ArticleGeneralSource, ICloneable");
             WriteBaseBlokLine(writer, "{");
@@ -87,9 +91,12 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void BlokBody(StreamWriter writer)
         {
-            WriteBlokLine(writer, "public static string " + ClassCode.GetSymbol() + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + ((UInt16)ClassCode).ToString() + "): Evaluate Results is not implemented!\";");
+            string CLASS_ENUM = ClassCode.GetSymbol();
+            string CLASS_UINT = ((UInt16)ClassCode).ToString();
+
+            WriteBlokLine(writer, "public static string " + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + CLASS_UINT + "): Evaluate Results is not implemented!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)MarkCode." + ClassCode.GetSymbol() + ")");
+            WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)MarkCode." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
             WriteBlokLine(writer, "}");
@@ -108,9 +115,14 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "SourceValues = SetSourceValues<" + ValsClassName + ">(values);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults()");
+            WriteBlokLine(writer, "public override string ArticleDecorateMessage(string message)");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "return new List<ResultPack>() { Result.Fail<IArticleResult, string>(" + ClassCode.GetSymbol() + "_EXCEPTION_RESULT_NULL_TEXT) };");
+            WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ValsClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");
+            WriteBlokLine(writer, "}");
+            DelimitLine(writer);
+            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)");
+            WriteBlokLine(writer, "{");
+            WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
 
@@ -166,7 +178,9 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void BlokBody(StreamWriter writer)
         {
-            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.ARTCODE_" + ClassCode.GetSymbol() + ")");
+            string CLASS_ENUM = ClassCode.GetSymbol();
+
+            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.ARTCODE_" + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "ArticleTargets = ArticleDefinition.CreateParams();");
             WriteIndentBlokLine(writer, 1, "ArticleResults = ArticleDefinition.CreateParams();");

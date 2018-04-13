@@ -5,3 +5,10 @@
 1-1-5-1 ARTCODE_POSITION_WORKING
 1-0-7-1 ARTCODE_CONTRACT_TIMESHEET
 1-0-8-1 ARTCODE_CONTRACT_WORKING
+0-0-1-1 Error: ContractTermArticle(1): Evaluate Results is not implemented!
+1-0-2-1 Error: PositionTermArticle(2): Evaluate Results is not implemented!
+1-1-3-1 Error: PositionScheduleArticle(3): Evaluate Results is not implemented!
+1-1-4-1 Error: PositionTimesheetArticle(4): Evaluate Results is not implemented!
+1-1-5-1 Error: PositionWorkingArticle(5): Evaluate Results is not implemented!
+1-0-7-1 Error: ContractTimesheetArticle(7): Evaluate Results is not implemented!
+1-0-8-1 Error: ContractWorkingArticle(8): Evaluate Results is not implemented!

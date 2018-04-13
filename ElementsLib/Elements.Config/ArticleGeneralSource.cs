@@ -14,17 +14,26 @@ namespace ElementsLib.Elements.Config
     using Module.Codes;
     using Module.Interfaces.Elements;
     using Module.Libs;
+    using Module.Items;
+    using Module.Interfaces.Legalist;
 
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
+        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
+
         public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
+        public abstract string ArticleDecorateMessage(string message);
+        public abstract void ImportSourceValues(ISourceValues values);
         public ArticleGeneralSource(BodyCode code)
         {
             InternalCode = code;
+
+            InternalEvaluate = null;
         }
 
         protected BodyCode InternalCode { get; set; }
 
+        protected EvaluateDelegate InternalEvaluate;
         public BodyCode Code()
         {
             return InternalCode;
@@ -35,7 +44,6 @@ namespace ElementsLib.Elements.Config
             return null;
         }
 
-        public abstract void ImportSourceValues(ISourceValues values);
 
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
         {
@@ -69,9 +77,13 @@ namespace ElementsLib.Elements.Config
             return Result.Fail<IArticleResult, string>(errorText).ToList();
         }
 
-        public virtual IEnumerable<ResultPack> EvaluateResults()
+        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return new List<ResultPack>() { Result.Fail<IArticleResult, string>(EXCEPTION_RESULT_NULL_TEXT) };
+            if (InternalEvaluate == null)
+            {
+                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_RESULT_NULL_TEXT));
+            }
+            return InternalEvaluate(evalTarget, evalPeriod, evalProfile, evalResults);
         }
 
         public virtual object Clone()
