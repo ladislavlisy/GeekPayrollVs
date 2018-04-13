@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Libs
 {
-    using TargetNode= Interfaces.Elements.IArticleTarget;
-    using TargetItem = ResultMonad.Result<Interfaces.Elements.IArticleSource, string>;
-    using TargetPair = KeyValuePair<Interfaces.Elements.IArticleTarget, ResultMonad.Result<Interfaces.Elements.IArticleSource, string>>;
+    using ErrorsItem = String;
+    using TargetItem = Interfaces.Elements.IArticleTarget;
+    using SourceItem = Interfaces.Elements.IArticleSource;
+    using SourcePack = ResultMonad.Result<Interfaces.Elements.IArticleSource, string>;
+    using SourcePair = KeyValuePair<Interfaces.Elements.IArticleTarget, ResultMonad.Result<Interfaces.Elements.IArticleSource, string>>;
+    using ResultItem = Interfaces.Elements.IArticleResult;
+    using ResultPack = ResultMonad.Result<Interfaces.Elements.IArticleResult, string>;
+    using ResultPair = KeyValuePair<Interfaces.Elements.IArticleTarget, ResultMonad.Result<Interfaces.Elements.IArticleResult, string>>;
+    using ResultMonad;
+
     public static class ResultMonadExtensions
     {
-        public static string Description(this TargetItem value)
+        public static string Description(this SourcePack value)
         {
             if (value.IsFailure)
             {
@@ -22,16 +29,28 @@ namespace ElementsLib.Module.Libs
                 return value.Value.ToString();
             }
         }
+        public static IEnumerable<ResultPack> OnSuccessToResultSet(
+            this SourcePack result, Func<SourceItem, IEnumerable<ResultPack>> onSuccessFunc)
+        {
+            if (result.IsFailure)
+            {
+                return new List<ResultPack>() { Result.Fail<ResultItem, ErrorsItem>(result.Error) };
+            }
+
+            return onSuccessFunc(result.Value);
+        }
     }
     public static class ResultMonadKeyValueExtensions
     {
-        public static string Description(this TargetPair value)
+        public static string Description(this SourcePair value)
         {
-            TargetNode node = value.Key;
+            TargetItem node = value.Key;
 
-            TargetItem item = value.Value;
+            SourcePack item = value.Value;
 
             return string.Format("{0} {1}", node.ToString(), item.Description());
         }
+
+
     }
 }

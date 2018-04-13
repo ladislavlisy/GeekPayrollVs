@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
 
 namespace ElementsLib.Calculus
 {
@@ -12,19 +13,28 @@ namespace ElementsLib.Calculus
     using ConfigCode = UInt16;
     using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
 
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
-    using TargetPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Module.Interfaces;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
     using System.Reflection;
     using Elements;
+    using ResultMonad;
+    using Module.Libs;
 
     public class CalculusService : ICalculusService
     {
+        private readonly Func<IArticleSource, IEnumerable<ResultPack>> _evaluateResultsFunc = s => s.EvaluateResults();
+
         IArticleConfigFactory ConfigFactory { get; set; }
 
         IArticleSourceFactory SourceFactory { get; set; }
@@ -33,9 +43,11 @@ namespace ElementsLib.Calculus
 
         ISourceCollection<SourceItem, SourceCode, SourceVals> SourceBundler { get; set; }
 
-        IArticleBucket SourceStreamy { get; set; }
+        IArticleSourceStore StreamSources { get; set; }
+        IArticleResultStore StreamResults { get; set; }
 
-        IList<TargetPair> EvaluationPath { get; set; }
+        IEnumerable<SourcePair> EvaluationPath { get; set; }
+        IEnumerable<ResultPair> EvaluationCase { get; set; }
 
         Assembly ModuleAssembly { get; set; }
 
@@ -65,24 +77,45 @@ namespace ElementsLib.Calculus
 
             SourceBundler.InitConfigModel(ModuleAssembly, SourceFactory);
 
-            SourceStreamy = new ArticleBucket(SourceBundler);
+            StreamSources = new ArticleSourceStore(SourceBundler);
 
-            EvaluationPath = new List<TargetPair>();
+            StreamResults = new ArticleResultStore();
+
+            EvaluationPath = new List<SourcePair>();
         }
 
-        public void EvaluateBucket(IArticleBucket source)
+        public void EvaluateStore(IArticleSourceStore source)
         {
-            SourceStreamy.CopyTargets(source);
+            StreamSources.CopyModel(source);
 
-            EvaluationPath = SourceStreamy.PrepareEvaluationPath(ConfigBundler, ContractCode, PositionCode);
+            EvaluationPath = StreamSources.PrepareEvaluationPath(ConfigBundler, ContractCode, PositionCode);
             /*
             // payrollData.ModelList - Evaluate => Results 
             */
+            EvaluationCase = EvaluateStream(EvaluationPath);
         }
 
-        public List<TargetPair> GetEvaluationPath()
+        public IEnumerable<ResultPair> EvaluateStream(IEnumerable<SourcePair> sourceStream)
+        {
+            return sourceStream.SelectMany((s) => EvaluateSourceItem(s)).ToList();
+        }
+
+        private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem)
+        {
+            SourcePack sourceInResult = sourceItem.Value;
+
+            IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessToResultSet(_evaluateResultsFunc);
+
+            return resultList.Select((r) => (new ResultPair(sourceItem.Key, r))).ToList();
+        }
+
+        public List<SourcePair> GetEvaluationPath()
         {
             return EvaluationPath.ToList();
+        }
+        public List<ResultPair> GetEvaluationCase()
+        {
+            return EvaluationCase.ToList();
         }
     }
 }

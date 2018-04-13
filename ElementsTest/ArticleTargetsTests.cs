@@ -39,7 +39,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             ISourceValues values = new ArticleEmptySource();
 
@@ -52,7 +52,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             const BodySeed TestFirstSeed = 1;
 
@@ -69,7 +69,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             const BodySeed TestFirstSeed = 2;
 
@@ -86,7 +86,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             const BodySeed TestSeed01 = 1;
             const BodySeed TestSeed02 = 3;
@@ -107,7 +107,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             const BodySeed TestSeed01 = 1;
             const BodySeed TestSeed02 = 2;
@@ -130,7 +130,7 @@ namespace ElementsTest
         {
             ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
 
-            ArticleBucket testBucket = new ArticleBucket(configTemplate);
+            ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             const BodySeed TestSeed01 = 1;
             const BodySeed TestSeed02 = 2;

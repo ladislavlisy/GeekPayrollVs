@@ -64,6 +64,7 @@
     <Compile Include="Elements.Config.Source\PositionWorkingSource.cs" />
     <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
+    <Compile Include="Elements\ArticleResultStore.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
     <Compile Include="Legalist.Config\BundleVersionFactory.cs" />
     <Compile Include="Legalist.Config\EmployProperties.cs" />
@@ -119,7 +120,9 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
-    <Compile Include="Module.Interfaces.Elements\IArticleBucket.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleResultStore.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleSourceStore.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleResult.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleTarget.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceValues.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IConfigCollection.cs" />
@@ -159,8 +162,7 @@
     <Compile Include="Module.Json\ValuesJsonConverters.cs" />
     <Compile Include="Module.Libs\ArrayUtilsExtensions.cs" />
     <Compile Include="Module.Libs\DictionaryUtilsExtension.cs" />
-    <Compile Include="Elements\AbstractArticleBucket.cs" />
-    <Compile Include="Elements\ArticleBucket.cs" />
+    <Compile Include="Elements\ArticleSourceStore.cs" />
     <Compile Include="Elements.Config.Articles\PositionTermArticle.cs" />
     <Compile Include="Module.Codes\ArticleCodeAdapter.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigFactory.cs" />
@@ -198,6 +200,14 @@
     <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MaybeMonadExtensionsLib\MaybeMonadExtensionsLib.csproj">
+      <Project>{fdbe4cf4-985c-4ed1-a27a-f42a69ac3d8b}</Project>
+      <Name>MaybeMonadExtensionsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMonadExtensionsLib\ResultMonadExtensionsLib.csproj">
+      <Project>{5675bf8a-cceb-44bd-97b0-a15c05ce3e1a}</Project>
+      <Name>ResultMonadExtensionsLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResultMonadLib\ResultMonadLib.csproj">
       <Project>{cda383ff-7518-4621-9710-d48ebfb901e1}</Project>
       <Name>ResultMonadLib</Name>

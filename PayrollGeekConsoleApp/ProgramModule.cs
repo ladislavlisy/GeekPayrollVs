@@ -27,8 +27,9 @@ namespace PayrollGeekConsoleApp
     using ConfigCode = UInt16;
 
     using TargetItem = IArticleTarget;
-    using TargetVals = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>;
-    using TargetPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourceVals = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>;
+    using SourcePair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
+    using ResultPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>>;
 
     using ElementsLib.Module.Interfaces;
     using ElementsLib.Calculus;
@@ -53,7 +54,7 @@ namespace PayrollGeekConsoleApp
             payrollSource.InitConfigModel(configAssembly, articleSourceFactory);
 
 
-            var payrollData = new ArticleBucket(payrollSource);
+            var payrollData = new ArticleSourceStore(payrollSource);
 
             #region TEST_VALUES
 
@@ -103,9 +104,11 @@ namespace PayrollGeekConsoleApp
 
             payrollService.Initialize();
 
-            payrollService.EvaluateBucket(payrollData);
+            payrollService.EvaluateStore(payrollData);
 
-            List<TargetPair> evaluationPath = payrollService.GetEvaluationPath();
+            List<SourcePair> evaluationPath = payrollService.GetEvaluationPath();
+
+            List<ResultPair> evaluationCase = payrollService.GetEvaluationCase();
 
             string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_PAYROLL.TXT");
 

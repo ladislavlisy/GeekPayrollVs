@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using ResultMonad;
 
 namespace ElementsLib.Elements.Config
 {
     using BodyCode = UInt16;
+
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Module.Codes;
     using Module.Interfaces.Elements;
 
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
+        public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
         public ArticleGeneralSource(BodyCode code)
         {
             InternalCode = code;
@@ -39,7 +47,7 @@ namespace ElementsLib.Elements.Config
             return (T)sourceValues.Clone();
         }
 
-        public ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ISourceValues values) where T : class, IArticleSource
+        public SourcePack CloneSourceAndSetValues<T>(ISourceValues values) where T : class, IArticleSource
         {
             T cloneArticle = (T)Clone();
 
@@ -54,6 +62,10 @@ namespace ElementsLib.Elements.Config
 
             return ResultMonad.Result.Ok<IArticleSource, string>(cloneArticle);
         }
+        public virtual IEnumerable<ResultPack> EvaluateResults()
+        {
+            return new List<ResultPack>() { Result.Fail<IArticleResult, string>(EXCEPTION_RESULT_NULL_TEXT) };
+        }
 
         public virtual object Clone()
         {
@@ -66,5 +78,6 @@ namespace ElementsLib.Elements.Config
         {
             return ArticleCodeAdapter.GetSymbol(InternalCode);
         }
+
     }
 }
