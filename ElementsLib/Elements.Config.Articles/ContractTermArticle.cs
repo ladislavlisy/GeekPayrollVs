@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractTermSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues as ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("ContractTermSource(ARTCODE_CONTRACT_TERM, 1): { 0 }", message);

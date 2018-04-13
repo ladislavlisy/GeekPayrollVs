@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionTimesheetSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues As ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("PositionTimesheetSource(ARTCODE_POSITION_TIMESHEET, 4): { 0 }", message);

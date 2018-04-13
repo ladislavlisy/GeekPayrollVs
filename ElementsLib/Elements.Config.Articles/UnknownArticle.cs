@@ -12,6 +12,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         public UnknownArticle() : base((BodyCode)MarkCode.ARTCODE_UNKNOWN)
         {
+            SourceValues = new ArticleEmptySource();
         }
 
         public UnknownArticle(ISourceValues values) : this()
@@ -20,6 +21,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override void ImportSourceValues(ISourceValues values)
         {
+        }
+
+        public ArticleEmptySource SourceValues { get; set; }
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues as ISourceValues;
         }
 
         public override string ArticleDecorateMessage(string message)

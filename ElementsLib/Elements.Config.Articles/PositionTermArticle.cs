@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionTermSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues as ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("PositionTermSource(ARTCODE_POSITION_TERM, 2): { 0 }", message);

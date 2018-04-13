@@ -4,7 +4,7 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config
 {
-    using BodyCode = UInt16;
+    using TargetCode = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
@@ -16,34 +16,32 @@ namespace ElementsLib.Elements.Config
     using Module.Libs;
     using Module.Items;
     using Module.Interfaces.Legalist;
+    using System.Linq;
 
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
+        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, TargetCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
 
         public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
+        public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
+        public static string EXCEPTION_EXPERT_NULL_TEXT = "Expert profile is null!";
         public abstract string ArticleDecorateMessage(string message);
         public abstract void ImportSourceValues(ISourceValues values);
-        public ArticleGeneralSource(BodyCode code)
+        public abstract ISourceValues ExportSourceValues();
+        public ArticleGeneralSource(TargetCode code)
         {
             InternalCode = code;
 
             InternalEvaluate = null;
         }
 
-        protected BodyCode InternalCode { get; set; }
+        protected TargetCode InternalCode { get; set; }
 
         protected EvaluateDelegate InternalEvaluate;
-        public BodyCode Code()
+        public TargetCode Code()
         {
             return InternalCode;
         }
-
-        public ISourceValues ExportSourceValues()
-        {
-            return null;
-        }
-
 
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
         {
@@ -77,13 +75,32 @@ namespace ElementsLib.Elements.Config
             return Result.Fail<IArticleResult, string>(errorText).ToList();
         }
 
+        protected IEnumerable<ResultPack> ErrorToResults(params string[] errorText)
+        {
+            return errorText.Select((e) => (Result.Fail<IArticleResult, string>(e))).ToList();
+        }
+
+        protected IEnumerable<ResultPack> ResultsToList(params ResultPack[] results)
+        {
+            return results.Select((r) => (r)).ToList();
+        }
+
         public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
             if (InternalEvaluate == null)
             {
                 return ErrorToResults(ArticleDecorateMessage(EXCEPTION_RESULT_NULL_TEXT));
             }
-            return InternalEvaluate(evalTarget, evalPeriod, evalProfile, evalResults);
+            ISourceValues evalValues = ExportSourceValues();
+            if (evalValues == null)
+            {
+                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_VALUES_NULL_TEXT));
+            }
+            if (evalProfile == null)
+            {
+                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_EXPERT_NULL_TEXT));
+            }
+            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
 
         public virtual object Clone()

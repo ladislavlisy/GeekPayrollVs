@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionScheduleSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues As ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("PositionScheduleSource(ARTCODE_POSITION_SCHEDULE, 3): { 0 }", message);

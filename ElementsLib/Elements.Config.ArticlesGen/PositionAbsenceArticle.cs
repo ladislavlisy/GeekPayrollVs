@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionAbsenceSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues As ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("PositionAbsenceSource(ARTCODE_POSITION_ABSENCE, 6): { 0 }", message);

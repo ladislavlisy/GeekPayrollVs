@@ -115,6 +115,11 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "SourceValues = SetSourceValues<" + ValsClassName + ">(values);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
+            WriteBlokLine(writer, "public override ISourceValues ExportSourceValues()");
+            WriteBlokLine(writer, "{");
+            WriteIndentBlokLine(writer, 1, "return SourceValues As ISourceValues;");
+            WriteBlokLine(writer, "}");
+            DelimitLine(writer);
             WriteBlokLine(writer, "public override string ArticleDecorateMessage(string message)");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ValsClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");

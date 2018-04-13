@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractAbsenceSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues As ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("ContractAbsenceSource(ARTCODE_CONTRACT_ABSENCE, 9): { 0 }", message);

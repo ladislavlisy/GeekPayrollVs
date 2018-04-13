@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<PositionWorkingSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues as ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("PositionWorkingSource(ARTCODE_POSITION_WORKING, 5): { 0 }", message);

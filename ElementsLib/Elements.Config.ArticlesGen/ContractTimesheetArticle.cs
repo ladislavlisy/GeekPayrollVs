@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractTimesheetSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues As ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("ContractTimesheetSource(ARTCODE_CONTRACT_TIMESHEET, 7): { 0 }", message);

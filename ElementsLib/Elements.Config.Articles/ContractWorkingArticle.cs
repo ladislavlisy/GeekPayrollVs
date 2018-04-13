@@ -40,6 +40,11 @@ namespace ElementsLib.Elements.Config.Articles
             SourceValues = SetSourceValues<ContractWorkingSource>(values);
         }
 
+        public override ISourceValues ExportSourceValues()
+        {
+            return SourceValues as ISourceValues;
+        }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format("ContractWorkingSource(ARTCODE_CONTRACT_WORKING, 8): { 0 }", message);
