@@ -1,7 +1,7 @@
 namespace ClazzGeneratorConsoleApp.Definitions
 {
     using Defs;
-    using ArticleCode = ElementsLib.Module.Codes.ArticleCzCode;
+    using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
 
     public class TaxAdvanceFinalDefinition : ArticleDefinition
 	{

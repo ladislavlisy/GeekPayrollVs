@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using BodyCode = UInt16;
-    using BodyRole = UInt16;
-    using BodyType = UInt16;
+    using ConfigCode = UInt16;
+    using ConfigRole = UInt16;
+    using ConfigType = UInt16;
+    using SymbolName = String;
 
     public interface IArticleConfig
     {
-        BodyCode Code();
-        BodyRole Role();
-        BodyType Type();
-        BodyCode[] Path();
+        ConfigCode Code();
+        ConfigRole Role();
+        ConfigType Type();
+        SymbolName Name();
+        ConfigCode[] Path();
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Matrixus.Config
 {
+    using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
     using ConfigCode = UInt16;
     using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
     using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>;
@@ -15,45 +16,32 @@ namespace ElementsLib.Matrixus.Config
     using BodySeed = UInt16;
 
     using Module.Common;
-    using Module.Interfaces.Elements;
     using Module.Libs;
     using Module.Codes;
     using Module.Json;
     using Elements.Config;
     using Elements;
     using ResultMonad;
+    using Module.Interfaces.Elements;
+    using Module.Interfaces.Matrixus;
 
-    public class ArticleConfigCollection : GeneralConfigCollection<ConfigItem, ConfigCode>
+    public class ArticleConfigCollection : GeneralConfigCollection<ConfigItem, ConfigCode>, IArticleConfigCollection
     {
-        BodyType NO_HEAD_PART_TYPE = 0;
-
-        BodyType HEAD_CODE_ARTICLE = 1;
-        BodyType PART_CODE_ARTICLE = 2;
-
         public ArticleConfigCollection() : base()
         {
         }
 
-        public void LoadConfigJson(IList<ArticleConfigNameJson> configList, IArticleConfigFactory configFactory)
+        public void LoadConfigData(IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                configFactory.CreateConfigCode(c), configFactory.CreateConfigItem(c)))).ToList();
+                c.Code, configFactory.CreateConfigItem(c)))).ToList();
 
             ConfigureModel(configTypeList);
 
             ConfigureModelPath();
         }
 
-        public override void InitConfigModel(IArticleConfigFactory configFactory)
-        {
-            IEnumerable<ConfigPair> configTypeList = configFactory.CreateConfigList();
-
-            ConfigureModel(configTypeList);
-
-            ConfigureModelPath();
-        }
-
-        public override ConfigItem FindArticleConfig(ConfigCode modelCode)
+        public ConfigItem FindArticleConfig(ConfigCode modelCode)
         {
             ConfigItem configModel = FindConfigByCode(modelCode);
 
@@ -119,7 +107,7 @@ namespace ElementsLib.Matrixus.Config
             return resolveSink;
         }
 
-        public override IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
+        public IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
             IEnumerable<IArticleTarget> targetsZero = new List<IArticleTarget>();
 
@@ -151,11 +139,11 @@ namespace ElementsLib.Matrixus.Config
             BodyCode codeBody = codeConfig;
             BodySeed seedBody = 0;
 
-            if (configItem.Type() == NO_HEAD_PART_TYPE)
+            if (configItem.Type() == (BodyType)ArticleType.NO_HEAD_PART_TYPE)
             {
                 targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
             }
-            if (configItem.Type() == HEAD_CODE_ARTICLE)
+            if (configItem.Type() == (BodyType)ArticleType.HEAD_CODE_ARTICLE)
             {
                 if (target.Head() != 0)
                 {
@@ -167,7 +155,7 @@ namespace ElementsLib.Matrixus.Config
                     targetList = contractsHead.Select((ch) => (new ArticleTarget(ch, codePart, codeBody, seedBody))).ToList();
                 }
             }
-            else if (configItem.Type() == PART_CODE_ARTICLE)
+            else if (configItem.Type() == (BodyType)ArticleType.PART_CODE_ARTICLE)
             {
                 if (target.Head() != 0 && target.Part() != 0)
                 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace ElementsLib.Elements.Config
+namespace ElementsLib.Matrixus.Source
 {
     using BodyCode = UInt16;
     using BodyItem = Module.Interfaces.Elements.IArticleSource;
@@ -12,8 +12,9 @@ namespace ElementsLib.Elements.Config
 
     using Module.Codes;
     using Module.Interfaces.Elements;
+    using Module.Interfaces.Matrixus;
 
-    public class ArticleSourceCollection : GeneralSourceCollection<BodyItem, BodyCode, BodyVals>
+    public class ArticleSourceCollection : GeneralSourceCollection<BodyItem, BodyCode, BodyVals>, IArticleSourceCollection
     {
         public ArticleSourceCollection()
         {

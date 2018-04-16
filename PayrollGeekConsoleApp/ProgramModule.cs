@@ -17,10 +17,11 @@ using ElementsLib.Legalist.Constants;
 using ElementsLib.Module.Json;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Module.Codes;
+using ElementsLib.Matrixus.Source;
 
 namespace PayrollGeekConsoleApp
 {
-    using MarkCode = ArticleCzCode;
+    using ConfigCodeEnum = ArticleCodeCz;
     using MarkUtil = ArticleCzCodeUtil;
     using HeadCode = UInt16;
     using PartCode = UInt16;
@@ -38,6 +39,9 @@ namespace PayrollGeekConsoleApp
     using ElementsLib.Module.Items;
     using ElementsLib.Module.Interfaces.Legalist;
     using ElementsLib.Legalist.Config;
+    using ElementsLib.Matrixus;
+    using ElementsLib.Module.Interfaces.Permadom;
+    using ElementsLib.Permadom;
 
     static class ProgramModule
     {
@@ -45,11 +49,19 @@ namespace PayrollGeekConsoleApp
         {
             Assembly configAssembly = typeof(ElementsService).Assembly;
 
+            IPermadomService payrollMemDbs = new PermadomService();
+
+            IMatrixusService payrollMatrix = new SimpleMatrixusService();
+
+            var configCodeData = payrollMemDbs.GetArticleCodeDataList().ToList();
+
+            var configRoleData = payrollMemDbs.GetArticleRoleDataList().ToList();
+
             ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
             ArticleConfigCollection payrollConfig = new ArticleConfigCollection();
             
-            payrollConfig.InitConfigModel(articleConfigFactory);
+            payrollConfig.LoadConfigData(configCodeData, articleConfigFactory);
 
             IArticleSourceFactory articleSourceFactory = new ArticleSourceFactory();
 
@@ -75,19 +87,19 @@ namespace PayrollGeekConsoleApp
             ArticleData[] payrollLoad = new ArticleData[]
             {
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_TERM,
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_CONTRACT_TERM,
                     Tags = new ContractTermSource(TestDateFrom, TestDateStop, TestEmployeeTerm),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_TERM,
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_POSITION_TERM,
                     Tags = new PositionTermSource(TestDateFrom, TestDateStop, TestPositionTerm),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_POSITION_SCHEDULE,
+                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_POSITION_SCHEDULE,
                     Tags = new PositionScheduleSource(TestShiftLiable, TestShiftActual, TestScheduleType),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCzCode.ARTCODE_CONTRACT_WORKING,
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_CONTRACT_WORKING,
                     Tags = null,
                 },
                 //ARTCODE_POSITION_TIMESHEET,
@@ -129,6 +141,10 @@ namespace PayrollGeekConsoleApp
             try
             {
                 StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
+
+                configCodeData.ForEach((c) => writerFile.WriteLine(c.ToString()));
+                          
+                configRoleData.ForEach((c) => writerFile.WriteLine(c.ToString()));
 
                 evaluationPath.ForEach((c) => writerFile.WriteLine(c.Description()));
 
@@ -185,15 +201,6 @@ namespace PayrollGeekConsoleApp
 
             return;
         }
-        public static void LoadConfigModel()
-        {
-            ArticleConfigCollection service = new ArticleConfigCollection();
-
-            ArticleConfigFactory factory = new ArticleConfigFactory();
-
-            service.InitConfigModel(factory);
-        }
-
         public static void SaveConfigToJson(string configFolder)
         {
             IList<ArticleConfigNameJson> configList = new List<ArticleConfigNameJson>()

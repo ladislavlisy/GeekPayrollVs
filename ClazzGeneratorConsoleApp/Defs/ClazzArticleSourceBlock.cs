@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClazzGeneratorConsoleApp.Defs
 {
-    using ArticleCode = ElementsLib.Module.Codes.ArticleCzCode;
+    using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
 
     using ElementsLib.Module.Codes;
 
@@ -72,7 +72,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void StartBlok(StreamWriter writer)
         {
-            WriteBaseBlokLine(writer, "using MarkCode = Module.Codes.ArticleCzCode;");
+            WriteBaseBlokLine(writer, "using ConfigCodeEnum = Module.Codes.ArticleCzCode;");
             WriteBaseBlokLine(writer, "using BodyCode = UInt16;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using TargetItem = Module.Interfaces.Elements.IArticleTarget;");
@@ -96,7 +96,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             WriteBlokLine(writer, "public static string " + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + CLASS_UINT + "): Evaluate Results is not implemented!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)MarkCode." + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)ConfigCodeEnum." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
             WriteBlokLine(writer, "}");

@@ -4,7 +4,7 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using BodyCode = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -16,12 +16,13 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Matrixus.Source;
 
     public class PositionTermArticle : ArticleGeneralSource, ICloneable
     {
         public static string ARTCODE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
 
-        public PositionTermArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_TERM)
+        public PositionTermArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_POSITION_TERM)
         {
             SourceValues = new PositionTermSource();
         }

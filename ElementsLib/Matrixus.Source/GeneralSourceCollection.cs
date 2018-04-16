@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Elements.Config
+namespace ElementsLib.Matrixus.Source
 {
     using Module.Interfaces.Elements;
 
-    public abstract class GeneralSourceCollection<TConfig, TIndex, TValues> : ISourceCollection<TConfig, TIndex, TValues> 
+    public abstract class GeneralSourceCollection<TConfig, TIndex, TValues>
         where TConfig : IArticleSource
         where TValues : ISourceValues
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClazzGeneratorConsoleApp.Defs
 {
-    using ArticleCode = ElementsLib.Module.Codes.ArticleCzCode;
+    using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
 
     using ElementsLib.Module.Codes;
     using System.Text.RegularExpressions;

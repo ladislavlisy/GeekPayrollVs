@@ -4,7 +4,7 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using BodyCode = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -16,12 +16,13 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Matrixus.Source;
 
     public class ContractWorkingArticle : ArticleGeneralSource, ICloneable
     {
         public static string ARTCODE_CONTRACT_WORKING_EXCEPTION_RESULT_NULL_TEXT = "ContractWorkingArticle(8): Evaluate Results is not implemented!";
 
-        public ContractWorkingArticle() : base((BodyCode)MarkCode.ARTCODE_CONTRACT_WORKING)
+        public ContractWorkingArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_CONTRACT_WORKING)
         {
             SourceValues = new ContractWorkingSource();
         }

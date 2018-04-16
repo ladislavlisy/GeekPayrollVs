@@ -4,9 +4,10 @@ using System.Linq;
 
 namespace ElementsLib.Matrixus.Config
 {
-    using BodyCode = UInt16;
-    using BodyRole = UInt16;
-    using BodyType = UInt16;
+    using ConfigCode = UInt16;
+    using ConfigRole = UInt16;
+    using ConfigType = UInt16;
+    using SymbolName = String;
 
     using Module.Interfaces.Elements;
     using Module.Codes;
@@ -22,39 +23,46 @@ namespace ElementsLib.Matrixus.Config
 
     public class ArticleConfig : IArticleConfig
     {
-        public ArticleConfig(BodyCode codeBody, BodyRole roleBody, BodyType typeBody, params BodyCode[] codePath)
+        public ArticleConfig(ConfigCode code, ConfigRole role, ConfigType type, SymbolName name, params ConfigCode[] path)
         {
-            InternalCode = codeBody;
-            InternalRole = roleBody;
-            InternalType = typeBody;
-            ResolvePath = codePath.ToList();
+            InternalCode = code;
+            InternalRole = role;
+            InternalType = type;
+            InternalName = name;
+            InternalPath = path.ToList();
         }
 
-        protected BodyCode InternalCode { get; set; }
-        protected BodyRole InternalRole { get; set; }
-        protected BodyType InternalType { get; set; } 
-        protected IList<BodyCode> ResolvePath { get; set; }
+        protected ConfigCode InternalCode { get; set; }
+        protected ConfigRole InternalRole { get; set; }
+        protected ConfigType InternalType { get; set; } 
+        protected SymbolName InternalName { get; set; } 
+        protected IList<ConfigCode> InternalPath { get; set; }
+        protected IArticleSource InternalStub { get; set; } 
 
-        public BodyCode Code()
+        public ConfigCode Code()
         {
             return InternalCode;
         }
-        public BodyRole Role()
+        public ConfigRole Role()
         {
             return InternalRole;
         }
-        public BodyType Type()
+        public ConfigType Type()
         {
             return InternalType;
         }
-        public BodyCode[] Path()
+        public SymbolName Name()
         {
-            return ResolvePath.ToArray();
+            return InternalName;
+        }
+        public ConfigCode[] Path()
+        {
+            return InternalPath.ToArray();
         }
 
         public override string ToString()
         {
-            return ArticleCodeAdapter.GetSymbol(InternalCode);
+            return InternalName; // ArticleCodeAdapter.GetSymbol(InternalCode);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ResultMonad;
 
-namespace ElementsLib.Elements.Config
+namespace ElementsLib.Matrixus.Source
 {
     using TargetCode = UInt16;
 

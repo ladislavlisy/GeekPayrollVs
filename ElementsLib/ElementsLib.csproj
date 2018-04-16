@@ -62,7 +62,7 @@
     <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
     <Compile Include="Elements.Config.Source\PositionTimesheetSource.cs" />
     <Compile Include="Elements.Config.Source\PositionWorkingSource.cs" />
-    <Compile Include="Elements.Config\ArticleSourceCollection.cs" />
+    <Compile Include="Matrixus.Source\ArticleSourceCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Elements\ArticleResultStore.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
@@ -120,6 +120,16 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Matrixus\SimpleMatrixusService.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleConfigCollection.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleSourceCollection.cs" />
+    <Compile Include="Module.Interfaces.Permadom\IPermadumService.cs" />
+    <Compile Include="Permadom\ArticleCodeConfigBuilder.cs" />
+    <Compile Include="Module.Codes\ArticleType.cs" />
+    <Compile Include="Module.Interfaces.Permadom\ArticleCodeConfigData.cs" />
+    <Compile Include="Permadom\ArticleRoleConfigBuilder.cs" />
+    <Compile Include="Module.Interfaces.Permadom\ArticleRoleConfigData.cs" />
+    <Compile Include="Matrixus\MatrixusService.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleResultStore.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleSourceStore.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleResult.cs" />
@@ -150,6 +160,7 @@
     <Compile Include="Module.Interfaces\ILegalistService.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPenzixGuides.cs" />
     <Compile Include="Module.Interfaces.Legalist\IPeriodProfile.cs" />
+    <Compile Include="Module.Interfaces\IMatrixusService.cs" />
     <Compile Include="Module.Interfaces\IPeriodSelect.cs" />
     <Compile Include="Module.Interfaces.Legalist\ISocialGuides.cs" />
     <Compile Include="Module.Interfaces.Legalist\ITaxingGuides.cs" />
@@ -170,7 +181,7 @@
     <Compile Include="Elements\ArticleTarget.cs" />
     <Compile Include="Matrixus.Config\GeneralConfigCollection.cs" />
     <Compile Include="Module.Common\GeneralFactory.cs" />
-    <Compile Include="Elements.Config\GeneralSourceCollection.cs" />
+    <Compile Include="Matrixus.Source\GeneralSourceCollection.cs" />
     <Compile Include="Elements\ElementsService.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfig.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfigFactory.cs" />
@@ -179,16 +190,17 @@
     <Compile Include="Module.Json\ArticleConfigJson.cs" />
     <Compile Include="Module.Json\ConfigJsonReader.cs" />
     <Compile Include="Matrixus.Config\ArticleConfig.cs" />
-    <Compile Include="Elements.Config\ArticleGeneralSource.cs" />
+    <Compile Include="Matrixus.Source\ArticleGeneralSource.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleSource.cs" />
     <Compile Include="Elements.Config.Articles\ContractTermArticle.cs" />
     <Compile Include="Elements.Config.Articles\UnknownArticle.cs" />
     <Compile Include="Module.Libs\EnumUtilsExtensions.cs" />
     <Compile Include="Module.Libs\ResultMonadExtensions.cs" />
+    <Compile Include="Permadom\PermadomService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Module.Libs\StringUtilsExtensions.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigCollection.cs" />
-    <Compile Include="Elements.Config\ArticleSourceFactory.cs" />
+    <Compile Include="Matrixus.Source\ArticleSourceFactory.cs" />
     <Compile Include="Elements.Libs\TargetSelector.cs" />
   </ItemGroup>
   <ItemGroup>

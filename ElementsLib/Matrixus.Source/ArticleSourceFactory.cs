@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace ElementsLib.Elements.Config
+namespace ElementsLib.Matrixus.Source
 {
     using MarkName = String;
 

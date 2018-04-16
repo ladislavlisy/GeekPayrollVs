@@ -3,7 +3,7 @@
 namespace ElementsLib.Module.Codes
 {
     using EnumCode = UInt16;
-    public enum ArticleCzCode : EnumCode
+    public enum ArticleCodeCz : EnumCode
     {
         ARTCODE_UNKNOWN = 0,
         ARTCODE_CONTRACT_TERM,
@@ -53,7 +53,7 @@ namespace ElementsLib.Module.Codes
     }
     public static class ArticleCzCodeExtensions
     {
-        public static string GetSymbol(this ArticleCzCode article)
+        public static string GetSymbol(this ArticleCodeCz article)
         {
             return article.ToString();
         }
@@ -62,11 +62,11 @@ namespace ElementsLib.Module.Codes
     {
         public static EnumCode GetContractCode()
         {
-            return (EnumCode)ArticleCzCode.ARTCODE_CONTRACT_TERM;
+            return (EnumCode)ArticleCodeCz.ARTCODE_CONTRACT_TERM;
         }
         public static EnumCode GetPositionCode()
         {
-            return (EnumCode)ArticleCzCode.ARTCODE_POSITION_TERM;
+            return (EnumCode)ArticleCodeCz.ARTCODE_POSITION_TERM;
         }
     }
 }

@@ -4,10 +4,11 @@ using ElementsLib.Module.Codes;
 using ElementsLib.Elements;
 using ElementsLib.Elements.Config;
 using ElementsLib.Module.Interfaces.Elements;
+using ElementsLib.Matrixus.Source;
 
 namespace ElementsTest
 {
-    using MarkCode = ArticleCzCode;
+    using ConfigCodeEnum = ArticleCodeCz;
 
     using HeadCode = UInt16;
     using PartCode = UInt16;
@@ -24,7 +25,7 @@ namespace ElementsTest
         const HeadCode HEAD_CODE_NULL = 0;
         const PartCode PART_CODE_NULL = 0;
 
-        const BodyCode BODY_CODE_TEST = (UInt16)MarkCode.ARTCODE_UNKNOWN;
+        const BodyCode BODY_CODE_TEST = (UInt16)ConfigCodeEnum.ARTCODE_UNKNOWN;
         const BodySeed BODY_SEED_NULL = 0;
 
         [Test]
@@ -32,7 +33,7 @@ namespace ElementsTest
         {
             IArticleTarget testArticle = new ArticleTarget(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-0";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddTargetToEmptyDict()
@@ -45,7 +46,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToBack()
@@ -62,7 +63,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToFront()
@@ -79,7 +80,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddSecondTargetToDictBetween()
@@ -100,7 +101,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToBackNonEmpty()
@@ -123,7 +124,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-5";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
         public void Test_AddSecondTargetToDictToFrontNonEmpty()
@@ -146,7 +147,7 @@ namespace ElementsTest
 
             IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
             string testArticleLabel = "0-0-ARTCODE_UNKNOWN-4";
-            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCzCode>());
+            Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
 
         private static ISourceCollection<IArticleSource, BodyCode, ISourceValues> InitConfigModel()

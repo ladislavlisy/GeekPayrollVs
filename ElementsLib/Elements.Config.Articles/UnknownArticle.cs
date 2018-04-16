@@ -2,15 +2,16 @@
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using BodyCode = UInt16;
 
     using Source;
     using Module.Interfaces.Elements;
+    using Matrixus.Source;
 
     public class UnknownArticle : ArticleGeneralSource, ICloneable
     {
-        public UnknownArticle() : base((BodyCode)MarkCode.ARTCODE_UNKNOWN)
+        public UnknownArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_UNKNOWN)
         {
             SourceValues = new ArticleEmptySource();
         }

@@ -4,7 +4,7 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using BodyCode = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -16,12 +16,13 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Matrixus.Source;
 
     public class PositionScheduleArticle : ArticleGeneralSource, ICloneable
     {
         public static string ARTCODE_POSITION_SCHEDULE_EXCEPTION_RESULT_NULL_TEXT = "PositionScheduleArticle(3): Evaluate Results is not implemented!";
 
-        public PositionScheduleArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_SCHEDULE)
+        public PositionScheduleArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_POSITION_SCHEDULE)
         {
             SourceValues = new PositionScheduleSource();
         }

@@ -7,7 +7,7 @@ using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
 
 namespace ElementsLib.Calculus
 {
-    using BundleCode = Module.Codes.ArticleCzCode;
+    using BundleCode = Module.Codes.ArticleCodeCz;
     using SymbolUtil = Module.Codes.ArticleCzCodeUtil;
 
     using ConfigCode = UInt16;
@@ -75,7 +75,7 @@ namespace ElementsLib.Calculus
             ContractCode = SymbolUtil.GetContractCode();
             PositionCode = SymbolUtil.GetPositionCode();
 
-            ConfigBundler.InitConfigModel(ConfigFactory);
+            //ConfigBundler.InitConfigModel(ConfigFactory);
 
             SourceBundler.InitConfigModel(ModuleAssembly, SourceFactory);
 

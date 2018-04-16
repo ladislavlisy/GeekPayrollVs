@@ -13,7 +13,7 @@ namespace ElementsLib.Elements.Config
     using Module.Interfaces.Matrixus;
     using ResultMonad;
 
-    public abstract class GeneralConfigCollection<TConfig, TIndex> : IConfigCollection<TConfig, TIndex>
+    public abstract class GeneralConfigCollection<TConfig, TIndex>
     {
         public GeneralConfigCollection()
         {
@@ -50,11 +50,6 @@ namespace ElementsLib.Elements.Config
             }
             return modelInstance;
         }
-
-        public abstract void InitConfigModel(IArticleConfigFactory configFactory);
-        public abstract TConfig FindArticleConfig(TIndex modelCode);
-        public abstract IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, TIndex headCode, TIndex partCode);
-
         public IList<KeyValuePair<TIndex, Int32>> ModelPath()
         {
             return InternalModelPath.ToList();

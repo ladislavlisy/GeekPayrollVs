@@ -3,7 +3,7 @@
 namespace ElementsLib.Module.Codes
 {
     using EnumCode = UInt16;
-    public enum ArticleCzRole : EnumCode
+    public enum ArticleRoleCz : EnumCode
     {
         ARTROLE_UNKNOWN = 0,
         ARTROLE_CONTRACT_TERM,
@@ -53,7 +53,7 @@ namespace ElementsLib.Module.Codes
     }
     public static class ArticleCzRoleExtensions
     {
-        public static string GetSymbol(this ArticleCzRole article)
+        public static string GetSymbol(this ArticleRoleCz article)
         {
             return article.ToString();
         }

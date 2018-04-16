@@ -6,10 +6,11 @@ using ElementsLib.Module.Codes;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Elements.Config;
 using ElementsLib.Elements;
+using ElementsLib.Matrixus.Source;
 
 namespace ElementsTest
 {
-    using MarkCode = ArticleCzCode;
+    using ConfigCodeEnum = ArticleCodeCz;
 
     [TestFixture]
     public class ArticleFactoryTests
@@ -23,7 +24,7 @@ namespace ElementsTest
 
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
 
-            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)MarkCode.ARTCODE_CONTRACT_TERM, (UInt16)MarkCode.ARTCODE_UNKNOWN);
+            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ConfigCodeEnum.ARTCODE_CONTRACT_TERM, (UInt16)ConfigCodeEnum.ARTCODE_UNKNOWN);
 
             Assert.AreEqual(testTargetLabel, testSource.ToString());
         }
