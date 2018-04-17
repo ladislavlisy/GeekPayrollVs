@@ -3,7 +3,7 @@
 namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
-    using BodyCode = UInt16;
+    using ConfigCode = UInt16;
 
     using Source;
     using Module.Interfaces.Elements;
@@ -11,7 +11,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class UnknownArticle : ArticleGeneralSource, ICloneable
     {
-        public UnknownArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_UNKNOWN)
+        public UnknownArticle() : base((ConfigCode)ConfigCodeEnum.TARGET_UNKNOWN)
         {
             SourceValues = new ArticleEmptySource();
         }
@@ -32,7 +32,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("UnknownArticle(ARTCODE_UNKNOWN, 0): {0}", message);
+            return string.Format("UnknownArticle(TARGET_UNKNOWN, 0): {0}", message);
         }
 
         public override object Clone()

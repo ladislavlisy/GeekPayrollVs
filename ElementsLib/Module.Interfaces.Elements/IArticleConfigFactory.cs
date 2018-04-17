@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using ConfigItem = IArticleConfig;
-    using ConfigData = Interfaces.Permadom.ArticleCodeConfigData;
+    using ConfigRoleItem = IArticleRoleConfig;
+    using ConfigRoleData = Interfaces.Permadom.ArticleRoleConfigData;
+
+    using ConfigCodeItem = IArticleCodeConfig;
+    using ConfigCodeData = Interfaces.Permadom.ArticleCodeConfigData;
 
     public interface IArticleConfigFactory
     {
-        ConfigItem CreateConfigItem(ConfigData configJson);
+        ConfigRoleItem CreateConfigRoleItem(ConfigRoleData configData);
+        ConfigCodeItem CreateConfigCodeItem(ConfigCodeData configData);
     }
 }

@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxWithholdFinalDefinition : ArticleDefinition
 	{
-		public TaxWithholdFinalDefinition() : base(ArticleCode.ARTCODE_TAX_WITHHOLD_FINAL)
+		public TaxWithholdFinalDefinition() : base(ArticleCode.TARGET_TAX_WITHHOLD_FINAL)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

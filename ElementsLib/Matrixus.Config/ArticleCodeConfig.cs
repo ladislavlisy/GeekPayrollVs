@@ -21,9 +21,9 @@ namespace ElementsLib.Matrixus.Config
     // IncomesRules
     // Create ArticleSource
 
-    public class ArticleConfig : IArticleConfig
+    public class ArticleCodeConfig : IArticleCodeConfig
     {
-        public ArticleConfig(ConfigCode code, ConfigRole role, ConfigType type, SymbolName name, params ConfigCode[] path)
+        public ArticleCodeConfig(ConfigCode code, ConfigRole role, ConfigType type, SymbolName name, params ConfigCode[] path)
         {
             InternalCode = code;
             InternalRole = role;

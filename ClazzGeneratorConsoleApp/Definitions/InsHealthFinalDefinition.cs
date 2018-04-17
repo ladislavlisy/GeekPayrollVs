@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class InsHealthFinalDefinition : ArticleDefinition
 	{
-		public InsHealthFinalDefinition() : base(ArticleCode.ARTCODE_INS_HEALTH_FINAL)
+		public InsHealthFinalDefinition() : base(ArticleCode.TARGET_INS_HEALTH_FINAL)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

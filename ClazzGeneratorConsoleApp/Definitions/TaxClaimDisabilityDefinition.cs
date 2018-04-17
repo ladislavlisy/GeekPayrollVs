@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxClaimDisabilityDefinition : ArticleDefinition
 	{
-		public TaxClaimDisabilityDefinition() : base(ArticleCode.ARTCODE_TAX_CLAIM_DISABILITY)
+		public TaxClaimDisabilityDefinition() : base(ArticleCode.TARGET_TAX_CLAIM_DISABILITY)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

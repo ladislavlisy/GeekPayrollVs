@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxAdvanceHealthDefinition : ArticleDefinition
 	{
-		public TaxAdvanceHealthDefinition() : base(ArticleCode.ARTCODE_TAX_ADVANCE_HEALTH)
+		public TaxAdvanceHealthDefinition() : base(ArticleCode.TARGET_TAX_ADVANCE_HEALTH)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class UnknownDefinition : ArticleDefinition
 	{
-		public UnknownDefinition() : base(ArticleCode.ARTCODE_UNKNOWN)
+		public UnknownDefinition() : base(ArticleCode.TARGET_UNKNOWN)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

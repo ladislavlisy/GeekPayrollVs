@@ -6,52 +6,43 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Matrixus
 {
+    using CodeItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
+    using RoleItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
+
+    using CodeList = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
+    using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
+
     using Config;
     using Source;
     using Module.Interfaces;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
 
-    using ArticleCodeConfigItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
-    using ArticleRoleConfigItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
-
     public class MatrixusService : IMatrixusService
     {
         protected IArticleConfigFactory InternalConfigFactory { get; set; }
         protected IArticleSourceFactory InternalSourceFactory { get; set; }
-        protected IArticleConfigCollection InternalConfig { get; set; }
-        protected IArticleSourceCollection InternalSource { get; set; }
-        //protected ArticleSourceCollection InternalMethod { get; set; }
+        protected IArticleConfigProfile InternalConfigProfile { get; set; }
 
         protected MatrixusService()
         {
-            InternalConfigFactory = null;
-            InternalConfig = null;
-
             InternalSourceFactory = null;
-            InternalSource = null;
+            InternalConfigFactory = null;
+            InternalConfigProfile = null;
         }
 
         public MatrixusService(IArticleConfigFactory configFactory, IArticleSourceFactory sourceFactory,
-            IArticleConfigCollection configCollection, IArticleSourceCollection sourceCollection)
+            IArticleConfigProfile configProfile)
         {
-            InternalConfigFactory = new ArticleConfigFactory();
-            InternalConfig = new ArticleConfigCollection();
+            InternalConfigFactory = configFactory;
+            InternalSourceFactory = sourceFactory;
 
-            InternalSourceFactory = new ArticleSourceFactory();
-            InternalSource = new ArticleSourceCollection();
+            InternalConfigProfile = configProfile;
         }
 
-        public void Initialize(IEnumerable<ArticleCodeConfigItem> configCodeData)
+        public void Initialize(RoleList configRoleData, CodeList configCodeData)
         {
-            //IEnumerable<KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>>
-            //IEnumerable<Module.Interfaces.Elements.IArticleConfig> LoadConfigData
-
-            InternalConfig.LoadConfigData(configCodeData, InternalConfigFactory);
-
-            //InternalSource.InitConfigModel(configAssembly, articleSourceFactory);
-            //InternalSource.InitConfigModel(**LoadConfigData, configAssembly, articleSourceFactory);
-
+            InternalConfigProfile.Initialize(configRoleData, configCodeData, InternalConfigFactory);
         }
     }
 }

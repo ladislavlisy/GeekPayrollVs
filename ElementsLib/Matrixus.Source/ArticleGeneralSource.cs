@@ -4,10 +4,10 @@ using ResultMonad;
 
 namespace ElementsLib.Matrixus.Source
 {
-    using TargetCode = UInt16;
+    using ConfigCode = UInt16;
 
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -20,7 +20,7 @@ namespace ElementsLib.Matrixus.Source
 
     public abstract class ArticleGeneralSource : IArticleSource, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, TargetCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
+        protected delegate IEnumerable<ResultPack> EvaluateDelegate(HolderItem evalHolder, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
 
         public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
         public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
@@ -28,17 +28,17 @@ namespace ElementsLib.Matrixus.Source
         public abstract string ArticleDecorateMessage(string message);
         public abstract void ImportSourceValues(ISourceValues values);
         public abstract ISourceValues ExportSourceValues();
-        public ArticleGeneralSource(TargetCode code)
+        public ArticleGeneralSource(ConfigCode code)
         {
             InternalCode = code;
 
             InternalEvaluate = null;
         }
 
-        protected TargetCode InternalCode { get; set; }
+        protected ConfigCode InternalCode { get; set; }
 
         protected EvaluateDelegate InternalEvaluate;
-        public TargetCode Code()
+        public ConfigCode Code()
         {
             return InternalCode;
         }
@@ -85,7 +85,7 @@ namespace ElementsLib.Matrixus.Source
             return results.Select((r) => (r)).ToList();
         }
 
-        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public virtual IEnumerable<ResultPack> EvaluateResults(HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
             if (InternalEvaluate == null)
             {
@@ -100,7 +100,7 @@ namespace ElementsLib.Matrixus.Source
             {
                 return ErrorToResults(ArticleDecorateMessage(EXCEPTION_EXPERT_NULL_TEXT));
             }
-            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+            return InternalEvaluate(evalHolder, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
 
         public virtual object Clone()

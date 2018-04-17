@@ -132,7 +132,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             Name = name;
             Type = type;
-            Refer = ArticleCode.ARTCODE_UNKNOWN;
+            Refer = ArticleCode.TARGET_UNKNOWN;
         }
         public ArticleParametr(string name, FieldType type, ArticleCode refer)
         {
@@ -145,49 +145,49 @@ namespace ClazzGeneratorConsoleApp.Defs
     {
         private const string NAME_CLASS_POSTFIX = "Article";
         private const string VALS_CLASS_POSTFIX = "Source";
-        private const string NAME_CLASS_PATTERN = "ARTCODE_(.*)";
+        private const string NAME_CLASS_PATTERN = "TARGET_(.*)";
         public ArticleCode Article { get; protected set; }
 
         public string ArticleDefn { get; protected set; }
-        public IList<ArticleParametr> ArticleTargets { get; protected set; }
+        public IList<ArticleParametr> ArticleSources { get; protected set; }
         public IList<ArticleParametr> ArticleResults { get; protected set; }
 
         public ArticleDefinition(ArticleCode article)
         {
             Article = article;
 
-            ArticleTargets = new List<ArticleParametr>();
+            ArticleSources = new List<ArticleParametr>();
 
             ArticleResults = new List<ArticleParametr>();
         }
-        public ArticleDefinition(ArticleCode article, IList<ArticleParametr> targets, IList<ArticleParametr> results)
+        public ArticleDefinition(ArticleCode article, IList<ArticleParametr> sources, IList<ArticleParametr> results)
         {
             Article = article;
 
-            ArticleTargets = targets;
+            ArticleSources = sources;
 
             ArticleResults = results;
         }
         public static ArticleDefinition Create(ArticleCode article, params ArticleParametr[] arg)
         {
-            IList<ArticleParametr> defnTargets = arg.ToList();
+            IList<ArticleParametr> defnSources = arg.ToList();
             IList<ArticleParametr> defnResults = new List<ArticleParametr>();
 
-            ArticleDefinition defn = new ArticleDefinition(article, defnTargets, defnResults);
+            ArticleDefinition defn = new ArticleDefinition(article, defnSources, defnResults);
             return defn;
         }
-        public ArticleDefinition AddTargets(params ArticleParametr[] arg)
+        public ArticleDefinition AddSources(params ArticleParametr[] arg)
         {
-            IList<ArticleParametr> defnTargets = arg.ToList();
+            IList<ArticleParametr> defnSources = arg.ToList();
 
-            ArticleDefinition defn = new ArticleDefinition(this.Article, defnTargets, this.ArticleResults);
+            ArticleDefinition defn = new ArticleDefinition(this.Article, defnSources, this.ArticleResults);
             return defn;
         }
         public ArticleDefinition AddResults(params ArticleParametr[] arg)
         {
             IList<ArticleParametr> defnResults = arg.ToList();
 
-            ArticleDefinition defn = new ArticleDefinition(this.Article, this.ArticleTargets, defnResults);
+            ArticleDefinition defn = new ArticleDefinition(this.Article, this.ArticleSources, defnResults);
             return defn;
         }
         public static IList<ArticleParametr> CreateParams(params ArticleParametr[] arg)

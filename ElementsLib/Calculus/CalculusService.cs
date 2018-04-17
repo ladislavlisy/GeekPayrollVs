@@ -11,16 +11,16 @@ namespace ElementsLib.Calculus
     using SymbolUtil = Module.Codes.ArticleCzCodeUtil;
 
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
+    using ConfigItem = Module.Interfaces.Elements.IArticleCodeConfig;
 
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
-    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Module.Interfaces;
@@ -35,13 +35,13 @@ namespace ElementsLib.Calculus
 
     public class CalculusService : ICalculusService
     {
-        private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
+        private readonly Func<IArticleSource, HolderItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
 
         IArticleConfigFactory ConfigFactory { get; set; }
 
         IArticleSourceFactory SourceFactory { get; set; }
 
-        IConfigCollection<ConfigItem, ConfigCode> ConfigBundler { get; set; }
+        IArticleCodeCollection ConfigBundler { get; set; }
 
         ISourceCollection<SourceItem, SourceCode, SourceVals> SourceBundler { get; set; }
 
@@ -58,8 +58,8 @@ namespace ElementsLib.Calculus
 
 
         public CalculusService(IArticleConfigFactory configFactory, 
-            IArticleSourceFactory sourceFactory, 
-            IConfigCollection<ConfigItem, ConfigCode> configBundler, 
+            IArticleSourceFactory sourceFactory,
+            IArticleCodeCollection configBundler, 
             ISourceCollection<SourceItem, SourceCode, SourceVals> sourceBundler)
         {
             this.ConfigFactory = configFactory;
@@ -106,7 +106,7 @@ namespace ElementsLib.Calculus
 
         private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            TargetItem targetInResult = sourceItem.Key;
+            HolderItem targetInResult = sourceItem.Key;
             SourcePack sourceInResult = sourceItem.Value;
 
             IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessEvaluateToResultSet(targetInResult, evalPeriod, evalProfile, evalResults, _evaluateResultsFunc);

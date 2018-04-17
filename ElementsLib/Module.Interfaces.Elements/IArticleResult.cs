@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using BodyCode = UInt16;
+    using ConfigCode = UInt16;
     public interface IArticleResult : ICloneable
     {
-        BodyCode Code();
+        ConfigCode Code();
     }
 }

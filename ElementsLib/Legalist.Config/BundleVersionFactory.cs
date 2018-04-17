@@ -59,7 +59,7 @@ namespace ElementsLib.Legalist.Config
 
             string holderClass = "";
 
-            return GeneralFactory<IBundleProfile>.InstanceFor(bundleAssembly, NAME_SPACE_PREFIX, symbolClass, holderClass);
+            return GeneralClazzFactory<IBundleProfile>.InstanceFor(bundleAssembly, NAME_SPACE_PREFIX, symbolClass, holderClass);
         }
 
         protected string ClassNameFor(string targetName)

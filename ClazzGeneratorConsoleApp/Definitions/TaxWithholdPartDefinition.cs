@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxWithholdPartDefinition : ArticleDefinition
 	{
-		public TaxWithholdPartDefinition() : base(ArticleCode.ARTCODE_TAX_WITHHOLD_PART)
+		public TaxWithholdPartDefinition() : base(ArticleCode.TARGET_TAX_WITHHOLD_PART)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

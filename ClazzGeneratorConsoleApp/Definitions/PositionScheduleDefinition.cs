@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class PositionScheduleDefinition : ArticleDefinition
 	{
-		public PositionScheduleDefinition() : base(ArticleCode.ARTCODE_POSITION_SCHEDULE)
+		public PositionScheduleDefinition() : base(ArticleCode.TARGET_POSITION_SCHEDULE)
 		{
-            ArticleTargets = ArticleDefinition.CreateParams(
+            ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("ShiftLiable", FieldType.TSeconds),
                 CreateParam("ShiftActual", FieldType.TSeconds),
                 CreateParam("ScheduleType", FieldType.WorkScheduleType));

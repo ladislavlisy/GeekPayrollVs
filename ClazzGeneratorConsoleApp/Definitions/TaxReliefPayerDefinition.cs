@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxReliefPayerDefinition : ArticleDefinition
 	{
-		public TaxReliefPayerDefinition() : base(ArticleCode.ARTCODE_TAX_RELIEF_PAYER)
+		public TaxReliefPayerDefinition() : base(ArticleCode.TARGET_TAX_RELIEF_PAYER)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

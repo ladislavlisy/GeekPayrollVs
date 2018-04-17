@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ElementsLib.Matrixus.Source
 {
-    using BodyCode = UInt16;
+    using ConfigCode = UInt16;
     using BodyItem = Module.Interfaces.Elements.IArticleSource;
     using BodyVals = Module.Interfaces.Elements.ISourceValues;
     using BodyPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
@@ -14,9 +14,9 @@ namespace ElementsLib.Matrixus.Source
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
 
-    public class ArticleSourceCollection : GeneralSourceCollection<BodyItem, BodyCode, BodyVals>, IArticleSourceCollection
+    public class ArticleStubCollection : GeneralStubCollection<BodyItem, ConfigCode, BodyVals>, IArticleStubCollection
     {
-        public ArticleSourceCollection()
+        public ArticleStubCollection()
         {
             DefaultCode = ArticleCodeAdapter.GetDefaultsCode();
         }
@@ -28,7 +28,7 @@ namespace ElementsLib.Matrixus.Source
             ConfigureModel(configTypeList);
         }
 
-        public override ResultMonad.Result<BodyItem, string> CloneInstanceForCode(BodyCode configCode, BodyVals sourceVals)
+        public override ResultMonad.Result<BodyItem, string> CloneInstanceForCode(ConfigCode configCode, BodyVals sourceVals)
         {
             ResultMonad.Result<BodyItem, string> emptyInstance = FindInstanceForCode(configCode);
 

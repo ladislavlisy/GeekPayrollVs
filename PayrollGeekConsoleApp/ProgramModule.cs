@@ -23,14 +23,14 @@ namespace PayrollGeekConsoleApp
 {
     using ConfigCodeEnum = ArticleCodeCz;
     using MarkUtil = ArticleCzCodeUtil;
-    using HeadCode = UInt16;
-    using PartCode = UInt16;
+    using HolderHead = UInt16;
+    using HolderPart = UInt16;
     using ConfigCode = UInt16;
 
-    using TargetItem = IArticleTarget;
+    using HolderItem = ElementsLib.Module.Interfaces.Elements.IArticleHolder;
     using SourceVals = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>;
-    using SourcePair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
-    using ResultPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>>;
+    using SourcePair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleSource, string>>;
+    using ResultPair = KeyValuePair<ElementsLib.Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<ElementsLib.Module.Interfaces.Elements.IArticleResult, string>;
 
     using ElementsLib.Module.Interfaces;
@@ -59,13 +59,13 @@ namespace PayrollGeekConsoleApp
 
             ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
-            ArticleConfigCollection payrollConfig = new ArticleConfigCollection();
+            ArticleCodeCollection payrollConfig = new ArticleCodeCollection();
             
             payrollConfig.LoadConfigData(configCodeData, articleConfigFactory);
 
             IArticleSourceFactory articleSourceFactory = new ArticleSourceFactory();
 
-            ArticleSourceCollection payrollSource = new ArticleSourceCollection();
+            ArticleStubCollection payrollSource = new ArticleStubCollection();
             
             payrollSource.InitConfigModel(configAssembly, articleSourceFactory);
 
@@ -87,27 +87,27 @@ namespace PayrollGeekConsoleApp
             ArticleData[] payrollLoad = new ArticleData[]
             {
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_CONTRACT_TERM,
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.TARGET_CONTRACT_TERM,
                     Tags = new ContractTermSource(TestDateFrom, TestDateStop, TestEmployeeTerm),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_POSITION_TERM,
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.TARGET_POSITION_TERM,
                     Tags = new PositionTermSource(TestDateFrom, TestDateStop, TestPositionTerm),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_POSITION_SCHEDULE,
+                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.TARGET_POSITION_SCHEDULE,
                     Tags = new PositionScheduleSource(TestShiftLiable, TestShiftActual, TestScheduleType),
                 },
                 new ArticleData() {
-                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.ARTCODE_CONTRACT_WORKING,
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.TARGET_CONTRACT_WORKING,
                     Tags = null,
                 },
-                //ARTCODE_POSITION_TIMESHEET,
-                //ARTCODE_POSITION_WORKING,
-                //ARTCODE_POSITION_ABSENCE,
-                //ARTCODE_CONTRACT_TIMESHEET,
-                //ARTCODE_CONTRACT_WORKING,
-                //ARTCODE_CONTRACT_ABSENCE,
+                //TARGET_POSITION_TIMESHEET,
+                //TARGET_POSITION_WORKING,
+                //TARGET_POSITION_ABSENCE,
+                //TARGET_CONTRACT_TIMESHEET,
+                //TARGET_CONTRACT_WORKING,
+                //TARGET_CONTRACT_ABSENCE,
             };
 
             foreach (var data in payrollLoad)
@@ -191,7 +191,7 @@ namespace PayrollGeekConsoleApp
 
         public static void LoadSourceModel()
         {
-            ArticleSourceCollection service = new ArticleSourceCollection();
+            ArticleStubCollection service = new ArticleStubCollection();
 
             Assembly configAssembly = typeof(ElementsService).Assembly;
 
@@ -206,13 +206,13 @@ namespace PayrollGeekConsoleApp
             IList<ArticleConfigNameJson> configList = new List<ArticleConfigNameJson>()
             {
                 new ArticleConfigNameJson() {
-                    Code = "ARTCODE_UNKNOWN", Role = "ARTROLE_UNKNOWN", ResolvePath = new string[] { }
+                    Code = "TARGET_UNKNOWN", Role = "METHOD_UNKNOWN", ResolvePath = new string[] { }
                 },
                 new ArticleConfigNameJson() {
-                    Code = "ARTCODE_CONTRACT_TERM", Role = "ARTROLE_CONTRACT_TERM", ResolvePath = new string[] { }
+                    Code = "TARGET_CONTRACT_TERM", Role = "METHOD_CONTRACT_TERM", ResolvePath = new string[] { }
                 },
                 new ArticleConfigNameJson() {
-                    Code = "ARTCODE_POSITION_TERM", Role = "ARTROLE_POSITION_TERM", ResolvePath = new string[] { "ARTCODE_CONTRACT_TERM" }
+                    Code = "TARGET_POSITION_TERM", Role = "METHOD_POSITION_TERM", ResolvePath = new string[] { "TARGET_CONTRACT_TERM" }
                 },
             };
 

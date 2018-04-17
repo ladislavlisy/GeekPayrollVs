@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
-    public interface IArticleResultStore : IEnumerable<KeyValuePair<IArticleTarget, ResultPack>>
+    public interface IArticleResultStore : IEnumerable<KeyValuePair<IArticleHolder, ResultPack>>
     {
-        IEnumerable<IArticleTarget> GetTargets();
+        IEnumerable<IArticleHolder> GetHolders();
         IEnumerable<ResultPair> GetModel();
     }
 }

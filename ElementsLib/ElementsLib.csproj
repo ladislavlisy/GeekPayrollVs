@@ -62,7 +62,9 @@
     <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
     <Compile Include="Elements.Config.Source\PositionTimesheetSource.cs" />
     <Compile Include="Elements.Config.Source\PositionWorkingSource.cs" />
-    <Compile Include="Matrixus.Source\ArticleSourceCollection.cs" />
+    <Compile Include="Matrixus.Config\ArticleRoleCollection.cs" />
+    <Compile Include="Matrixus.Config\ArticleRoleConfig.cs" />
+    <Compile Include="Matrixus.Source\ArticleStubCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Elements\ArticleResultStore.cs" />
     <Compile Include="Legalist.Config\BundleVersionCollection.cs" />
@@ -120,9 +122,14 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Matrixus\ArticleConfigProfile.cs" />
     <Compile Include="Matrixus\SimpleMatrixusService.cs" />
-    <Compile Include="Module.Interfaces.Matrixus\IArticleConfigCollection.cs" />
-    <Compile Include="Module.Interfaces.Matrixus\IArticleSourceCollection.cs" />
+    <Compile Include="Module.Common\GeneralNameFactory.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleRoleConfig.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleCodeCollection.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleConfigProfile.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleRoleCollection.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleStubCollection.cs" />
     <Compile Include="Module.Interfaces.Permadom\IPermadumService.cs" />
     <Compile Include="Permadom\ArticleCodeConfigBuilder.cs" />
     <Compile Include="Module.Codes\ArticleType.cs" />
@@ -133,7 +140,7 @@
     <Compile Include="Module.Interfaces.Elements\IArticleResultStore.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleSourceStore.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleResult.cs" />
-    <Compile Include="Module.Interfaces.Elements\IArticleTarget.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleHolder.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceValues.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IConfigCollection.cs" />
     <Compile Include="Module.Interfaces.Elements\ISourceCollection.cs" />
@@ -178,18 +185,18 @@
     <Compile Include="Module.Codes\ArticleCodeAdapter.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleRoleAdapter.cs" />
-    <Compile Include="Elements\ArticleTarget.cs" />
+    <Compile Include="Elements\ArticleHolder.cs" />
     <Compile Include="Matrixus.Config\GeneralConfigCollection.cs" />
-    <Compile Include="Module.Common\GeneralFactory.cs" />
-    <Compile Include="Matrixus.Source\GeneralSourceCollection.cs" />
+    <Compile Include="Module.Common\GeneralClazzFactory.cs" />
+    <Compile Include="Matrixus.Source\GeneralStubCollection.cs" />
     <Compile Include="Elements\ElementsService.cs" />
-    <Compile Include="Module.Interfaces.Elements\IArticleConfig.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleCodeConfig.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleCodeCz.cs" />
     <Compile Include="Module.Codes\ArticleRoleCz.cs" />
     <Compile Include="Module.Json\ArticleConfigJson.cs" />
     <Compile Include="Module.Json\ConfigJsonReader.cs" />
-    <Compile Include="Matrixus.Config\ArticleConfig.cs" />
+    <Compile Include="Matrixus.Config\ArticleCodeConfig.cs" />
     <Compile Include="Matrixus.Source\ArticleGeneralSource.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleSource.cs" />
     <Compile Include="Elements.Config.Articles\ContractTermArticle.cs" />
@@ -199,9 +206,9 @@
     <Compile Include="Permadom\PermadomService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Module.Libs\StringUtilsExtensions.cs" />
-    <Compile Include="Matrixus.Config\ArticleConfigCollection.cs" />
+    <Compile Include="Matrixus.Config\ArticleCodeCollection.cs" />
     <Compile Include="Matrixus.Source\ArticleSourceFactory.cs" />
-    <Compile Include="Elements.Libs\TargetSelector.cs" />
+    <Compile Include="Elements.Libs\HolderSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

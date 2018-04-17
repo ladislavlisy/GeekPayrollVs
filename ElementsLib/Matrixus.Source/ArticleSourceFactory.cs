@@ -8,7 +8,7 @@ namespace ElementsLib.Matrixus.Source
 {
     using MarkName = String;
 
-    using BodyCode = UInt16;
+    using ConfigCode = UInt16;
     using BodyItem = Module.Interfaces.Elements.IArticleSource;
     using BodyPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleSource>;
 
@@ -20,14 +20,14 @@ namespace ElementsLib.Matrixus.Source
     public class ArticleSourceFactory : IArticleSourceFactory
     {
         private const string NAME_CLASS_POSTFIX = "Article";
-        private const string NAME_CLASS_PATTERN = "ARTCODE_(.*)";
+        private const string NAME_CLASS_PATTERN = "TARGET_(.*)";
         private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Articles";
 
         public IEnumerable<BodyPair> CreateSourceList(Assembly configAssembly)
         {
-            IEnumerable<BodyCode> configList = ArticleCodeAdapter.GetSelectedCodes();
+            IEnumerable<ConfigCode> configList = ArticleCodeAdapter.GetSelectedCodes();
 
-            BodyCode backupCode = ArticleCodeAdapter.GetDefaultsCode();
+            ConfigCode backupCode = ArticleCodeAdapter.GetDefaultsCode();
 
             IList<BodyPair> sourceList = configList.Select((c) => (new BodyPair(
                 c, CreateSourceItem(configAssembly, c, backupCode)))).ToList();
@@ -35,14 +35,14 @@ namespace ElementsLib.Matrixus.Source
             return sourceList;
         }
 
-        protected BodyPair CreateSourcePair(Assembly configAssembly, BodyCode sourceCode, BodyCode backupCode)
+        protected BodyPair CreateSourcePair(Assembly configAssembly, ConfigCode sourceCode, ConfigCode backupCode)
         {
             BodyItem configItem = CreateSourceItem(configAssembly, sourceCode, backupCode);
 
             return new BodyPair(sourceCode, configItem);
         }
 
-        public BodyItem CreateSourceItem(Assembly configAssembly, BodyCode symbolCode, BodyCode backupCode)
+        public BodyItem CreateSourceItem(Assembly configAssembly, ConfigCode symbolCode, ConfigCode backupCode)
         {
             MarkName sourceName = CreateSourceName(symbolCode);
 
@@ -53,7 +53,7 @@ namespace ElementsLib.Matrixus.Source
             return sourceItem;
         }
 
-        protected MarkName CreateSourceName(BodyCode symbolCode)
+        protected MarkName CreateSourceName(ConfigCode symbolCode)
         {
             return ArticleCodeAdapter.CreateEnum(symbolCode).GetSymbol();
         }
@@ -68,7 +68,7 @@ namespace ElementsLib.Matrixus.Source
                 backupClass = ClassNameFor(backupName);
             }
 
-            return GeneralFactory<IArticleSource>.InstanceFor(configAssembly, NAME_SPACE_PREFIX, symbolClass, backupClass);
+            return GeneralClazzFactory<IArticleSource>.InstanceFor(configAssembly, NAME_SPACE_PREFIX, symbolClass, backupClass);
         }
 
         protected string ClassNameFor(string targetName)

@@ -8,18 +8,18 @@ using ElementsLib.Module.Interfaces.Elements;
 
 namespace PayrollGeekConsoleApp
 {
-    using HeadCode = UInt16;
-    using PartCode = UInt16;
-    using BodyCode = UInt16;
-    using BodySeed = UInt16;
+    using HolderHead = UInt16;
+    using HolderPart = UInt16;
+    using ConfigCode = UInt16;
+    using HolderSeed = UInt16;
     using BodyTags = ISourceValues;
 
     public class ArticleData
     {
-        public HeadCode Head { get; set; }
-        public PartCode Part { get; set; }
-        public BodyCode Code { get; set; }
-        public BodySeed Seed { get; set; }
+        public HolderHead Head { get; set; }
+        public HolderPart Part { get; set; }
+        public ConfigCode Code { get; set; }
+        public HolderSeed Seed { get; set; }
         public BodyTags Tags { get; set; }
 
     }

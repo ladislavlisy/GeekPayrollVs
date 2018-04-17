@@ -9,9 +9,9 @@ namespace ElementsLib.Module.Codes
     using ConfigRoleEnum = ArticleRoleCz;
     using EnumRole = UInt16;
 
-    using BodyType = UInt16;
-    using BodyItem = Interfaces.Elements.IArticleConfig;
-    using BodyPair = KeyValuePair<UInt16, Interfaces.Elements.IArticleConfig>;
+    using ConfigType = UInt16;
+    using BodyItem = Interfaces.Elements.IArticleCodeConfig;
+    using BodyPair = KeyValuePair<UInt16, Interfaces.Elements.IArticleCodeConfig>;
 
     using Libs;
     using Matrixus.Config;
@@ -20,27 +20,27 @@ namespace ElementsLib.Module.Codes
     {
         public static ConfigCodeEnum GetContractEnum()
         {
-            return ConfigCodeEnum.ARTCODE_CONTRACT_TERM;
+            return ConfigCodeEnum.TARGET_CONTRACT_TERM;
         }
         public static ConfigCodeEnum GetPositionEnum()
         {
-            return ConfigCodeEnum.ARTCODE_POSITION_TERM;
+            return ConfigCodeEnum.TARGET_POSITION_TERM;
         }
         public static ConfigCodeEnum GetDefaultsEnum()
         {
-            return ConfigCodeEnum.ARTCODE_UNKNOWN;
+            return ConfigCodeEnum.TARGET_UNKNOWN;
         }
         public static EnumCode GetContractCode()
         {
-            return (EnumCode)ConfigCodeEnum.ARTCODE_CONTRACT_TERM;
+            return (EnumCode)ConfigCodeEnum.TARGET_CONTRACT_TERM;
         }
         public static EnumCode GetPositionCode()
         {
-            return (EnumCode)ConfigCodeEnum.ARTCODE_POSITION_TERM;
+            return (EnumCode)ConfigCodeEnum.TARGET_POSITION_TERM;
         }
         public static EnumCode GetDefaultsCode()
         {
-            return (EnumCode)ConfigCodeEnum.ARTCODE_UNKNOWN;
+            return (EnumCode)ConfigCodeEnum.TARGET_UNKNOWN;
         }
         public static ConfigCodeEnum CreateEnum(EnumCode symbolNumb)
         {

@@ -10,151 +10,151 @@ namespace ElementsTest
 {
     using ConfigCodeEnum = ArticleCodeCz;
 
-    using HeadCode = UInt16;
-    using PartCode = UInt16;
-    using BodyCode = UInt16;
-    using BodySeed = UInt16;
+    using HolderHead = UInt16;
+    using HolderPart = UInt16;
+    using ConfigCode = UInt16;
+    using HolderSeed = UInt16;
 
     using System.Reflection;
     using ElementsLib;
     using ElementsLib.Elements.Config.Source;
 
     [TestFixture]
-    public class ArticleTargetsTests
+    public class ArticleHoldersTests
     {
-        const HeadCode HEAD_CODE_NULL = 0;
-        const PartCode PART_CODE_NULL = 0;
+        const HolderHead HEAD_CODE_NULL = 0;
+        const HolderPart PART_CODE_NULL = 0;
 
-        const BodyCode BODY_CODE_TEST = (UInt16)ConfigCodeEnum.ARTCODE_UNKNOWN;
-        const BodySeed BODY_SEED_NULL = 0;
+        const ConfigCode BODY_CODE_TEST = (UInt16)ConfigCodeEnum.TARGET_UNKNOWN;
+        const HolderSeed BODY_SEED_NULL = 0;
 
         [Test]
-        public void Test_CreateArticleTarget()
+        public void Test_CreateArticleHolder()
         {
-            IArticleTarget testArticle = new ArticleTarget(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-0";
+            IArticleHolder testArticle = new ArticleHolder(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-0";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddTargetToEmptyDict()
+        public void Test_AddHolderToEmptyDict()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-1";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddSecondTargetToDictToBack()
+        public void Test_AddSecondHolderToDictToBack()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
-            const BodySeed TestFirstSeed = 1;
+            const HolderSeed TestFirstSeed = 1;
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
+            IArticleHolder prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-2";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddSecondTargetToDictToFront()
+        public void Test_AddSecondHolderToDictToFront()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
-            const BodySeed TestFirstSeed = 2;
+            const HolderSeed TestFirstSeed = 2;
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
+            IArticleHolder prepArticle = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestFirstSeed, values);
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-1";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-1";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddSecondTargetToDictBetween()
+        public void Test_AddSecondHolderToDictBetween()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
-            const BodySeed TestSeed01 = 1;
-            const BodySeed TestSeed02 = 3;
-            const BodySeed TestSeed03 = 4;
+            const HolderSeed TestSeed01 = 1;
+            const HolderSeed TestSeed02 = 3;
+            const HolderSeed TestSeed03 = 4;
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleHolder prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleHolder backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleHolder backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-2";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-2";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddSecondTargetToDictToBackNonEmpty()
+        public void Test_AddSecondHolderToDictToBackNonEmpty()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
-            const BodySeed TestSeed01 = 1;
-            const BodySeed TestSeed02 = 2;
-            const BodySeed TestSeed03 = 3;
-            const BodySeed TestSeed04 = 4;
+            const HolderSeed TestSeed01 = 1;
+            const HolderSeed TestSeed02 = 2;
+            const HolderSeed TestSeed03 = 3;
+            const HolderSeed TestSeed04 = 4;
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
-            IArticleTarget backArticle4 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed04, values);
+            IArticleHolder prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleHolder backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleHolder backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleHolder backArticle4 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed04, values);
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-5";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-5";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
         [Test]
-        public void Test_AddSecondTargetToDictToFrontNonEmpty()
+        public void Test_AddSecondHolderToDictToFrontNonEmpty()
         {
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = InitConfigModel();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = InitConfigModel();
 
             ArticleSourceStore testBucket = new ArticleSourceStore(configTemplate);
 
-            const BodySeed TestSeed01 = 1;
-            const BodySeed TestSeed02 = 2;
-            const BodySeed TestSeed03 = 3;
-            const BodySeed TestSeed05 = 5;
+            const HolderSeed TestSeed01 = 1;
+            const HolderSeed TestSeed02 = 2;
+            const HolderSeed TestSeed03 = 3;
+            const HolderSeed TestSeed05 = 5;
 
             ISourceValues values = new ArticleEmptySource();
 
-            IArticleTarget prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
-            IArticleTarget backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
-            IArticleTarget backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
-            IArticleTarget backArticle5 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed05, values);
+            IArticleHolder prepArticle1 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed01, values);
+            IArticleHolder backArticle2 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed02, values);
+            IArticleHolder backArticle3 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed03, values);
+            IArticleHolder backArticle5 = testBucket.StoreGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, TestSeed05, values);
 
-            IArticleTarget testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
-            string testArticleLabel = "0-0-ARTCODE_UNKNOWN-4";
+            IArticleHolder testArticle = testBucket.AddGeneralItem(HEAD_CODE_NULL, PART_CODE_NULL, BODY_CODE_TEST, BODY_SEED_NULL, values);
+            string testArticleLabel = "0-0-TARGET_UNKNOWN-4";
             Assert.AreEqual(testArticleLabel, testArticle.ToSymbolString<ArticleCodeCz>());
         }
 
-        private static ISourceCollection<IArticleSource, BodyCode, ISourceValues> InitConfigModel()
+        private static ISourceCollection<IArticleSource, ConfigCode, ISourceValues> InitConfigModel()
         {
             Assembly configAssembly = typeof(ElementsService).Assembly;
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
-            ISourceCollection<IArticleSource, BodyCode, ISourceValues> configTemplate = new ArticleSourceCollection();
+            ISourceCollection<IArticleSource, ConfigCode, ISourceValues> configTemplate = new ArticleStubCollection();
 
             configTemplate.InitConfigModel(configAssembly, configFactory);
 

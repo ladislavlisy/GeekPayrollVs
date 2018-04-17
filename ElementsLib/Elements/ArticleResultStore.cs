@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace ElementsLib.Elements
 {
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Module.Interfaces.Elements;
@@ -15,7 +15,7 @@ namespace ElementsLib.Elements
     public class ArticleResultStore : IArticleResultStore
     {
         #region TARGET_SOURCE_MODEL
-        protected IDictionary<TargetItem, ResultPack> model;
+        protected IDictionary<HolderItem, ResultPack> model;
 
         public IEnumerator<ResultPair> GetEnumerator()
         {
@@ -26,11 +26,11 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
-        public ICollection<TargetItem> Keys
+        public ICollection<HolderItem> Keys
         {
             get { return model.Keys; }
         }
-        public IEnumerable<TargetItem> GetTargets()
+        public IEnumerable<HolderItem> GetHolders()
         {
             return model.Keys.ToList();
         }
@@ -44,7 +44,7 @@ namespace ElementsLib.Elements
 
         public ArticleResultStore()
         {
-            model = new Dictionary<TargetItem, ResultPack>();
+            model = new Dictionary<HolderItem, ResultPack>();
         }
 
         public void CopyModel(IArticleResultStore source)

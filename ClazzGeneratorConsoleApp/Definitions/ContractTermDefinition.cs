@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class ContractTermDefinition : ArticleDefinition
 	{
-		public ContractTermDefinition() : base(ArticleCode.ARTCODE_CONTRACT_TERM)
+		public ContractTermDefinition() : base(ArticleCode.TARGET_CONTRACT_TERM)
 		{
-            ArticleTargets = ArticleDefinition.CreateParams(
+            ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("DateFrom", FieldType.DATE),
                 CreateParam("DateStop", FieldType.DATE),
                 CreateParam("ContractType", FieldType.WorkEmployTerms));

@@ -16,17 +16,17 @@ namespace ElementsTest
     public class ArticleFactoryTests
     {
         [Test]
-        public void Test_CreateArticleTarget()
+        public void Test_CreateArticleHolder()
         {
-            string testTargetLabel = "ARTCODE_CONTRACT_TERM";
+            string testHolderLabel = "TARGET_CONTRACT_TERM";
 
             Assembly configAssembly = typeof(ElementsService).Assembly;
 
             IArticleSourceFactory configFactory = new ArticleSourceFactory();
 
-            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ConfigCodeEnum.ARTCODE_CONTRACT_TERM, (UInt16)ConfigCodeEnum.ARTCODE_UNKNOWN);
+            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ConfigCodeEnum.TARGET_CONTRACT_TERM, (UInt16)ConfigCodeEnum.TARGET_UNKNOWN);
 
-            Assert.AreEqual(testTargetLabel, testSource.ToString());
+            Assert.AreEqual(testHolderLabel, testSource.ToString());
         }
     }
 }

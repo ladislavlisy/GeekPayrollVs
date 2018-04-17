@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxBonusChildDefinition : ArticleDefinition
 	{
-		public TaxBonusChildDefinition() : base(ArticleCode.ARTCODE_TAX_BONUS_CHILD)
+		public TaxBonusChildDefinition() : base(ArticleCode.TARGET_TAX_BONUS_CHILD)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

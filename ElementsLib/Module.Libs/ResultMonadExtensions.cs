@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Libs
 {
     using ErrorsItem = String;
-    using TargetItem = Interfaces.Elements.IArticleTarget;
+    using HolderItem = Interfaces.Elements.IArticleHolder;
     using SourceItem = Interfaces.Elements.IArticleSource;
     using SourcePack = ResultMonad.Result<Interfaces.Elements.IArticleSource, string>;
-    using SourcePair = KeyValuePair<Interfaces.Elements.IArticleTarget, ResultMonad.Result<Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Interfaces.Elements.IArticleHolder, ResultMonad.Result<Interfaces.Elements.IArticleSource, string>>;
     using ResultItem = Interfaces.Elements.IArticleResult;
     using ResultPack = ResultMonad.Result<Interfaces.Elements.IArticleResult, string>;
-    using ResultPair = KeyValuePair<Interfaces.Elements.IArticleTarget, ResultMonad.Result<Interfaces.Elements.IArticleResult, string>>;
+    using ResultPair = KeyValuePair<Interfaces.Elements.IArticleHolder, ResultMonad.Result<Interfaces.Elements.IArticleResult, string>>;
     using ResultMonad;
     using Items;
     using Interfaces.Legalist;
@@ -53,15 +53,15 @@ namespace ElementsLib.Module.Libs
             return onSuccessFunc(result.Value);
         }
         public static IEnumerable<ResultPack> OnSuccessEvaluateToResultSet(
-            this SourcePack result, TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults, 
-            Func<SourceItem, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> onSuccessFunc)
+            this SourcePack result, HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults, 
+            Func<SourceItem, HolderItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> onSuccessFunc)
         {
             if (result.IsFailure)
             {
                 return new List<ResultPack>() { Result.Fail<ResultItem, ErrorsItem>(result.Error) };
             }
 
-            return onSuccessFunc(result.Value, evalTarget, evalPeriod, evalProfile, evalResults);
+            return onSuccessFunc(result.Value, evalHolder, evalPeriod, evalProfile, evalResults);
         }
         public static IEnumerable<ResultPack> ToList(this ResultPack result)
         {
@@ -72,7 +72,7 @@ namespace ElementsLib.Module.Libs
     {
         public static string Description(this SourcePair value)
         {
-            TargetItem node = value.Key;
+            HolderItem node = value.Key;
 
             SourcePack item = value.Value;
 
@@ -81,7 +81,7 @@ namespace ElementsLib.Module.Libs
 
         public static string Description(this ResultPair value)
         {
-            TargetItem node = value.Key;
+            HolderItem node = value.Key;
 
             ResultPack item = value.Value;
 

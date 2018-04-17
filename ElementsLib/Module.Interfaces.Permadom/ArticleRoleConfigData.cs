@@ -10,9 +10,9 @@ namespace ElementsLib.Module.Interfaces.Permadom
     using SymbolName = String;
     public class ArticleRoleConfigData
     {
-        ConfigRole Role { get; set; }
-        SymbolName Name { get; set; }
-        ConfigRole[] Path { get; set; }
+        public ConfigRole Role { get; set; }
+        public SymbolName Name { get; set; }
+        public ConfigRole[] Path { get; set; }
 
         public ArticleRoleConfigData(ConfigRole _role, SymbolName _name, params ConfigRole[] _path)
         {

@@ -73,9 +73,9 @@ namespace ClazzGeneratorConsoleApp.Defs
         public override void StartBlok(StreamWriter writer)
         {
             WriteBaseBlokLine(writer, "using ConfigCodeEnum = Module.Codes.ArticleCzCode;");
-            WriteBaseBlokLine(writer, "using BodyCode = UInt16;");
+            WriteBaseBlokLine(writer, "using ConfigCode = UInt16;");
             DelimitLine(writer);
-            WriteBaseBlokLine(writer, "using TargetItem = Module.Interfaces.Elements.IArticleTarget;");
+            WriteBaseBlokLine(writer, "using HolderItem = Module.Interfaces.Elements.IArticleHolder;");
             WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");           
             DelimitLine(writer);
@@ -96,7 +96,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             WriteBlokLine(writer, "public static string " + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + CLASS_UINT + "): Evaluate Results is not implemented!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public " + FullClassName + "() : base((BodyCode)ConfigCodeEnum." + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + FullClassName + "() : base((ConfigCode)ConfigCodeEnum." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
             WriteBlokLine(writer, "}");
@@ -125,7 +125,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ValsClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)");
+            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults(HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
             WriteBlokLine(writer, "}");
@@ -185,9 +185,9 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             string CLASS_ENUM = ClassCode.GetSymbol();
 
-            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.ARTCODE_" + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.TARGET_" + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "ArticleTargets = ArticleDefinition.CreateParams();");
+            WriteIndentBlokLine(writer, 1, "ArticleSources = ArticleDefinition.CreateParams();");
             WriteIndentBlokLine(writer, 1, "ArticleResults = ArticleDefinition.CreateParams();");
             WriteBlokLine(writer, "}");
         }

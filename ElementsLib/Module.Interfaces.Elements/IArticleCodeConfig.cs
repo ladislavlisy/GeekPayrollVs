@@ -8,7 +8,7 @@ namespace ElementsLib.Module.Interfaces.Elements
     using ConfigType = UInt16;
     using SymbolName = String;
 
-    public interface IArticleConfig
+    public interface IArticleCodeConfig
     {
         ConfigCode Code();
         ConfigRole Role();

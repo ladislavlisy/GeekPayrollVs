@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class PositionTermDefinition : ArticleDefinition
 	{
-		public PositionTermDefinition() : base(ArticleCode.ARTCODE_POSITION_TERM)
+		public PositionTermDefinition() : base(ArticleCode.TARGET_POSITION_TERM)
 		{
-            ArticleTargets = ArticleDefinition.CreateParams(
+            ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("DateFrom", FieldType.DATE),
                 CreateParam("DateStop", FieldType.DATE),
                 CreateParam("PositionType", FieldType.WorkPositionType));

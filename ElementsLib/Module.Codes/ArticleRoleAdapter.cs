@@ -27,7 +27,7 @@ namespace ElementsLib.Module.Codes
         }
         private static ConfigRoleEnum GetDefaultCode()
         {
-            return ConfigRoleEnum.ARTROLE_UNKNOWN;
+            return ConfigRoleEnum.METHOD_UNKNOWN;
         }
     }
 }

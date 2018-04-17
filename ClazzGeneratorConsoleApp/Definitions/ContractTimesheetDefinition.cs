@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class ContractTimesheetDefinition : ArticleDefinition
 	{
-		public ContractTimesheetDefinition() : base(ArticleCode.ARTCODE_CONTRACT_TIMESHEET)
+		public ContractTimesheetDefinition() : base(ArticleCode.TARGET_CONTRACT_TIMESHEET)
 		{
-            ArticleTargets = ArticleDefinition.CreateParams(
+            ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursInPeriod", FieldType.TSheetSeconds));
             ArticleResults = ArticleDefinition.CreateParams();
 		}

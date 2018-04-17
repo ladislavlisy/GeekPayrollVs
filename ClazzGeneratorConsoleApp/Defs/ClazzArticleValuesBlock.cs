@@ -78,7 +78,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void StartBlok(StreamWriter writer)
         {
-            FieldType[] usingTypes = ClassDefs.ArticleTargets.Where((u) => (u.Type.ToUsingType() != "")).Select((x) => (x.Type)).Distinct().ToArray();
+            FieldType[] usingTypes = ClassDefs.ArticleSources.Where((u) => (u.Type.ToUsingType() != "")).Select((x) => (x.Type)).Distinct().ToArray();
 
             foreach (var type in usingTypes)
             {
@@ -102,25 +102,25 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void BlokBody(StreamWriter writer)
         {
-            foreach (var value in ClassDefs.ArticleTargets)
+            foreach (var value in ClassDefs.ArticleSources)
             {
                 WriteBlokLine(writer, "public " + value.Type.ToTypeName() + " " + value.Name + " { get; set; }");
             }
             DelimitLine(writer);
             WriteBlokLine(writer, "public " + ValsClassName + "()");
             WriteBlokLine(writer, "{");
-            foreach (var value in ClassDefs.ArticleTargets)
+            foreach (var value in ClassDefs.ArticleSources)
             {
                 WriteIndentBlokLine(writer, 1, value.Name + " = " + value.Type.ToInitValue() + ";");
             }
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteStartLine(writer, "public " + ValsClassName + "(");
-            string[] constructorParams = ClassDefs.ArticleTargets.Select((p) => (p.Type.ToTypeName() + " " + p.Name.Property())).ToArray();
+            string[] constructorParams = ClassDefs.ArticleSources.Select((p) => (p.Type.ToTypeName() + " " + p.Name.Property())).ToArray();
             Write(writer, string.Join(", ", constructorParams));
             WriteLine(writer, ")");
             WriteBlokLine(writer, "{");
-            foreach (var value in ClassDefs.ArticleTargets)
+            foreach (var value in ClassDefs.ArticleSources)
             {
                 if ((UInt16)value.Type >= 2000)
                 {
@@ -141,7 +141,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, ValsClassName + " cloneSource = (" + ValsClassName + ")this.MemberwiseClone();");
             DelimitLine(writer);
-            foreach (var value in ClassDefs.ArticleTargets)
+            foreach (var value in ClassDefs.ArticleSources)
             {
                 if ((UInt16)value.Type >= 2000)
                 {

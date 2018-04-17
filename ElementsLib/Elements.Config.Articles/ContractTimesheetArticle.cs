@@ -5,9 +5,9 @@ using ResultMonad;
 namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
-    using BodyCode = UInt16;
+    using ConfigCode = UInt16;
 
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -20,9 +20,9 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class ContractTimesheetArticle : ArticleGeneralSource, ICloneable
     {
-        public static string ARTCODE_CONTRACT_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT = "ContractTimesheetArticle(7): Evaluate Results is not implemented!";
+        public static string TARGET_CONTRACT_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT = "ContractTimesheetArticle(7): Evaluate Results is not implemented!";
 
-        public ContractTimesheetArticle() : base((BodyCode)ConfigCodeEnum.ARTCODE_CONTRACT_TIMESHEET)
+        public ContractTimesheetArticle() : base((ConfigCode)ConfigCodeEnum.TARGET_CONTRACT_TIMESHEET)
         {
             SourceValues = new ContractTimesheetSource();
         }
@@ -48,12 +48,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("ContractTimesheetSource(ARTCODE_CONTRACT_TIMESHEET, 7): { 0 }", message);
+            return string.Format("ContractTimesheetSource(TARGET_CONTRACT_TIMESHEET, 7): { 0 }", message);
         }
 
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public override IEnumerable<ResultPack> EvaluateResults(HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return ErrorToResults(ARTCODE_CONTRACT_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT);
+            return ErrorToResults(TARGET_CONTRACT_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()

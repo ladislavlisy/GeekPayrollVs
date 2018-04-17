@@ -6,21 +6,20 @@ using System.Linq;
 
 namespace ElementsLib.Elements
 {
-    using HeadCode = UInt16;
-    using PartCode = UInt16;
-    using BodyCode = UInt16;
-    using BodySeed = UInt16;
-    using BodySort = UInt16;
+    using HolderHead = UInt16;
+    using HolderPart = UInt16;
+    using HolderSeed = UInt16;
+    using HolderSort = UInt16;
 
     using SourceCase = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
-    using TargetVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using SourceVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
 
     using SortedPair = KeyValuePair<UInt16, Int32>;
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleConfig;
+    using ConfigItem = Module.Interfaces.Elements.IArticleCodeConfig;
 
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
     using Module.Interfaces.Elements;
@@ -36,9 +35,9 @@ namespace ElementsLib.Elements
         SourceCase ModelSourceBundler { get; set; }
 
         #region TARGET_SOURCE_MODEL
-        protected IDictionary<TargetItem, SourcePack> model;
+        protected IDictionary<HolderItem, SourcePack> model;
 
-        public IEnumerator<KeyValuePair<TargetItem, SourcePack>> GetEnumerator()
+        public IEnumerator<KeyValuePair<HolderItem, SourcePack>> GetEnumerator()
         {
             return model.GetEnumerator();
         }
@@ -47,16 +46,16 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
-        public ICollection<TargetItem> Keys
+        public ICollection<HolderItem> Keys
         {
             get { return model.Keys; }
         }
-        public IEnumerable<TargetItem> GetTargets()
+        public IEnumerable<HolderItem> GetHolders()
         {
             return model.Keys.ToList();
         }
 
-        public IEnumerable<KeyValuePair<TargetItem, SourcePack>> GetModel()
+        public IEnumerable<KeyValuePair<HolderItem, SourcePack>> GetModel()
         {
             return model.ToList();
         }
@@ -65,7 +64,7 @@ namespace ElementsLib.Elements
 
         public ArticleSourceStore(SourceCase sourceBundler)
         {
-            model = new Dictionary<TargetItem, SourcePack>();
+            model = new Dictionary<HolderItem, SourcePack>();
 
             ModelSourceBundler = sourceBundler;
         }
@@ -74,79 +73,79 @@ namespace ElementsLib.Elements
         {
             model = source.GetModel().ToDictionary((kv) => (kv.Key), (kv) => (kv.Value));
         }
-        public void AddGeneralItems(IEnumerable<TargetItem> targets)
+        public void AddGeneralItems(IEnumerable<HolderItem> targets)
         {
             foreach (var calc in targets)
             {
-                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadPartCode(calc))) == null)
+                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadHolderPart(calc))) == null)
                 {
                     AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
                 }
             }
         }
 
-        public BodyCode GetHeadBodyCode()
+        public ConfigCode GetHeadConfigCode()
         {
             return Module.Codes.ArticleCodeAdapter.GetContractCode();
         }
 
-        public TargetItem AddMainHead(ISourceValues tagsBody)
+        public HolderItem AddMainHead(ISourceValues tagsBody)
         {
-            HeadCode HEAD_CODE = ArticleTarget.HEAD_CODE_NULL;
-            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
-            BodyCode BODY_CODE = GetHeadBodyCode();
+            HolderHead HEAD_CODE = ArticleHolder.HEAD_CODE_NULL;
+            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
+            ConfigCode BODY_CODE = GetHeadConfigCode();
 
-            return AddGeneralItem(HEAD_CODE, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(HEAD_CODE, PART_CODE, BODY_CODE, ArticleHolder.BODY_SEED_NULL, tagsBody);
         }
 
-        public BodyCode GetPartBodyCode()
+        public ConfigCode GetPartConfigCode()
         {
             return Module.Codes.ArticleCodeAdapter.GetPositionCode();
         }
 
-        public TargetItem AddMainPart(HeadCode codeHead, ISourceValues tagsBody)
+        public HolderItem AddMainPart(HolderHead codeHead, ISourceValues tagsBody)
         {
-            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
-            BodyCode BODY_CODE = GetPartBodyCode();
+            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
+            ConfigCode BODY_CODE = GetPartConfigCode();
 
-            return AddGeneralItem(codeHead, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, PART_CODE, BODY_CODE, ArticleHolder.BODY_SEED_NULL, tagsBody);
         }
 
-        public TargetItem AddHeadItem(HeadCode codeHead, BodyCode codeBody, ISourceValues tagsBody)
+        public HolderItem AddHeadItem(HolderHead codeHead, ConfigCode codeBody, ISourceValues tagsBody)
         {
-            PartCode PART_CODE = ArticleTarget.PART_CODE_NULL;
+            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
 
-            return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleHolder.BODY_SEED_NULL, tagsBody);
         }
-        public TargetItem AddPartItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, ISourceValues tagsBody)
+        public HolderItem AddPartItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, ISourceValues tagsBody)
         {
-            return AddGeneralItem(codeHead, codePart, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, codePart, codeBody, ArticleHolder.BODY_SEED_NULL, tagsBody);
         }
-        public TargetItem AddGeneralItem(TargetItem target, ISourceValues tagsBody)
+        public HolderItem AddGeneralItem(HolderItem target, ISourceValues tagsBody)
         {
             return AddGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
         }
-        public TargetItem AddGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
+        public HolderItem AddGeneralItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody, ISourceValues tagsBody)
         {
-            BodySeed newBodySeed = TargetSelector.GetSeedToNewTarget(model.Keys, codeHead, codePart, codeBody);
+            HolderSeed newHolderSeed = HolderSelector.GetSeedToNewHolder(model.Keys, codeHead, codePart, codeBody);
 
-            return StoreGeneralItem(codeHead, codePart, codeBody, newBodySeed, tagsBody);
+            return StoreGeneralItem(codeHead, codePart, codeBody, newHolderSeed, tagsBody);
         }
-        public TargetItem StoreGeneralItem(TargetItem target, ISourceValues tagsBody)
+        public HolderItem StoreGeneralItem(HolderItem target, ISourceValues tagsBody)
         {
             return StoreGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
         }
-        public TargetItem StoreGeneralItem(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody, ISourceValues tagsBody)
+        public HolderItem StoreGeneralItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody, ISourceValues tagsBody)
         {
-            ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
+            ArticleHolder newHolder = new ArticleHolder(codeHead, codePart, codeBody, seedBody);
 
             SourcePack newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
 
-            model.Add(newTarget, newSource);
+            model.Add(newHolder, newSource);
 
-            return newTarget;
+            return newHolder;
         }
-        protected SourcePack GetTemplateSourceForArticle(BodyCode codeBody, ISourceValues tagsBody)
+        protected SourcePack GetTemplateSourceForArticle(ConfigCode codeBody, ISourceValues tagsBody)
         {
             if (ModelSourceBundler == null)
             {
@@ -154,30 +153,30 @@ namespace ElementsLib.Elements
             }
             return ModelSourceBundler.CloneInstanceForCode(codeBody, tagsBody);
         }
-        public IList<SourcePair> PrepareEvaluationPath(IConfigCollection<ConfigItem, ConfigCode> configBundler, BodyCode contractCode, BodyCode positionCode)
+        public IList<SourcePair> PrepareEvaluationPath(IArticleCodeCollection configBundler, ConfigCode contractCode, ConfigCode positionCode)
         {
-            IEnumerable<TargetItem> targetsInit = GetTargets();
-            IEnumerable<TargetItem> targetsCalc = configBundler.GetTargets(targetsInit, contractCode, positionCode);
+            IEnumerable<HolderItem> holdersInit = GetHolders();
+            IEnumerable<HolderItem> holdersCalc = configBundler.GetHolders(holdersInit, contractCode, positionCode);
             IList<SortedPair> modelPath = configBundler.ModelPath();
 
-            AddGeneralItems(targetsCalc);
+            AddGeneralItems(holdersCalc);
 
-            IList<TargetItem> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
+            IList<HolderItem> sortedHolders = Keys.OrderBy((x) => (x), new CompareEvaluationHolders(modelPath)).ToList();
 
-            return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
+            return sortedHolders.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
         }
     }
 
-    internal class CompareEvaluationTargets : IComparer<TargetItem>
+    internal class CompareEvaluationHolders : IComparer<HolderItem>
     {
         private IList<SortedPair> ModelOrderList;
 
-        public CompareEvaluationTargets(IList<SortedPair> modelOrderList)
+        public CompareEvaluationHolders(IList<SortedPair> modelOrderList)
         {
             this.ModelOrderList = modelOrderList;
         }
 
-        public int Compare(TargetItem x, TargetItem y)
+        public int Compare(HolderItem x, HolderItem y)
         {
             if (x == y)
             {

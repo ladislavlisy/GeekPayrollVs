@@ -2,50 +2,50 @@
 
 namespace ElementsLib.Elements
 {
-    using HeadCode = UInt16;
-    using PartCode = UInt16;
-    using BodyCode = UInt16;
-    using BodySeed = UInt16;
-    using BodySort = UInt16;
+    using HolderHead = UInt16;
+    using HolderPart = UInt16;
+    using ConfigCode = UInt16;
+    using HolderSeed = UInt16;
+    using HolderSort = UInt16;
 
     using Module.Libs;
     using Module.Interfaces.Elements;
 
-    public class ArticleTarget : IArticleTarget 
+    public class ArticleHolder : IArticleHolder 
     {
-        public const HeadCode HEAD_CODE_NULL = 0;
-        public const PartCode PART_CODE_NULL = 0;
+        public const HolderHead HEAD_CODE_NULL = 0;
+        public const HolderPart PART_CODE_NULL = 0;
 
-        public const BodySeed BODY_SEED_NULL = 0;
-        public const BodySeed BODY_SEED_FIRST = 1;
+        public const HolderSeed BODY_SEED_NULL = 0;
+        public const HolderSeed BODY_SEED_FIRST = 1;
 
-        protected HeadCode InternalHead { get; set; }
-        protected PartCode InternalPart { get; set; }
-        protected BodyCode InternalCode { get; set; }
-        protected BodySeed InternalSeed { get; set; }
-        protected BodySort InternalSort { get; set; }
+        protected HolderHead InternalHead { get; set; }
+        protected HolderPart InternalPart { get; set; }
+        protected ConfigCode InternalCode { get; set; }
+        protected HolderSeed InternalSeed { get; set; }
+        protected HolderSort InternalSort { get; set; }
 
-        public HeadCode Head()
+        public HolderHead Head()
         {
             return InternalHead;
         }
 
-        public PartCode Part()
+        public HolderPart Part()
         {
             return InternalPart;
         }
 
-        public BodyCode Code()
+        public ConfigCode Code()
         {
             return InternalCode;
         }
 
-        public BodySeed Seed()
+        public HolderSeed Seed()
         {
             return InternalSeed;
         }
 
-        public ArticleTarget(HeadCode codeHead, PartCode codePart, BodyCode codeBody, BodySeed seedBody)
+        public ArticleHolder(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody)
         {
             this.InternalHead = codeHead;
             this.InternalPart = codePart;
@@ -53,7 +53,7 @@ namespace ElementsLib.Elements
             this.InternalSeed = seedBody;
         }
 
-        public int CompareTo(IArticleTarget other)
+        public int CompareTo(IArticleHolder other)
         {
             if (IsEqualToSame(other))
             {
@@ -69,7 +69,7 @@ namespace ElementsLib.Elements
             }
         }
 
-        private bool IsGreaterToSame(IArticleTarget other)
+        private bool IsGreaterToSame(IArticleHolder other)
         {
             if (this.InternalHead != other.Head())
             {
@@ -86,7 +86,7 @@ namespace ElementsLib.Elements
             return (this.InternalSeed > other.Seed());
         }
 
-        private bool IsSmallerToSame(IArticleTarget other)
+        private bool IsSmallerToSame(IArticleHolder other)
         {
             if (this.InternalHead != other.Head())
             {
@@ -103,30 +103,30 @@ namespace ElementsLib.Elements
             return (this.InternalSeed < other.Seed());
         }
 
-        private bool IsEqualToSame(IArticleTarget other)
+        private bool IsEqualToSame(IArticleHolder other)
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code() && this.InternalSeed == other.Seed());
         }
-        public bool IsEqualToHeadPartCode(IArticleTarget other)
+        public bool IsEqualToHeadHolderPart(IArticleHolder other)
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code());
         }
-        public bool IsEqualToHeadPartCode(HeadCode otherHead, PartCode otherPart, BodyCode otherCode)
+        public bool IsEqualToHeadHolderPart(HolderHead otherHead, HolderPart otherPart, ConfigCode otherCode)
         {
             return (this.InternalHead == otherHead && this.InternalPart == otherPart && this.InternalCode == otherCode);
         }
 
-        public static bool operator <(ArticleTarget x, ArticleTarget y)
+        public static bool operator <(ArticleHolder x, ArticleHolder y)
         {
             return x.IsSmallerToSame(y);
         }
 
-        public static bool operator >(ArticleTarget x, ArticleTarget y)
+        public static bool operator >(ArticleHolder x, ArticleHolder y)
         {
             return x.IsGreaterToSame(y);
         }
 
-        public static bool operator <=(ArticleTarget x, ArticleTarget y)
+        public static bool operator <=(ArticleHolder x, ArticleHolder y)
         {
             if (x.IsEqualToSame(y))
             {
@@ -135,7 +135,7 @@ namespace ElementsLib.Elements
             return x.IsSmallerToSame(y);
         }
 
-        public static bool operator >=(ArticleTarget x, ArticleTarget y)
+        public static bool operator >=(ArticleHolder x, ArticleHolder y)
         {                                                                         
             if (x.IsEqualToSame(y))                               
             {
@@ -145,7 +145,7 @@ namespace ElementsLib.Elements
         }
 
 
-        public bool Equals(IArticleTarget other)
+        public bool Equals(IArticleHolder other)
         {
             return this.IsEqualToSame(other);
         }
@@ -157,7 +157,7 @@ namespace ElementsLib.Elements
             if (obj == null || this.GetType() != obj.GetType())
                 return false;
 
-            ArticleTarget other = obj as ArticleTarget;
+            ArticleHolder other = obj as ArticleHolder;
 
             return this.IsEqualToSame(other);
         }
@@ -178,7 +178,7 @@ namespace ElementsLib.Elements
 
         public virtual object Clone()
         {
-            ArticleTarget clone = (ArticleTarget)this.MemberwiseClone();
+            ArticleHolder clone = (ArticleHolder)this.MemberwiseClone();
             return clone;
         }
 

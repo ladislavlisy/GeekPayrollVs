@@ -9,10 +9,9 @@ namespace ElementsLib.Matrixus
         public SimpleMatrixusService() : base()
         {
             InternalConfigFactory = new ArticleConfigFactory();
-            InternalConfig = new ArticleConfigCollection();
-
             InternalSourceFactory = new ArticleSourceFactory();
-            InternalSource = new ArticleSourceCollection();
+
+            InternalConfigProfile = new ArticleConfigProfile();
         }
     }
 }

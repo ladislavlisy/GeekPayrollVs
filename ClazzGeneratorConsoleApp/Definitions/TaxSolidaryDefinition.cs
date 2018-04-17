@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxSolidaryDefinition : ArticleDefinition
 	{
-		public TaxSolidaryDefinition() : base(ArticleCode.ARTCODE_TAX_SOLIDARY)
+		public TaxSolidaryDefinition() : base(ArticleCode.TARGET_TAX_SOLIDARY)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

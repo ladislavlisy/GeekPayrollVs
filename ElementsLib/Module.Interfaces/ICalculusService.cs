@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ElementsLib.Module.Interfaces
 {
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-    using SourcePair = KeyValuePair<Elements.IArticleTarget, ResultMonad.Result<Elements.IArticleSource, string>>;
-    using ResultPair = KeyValuePair<Elements.IArticleTarget, ResultMonad.Result<Elements.IArticleResult, string>>;
+    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using SourcePair = KeyValuePair<Elements.IArticleHolder, ResultMonad.Result<Elements.IArticleSource, string>>;
+    using ResultPair = KeyValuePair<Elements.IArticleHolder, ResultMonad.Result<Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
     using Legalist;

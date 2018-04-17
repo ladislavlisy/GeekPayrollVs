@@ -5,9 +5,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class InsSocialBaseDefinition : ArticleDefinition
 	{
-		public InsSocialBaseDefinition() : base(ArticleCode.ARTCODE_INS_SOCIAL_BASE)
+		public InsSocialBaseDefinition() : base(ArticleCode.TARGET_INS_SOCIAL_BASE)
 		{
-			ArticleTargets = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
 		}
 	}

@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace ElementsLib.Module.Common
 {
-    public static class GeneralFactory<T>
+    public static class GeneralClazzFactory<T>
     {
-        public static T InstanceFor(Assembly assembly, string namespacePrefix, string className, string clazzName)
+        public static T InstanceFor(Assembly assembly, string namespacePattern, string className, string clazzName)
         {
-            string instanceClass = ClassNameFor(namespacePrefix, className);
+            string instanceClass = ClassNameFor(namespacePattern, className);
 
             Type instanceType = assembly.GetType(instanceClass);
 
             if (instanceType == null && clazzName != "")
             {
-                instanceClass = ClassNameFor(namespacePrefix, clazzName);
+                instanceClass = ClassNameFor(namespacePattern, clazzName);
 
                 instanceType = assembly.GetType(instanceClass);
             }
@@ -34,6 +30,7 @@ namespace ElementsLib.Module.Common
             }
             return instance;
         }
+
 
         public static string ClassNameFor(string namespacePrefix, string className)
         {

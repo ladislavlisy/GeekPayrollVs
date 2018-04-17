@@ -9,11 +9,11 @@ namespace ElementsLib.Matrixus.Source
 {
     using Module.Interfaces.Elements;
 
-    public abstract class GeneralSourceCollection<TConfig, TIndex, TValues>
+    public abstract class GeneralStubCollection<TConfig, TIndex, TValues>
         where TConfig : IArticleSource
         where TValues : ISourceValues
     {
-        public GeneralSourceCollection()
+        public GeneralStubCollection()
         {
             this.Models = new Dictionary<TIndex, TConfig>();
         }
