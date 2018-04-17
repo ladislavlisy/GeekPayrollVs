@@ -15,5 +15,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         ConfigType Type();
         SymbolName Name();
         ConfigCode[] Path();
+        void SetSymbolCode(ConfigCode _code, ConfigType _type, params ConfigCode[] _path);
+        void SetSymbolRole(ConfigRole _role);
     }
 }

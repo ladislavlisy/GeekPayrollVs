@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace ElementsLib.Matrixus
 {
@@ -20,6 +21,7 @@ namespace ElementsLib.Matrixus
 
     public class MatrixusService : IMatrixusService
     {
+        protected Assembly ModuleAssembly { get; set; }
         protected IArticleConfigFactory InternalConfigFactory { get; set; }
         protected IArticleSourceFactory InternalSourceFactory { get; set; }
         protected IArticleConfigProfile InternalConfigProfile { get; set; }
@@ -42,7 +44,7 @@ namespace ElementsLib.Matrixus
 
         public void Initialize(RoleList configRoleData, CodeList configCodeData)
         {
-            InternalConfigProfile.Initialize(configRoleData, configCodeData, InternalConfigFactory);
+            InternalConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, InternalConfigFactory);
         }
     }
 }

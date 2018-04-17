@@ -143,7 +143,7 @@ namespace ClazzGeneratorConsoleApp.Defs
     }
     public class ArticleDefinition
     {
-        private const string NAME_CLASS_POSTFIX = "Article";
+        private const string NAME_CLASS_POSTFIX = "Target";
         private const string VALS_CLASS_POSTFIX = "Source";
         private const string NAME_CLASS_PATTERN = "TARGET_(.*)";
         public ArticleCode Article { get; protected set; }

@@ -4,12 +4,13 @@ namespace ElementsLib.Matrixus.Config
 {
     using ConfigRoleSpec = UInt16;
     using ConfigRoleName = String;
-    using ConfigRoleItem = Module.Interfaces.Elements.IArticleRoleConfig;
+    using ConfigRoleItem = Module.Interfaces.Matrixus.IArticleMethod;
     using ConfigRoleData = Module.Interfaces.Permadom.ArticleRoleConfigData;
 
     using ConfigCodeSpec = UInt16;
+    using ConfigCodeType = UInt16;
     using ConfigCodeName = String;
-    using ConfigCodeItem = Module.Interfaces.Elements.IArticleCodeConfig;
+    using ConfigCodeItem = Module.Interfaces.Matrixus.IArticleTarget;
     using ConfigCodeData = Module.Interfaces.Permadom.ArticleCodeConfigData;
 
     using Module.Interfaces.Elements;
@@ -20,62 +21,51 @@ namespace ElementsLib.Matrixus.Config
 
     public class ArticleConfigFactory : IArticleConfigFactory
     {
-        private const string CODE_NAME_CLASS_POSTFIX = "Method";
-        private const string CODE_NAME_CLASS_PATTERN = "METHOD_(.*)";
-        private const string CODE_NAME_SPACE_PATTERN = "ElementsLib.Elements.Methods";
+        private const string ROLE_NAME_CLASS_POSTFIX = "Method";
+        private const string ROLE_NAME_CLASS_PATTERN = "METHOD_(.*)";
+        private const string ROLE_NAME_SPACE_PATTERN = "ElementsLib.Elements.Config.Methods";
+        private const string ROLE_NAME_CLASS_DEFAULT = "METHOD_UNKNOWN";
 
-        private const string ROLE_NAME_CLASS_POSTFIX = "Target";
-        private const string ROLE_NAME_CLASS_PATTERN = "TARGET_(.*)";
-        private const string ROLE_NAME_SPACE_PATTERN = "ElementsLib.Elements.Targets";
+        private const string CODE_NAME_CLASS_POSTFIX = "Target";
+        private const string CODE_NAME_CLASS_PATTERN = "TARGET_(.*)";
+        private const string CODE_NAME_SPACE_PATTERN = "ElementsLib.Elements.Config.Targets";
+        private const string CODE_NAME_CLASS_DEFAULT = "TARGET_UNKNOWN";
 
-        public ConfigRoleItem CreateConfigRoleItem(ConfigRoleData codeData)
+        public ConfigRoleItem CreateMethodItem(Assembly configAssembly, ConfigRoleSpec symbolCode, ConfigRoleName symbolName, params ConfigRoleSpec[] symbolPath)
         {
-            ArticleRoleConfig config = new ArticleRoleConfig(codeData.Role, codeData.Name, codeData.Path);
+            string symbolClass = CreateMethodName(symbolName);
 
-            return config;
-        }
-        public ConfigCodeItem CreateConfigCodeItem(ConfigCodeData codeData)
-        {
-            ArticleCodeConfig config = new ArticleCodeConfig(codeData.Code, codeData.Role, codeData.Type, codeData.Name, codeData.Path);
+            string backupClass = CreateMethodName(ROLE_NAME_CLASS_DEFAULT);
 
-            return config;
-        }
+            ConfigRoleItem elementItem = GeneralClazzFactory<ConfigRoleItem>.InstanceFor(configAssembly, ROLE_NAME_SPACE_PATTERN, symbolClass, backupClass);
 
-        public ConfigRoleItem CreateMethodItem(Assembly configAssembly, ConfigRoleSpec symbolCode, ConfigRoleSpec backupCode)
-        {
-            string symbolClass = CreateMethodName(symbolCode);
+            elementItem.SetSymbolRole(symbolCode, symbolPath);
 
-            string backupClass = CreateMethodName(backupCode);
-
-            ConfigRoleItem sourceItem = GeneralClazzFactory<ConfigRoleItem>.InstanceFor(configAssembly, ROLE_NAME_SPACE_PATTERN, symbolClass, backupClass);
-
-            return sourceItem;
+            return elementItem;
         }
 
-        protected ConfigRoleName CreateMethodName(ConfigRoleSpec symbolCode)
+        protected ConfigRoleName CreateMethodName(ConfigRoleName symbolName)
         {
-            string symbolClazz = ArticleRoleAdapter.CreateEnum(symbolCode).GetSymbol();
-
-            string symbolClass = GeneralNamesFactory.ClassNameFor(ROLE_NAME_CLASS_POSTFIX, ROLE_NAME_CLASS_PATTERN, symbolClazz);
+            string symbolClass = GeneralNamesFactory.ClassNameFor(ROLE_NAME_CLASS_POSTFIX, ROLE_NAME_CLASS_PATTERN, symbolName);
 
             return symbolClass;
         }
-        public ConfigCodeItem CreateSourceItem(Assembly configAssembly, ConfigCodeSpec symbolCode, ConfigCodeSpec backupCode)
+        public ConfigCodeItem CreateTargetItem(Assembly configAssembly, ConfigCodeSpec symbolCode, ConfigCodeName symbolName, ConfigRoleSpec symbolRole, ConfigCodeType symbolType, params ConfigCodeSpec[] symbolPath)
         {
-            string symbolClass = CreateSourceName(symbolCode);
+            string symbolClass = CreateSourceName(symbolName);
 
-            string backupClass = CreateSourceName(backupCode);
+            string backupClass = CreateSourceName(CODE_NAME_CLASS_DEFAULT);
 
-            ConfigCodeItem sourceItem = GeneralClazzFactory<ConfigCodeItem>.InstanceFor(configAssembly, CODE_NAME_SPACE_PATTERN, symbolClass, backupClass);
+            ConfigCodeItem elementItem = GeneralClazzFactory<ConfigCodeItem>.InstanceFor(configAssembly, CODE_NAME_SPACE_PATTERN, symbolClass, backupClass);
 
-            return sourceItem;
+            elementItem.SetSymbolCode(symbolCode, symbolType, symbolPath);
+
+            return elementItem;
         }
 
-        protected ConfigCodeName CreateSourceName(ConfigCodeSpec symbolCode)
+        protected ConfigCodeName CreateSourceName(ConfigCodeName symbolName)
         {
-            string symbolClazz = ArticleCodeAdapter.CreateEnum(symbolCode).GetSymbol();
-
-            string symbolClass = GeneralNamesFactory.ClassNameFor(CODE_NAME_CLASS_POSTFIX, CODE_NAME_CLASS_PATTERN, symbolClazz);
+            string symbolClass = GeneralNamesFactory.ClassNameFor(CODE_NAME_CLASS_POSTFIX, CODE_NAME_CLASS_PATTERN, symbolName);
 
             return symbolClass;
         }

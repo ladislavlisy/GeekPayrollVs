@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ClazzGeneratorConsoleApp.Defs
 {
-    public class ClazzSourcesGenerator
+    public class ClazzGeneratorTargets
     {
-        private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Source";
+        private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Targets";
         public void DoSourceExport(string filesFolder)
         {
             ClazzArticlesBook articles = new ClazzArticlesBook();
@@ -20,22 +20,14 @@ namespace ClazzGeneratorConsoleApp.Defs
             {
                 DoOneClassFileExport(filesFolder, article);
             }
+
         }
 
-        private void DoInitClassExport(StreamWriter writer, NamespaceArticleSourceBlok parent, ArticleDefinition article)
+        private void DoOneClassExport(StreamWriter writer, NamespaceTargetBlok parent, ArticleDefinition article)
         {
             string articleClassName = article.ClassName();
 
-            DefinitionInstanceArticleBlok classBlok = new DefinitionInstanceArticleBlok(parent, article.Article, articleClassName);
-
-            classBlok.BlokBody(writer);
-        }
-
-        private void DoOneClassExport(StreamWriter writer, NamespaceArticleValuesBlok parent, ArticleDefinition article)
-        {
-            string articleClassName = article.ClassName();
-
-            ClassArticleValuesBlok classBlok = new ClassArticleValuesBlok(parent, article.Article, article, articleClassName);
+            ClassTargetBlok classBlok = new ClassTargetBlok(parent, article.Article, articleClassName);
 
             classBlok.StartBlok(writer);
             classBlok.BlokBody(writer);
@@ -44,7 +36,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         private void DoOneClassFileExport(string filesFolder, ArticleDefinition article)
         {
-            string articleClassName = article.ValsClassName();
+            string articleClassName = article.FullClassName();
 
             string genSourcePath = System.IO.Path.Combine(filesFolder, articleClassName + ".cs");
 
@@ -53,7 +45,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             using (StreamWriter genSourceWriter = new StreamWriter(genSourceStream, System.Text.Encoding.GetEncoding("windows-1250")))
             {
-                NamespaceArticleValuesBlok namespeceBlok = new NamespaceArticleValuesBlok(NAME_SPACE_PREFIX);
+                NamespaceTargetBlok namespeceBlok = new NamespaceTargetBlok(NAME_SPACE_PREFIX);
 
                 namespeceBlok.StartBlok(genSourceWriter);
 

@@ -16,6 +16,7 @@ namespace ElementsLib.Matrixus
     using Module.Interfaces.Elements;
     using Config;
     using Source;
+    using System.Reflection;
 
     public class ArticleConfigProfile : IArticleConfigProfile
     {
@@ -30,10 +31,10 @@ namespace ElementsLib.Matrixus
             InternalStubs = new ArticleStubCollection();
         }
 
-        public void Initialize(RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory)
+        public void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory)
         {
-            InternalRoles.LoadConfigData(configRoleData, configFactory);
-            InternalCodes.LoadConfigData(configCodeData, configFactory);
+            InternalRoles.LoadConfigData(configAssembly, configRoleData, configFactory);
+            InternalCodes.LoadConfigData(configAssembly, configCodeData, configFactory);
 
             //IEnumerable<KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>>
             //IEnumerable<Module.Interfaces.Elements.IArticleConfig> LoadConfigData

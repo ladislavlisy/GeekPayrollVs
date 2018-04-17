@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Elements.Config.Source
+namespace ElementsLib.Elements.Config.Sources
 {
     using TSeconds = Int32;
 
@@ -15,23 +15,23 @@ namespace ElementsLib.Elements.Config.Source
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public class ContractWorkingSource : ISourceValues, ICloneable
+    public class PositionWorkingSource : ISourceValues, ICloneable
     {
         public TSeconds[] HoursInPeriod { get; set; }
 
-        public ContractWorkingSource()
+        public PositionWorkingSource()
         {
             HoursInPeriod = new TSeconds[0];
         }
 
-        public ContractWorkingSource(TSeconds[] hoursInPeriod)
+        public PositionWorkingSource(TSeconds[] hoursInPeriod)
         {
             HoursInPeriod = hoursInPeriod.ToArray();
         }
 
         public virtual object Clone()
         {
-            ContractWorkingSource cloneSource = (ContractWorkingSource)this.MemberwiseClone();
+            PositionWorkingSource cloneSource = (PositionWorkingSource)this.MemberwiseClone();
 
             cloneSource.HoursInPeriod = this.HoursInPeriod.ToArray();
 

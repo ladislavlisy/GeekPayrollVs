@@ -43,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Defs\ClazzBlockDefinition.cs" />
+    <Compile Include="Defs\ClazzBlockMethod.cs" />
+    <Compile Include="Defs\ClazzGeneratorDefinition.cs" />
+    <Compile Include="Defs\ClazzGeneratorSources.cs" />
     <Compile Include="Defs\ArticleDefinition.cs" />
     <Compile Include="Defs\ClazzArticlesBook.cs" />
-    <Compile Include="Defs\ClazzArticlesGenerator.cs" />
-    <Compile Include="Defs\ClazzArticleSourceBlock.cs" />
-    <Compile Include="Defs\ClazzArticleValuesBlock.cs" />
+    <Compile Include="Defs\ClazzGeneratorTargets.cs" />
+    <Compile Include="Defs\ClazzBlockSource.cs" />
+    <Compile Include="Defs\ClazzBlockTarget.cs" />
+    <Compile Include="Defs\ClazzBlockValues.cs" />
+    <Compile Include="Defs\ClazzGeneratorMethods.cs" />
     <Compile Include="Defs\ClazzSourceBlock.cs" />
     <Compile Include="Definitions\ContractAbsenceDefinition.cs" />
     <Compile Include="Definitions\ContractTermDefinition.cs" />
@@ -94,7 +100,7 @@
     <Compile Include="Definitions\TaxWithholdPartDefinition.cs" />
     <Compile Include="Definitions\TaxWithholdSocialDefinition.cs" />
     <Compile Include="Definitions\UnknownDefinition.cs" />
-    <Compile Include="Defs\ClazzSourcesGenerator.cs" />
+    <Compile Include="Defs\ClazzGeneratorValues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,9 +10,10 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using RoleList = IEnumerable<Permadom.ArticleRoleConfigData>;
 
     using Elements;
+    using System.Reflection;
 
     public interface IArticleConfigProfile
     {
-        void Initialize(RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory);
+        void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory);
     }
 }

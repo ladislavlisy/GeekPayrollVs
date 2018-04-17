@@ -23,5 +23,14 @@ namespace ElementsLib.Module.Common
 
             return className;
         }
+
+        public static string FullClassNameFor(string namespacePrefix, string nameclazzPostfix, string nameclazzPattern, string targetName)
+        {
+            string easyClassName = ClassNameFor(nameclazzPostfix, nameclazzPattern, targetName);
+
+            string fullClassName = string.Join(".", namespacePrefix, easyClassName);
+
+            return fullClassName;
+        }
     }
 }

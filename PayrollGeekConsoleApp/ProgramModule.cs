@@ -51,24 +51,25 @@ namespace PayrollGeekConsoleApp
 
             IPermadomService payrollMemDbs = new PermadomService();
 
-            IMatrixusService payrollMatrix = new SimpleMatrixusService();
-
             var configCodeData = payrollMemDbs.GetArticleCodeDataList().ToList();
 
             var configRoleData = payrollMemDbs.GetArticleRoleDataList().ToList();
 
+            IMatrixusService payrollMatrix = new SimpleMatrixusService();
+
+            payrollMatrix.Initialize(configRoleData, configCodeData);
+
+            //-----------------------------------------------------------
+
             ArticleConfigFactory articleConfigFactory = new ArticleConfigFactory();
 
             ArticleCodeCollection payrollConfig = new ArticleCodeCollection();
-            
-            payrollConfig.LoadConfigData(configCodeData, articleConfigFactory);
 
             IArticleSourceFactory articleSourceFactory = new ArticleSourceFactory();
 
             ArticleStubCollection payrollSource = new ArticleStubCollection();
             
             payrollSource.InitConfigModel(configAssembly, articleSourceFactory);
-
 
             var payrollData = new ArticleSourceStore(payrollSource);
 

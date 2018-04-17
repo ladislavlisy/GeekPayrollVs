@@ -52,18 +52,30 @@
     <Compile Include="Elements.Config.Articles\PositionScheduleArticle.cs" />
     <Compile Include="Elements.Config.Articles\PositionTimesheetArticle.cs" />
     <Compile Include="Elements.Config.Articles\PositionWorkingArticle.cs" />
-    <Compile Include="Elements.Config.Source\ContractAbsenceSource.cs" />
-    <Compile Include="Elements.Config.Source\ContractTermSource.cs" />
-    <Compile Include="Elements.Config.Source\ArticleEmptySource.cs" />
-    <Compile Include="Elements.Config.Source\ContractTimesheetSource.cs" />
-    <Compile Include="Elements.Config.Source\ContractWorkingSource.cs" />
-    <Compile Include="Elements.Config.Source\PositionAbsenceSource.cs" />
-    <Compile Include="Elements.Config.Source\PositionScheduleSource.cs" />
-    <Compile Include="Elements.Config.Source\PositionTermSource.cs" />
-    <Compile Include="Elements.Config.Source\PositionTimesheetSource.cs" />
-    <Compile Include="Elements.Config.Source\PositionWorkingSource.cs" />
+    <Compile Include="Elements.Config.Methods\ContractAbsenceMethod.cs" />
+    <Compile Include="Elements.Config.Methods\ContractTermMethod.cs" />
+    <Compile Include="Elements.Config.Methods\ContractTimesheetMethod.cs" />
+    <Compile Include="Elements.Config.Methods\ContractWorkingMethod.cs" />
+    <Compile Include="Elements.Config.Methods\PositionAbsenceMethod.cs" />
+    <Compile Include="Elements.Config.Methods\PositionScheduleMethod.cs" />
+    <Compile Include="Elements.Config.Methods\PositionTermMethod.cs" />
+    <Compile Include="Elements.Config.Methods\PositionTimesheetMethod.cs" />
+    <Compile Include="Elements.Config.Methods\PositionWorkingMethod.cs" />
+    <Compile Include="Elements.Config.Methods\UnknownMethod.cs" />
+    <Compile Include="Elements.Config.Sources\ContractAbsenceSource.cs" />
+    <Compile Include="Elements.Config.Sources\ContractTermSource.cs" />
+    <Compile Include="Elements.Config.Sources\ArticleEmptySource.cs" />
+    <Compile Include="Elements.Config.Sources\ContractTimesheetSource.cs" />
+    <Compile Include="Elements.Config.Sources\ContractWorkingSource.cs" />
+    <Compile Include="Elements.Config.Sources\PositionAbsenceSource.cs" />
+    <Compile Include="Elements.Config.Sources\PositionScheduleSource.cs" />
+    <Compile Include="Elements.Config.Sources\PositionTermSource.cs" />
+    <Compile Include="Elements.Config.Sources\PositionTimesheetSource.cs" />
+    <Compile Include="Elements.Config.Sources\PositionWorkingSource.cs" />
+    <Compile Include="Elements.Config.Targets\UnknownTarget.cs" />
     <Compile Include="Matrixus.Config\ArticleRoleCollection.cs" />
     <Compile Include="Matrixus.Config\ArticleRoleConfig.cs" />
+    <Compile Include="Matrixus.Method\ArticleGeneralMethod.cs" />
     <Compile Include="Matrixus.Source\ArticleStubCollection.cs" />
     <Compile Include="Elements.Exceptions\ConfigExceptions.cs" />
     <Compile Include="Elements\ArticleResultStore.cs" />
@@ -122,14 +134,17 @@
     <Compile Include="Legalist.Versions.Employ\EmployGuidesVersion2018.cs" />
     <Compile Include="Legalist.Versions.Employ\EmployProfileVersion2018.cs" />
     <Compile Include="Legalist\GeneralBundleProfile.cs" />
+    <Compile Include="Matrixus.Target\ArticleGeneralTarget.cs" />
     <Compile Include="Matrixus\ArticleConfigProfile.cs" />
     <Compile Include="Matrixus\SimpleMatrixusService.cs" />
     <Compile Include="Module.Common\GeneralNameFactory.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleRoleConfig.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IArticleCodeCollection.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IArticleConfigProfile.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleMethod.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IArticleRoleCollection.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IArticleStubCollection.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleTarget.cs" />
     <Compile Include="Module.Interfaces.Permadom\IPermadumService.cs" />
     <Compile Include="Permadom\ArticleCodeConfigBuilder.cs" />
     <Compile Include="Module.Codes\ArticleType.cs" />
@@ -215,7 +230,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Elements.Config.ArticlesGen\" />
-    <Folder Include="Elements.Config.SourceGen\" />
+    <Folder Include="Elements.Config.MethodsGen\" />
+    <Folder Include="Elements.Config.SourcesGen\" />
+    <Folder Include="Elements.Config.TargetsGen\" />
     <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>
   <ItemGroup>

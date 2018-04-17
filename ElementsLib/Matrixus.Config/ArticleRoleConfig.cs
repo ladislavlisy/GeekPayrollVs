@@ -36,6 +36,11 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalPath.ToArray();
         }
+        public void SetSymbolRole(ConfigRole _role, params ConfigRole[] _path)
+        {
+            InternalRole = _role;
+            InternalPath = _path.ToList();
+        }
 
         public override string ToString()
         {

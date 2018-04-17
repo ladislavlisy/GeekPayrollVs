@@ -14,5 +14,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         ConfigRole Role();
         SymbolName Name();
         ConfigRole[] Path();
+
+        void SetSymbolRole(ConfigRole _role, params ConfigRole[] _path);
     }
 }

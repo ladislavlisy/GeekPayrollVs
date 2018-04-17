@@ -5,8 +5,8 @@ using System.Collections.Generic;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleCodeConfig;
-    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleCodeConfig>;
+    using ConfigItem = Module.Interfaces.Matrixus.IArticleTarget;
+    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Matrixus.IArticleTarget>;
     using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
 
     using HolderHead = UInt16;
@@ -20,6 +20,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Matrixus;
     using Elements;
     using Elements.Config;
+    using System.Reflection;
 
     public class ArticleCodeCollection : GeneralConfigCollection<ConfigItem, ConfigCode>, IArticleCodeCollection
     {
@@ -30,10 +31,10 @@ namespace ElementsLib.Matrixus.Config
 
         protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> InternalModelResolve { get; set; }
 
-        public void LoadConfigData(IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
+        public void LoadConfigData(Assembly configAssembly, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                c.Code, configFactory.CreateConfigCodeItem(c)))).ToList();
+                c.Code, configFactory.CreateTargetItem(configAssembly, c.Code, c.Name, c.Role, c.Type, c.Path)))).ToList();
 
             ConfigureModel(configTypeList);
 

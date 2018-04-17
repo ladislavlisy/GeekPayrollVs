@@ -20,6 +20,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             Book = new List<ArticleDefinition>()
             {
+                new UnknownDefinition(),
                 new ContractTermDefinition(),
                 new PositionTermDefinition(),
                 new PositionScheduleDefinition(),
