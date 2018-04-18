@@ -1,13 +1,10 @@
-﻿using ElementsLib.Legalist.Config;
-using ElementsLib.Module.Interfaces.Legalist;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace ElementsLib.Legalist
+namespace ElementsLib.Service.Legalist
 {
+    using ElementsLib.Legalist.Config;
+    using ElementsLib.Module.Interfaces.Legalist;
+
     public class SimpleLegalistService : LegalistService
     {
         public SimpleLegalistService() : base()

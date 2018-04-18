@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
+using System.Reflection;
 
-namespace ElementsLib.Calculus
+namespace ElementsLib.Service.Calculus
 {
-    using BundleCode = Module.Codes.ArticleCodeCz;
-
     using ConfigCode = UInt16;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-    using SourceCode = UInt16;
-    using SourceItem = Module.Interfaces.Elements.IArticleSource;
-    using SourceVals = Module.Interfaces.Elements.ISourceValues;
+
     using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
@@ -26,11 +20,7 @@ namespace ElementsLib.Calculus
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
     using Module.Interfaces.Legalist;
-    using Module.Interfaces.Permadom;
-    using System.Reflection;
-    using ResultMonad;
-    using Elements;
-    using Permadom;
+    using ElementsLib.Elements;
 
     public class CalculusService : ICalculusService
     {

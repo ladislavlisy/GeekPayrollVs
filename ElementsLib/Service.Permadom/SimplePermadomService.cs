@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ElementsLib.Permadom
+namespace ElementsLib.Service.Permadom
 {
     using ArticleCodeConfigItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
     using ArticleRoleConfigItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
 
-    using Module.Interfaces.Permadom;
     using Module.Codes;
-    using Elements.Config.Sources;
-    using Legalist.Constants;
+    using Module.Interfaces.Permadom;
+    using ElementsLib.Elements.Config.Sources;
+    using ElementsLib.Legalist.Constants;
 
     public class SimplePermadomService : IPermadomService
     {

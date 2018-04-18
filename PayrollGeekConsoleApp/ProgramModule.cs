@@ -16,11 +16,13 @@ namespace PayrollGeekConsoleApp
     using ElementsLib.Module.Libs;
     using ElementsLib.Module.Items;
     using ElementsLib.Module.Interfaces.Legalist;
-    using ElementsLib.Calculus;
     using ElementsLib.Matrixus;
     using ElementsLib.Legalist;
-    using ElementsLib.Permadom;
-
+    using ElementsLib.Service.Permadom;
+    using ElementsLib.Service.Matrixus;
+    using ElementsLib.Service.Legalist;
+    using ElementsLib.Service.Elements;
+    using ElementsLib.Service.Calculus;
 
     static class ProgramModule
     {

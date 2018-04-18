@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
+
 using ElementsLib.Module.Codes;
-using ElementsLib.Elements;
-using ElementsLib.Elements.Config;
+using ElementsLib.Elements.Config.Sources;
+using ElementsLib.Module.Interfaces.Matrixus;
+using ElementsLib.Module.Interfaces.Permadom;
 using ElementsLib.Module.Interfaces.Elements;
+using ElementsLib.Matrixus.Config;
+using ElementsLib.Elements;
+using ElementsLib.Service.Elements;
+using ElementsLib.Service.Permadom;
 
 namespace ElementsTest
 {
@@ -13,16 +21,6 @@ namespace ElementsTest
     using TargetPart = UInt16;
     using ConfigCode = UInt16;
     using TargetSeed = UInt16;
-
-    using System.Reflection;
-    using ElementsLib;
-    using ElementsLib.Elements.Config.Sources;
-    using ElementsLib.Module.Interfaces.Matrixus;
-    using ElementsLib.Matrixus;
-    using ElementsLib.Module.Interfaces.Permadom;
-    using ElementsLib.Permadom;
-    using System.Linq;
-    using ElementsLib.Matrixus.Config;
 
     [TestFixture]
     public class ArticleTargetsTests

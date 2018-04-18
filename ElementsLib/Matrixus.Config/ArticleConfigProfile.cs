@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
-namespace ElementsLib.Matrixus
+namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
-
-    using CodeItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
-    using RoleItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
 
     using CodeList = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
     using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
@@ -20,9 +15,6 @@ namespace ElementsLib.Matrixus
     using SourceErrs = String;
 
     using Module.Interfaces.Matrixus;
-    using Module.Interfaces.Elements;
-    using Config;
-    using System.Reflection;
 
     public class ArticleConfigProfile : IArticleConfigProfile
     {

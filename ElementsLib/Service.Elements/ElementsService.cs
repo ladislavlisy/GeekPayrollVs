@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ElementsLib.Elements
+namespace ElementsLib.Service.Elements
 {
     using Module.Interfaces;
     using Module.Interfaces.Elements;

@@ -13,7 +13,6 @@ namespace ElementsLib.Elements
     using TargetSort = UInt16;
 
     using SourceCase = Module.Interfaces.Matrixus.IArticleConfigProfile;
-    using SourceVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetData = Module.Interfaces.Permadom.ArticleData;
 
@@ -24,8 +23,6 @@ namespace ElementsLib.Elements
 
     using Module.Interfaces.Elements;
     using Libs;
-    using Exceptions;
-    using Module.Interfaces.Matrixus;
     using ResultMonad;
 
     public class ArticleSourceStore : IArticleSourceStore
@@ -34,7 +31,7 @@ namespace ElementsLib.Elements
 
         SourceCase ModelSourceProfile { get; set; }
 
-        #region FACT_SOURCE_MODEL
+        #region IENUMERATOR_SOURCE_MODEL
         protected IDictionary<TargetItem, SourcePack> model;
 
         public IEnumerator<KeyValuePair<TargetItem, SourcePack>> GetEnumerator()

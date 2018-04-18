@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 
-namespace ElementsLib.Matrixus
+namespace ElementsLib.Service.Matrixus
 {
-    using Config;
     using Elements;
     using Permadom;
+    using ElementsLib.Matrixus.Config;
 
     public class SimpleMatrixusService : MatrixusService
     {

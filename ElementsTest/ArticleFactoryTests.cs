@@ -1,16 +1,14 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Reflection;
-using ElementsLib;
 using ElementsLib.Module.Codes;
 using ElementsLib.Module.Interfaces.Elements;
-using ElementsLib.Elements.Config;
-using ElementsLib.Elements;
+using ElementsLib.Module.Interfaces.Matrixus;
+using ElementsLib.Matrixus.Config;
+using ElementsLib.Service.Elements;
 
 namespace ElementsTest
 {
-    using ElementsLib.Matrixus.Config;
-    using ElementsLib.Module.Interfaces.Matrixus;
     using ConfigRoleEnum = ArticleRoleCz;
 
     [TestFixture]

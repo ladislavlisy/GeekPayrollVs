@@ -5,17 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace ElementsLib.Matrixus
+namespace ElementsLib.Service.Matrixus
 {
-    using CodeItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
-    using RoleItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
-
     using CodeList = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
     using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
 
-    using Config;
     using Module.Interfaces;
-    using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
 
     public class MatrixusService : IMatrixusService

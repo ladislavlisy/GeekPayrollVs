@@ -1,13 +1,10 @@
-﻿using ElementsLib.Module.Interfaces.Matrixus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace ElementsLib.Calculus
+namespace ElementsLib.Service.Calculus
 {
     using SymbolUtil = Module.Codes.ArticleCzCodeUtil;
+
+    using Module.Interfaces.Matrixus;
 
     public class SimpleCalculusService : CalculusService
     {
