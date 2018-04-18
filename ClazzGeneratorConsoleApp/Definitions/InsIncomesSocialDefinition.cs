@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class InsIncomesSocialDefinition : ArticleDefinition
 	{
-		public InsIncomesSocialDefinition() : base(ArticleCode.TARGET_INS_INCOMES_SOCIAL)
+		public InsIncomesSocialDefinition() : base(ArticleCode.FACT_INS_INCOMES_SOCIAL)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

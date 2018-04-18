@@ -57,9 +57,9 @@ namespace ElementsLib.Legalist.Config
         {
             string symbolClass = ClassNameFor(symbolName);
 
-            string holderClass = "";
+            string targetClass = "";
 
-            return GeneralClazzFactory<IBundleProfile>.InstanceFor(bundleAssembly, NAME_SPACE_PREFIX, symbolClass, holderClass);
+            return GeneralClazzFactory<IBundleProfile>.InstanceFor(bundleAssembly, NAME_SPACE_PREFIX, symbolClass, targetClass);
         }
 
         protected string ClassNameFor(string targetName)

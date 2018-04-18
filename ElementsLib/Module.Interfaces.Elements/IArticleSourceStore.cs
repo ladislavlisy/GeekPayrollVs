@@ -7,22 +7,19 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Interfaces.Elements
 {
     using ConfigCode = UInt16;
-    using ConfigItem = IArticleCodeConfig;
-
-    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
     using Matrixus;
 
-    public interface IArticleSourceStore : IEnumerable<KeyValuePair<IArticleHolder, SourcePack>>
+    public interface IArticleSourceStore : IEnumerable<KeyValuePair<IArticleTarget, SourcePack>>
     {
-        IEnumerable<HolderItem> GetHolders();
+        IEnumerable<TargetItem> GetTargets();
         IEnumerable<SourcePair> GetModel();
         void CopyModel(IArticleSourceStore source);
-        void AddGeneralItems(IEnumerable<HolderItem> targets);
+        void AddGeneralItems(IEnumerable<TargetItem> targets);
 
-        IList<SourcePair> PrepareEvaluationPath(IArticleCodeCollection configBundler, 
-            ConfigCode contractCode, ConfigCode positionCode);
+        IList<SourcePair> PrepareEvaluationPath(ConfigCode contractCode, ConfigCode positionCode);
     }
 }

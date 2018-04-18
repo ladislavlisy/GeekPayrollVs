@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class PositionAbsenceDefinition : ArticleDefinition
 	{
-		public PositionAbsenceDefinition() : base(ArticleCode.TARGET_POSITION_ABSENCE)
+		public PositionAbsenceDefinition() : base(ArticleCode.FACT_POSITION_ABSENCE)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursInPeriod", FieldType.TSheetSeconds));

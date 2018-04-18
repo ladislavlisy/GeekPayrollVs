@@ -5,7 +5,7 @@
 
     public class PositionWorkingDefinition : ArticleDefinition
     {
-        public PositionWorkingDefinition() : base(ArticleCode.TARGET_POSITION_WORKING)
+        public PositionWorkingDefinition() : base(ArticleCode.FACT_POSITION_WORKING)
         {
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursInPeriod", FieldType.TSheetSeconds));

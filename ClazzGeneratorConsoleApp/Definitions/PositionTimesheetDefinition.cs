@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class PositionTimesheetDefinition : ArticleDefinition
 	{
-		public PositionTimesheetDefinition() : base(ArticleCode.TARGET_POSITION_TIMESHEET)
+		public PositionTimesheetDefinition() : base(ArticleCode.FACT_POSITION_TIMESHEET)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursSchedule", FieldType.TSheetSeconds),

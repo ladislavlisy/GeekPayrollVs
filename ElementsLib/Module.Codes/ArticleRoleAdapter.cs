@@ -29,11 +29,11 @@ namespace ElementsLib.Module.Codes
         }
         public static ConfigRoleEnum GetDefaultsEnum()
         {
-            return ConfigRoleEnum.METHOD_UNKNOWN;
+            return ConfigRoleEnum.ARTICLE_UNKNOWN;
         }
         public static EnumRole GetDefaultsRole()
         {
-            return (EnumRole)ConfigRoleEnum.METHOD_UNKNOWN;
+            return (EnumRole)ConfigRoleEnum.ARTICLE_UNKNOWN;
         }
         public static IEnumerable<EnumRole> GetSelectedRoles()
         {

@@ -5,7 +5,7 @@
 
     public class ContractWorkingDefinition : ArticleDefinition
     {
-        public ContractWorkingDefinition() : base(ArticleCode.TARGET_CONTRACT_WORKING)
+        public ContractWorkingDefinition() : base(ArticleCode.FACT_CONTRACT_WORKING)
         {
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursInPeriod", FieldType.TSheetSeconds));

@@ -11,39 +11,35 @@ namespace ElementsLib.Calculus
     using SymbolUtil = Module.Codes.ArticleCzCodeUtil;
 
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleCodeConfig;
-
-    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourceCode = UInt16;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
-    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
+    using Module.Libs;
+    using Module.Items;
     using Module.Interfaces;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
-    using System.Reflection;
-    using Elements;
-    using ResultMonad;
-    using Module.Libs;
-    using Module.Items;
     using Module.Interfaces.Legalist;
+    using Module.Interfaces.Permadom;
+    using System.Reflection;
+    using ResultMonad;
+    using Elements;
+    using Permadom;
 
     public class CalculusService : ICalculusService
     {
-        private readonly Func<IArticleSource, HolderItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
+        private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
 
         IArticleConfigFactory ConfigFactory { get; set; }
 
-        IArticleSourceFactory SourceFactory { get; set; }
-
-        IArticleCodeCollection ConfigBundler { get; set; }
-
-        ISourceCollection<SourceItem, SourceCode, SourceVals> SourceBundler { get; set; }
+        IArticleConfigProfile ConfigProfile { get; set; }
 
         IArticleSourceStore StreamSources { get; set; }
         IArticleResultStore StreamResults { get; set; }
@@ -58,14 +54,10 @@ namespace ElementsLib.Calculus
 
 
         public CalculusService(IArticleConfigFactory configFactory, 
-            IArticleSourceFactory sourceFactory,
-            IArticleCodeCollection configBundler, 
-            ISourceCollection<SourceItem, SourceCode, SourceVals> sourceBundler)
+            IArticleConfigProfile configProfile)
         {
             this.ConfigFactory = configFactory;
-            this.SourceFactory = sourceFactory;
-            this.ConfigBundler = configBundler;
-            this.SourceBundler = sourceBundler;
+            this.ConfigProfile = configProfile;
         }
 
         public void Initialize()
@@ -75,11 +67,15 @@ namespace ElementsLib.Calculus
             ContractCode = SymbolUtil.GetContractCode();
             PositionCode = SymbolUtil.GetPositionCode();
 
-            //ConfigBundler.InitConfigModel(ConfigFactory);
+            IPermadomService payrollMemDbs = new PermadomService();
 
-            SourceBundler.InitConfigModel(ModuleAssembly, SourceFactory);
+            var configRoleData = payrollMemDbs.GetArticleRoleDataList().ToList();
 
-            StreamSources = new ArticleSourceStore(SourceBundler);
+            var configCodeData = payrollMemDbs.GetArticleCodeDataList().ToList();
+            
+            ConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, ConfigFactory);
+
+            StreamSources = new ArticleSourceStore(ConfigProfile);
 
             StreamResults = new ArticleResultStore();
 
@@ -90,7 +86,7 @@ namespace ElementsLib.Calculus
         {
             StreamSources.CopyModel(source);
 
-            EvaluationPath = StreamSources.PrepareEvaluationPath(ConfigBundler, ContractCode, PositionCode);
+            EvaluationPath = StreamSources.PrepareEvaluationPath(ContractCode, PositionCode);
             /*
             // payrollData.ModelList - Evaluate => Results 
             */
@@ -106,7 +102,7 @@ namespace ElementsLib.Calculus
 
         private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            HolderItem targetInResult = sourceItem.Key;
+            TargetItem targetInResult = sourceItem.Key;
             SourcePack sourceInResult = sourceItem.Value;
 
             IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessEvaluateToResultSet(targetInResult, evalPeriod, evalProfile, evalResults, _evaluateResultsFunc);

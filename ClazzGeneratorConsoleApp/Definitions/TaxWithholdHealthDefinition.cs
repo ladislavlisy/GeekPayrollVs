@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxWithholdHealthDefinition : ArticleDefinition
 	{
-		public TaxWithholdHealthDefinition() : base(ArticleCode.TARGET_TAX_WITHHOLD_HEALTH)
+		public TaxWithholdHealthDefinition() : base(ArticleCode.FACT_TAX_WITHHOLD_HEALTH)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

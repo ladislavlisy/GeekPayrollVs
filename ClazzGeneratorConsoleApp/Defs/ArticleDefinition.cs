@@ -132,7 +132,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             Name = name;
             Type = type;
-            Refer = ArticleCode.TARGET_UNKNOWN;
+            Refer = ArticleCode.FACT_UNKNOWN;
         }
         public ArticleParametr(string name, FieldType type, ArticleCode refer)
         {
@@ -145,7 +145,7 @@ namespace ClazzGeneratorConsoleApp.Defs
     {
         private const string NAME_CLASS_POSTFIX = "Target";
         private const string VALS_CLASS_POSTFIX = "Source";
-        private const string NAME_CLASS_PATTERN = "TARGET_(.*)";
+        private const string NAME_CLASS_PATTERN = "FACT_(.*)";
         public ArticleCode Article { get; protected set; }
 
         public string ArticleDefn { get; protected set; }

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Interfaces.Matrixus
 {
     using ConfigCode = UInt16;
-    using TargetItem = Elements.IArticleTarget;
-
-    using CodeList = IEnumerable<Permadom.ArticleCodeConfigData>;
-    using RoleList = IEnumerable<Permadom.ArticleRoleConfigData>;
-
+    using ConfigItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
+    using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
     using SourceErrs = String;
@@ -19,11 +16,10 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using Elements;
     using System.Reflection;
 
-    public interface IArticleConfigProfile
+    public interface IArticleDetailCollection : IConfigCollection<ConfigItem, ConfigCode>
     {
-        void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory);
-        IEnumerable<TargetItem> GetTargets(IEnumerable<TargetItem> targetsInit, ConfigCode headCode, ConfigCode partCode);
-        IList<KeyValuePair<ConfigCode, Int32>> ModelPath();
+        void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory);
+        IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode);
         ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals);
     }
 }

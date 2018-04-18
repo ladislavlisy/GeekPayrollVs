@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxIncomesWithholdDefinition : ArticleDefinition
 	{
-		public TaxIncomesWithholdDefinition() : base(ArticleCode.TARGET_TAX_INCOMES_WITHHOLD)
+		public TaxIncomesWithholdDefinition() : base(ArticleCode.FACT_TAX_INCOMES_WITHHOLD)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

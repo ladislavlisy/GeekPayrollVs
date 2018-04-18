@@ -30,16 +30,16 @@ namespace ElementsLib.Permadom
         {
             IList<ConfigItem> configList = new List<ConfigItem>()
             {
-                CreateConfigData(ConfigRoleEnum.METHOD_UNKNOWN),
-                CreateConfigData(ConfigRoleEnum.METHOD_CONTRACT_TERM),
-                CreateConfigData(ConfigRoleEnum.METHOD_POSITION_TERM),
-                CreateConfigData(ConfigRoleEnum.METHOD_POSITION_SCHEDULE),
-                CreateConfigData(ConfigRoleEnum.METHOD_POSITION_TIMESHEET),
-                CreateConfigData(ConfigRoleEnum.METHOD_POSITION_WORKING),
-                CreateConfigData(ConfigRoleEnum.METHOD_POSITION_ABSENCE),
-                CreateConfigData(ConfigRoleEnum.METHOD_CONTRACT_TIMESHEET),
-                CreateConfigData(ConfigRoleEnum.METHOD_CONTRACT_WORKING),
-                CreateConfigData(ConfigRoleEnum.METHOD_CONTRACT_ABSENCE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_UNKNOWN),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_TERM),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_TERM),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_SCHEDULE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_TIMESHEET),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_WORKING),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_ABSENCE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_TIMESHEET),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_WORKING),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE),
             };
             return configList;
         }

@@ -15,7 +15,7 @@ namespace ClazzGeneratorConsoleApp.Defs
     public class ClazzGeneratorMethods
     {
         private const string ROLE_NAME_CLASS_POSTFIX = "Method";
-        private const string ROLE_NAME_CLASS_PATTERN = "METHOD_(.*)";
+        private const string ROLE_NAME_CLASS_PATTERN = "ARTICLE_(.*)";
 
         private const string ROLE_NAME_SPACE_PATTERN = "ElementsLib.Elements.Config.Methods";
         public void DoSourceExport(string filesFolder)

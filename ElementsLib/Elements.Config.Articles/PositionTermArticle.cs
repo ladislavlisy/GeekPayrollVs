@@ -6,8 +6,10 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
+    using ConfigRole = UInt16;
 
-    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -16,13 +18,12 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
-    using Matrixus.Source;
 
-    public class PositionTermArticle : ArticleGeneralSource, ICloneable
+    public class PositionTermArticle : GeneralArticle, ICloneable
     {
-        public static string TARGET_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
+        public static string FACT_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
 
-        public PositionTermArticle() : base((ConfigCode)ConfigCodeEnum.TARGET_POSITION_TERM)
+        public PositionTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TERM)
         {
             SourceValues = new PositionTermSource();
         }
@@ -48,12 +49,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionTermSource(TARGET_POSITION_TERM, 2): { 0 }", message);
+            return string.Format("PositionTermSource(FACT_POSITION_TERM, 2): { 0 }", message);
         }
 
-        public override IEnumerable<ResultPack> EvaluateResults(HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return ErrorToResults(TARGET_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT);
+            return ErrorToResults(FACT_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()

@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class ContractAbsenceDefinition : ArticleDefinition
 	{
-		public ContractAbsenceDefinition() : base(ArticleCode.TARGET_CONTRACT_ABSENCE)
+		public ContractAbsenceDefinition() : base(ArticleCode.FACT_CONTRACT_ABSENCE)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("HoursInPeriod", FieldType.TSheetSeconds));

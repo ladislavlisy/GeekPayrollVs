@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxReliefChildDefinition : ArticleDefinition
 	{
-		public TaxReliefChildDefinition() : base(ArticleCode.TARGET_TAX_RELIEF_CHILD)
+		public TaxReliefChildDefinition() : base(ArticleCode.FACT_TAX_RELIEF_CHILD)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

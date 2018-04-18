@@ -14,7 +14,6 @@ namespace ElementsLib.Matrixus
     using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
 
     using Config;
-    using Source;
     using Module.Interfaces;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Matrixus;
@@ -23,21 +22,17 @@ namespace ElementsLib.Matrixus
     {
         protected Assembly ModuleAssembly { get; set; }
         protected IArticleConfigFactory InternalConfigFactory { get; set; }
-        protected IArticleSourceFactory InternalSourceFactory { get; set; }
         protected IArticleConfigProfile InternalConfigProfile { get; set; }
 
         protected MatrixusService()
         {
-            InternalSourceFactory = null;
             InternalConfigFactory = null;
             InternalConfigProfile = null;
         }
 
-        public MatrixusService(IArticleConfigFactory configFactory, IArticleSourceFactory sourceFactory,
-            IArticleConfigProfile configProfile)
+        public MatrixusService(IArticleConfigFactory configFactory, IArticleConfigProfile configProfile)
         {
             InternalConfigFactory = configFactory;
-            InternalSourceFactory = sourceFactory;
 
             InternalConfigProfile = configProfile;
         }
@@ -46,5 +41,11 @@ namespace ElementsLib.Matrixus
         {
             InternalConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, InternalConfigFactory);
         }
+
+        public IArticleConfigProfile ConfigProfile()
+        {
+            return InternalConfigProfile;
+        }
+
     }
 }

@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Matrixus.IArticleTarget;
-    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Matrixus.IArticleTarget>;
+    using ConfigItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
+    using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Matrixus.IArticleConfigDetail>;
     using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
 
-    using HolderHead = UInt16;
-    using HolderPart = UInt16;
+    using SourceItem = Module.Interfaces.Elements.IArticleSource;
+    using SourceVals = Module.Interfaces.Elements.ISourceValues;
+    using SourceErrs = String;
+
+    using TargetHead = UInt16;
+    using TargetPart = UInt16;
     using ConfigType = UInt16;
-    using HolderSeed = UInt16;
+    using TargetSeed = UInt16;
 
     using Module.Libs;
     using Module.Codes;
@@ -20,21 +25,20 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Matrixus;
     using Elements;
     using Elements.Config;
-    using System.Reflection;
 
-    public class ArticleCodeCollection : GeneralConfigCollection<ConfigItem, ConfigCode>, IArticleCodeCollection
+    public class ArticleDetailCollection : GeneralConfigCollection<ConfigItem, ConfigCode>, IArticleDetailCollection
     {
-        public ArticleCodeCollection() : base()
+        public ArticleDetailCollection() : base()
         {
             this.InternalModelResolve = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
         }
 
         protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> InternalModelResolve { get; set; }
 
-        public void LoadConfigData(Assembly configAssembly, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
+        public void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                c.Code, configFactory.CreateTargetItem(configAssembly, c.Code, c.Name, c.Role, c.Type, c.Path)))).ToList();
+                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Type, c.Path)))).ToList();
 
             ConfigureModel(configTypeList);
 
@@ -46,6 +50,30 @@ namespace ElementsLib.Matrixus.Config
             ConfigItem configModel = FindConfigByCode(modelCode);
 
             return configModel;
+        }
+        public ResultMonad.Result<SourceItem, SourceErrs> FindArticleSource(ConfigCode modelCode)
+        {
+            ConfigItem configModel = FindConfigByCode(modelCode);
+
+            if (configModel == null)
+            {
+                return ResultMonad.Result.Fail<SourceItem, SourceErrs>("Config model doesn't exist!"); ;
+            }
+            if (configModel.Stub() == null)
+            {
+                return ResultMonad.Result.Fail<SourceItem, SourceErrs>("Config source doesn't exist!"); ;
+            }
+            return ResultMonad.Result.Ok<SourceItem, SourceErrs>(configModel.Stub());
+        }
+        public ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals)
+        {
+            ResultMonad.Result<SourceItem, SourceErrs> emptyInstance = FindArticleSource(configCode);
+
+            if (emptyInstance.IsFailure)
+            {
+                return emptyInstance;
+            }
+            return emptyInstance.Value.CloneSourceAndSetValues<SourceItem>(sourceVals);
         }
 
         protected void ConfigureModelPath()
@@ -107,69 +135,69 @@ namespace ElementsLib.Matrixus.Config
             return resolveSink;
         }
 
-        public IEnumerable<IArticleHolder> GetHolders(IEnumerable<IArticleHolder> holdersInit, ConfigCode headCode, ConfigCode partCode)
+        public IEnumerable<IArticleTarget> GetTargets(IEnumerable<IArticleTarget> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
-            IEnumerable<IArticleHolder> holderssZero = new List<IArticleHolder>();
+            IEnumerable<IArticleTarget> targetssZero = new List<IArticleTarget>();
 
-            var contractsHead = holdersInit.Where((ch) => (ch.Code() == headCode)).Select((cv) => (cv.Seed()));
-            var positionsPart = holdersInit.Where((ch) => (ch.Code() == partCode)).Select((cv) => new Tuple<HolderHead, HolderPart>(cv.Head(), cv.Seed()));
+            var contractsHead = targetsInit.Where((ch) => (ch.Code() == headCode)).Select((cv) => (cv.Seed()));
+            var positionsPart = targetsInit.Where((ch) => (ch.Code() == partCode)).Select((cv) => new Tuple<TargetHead, TargetPart>(cv.Head(), cv.Seed()));
 
-            IEnumerable<IArticleHolder> holdersCalc = holdersInit.Aggregate(holderssZero, (agr, d) => agr.Concat(ResolveHolders(d, contractsHead, positionsPart, InternalModelResolve)));
+            IEnumerable<IArticleTarget> targetsCalc = targetsInit.Aggregate(targetssZero, (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart, InternalModelResolve)));
 
-            return holdersCalc.Distinct();
+            return targetsCalc.Distinct();
         }
 
-        private IEnumerable<IArticleHolder> ResolveHolders(IArticleHolder holder, IEnumerable<HolderHead> contractsHead, IEnumerable<Tuple<HolderHead, HolderPart>> positionsPart, IDictionary<ushort, IEnumerable<ushort>> modelResolve)
+        private IEnumerable<IArticleTarget> ResolveTargets(IArticleTarget target, IEnumerable<TargetHead> contractsHead, IEnumerable<Tuple<TargetHead, TargetPart>> positionsPart, IDictionary<ushort, IEnumerable<ushort>> modelResolve)
         {
-            IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == holder.Code())).Value.ToList();
+            IEnumerable<ConfigCode> configResolve = modelResolve.FirstOrDefault((kvx) => (kvx.Key == target.Code())).Value.ToList();
 
-            IEnumerable<IArticleHolder> holderResolve = configResolve.SelectMany((c) => (CreateHolder(c, holder, contractsHead, positionsPart, InternalModels))).ToList();
+            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, contractsHead, positionsPart, InternalModels))).ToList();
 
-            return holderResolve.Where((c) => (c.Code() != 0));
+            return targetResolve.Where((c) => (c.Code() != 0));
         }
 
-        private IEnumerable<ArticleHolder> CreateHolder(ConfigCode codeConfig, IArticleHolder holder, IEnumerable<HolderHead> contractsHead, IEnumerable<Tuple<HolderHead, HolderPart>> positionsPart, IDictionary<ConfigCode, ConfigItem> models)
+        private IEnumerable<ArticleTarget> CreateTarget(ConfigCode codeConfig, IArticleTarget target, IEnumerable<TargetHead> contractsHead, IEnumerable<Tuple<TargetHead, TargetPart>> positionsPart, IDictionary<ConfigCode, ConfigItem> models)
         {
-            IEnumerable<ArticleHolder> holderList = new List<ArticleHolder>();
+            IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
 
             ConfigItem configItem = models.FirstOrDefault((c) => (c.Key == codeConfig)).Value;
 
-            HolderHead codeHead = 0;
-            HolderPart codePart = 0;
+            TargetHead codeHead = 0;
+            TargetPart codePart = 0;
             ConfigCode codeBody = codeConfig;
-            HolderSeed seedBody = 0;
+            TargetSeed seedBody = 0;
 
             if (configItem.Type() == (ConfigType)ArticleType.NO_HEAD_PART_TYPE)
             {
-                holderList = new List<ArticleHolder>() { new ArticleHolder(codeHead, codePart, codeBody, seedBody) };
+                targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
             }
             if (configItem.Type() == (ConfigType)ArticleType.HEAD_CODE_ARTICLE)
             {
-                if (holder.Head() != 0)
+                if (target.Head() != 0)
                 {
-                    codeHead = holder.Head();
-                    holderList = new List<ArticleHolder>() { new ArticleHolder(codeHead, codePart, codeBody, seedBody) };
+                    codeHead = target.Head();
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
                 }
                 else
                 {
-                    holderList = contractsHead.Select((ch) => (new ArticleHolder(ch, codePart, codeBody, seedBody))).ToList();
+                    targetList = contractsHead.Select((ch) => (new ArticleTarget(ch, codePart, codeBody, seedBody))).ToList();
                 }
             }
             else if (configItem.Type() == (ConfigType)ArticleType.PART_CODE_ARTICLE)
             {
-                if (holder.Head() != 0 && holder.Part() != 0)
+                if (target.Head() != 0 && target.Part() != 0)
                 {
-                    codeHead = holder.Head();
-                    codePart = holder.Part();
-                    holderList = new List<ArticleHolder>() { new ArticleHolder(codeHead, codePart, codeBody, seedBody) };
+                    codeHead = target.Head();
+                    codePart = target.Part();
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
                 }
                 else
                 {
-                    holderList = positionsPart.Select((pp) => (new ArticleHolder(pp.Item1, pp.Item2, codeBody, seedBody))).ToList();
+                    targetList = positionsPart.Select((pp) => (new ArticleTarget(pp.Item1, pp.Item2, codeBody, seedBody))).ToList();
                 }
             }
 
-            return holderList;
+            return targetList;
         }
 
         protected ConfigCode[] ResolveModelCode(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)

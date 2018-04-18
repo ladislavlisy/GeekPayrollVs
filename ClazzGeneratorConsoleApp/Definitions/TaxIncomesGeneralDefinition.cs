@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxIncomesGeneralDefinition : ArticleDefinition
 	{
-		public TaxIncomesGeneralDefinition() : base(ArticleCode.TARGET_TAX_INCOMES_GENERAL)
+		public TaxIncomesGeneralDefinition() : base(ArticleCode.FACT_TAX_INCOMES_GENERAL)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

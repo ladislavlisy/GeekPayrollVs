@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using ResultMonad;
 
-namespace ElementsLib.Matrixus.Source
+namespace ElementsLib.Elements
 {
     using ConfigCode = UInt16;
+    using ConfigRole = UInt16;
 
-    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -18,9 +18,9 @@ namespace ElementsLib.Matrixus.Source
     using Module.Interfaces.Legalist;
     using System.Linq;
 
-    public abstract class ArticleGeneralSource : IArticleSource, ICloneable
+    public abstract class GeneralArticle : IArticleSource, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateDelegate(HolderItem evalHolder, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
+        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
 
         public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
         public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
@@ -28,19 +28,26 @@ namespace ElementsLib.Matrixus.Source
         public abstract string ArticleDecorateMessage(string message);
         public abstract void ImportSourceValues(ISourceValues values);
         public abstract ISourceValues ExportSourceValues();
-        public ArticleGeneralSource(ConfigCode code)
+        public GeneralArticle(ConfigRole role)
         {
-            InternalCode = code;
+            InternalCode = 0;
+
+            InternalRole = role;
 
             InternalEvaluate = null;
         }
 
         protected ConfigCode InternalCode { get; set; }
+        protected ConfigRole InternalRole { get; set; }
 
         protected EvaluateDelegate InternalEvaluate;
         public ConfigCode Code()
         {
             return InternalCode;
+        }
+        public ConfigCode Role()
+        {
+            return InternalRole;
         }
 
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
@@ -85,7 +92,7 @@ namespace ElementsLib.Matrixus.Source
             return results.Select((r) => (r)).ToList();
         }
 
-        public virtual IEnumerable<ResultPack> EvaluateResults(HolderItem evalHolder, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
             if (InternalEvaluate == null)
             {
@@ -100,19 +107,21 @@ namespace ElementsLib.Matrixus.Source
             {
                 return ErrorToResults(ArticleDecorateMessage(EXCEPTION_EXPERT_NULL_TEXT));
             }
-            return InternalEvaluate(evalHolder, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
 
         public virtual object Clone()
         {
-            ArticleGeneralSource cloneArticle = (ArticleGeneralSource)this.MemberwiseClone();
+            GeneralArticle cloneArticle = (GeneralArticle)this.MemberwiseClone();
             cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalRole = this.InternalRole;
+            cloneArticle.InternalEvaluate = this.InternalEvaluate;
 
             return cloneArticle;
         }
         public override string ToString()
         {
-            return ArticleCodeAdapter.GetSymbol(InternalCode);
+            return ArticleRoleAdapter.GetSymbol(InternalRole);
         }
 
     }

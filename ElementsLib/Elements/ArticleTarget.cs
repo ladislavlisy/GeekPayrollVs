@@ -2,35 +2,35 @@
 
 namespace ElementsLib.Elements
 {
-    using HolderHead = UInt16;
-    using HolderPart = UInt16;
+    using TargetHead = UInt16;
+    using TargetPart = UInt16;
     using ConfigCode = UInt16;
-    using HolderSeed = UInt16;
-    using HolderSort = UInt16;
+    using TargetSeed = UInt16;
+    using TargetSort = UInt16;
 
     using Module.Libs;
     using Module.Interfaces.Elements;
 
-    public class ArticleHolder : IArticleHolder 
+    public class ArticleTarget : IArticleTarget 
     {
-        public const HolderHead HEAD_CODE_NULL = 0;
-        public const HolderPart PART_CODE_NULL = 0;
+        public const TargetHead HEAD_CODE_NULL = 0;
+        public const TargetPart PART_CODE_NULL = 0;
 
-        public const HolderSeed BODY_SEED_NULL = 0;
-        public const HolderSeed BODY_SEED_FIRST = 1;
+        public const TargetSeed BODY_SEED_NULL = 0;
+        public const TargetSeed BODY_SEED_FIRST = 1;
 
-        protected HolderHead InternalHead { get; set; }
-        protected HolderPart InternalPart { get; set; }
+        protected TargetHead InternalHead { get; set; }
+        protected TargetPart InternalPart { get; set; }
         protected ConfigCode InternalCode { get; set; }
-        protected HolderSeed InternalSeed { get; set; }
-        protected HolderSort InternalSort { get; set; }
+        protected TargetSeed InternalSeed { get; set; }
+        protected TargetSort InternalSort { get; set; }
 
-        public HolderHead Head()
+        public TargetHead Head()
         {
             return InternalHead;
         }
 
-        public HolderPart Part()
+        public TargetPart Part()
         {
             return InternalPart;
         }
@@ -40,12 +40,12 @@ namespace ElementsLib.Elements
             return InternalCode;
         }
 
-        public HolderSeed Seed()
+        public TargetSeed Seed()
         {
             return InternalSeed;
         }
 
-        public ArticleHolder(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody)
+        public ArticleTarget(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, TargetSeed seedBody)
         {
             this.InternalHead = codeHead;
             this.InternalPart = codePart;
@@ -53,7 +53,7 @@ namespace ElementsLib.Elements
             this.InternalSeed = seedBody;
         }
 
-        public int CompareTo(IArticleHolder other)
+        public int CompareTo(IArticleTarget other)
         {
             if (IsEqualToSame(other))
             {
@@ -69,7 +69,7 @@ namespace ElementsLib.Elements
             }
         }
 
-        private bool IsGreaterToSame(IArticleHolder other)
+        private bool IsGreaterToSame(IArticleTarget other)
         {
             if (this.InternalHead != other.Head())
             {
@@ -86,7 +86,7 @@ namespace ElementsLib.Elements
             return (this.InternalSeed > other.Seed());
         }
 
-        private bool IsSmallerToSame(IArticleHolder other)
+        private bool IsSmallerToSame(IArticleTarget other)
         {
             if (this.InternalHead != other.Head())
             {
@@ -103,30 +103,30 @@ namespace ElementsLib.Elements
             return (this.InternalSeed < other.Seed());
         }
 
-        private bool IsEqualToSame(IArticleHolder other)
+        private bool IsEqualToSame(IArticleTarget other)
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code() && this.InternalSeed == other.Seed());
         }
-        public bool IsEqualToHeadHolderPart(IArticleHolder other)
+        public bool IsEqualToHeadTargetPart(IArticleTarget other)
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code());
         }
-        public bool IsEqualToHeadHolderPart(HolderHead otherHead, HolderPart otherPart, ConfigCode otherCode)
+        public bool IsEqualToHeadTargetPart(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode)
         {
             return (this.InternalHead == otherHead && this.InternalPart == otherPart && this.InternalCode == otherCode);
         }
 
-        public static bool operator <(ArticleHolder x, ArticleHolder y)
+        public static bool operator <(ArticleTarget x, ArticleTarget y)
         {
             return x.IsSmallerToSame(y);
         }
 
-        public static bool operator >(ArticleHolder x, ArticleHolder y)
+        public static bool operator >(ArticleTarget x, ArticleTarget y)
         {
             return x.IsGreaterToSame(y);
         }
 
-        public static bool operator <=(ArticleHolder x, ArticleHolder y)
+        public static bool operator <=(ArticleTarget x, ArticleTarget y)
         {
             if (x.IsEqualToSame(y))
             {
@@ -135,7 +135,7 @@ namespace ElementsLib.Elements
             return x.IsSmallerToSame(y);
         }
 
-        public static bool operator >=(ArticleHolder x, ArticleHolder y)
+        public static bool operator >=(ArticleTarget x, ArticleTarget y)
         {                                                                         
             if (x.IsEqualToSame(y))                               
             {
@@ -145,7 +145,7 @@ namespace ElementsLib.Elements
         }
 
 
-        public bool Equals(IArticleHolder other)
+        public bool Equals(IArticleTarget other)
         {
             return this.IsEqualToSame(other);
         }
@@ -157,7 +157,7 @@ namespace ElementsLib.Elements
             if (obj == null || this.GetType() != obj.GetType())
                 return false;
 
-            ArticleHolder other = obj as ArticleHolder;
+            ArticleTarget other = obj as ArticleTarget;
 
             return this.IsEqualToSame(other);
         }
@@ -178,7 +178,7 @@ namespace ElementsLib.Elements
 
         public virtual object Clone()
         {
-            ArticleHolder clone = (ArticleHolder)this.MemberwiseClone();
+            ArticleTarget clone = (ArticleTarget)this.MemberwiseClone();
             return clone;
         }
 

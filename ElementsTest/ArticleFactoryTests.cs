@@ -6,27 +6,28 @@ using ElementsLib.Module.Codes;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Elements.Config;
 using ElementsLib.Elements;
-using ElementsLib.Matrixus.Source;
 
 namespace ElementsTest
 {
-    using ConfigCodeEnum = ArticleCodeCz;
+    using ElementsLib.Matrixus.Config;
+    using ElementsLib.Module.Interfaces.Matrixus;
+    using ConfigRoleEnum = ArticleRoleCz;
 
     [TestFixture]
     public class ArticleFactoryTests
     {
         [Test]
-        public void Test_CreateArticleHolder()
+        public void Test_CreateArticleTarget()
         {
-            string testHolderLabel = "TARGET_CONTRACT_TERM";
+            string testTargetLabel = "ARTICLE_CONTRACT_TERM";
 
             Assembly configAssembly = typeof(ElementsService).Assembly;
 
-            IArticleSourceFactory configFactory = new ArticleSourceFactory();
+            IArticleConfigFactory configFactory = new ArticleConfigFactory();
 
-            IArticleSource testSource = configFactory.CreateSourceItem(configAssembly, (UInt16)ConfigCodeEnum.TARGET_CONTRACT_TERM, (UInt16)ConfigCodeEnum.TARGET_UNKNOWN);
+            IArticleSource testSource = configFactory.CreateSourceClassStub(configAssembly, (UInt16)ConfigRoleEnum.ARTICLE_CONTRACT_TERM, ConfigRoleEnum.ARTICLE_CONTRACT_TERM.GetSymbol());
 
-            Assert.AreEqual(testHolderLabel, testSource.ToString());
+            Assert.AreEqual(testTargetLabel, testSource.ToString());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxDeclarationDefinition : ArticleDefinition
 	{
-		public TaxDeclarationDefinition() : base(ArticleCode.TARGET_TAX_DECLARATION)
+		public TaxDeclarationDefinition() : base(ArticleCode.FACT_TAX_DECLARATION)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

@@ -6,20 +6,19 @@ using System.Linq;
 
 namespace ElementsLib.Elements
 {
-    using HolderHead = UInt16;
-    using HolderPart = UInt16;
-    using HolderSeed = UInt16;
-    using HolderSort = UInt16;
+    using ConfigCode = UInt16;
+    using TargetHead = UInt16;
+    using TargetPart = UInt16;
+    using TargetSeed = UInt16;
+    using TargetSort = UInt16;
 
-    using SourceCase = Module.Interfaces.Elements.ISourceCollection<Module.Interfaces.Elements.IArticleSource, UInt16, Module.Interfaces.Elements.ISourceValues>;
+    using SourceCase = Module.Interfaces.Matrixus.IArticleConfigProfile;
     using SourceVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
-    using HolderItem = Module.Interfaces.Elements.IArticleHolder;
+    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
 
     using SortedPair = KeyValuePair<UInt16, Int32>;
-    using ConfigCode = UInt16;
-    using ConfigItem = Module.Interfaces.Elements.IArticleCodeConfig;
 
-    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleHolder, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
+    using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
     using Module.Interfaces.Elements;
@@ -32,12 +31,12 @@ namespace ElementsLib.Elements
     {
         public static string EXCEPTION_CONFIG_NULL_TEXT = "Config Collection doesn't exist!";
 
-        SourceCase ModelSourceBundler { get; set; }
+        SourceCase ModelSourceProfile { get; set; }
 
-        #region TARGET_SOURCE_MODEL
-        protected IDictionary<HolderItem, SourcePack> model;
+        #region FACT_SOURCE_MODEL
+        protected IDictionary<TargetItem, SourcePack> model;
 
-        public IEnumerator<KeyValuePair<HolderItem, SourcePack>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TargetItem, SourcePack>> GetEnumerator()
         {
             return model.GetEnumerator();
         }
@@ -46,38 +45,38 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
-        public ICollection<HolderItem> Keys
+        public ICollection<TargetItem> Keys
         {
             get { return model.Keys; }
         }
-        public IEnumerable<HolderItem> GetHolders()
+        public IEnumerable<TargetItem> GetTargets()
         {
             return model.Keys.ToList();
         }
 
-        public IEnumerable<KeyValuePair<HolderItem, SourcePack>> GetModel()
+        public IEnumerable<KeyValuePair<TargetItem, SourcePack>> GetModel()
         {
             return model.ToList();
         }
 
         #endregion
 
-        public ArticleSourceStore(SourceCase sourceBundler)
+        public ArticleSourceStore(SourceCase configProfile)
         {
-            model = new Dictionary<HolderItem, SourcePack>();
+            model = new Dictionary<TargetItem, SourcePack>();
 
-            ModelSourceBundler = sourceBundler;
+            ModelSourceProfile = configProfile;
         }
 
         public void CopyModel(IArticleSourceStore source)
         {
             model = source.GetModel().ToDictionary((kv) => (kv.Key), (kv) => (kv.Value));
         }
-        public void AddGeneralItems(IEnumerable<HolderItem> targets)
+        public void AddGeneralItems(IEnumerable<TargetItem> targets)
         {
             foreach (var calc in targets)
             {
-                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadHolderPart(calc))) == null)
+                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadTargetPart(calc))) == null)
                 {
                     AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
                 }
@@ -89,13 +88,13 @@ namespace ElementsLib.Elements
             return Module.Codes.ArticleCodeAdapter.GetContractCode();
         }
 
-        public HolderItem AddMainHead(ISourceValues tagsBody)
+        public TargetItem AddMainHead(ISourceValues tagsBody)
         {
-            HolderHead HEAD_CODE = ArticleHolder.HEAD_CODE_NULL;
-            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
+            TargetHead HEAD_CODE = ArticleTarget.HEAD_CODE_NULL;
+            TargetPart PART_CODE = ArticleTarget.PART_CODE_NULL;
             ConfigCode BODY_CODE = GetHeadConfigCode();
 
-            return AddGeneralItem(HEAD_CODE, PART_CODE, BODY_CODE, ArticleHolder.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(HEAD_CODE, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
 
         public ConfigCode GetPartConfigCode()
@@ -103,80 +102,80 @@ namespace ElementsLib.Elements
             return Module.Codes.ArticleCodeAdapter.GetPositionCode();
         }
 
-        public HolderItem AddMainPart(HolderHead codeHead, ISourceValues tagsBody)
+        public TargetItem AddMainPart(TargetHead codeHead, ISourceValues tagsBody)
         {
-            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
+            TargetPart PART_CODE = ArticleTarget.PART_CODE_NULL;
             ConfigCode BODY_CODE = GetPartConfigCode();
 
-            return AddGeneralItem(codeHead, PART_CODE, BODY_CODE, ArticleHolder.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, PART_CODE, BODY_CODE, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
 
-        public HolderItem AddHeadItem(HolderHead codeHead, ConfigCode codeBody, ISourceValues tagsBody)
+        public TargetItem AddHeadItem(TargetHead codeHead, ConfigCode codeBody, ISourceValues tagsBody)
         {
-            HolderPart PART_CODE = ArticleHolder.PART_CODE_NULL;
+            TargetPart PART_CODE = ArticleTarget.PART_CODE_NULL;
 
-            return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleHolder.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, PART_CODE, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public HolderItem AddPartItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, ISourceValues tagsBody)
+        public TargetItem AddPartItem(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, ISourceValues tagsBody)
         {
-            return AddGeneralItem(codeHead, codePart, codeBody, ArticleHolder.BODY_SEED_NULL, tagsBody);
+            return AddGeneralItem(codeHead, codePart, codeBody, ArticleTarget.BODY_SEED_NULL, tagsBody);
         }
-        public HolderItem AddGeneralItem(HolderItem target, ISourceValues tagsBody)
+        public TargetItem AddGeneralItem(TargetItem target, ISourceValues tagsBody)
         {
             return AddGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
         }
-        public HolderItem AddGeneralItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody, ISourceValues tagsBody)
+        public TargetItem AddGeneralItem(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, TargetSeed seedBody, ISourceValues tagsBody)
         {
-            HolderSeed newHolderSeed = HolderSelector.GetSeedToNewHolder(model.Keys, codeHead, codePart, codeBody);
+            TargetSeed newTargetSeed = TargetSelector.GetSeedToNewTarget(model.Keys, codeHead, codePart, codeBody);
 
-            return StoreGeneralItem(codeHead, codePart, codeBody, newHolderSeed, tagsBody);
+            return StoreGeneralItem(codeHead, codePart, codeBody, newTargetSeed, tagsBody);
         }
-        public HolderItem StoreGeneralItem(HolderItem target, ISourceValues tagsBody)
+        public TargetItem StoreGeneralItem(TargetItem target, ISourceValues tagsBody)
         {
             return StoreGeneralItem(target.Head(), target.Part(), target.Code(), target.Seed(), tagsBody);
         }
-        public HolderItem StoreGeneralItem(HolderHead codeHead, HolderPart codePart, ConfigCode codeBody, HolderSeed seedBody, ISourceValues tagsBody)
+        public TargetItem StoreGeneralItem(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, TargetSeed seedBody, ISourceValues tagsBody)
         {
-            ArticleHolder newHolder = new ArticleHolder(codeHead, codePart, codeBody, seedBody);
+            ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
 
             SourcePack newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
 
-            model.Add(newHolder, newSource);
+            model.Add(newTarget, newSource);
 
-            return newHolder;
+            return newTarget;
         }
         protected SourcePack GetTemplateSourceForArticle(ConfigCode codeBody, ISourceValues tagsBody)
         {
-            if (ModelSourceBundler == null)
+            if (ModelSourceProfile == null)
             {
                 return Result.Fail<IArticleSource, string>(EXCEPTION_CONFIG_NULL_TEXT);
             }
-            return ModelSourceBundler.CloneInstanceForCode(codeBody, tagsBody);
+            return ModelSourceProfile.CloneInstanceForCode(codeBody, tagsBody);
         }
-        public IList<SourcePair> PrepareEvaluationPath(IArticleCodeCollection configBundler, ConfigCode contractCode, ConfigCode positionCode)
+        public IList<SourcePair> PrepareEvaluationPath(ConfigCode contractCode, ConfigCode positionCode)
         {
-            IEnumerable<HolderItem> holdersInit = GetHolders();
-            IEnumerable<HolderItem> holdersCalc = configBundler.GetHolders(holdersInit, contractCode, positionCode);
-            IList<SortedPair> modelPath = configBundler.ModelPath();
+            IEnumerable<TargetItem> targetsInit = GetTargets();
+            IEnumerable<TargetItem> targetsCalc = ModelSourceProfile.GetTargets(targetsInit, contractCode, positionCode);
+            IList<SortedPair> modelPath = ModelSourceProfile.ModelPath();
 
-            AddGeneralItems(holdersCalc);
+            AddGeneralItems(targetsCalc);
 
-            IList<HolderItem> sortedHolders = Keys.OrderBy((x) => (x), new CompareEvaluationHolders(modelPath)).ToList();
+            IList<TargetItem> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
 
-            return sortedHolders.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
+            return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
         }
     }
 
-    internal class CompareEvaluationHolders : IComparer<HolderItem>
+    internal class CompareEvaluationTargets : IComparer<TargetItem>
     {
         private IList<SortedPair> ModelOrderList;
 
-        public CompareEvaluationHolders(IList<SortedPair> modelOrderList)
+        public CompareEvaluationTargets(IList<SortedPair> modelOrderList)
         {
             this.ModelOrderList = modelOrderList;
         }
 
-        public int Compare(HolderItem x, HolderItem y)
+        public int Compare(TargetItem x, TargetItem y)
         {
             if (x == y)
             {

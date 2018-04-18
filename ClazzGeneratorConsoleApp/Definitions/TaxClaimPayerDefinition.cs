@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxClaimPayerDefinition : ArticleDefinition
 	{
-		public TaxClaimPayerDefinition() : base(ArticleCode.TARGET_TAX_CLAIM_PAYER)
+		public TaxClaimPayerDefinition() : base(ArticleCode.FACT_TAX_CLAIM_PAYER)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

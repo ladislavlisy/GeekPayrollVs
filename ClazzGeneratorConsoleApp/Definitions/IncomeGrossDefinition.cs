@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class IncomeGrossDefinition : ArticleDefinition
 	{
-		public IncomeGrossDefinition() : base(ArticleCode.TARGET_INCOME_GROSS)
+		public IncomeGrossDefinition() : base(ArticleCode.FACT_INCOME_GROSS)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

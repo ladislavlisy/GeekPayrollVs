@@ -4,14 +4,15 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
+    using ConfigRole = UInt16;
 
     using Source;
     using Module.Interfaces.Elements;
-    using Matrixus.Source;
 
-    public class UnknownArticle : ArticleGeneralSource, ICloneable
+    public class UnknownArticle : GeneralArticle, ICloneable
     {
-        public UnknownArticle() : base((ConfigCode)ConfigCodeEnum.TARGET_UNKNOWN)
+        public UnknownArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_UNKNOWN)
         {
             SourceValues = new ArticleEmptySource();
         }
@@ -32,7 +33,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("UnknownArticle(TARGET_UNKNOWN, 0): {0}", message);
+            return string.Format("UnknownArticle(FACT_UNKNOWN, 0): {0}", message);
         }
 
         public override object Clone()

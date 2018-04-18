@@ -74,7 +74,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             string CLASS_ENUM = ClassCode.GetSymbol();
 
-            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.TARGET_" + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.FACT_" + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "ArticleSources = ArticleDefinition.CreateParams();");
             WriteIndentBlokLine(writer, 1, "ArticleResults = ArticleDefinition.CreateParams();");

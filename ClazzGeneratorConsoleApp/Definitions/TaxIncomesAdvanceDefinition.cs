@@ -5,7 +5,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 
     public class TaxIncomesAdvanceDefinition : ArticleDefinition
 	{
-		public TaxIncomesAdvanceDefinition() : base(ArticleCode.TARGET_TAX_INCOMES_ADVANCE)
+		public TaxIncomesAdvanceDefinition() : base(ArticleCode.FACT_TAX_INCOMES_ADVANCE)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();
