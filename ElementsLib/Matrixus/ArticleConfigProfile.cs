@@ -26,42 +26,34 @@ namespace ElementsLib.Matrixus
 
     public class ArticleConfigProfile : IArticleConfigProfile
     {
-        protected IArticleMasterCollection InternalRoles { get; set; }
-        protected IArticleDetailCollection InternalCodes { get; set; }
+        protected IArticleDetailCollection detailBundle { get; set; }
 
         public ArticleConfigProfile()
         {
-            InternalRoles = new ArticleMasterCollection();
-            InternalCodes = new ArticleDetailCollection();
+            detailBundle = new ArticleDetailCollection();
         }
 
         public void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory)
         {
-            InternalRoles.LoadConfigData(configAssembly, configRoleData, configFactory);
+            IArticleMasterCollection masterBundle = new ArticleMasterCollection();
 
-            InternalCodes.LoadConfigData(InternalRoles, configCodeData, configFactory);
+            masterBundle.LoadConfigData(configAssembly, configRoleData, configFactory);
 
-            //IEnumerable<KeyValuePair<UInt16, Module.Interfaces.Elements.IArticleConfig>>
-            //IEnumerable<Module.Interfaces.Elements.IArticleConfig> LoadConfigData
-
-            //InternalSource.InitConfigModel(configAssembly, articleSourceFactory);
-            //InternalSource.InitConfigModel(**LoadConfigData, configAssembly, articleSourceFactory);
-
-
+            detailBundle.LoadConfigData(masterBundle, configCodeData, configFactory);
         }
         public IEnumerable<TargetItem> GetTargets(IEnumerable<TargetItem> targetsInit, ConfigCode headCode, ConfigCode partCode)
         {
-            return InternalCodes.GetTargets(targetsInit, headCode, partCode);
+            return detailBundle.GetTargets(targetsInit, headCode, partCode);
         }
 
         public IList<KeyValuePair<ConfigCode, Int32>> ModelPath()
         {
-            return InternalCodes.ModelPath();
+            return detailBundle.ModelPath();
         }
 
         public ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals)
         {
-            return InternalCodes.CloneInstanceForCode(configCode, sourceVals);
+            return detailBundle.CloneInstanceForCode(configCode, sourceVals);
         }
     }
 }

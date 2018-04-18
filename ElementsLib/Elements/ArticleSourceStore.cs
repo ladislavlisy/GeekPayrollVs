@@ -15,6 +15,7 @@ namespace ElementsLib.Elements
     using SourceCase = Module.Interfaces.Matrixus.IArticleConfigProfile;
     using SourceVals = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetData = Module.Interfaces.Permadom.ArticleData;
 
     using SortedPair = KeyValuePair<UInt16, Int32>;
 
@@ -139,6 +140,16 @@ namespace ElementsLib.Elements
             ArticleTarget newTarget = new ArticleTarget(codeHead, codePart, codeBody, seedBody);
 
             SourcePack newSource = GetTemplateSourceForArticle(codeBody, tagsBody);
+
+            model.Add(newTarget, newSource);
+
+            return newTarget;
+        }
+        public TargetItem StoreGeneralItem(TargetData dataLoad)
+        {
+            ArticleTarget newTarget = new ArticleTarget(dataLoad.Head, dataLoad.Part, dataLoad.Code, dataLoad.Seed);
+
+            SourcePack newSource = GetTemplateSourceForArticle(dataLoad.Code, dataLoad.Tags);
 
             model.Add(newTarget, newSource);
 

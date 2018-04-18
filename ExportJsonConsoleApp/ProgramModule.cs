@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using ElementsLib.Elements.Config.Source;
+using ElementsLib.Elements.Config.Sources;
 using ElementsLib.Elements.Config.Articles;
 using ElementsLib.Legalist.Constants;
 using ElementsLib.Module.Json;

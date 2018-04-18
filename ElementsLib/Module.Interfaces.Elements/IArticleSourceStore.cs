@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Interfaces.Elements
 {
     using ConfigCode = UInt16;
+    using TargetHead = UInt16;
+    using TargetPart = UInt16;
+    using TargetSeed = UInt16;
+    using TargetSort = UInt16;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetData = Module.Interfaces.Permadom.ArticleData;
     using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
@@ -19,6 +24,8 @@ namespace ElementsLib.Module.Interfaces.Elements
         IEnumerable<SourcePair> GetModel();
         void CopyModel(IArticleSourceStore source);
         void AddGeneralItems(IEnumerable<TargetItem> targets);
+        TargetItem StoreGeneralItem(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, TargetSeed seedBody, ISourceValues tagsBody);
+        TargetItem StoreGeneralItem(TargetData dataLoad);
 
         IList<SourcePair> PrepareEvaluationPath(ConfigCode contractCode, ConfigCode positionCode);
     }

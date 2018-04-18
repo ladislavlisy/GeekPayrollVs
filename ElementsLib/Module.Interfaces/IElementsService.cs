@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces
 {
+    using Elements;
     public interface IElementsService
     {
+        IArticleSourceStore SourceStream();
     }
 }

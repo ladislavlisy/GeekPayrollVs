@@ -16,7 +16,7 @@ namespace ElementsTest
 
     using System.Reflection;
     using ElementsLib;
-    using ElementsLib.Elements.Config.Source;
+    using ElementsLib.Elements.Config.Sources;
     using ElementsLib.Module.Interfaces.Matrixus;
     using ElementsLib.Matrixus;
     using ElementsLib.Module.Interfaces.Permadom;
@@ -163,11 +163,11 @@ namespace ElementsTest
 
             IArticleConfigProfile configProfile = new ArticleConfigProfile();
 
-            IPermadomService payrollMemDbs = new PermadomService();
+            IPermadomService payrollMemDbs = new SimplePermadomService();
 
-            var configRoleData = payrollMemDbs.GetArticleRoleDataList().ToList();
+            var configRoleData = payrollMemDbs.GetArticleRoleData().ToList();
 
-            var configCodeData = payrollMemDbs.GetArticleCodeDataList().ToList();
+            var configCodeData = payrollMemDbs.GetArticleCodeData().ToList();
 
             configProfile.Initialize(configAssembly, configRoleData, configCodeData, configFactory);
 

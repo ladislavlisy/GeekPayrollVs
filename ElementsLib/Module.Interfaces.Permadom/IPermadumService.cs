@@ -11,7 +11,7 @@ namespace ElementsLib.Module.Interfaces.Permadom
 
     public interface IPermadomService
     {
-        IEnumerable<ArticleCodeConfigItem> GetArticleCodeDataList();
-        IEnumerable<ArticleRoleConfigItem> GetArticleRoleDataList();
+        IEnumerable<ArticleCodeConfigItem> GetArticleCodeData();
+        IEnumerable<ArticleRoleConfigItem> GetArticleRoleData();
     }
 }

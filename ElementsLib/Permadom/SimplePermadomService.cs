@@ -10,10 +10,41 @@ namespace ElementsLib.Permadom
     using ArticleRoleConfigItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
 
     using Module.Interfaces.Permadom;
+    using Module.Codes;
+    using Elements.Config.Sources;
+    using Legalist.Constants;
 
-    public class PermadomService : IPermadomService
+    public class SimplePermadomService : IPermadomService
     {
-        public IEnumerable<ArticleCodeConfigItem> GetArticleCodeDataList()
+        public IEnumerable<ArticleData> GetArticleSourceData()
+        {
+            return new List<ArticleData>()
+            {
+                new ArticleData() {
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_TERM,
+                    Tags = new ContractTermSource(TestModule.DateFrom, TestModule.DateStop, TestModule.EmployeeTerm),
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_POSITION_TERM,
+                    Tags = new PositionTermSource(TestModule.DateFrom, TestModule.DateStop, TestModule.PositionTerm),
+                },
+                new ArticleData() {
+                    Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_POSITION_SCHEDULE,
+                    Tags = new PositionScheduleSource(TestModule.ShiftLiable, TestModule.ShiftActual, TestModule.ScheduleType),
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_WORKING,
+                    Tags = null,
+                },
+                //FACT_POSITION_TIMESHEET,
+                //FACT_POSITION_WORKING,
+                //FACT_POSITION_ABSENCE,
+                //FACT_CONTRACT_TIMESHEET,
+                //FACT_CONTRACT_WORKING,
+                //FACT_CONTRACT_ABSENCE,
+            };
+        }
+        public IEnumerable<ArticleCodeConfigItem> GetArticleCodeData()
         {
             return new List<ArticleCodeConfigItem>()
             {
@@ -29,7 +60,7 @@ namespace ElementsLib.Permadom
                 new ArticleCodeConfigData(9, 9, 1, "FACT_CONTRACT_ABSENCE", 7, 6),
             };
         }
-        public IEnumerable<ArticleRoleConfigItem> GetArticleRoleDataList()
+        public IEnumerable<ArticleRoleConfigItem> GetArticleRoleData()
         {
             return new List<ArticleRoleConfigItem>()
             {
@@ -54,5 +85,19 @@ namespace ElementsLib.Permadom
         {
             return ArticleRoleConfigBuilder.GetConfigDataList();
         }
+    }
+    static class TestModule
+    {
+        #region TEST_VALUES
+
+        public static DateTime? DateFrom = new DateTime(2010, 1, 1);
+        public static DateTime? DateStop = null;
+        public static WorkEmployTerms EmployeeTerm = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
+        public static WorkPositionType PositionTerm = WorkPositionType.POSITION_EXCLUSIVE;
+        public static Int32 ShiftLiable = 0;
+        public static Int32 ShiftActual = 0;
+        public static WorkScheduleType ScheduleType = WorkScheduleType.SCHEDULE_NORMALY_WEEK;
+
+        #endregion
     }
 }

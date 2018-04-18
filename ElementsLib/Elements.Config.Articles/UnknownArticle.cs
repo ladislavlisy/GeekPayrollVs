@@ -7,7 +7,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using Source;
+    using Sources;
     using Module.Interfaces.Elements;
 
     public class UnknownArticle : GeneralArticle, ICloneable

@@ -42,7 +42,7 @@ namespace ElementsLib.Matrixus
             InternalConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, InternalConfigFactory);
         }
 
-        public IArticleConfigProfile ConfigProfile()
+        public IArticleConfigProfile Profile()
         {
             return InternalConfigProfile;
         }

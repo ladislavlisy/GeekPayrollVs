@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElementsLib.Elements.Config.Source
+namespace ElementsLib.Elements.Config.Sources
 {
     using Legalist.Constants;
     using Module.Interfaces.Elements;

@@ -13,7 +13,7 @@ namespace ElementsLib.Elements.Config.Articles
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
-    using Source;
+    using Sources;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;

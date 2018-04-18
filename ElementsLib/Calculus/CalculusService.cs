@@ -8,7 +8,6 @@ using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
 namespace ElementsLib.Calculus
 {
     using BundleCode = Module.Codes.ArticleCodeCz;
-    using SymbolUtil = Module.Codes.ArticleCzCodeUtil;
 
     using ConfigCode = UInt16;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -37,8 +36,6 @@ namespace ElementsLib.Calculus
     {
         private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
 
-        IArticleConfigFactory ConfigFactory { get; set; }
-
         IArticleConfigProfile ConfigProfile { get; set; }
 
         IArticleSourceStore StreamSources { get; set; }
@@ -47,34 +44,19 @@ namespace ElementsLib.Calculus
         IEnumerable<SourcePair> EvaluationPath { get; set; }
         IEnumerable<ResultPair> EvaluationCase { get; set; }
 
-        Assembly ModuleAssembly { get; set; }
+        protected Assembly ModuleAssembly { get; set; }
 
-        ConfigCode ContractCode { get; set; }
-        ConfigCode PositionCode { get; set; }
+        protected ConfigCode ContractCode { get; set; }
+        protected ConfigCode PositionCode { get; set; }
 
 
-        public CalculusService(IArticleConfigFactory configFactory, 
-            IArticleConfigProfile configProfile)
+        public CalculusService(IArticleConfigProfile configProfile)
         {
-            this.ConfigFactory = configFactory;
             this.ConfigProfile = configProfile;
         }
 
         public void Initialize()
         {
-            ModuleAssembly = typeof(ElementsService).Assembly;
-
-            ContractCode = SymbolUtil.GetContractCode();
-            PositionCode = SymbolUtil.GetPositionCode();
-
-            IPermadomService payrollMemDbs = new PermadomService();
-
-            var configRoleData = payrollMemDbs.GetArticleRoleDataList().ToList();
-
-            var configCodeData = payrollMemDbs.GetArticleCodeDataList().ToList();
-            
-            ConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, ConfigFactory);
-
             StreamSources = new ArticleSourceStore(ConfigProfile);
 
             StreamResults = new ArticleResultStore();

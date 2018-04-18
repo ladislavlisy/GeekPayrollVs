@@ -14,6 +14,6 @@ namespace ElementsLib.Module.Interfaces
     public interface IMatrixusService
     {
         void Initialize(RoleList configRoleData, CodeList configCodeDat);
-        IArticleConfigProfile ConfigProfile();
+        IArticleConfigProfile Profile();
     }
 }
