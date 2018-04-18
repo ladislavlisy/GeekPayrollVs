@@ -1,0 +1,645 @@
+ Volume in drive C is Windows
+ Volume Serial Number is 7AB7-AC71
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ClazzGeneratorConsoleApp
+
+17.04.2018  15:52             1ÿ135 Program.cs
+17.04.2018  17:04             1ÿ298 ProgramModule.cs
+               2 File(s)          2ÿ433 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ClazzGeneratorConsoleApp\Definitions
+
+18.04.2018  11:47               499 ContractAbsenceDefinition.cs
+18.04.2018  11:47               661 ContractTermDefinition.cs
+18.04.2018  11:47               505 ContractTimesheetDefinition.cs
+18.04.2018  11:47               526 ContractWorkingDefinition.cs
+18.04.2018  11:47               398 IncomeGrossDefinition.cs
+18.04.2018  11:47               398 IncomeNettoDefinition.cs
+18.04.2018  11:47               405 InsHealthBaseDefinition.cs
+18.04.2018  11:47               426 InsHealthDeclarationDefinition.cs
+18.04.2018  11:47               408 InsHealthFinalDefinition.cs
+18.04.2018  11:47               414 InsIncomesHealthDefinition.cs
+18.04.2018  11:47               414 InsIncomesSocialDefinition.cs
+18.04.2018  11:47               405 InsSocialBaseDefinition.cs
+18.04.2018  11:47               426 InsSocialDeclarationDefinition.cs
+18.04.2018  11:47               408 InsSocialFinalDefinition.cs
+18.04.2018  11:47               499 PositionAbsenceDefinition.cs
+18.04.2018  11:47               992 PositionMonthlyAmountDefinition.cs
+18.04.2018  11:47               634 PositionScheduleDefinition.cs
+18.04.2018  11:47               608 PositionTermDefinition.cs
+18.04.2018  11:47               577 PositionTimesheetDefinition.cs
+18.04.2018  11:47               526 PositionWorkingDefinition.cs
+18.04.2018  11:47               408 TaxAdvanceBaseDefinition.cs
+18.04.2018  11:47               395 TaxAdvanceDefinition.cs
+18.04.2018  11:47               411 TaxAdvanceFinalDefinition.cs
+18.04.2018  11:47               414 TaxAdvanceHealthDefinition.cs
+18.04.2018  11:47               408 TaxAdvancePartDefinition.cs
+18.04.2018  11:47               414 TaxAdvanceSocialDefinition.cs
+18.04.2018  11:47               405 TaxBonusChildDefinition.cs
+18.04.2018  11:47               405 TaxClaimChildDefinition.cs
+18.04.2018  11:47               420 TaxClaimDisabilityDefinition.cs
+18.04.2018  11:47               405 TaxClaimPayerDefinition.cs
+18.04.2018  11:47               414 TaxClaimStudyingDefinition.cs
+18.04.2018  11:47               407 TaxDeclarationDefinition.cs
+18.04.2018  11:47               417 TaxIncomesAdvanceDefinition.cs
+18.04.2018  11:47               417 TaxIncomesGeneralDefinition.cs
+18.04.2018  11:47               420 TaxIncomesWithholdDefinition.cs
+18.04.2018  11:47               408 TaxReliefChildDefinition.cs
+18.04.2018  11:47               408 TaxReliefPayerDefinition.cs
+18.04.2018  11:47               411 TaxSolidaryBaseDefinition.cs
+18.04.2018  11:47               398 TaxSolidaryDefinition.cs
+18.04.2018  11:47               411 TaxWithholdBaseDefinition.cs
+18.04.2018  11:47               414 TaxWithholdFinalDefinition.cs
+18.04.2018  11:47               417 TaxWithholdHealthDefinition.cs
+18.04.2018  11:47               411 TaxWithholdPartDefinition.cs
+18.04.2018  11:47               417 TaxWithholdSocialDefinition.cs
+18.04.2018  11:47               385 UnknownDefinition.cs
+              45 File(s)         20ÿ369 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ClazzGeneratorConsoleApp\Defs
+
+18.04.2018  11:47             8ÿ075 ArticleDefinition.cs
+17.04.2018  17:04             2ÿ859 ClazzArticlesBook.cs
+18.04.2018  11:47             3ÿ813 ClazzBlockDefinition.cs
+17.04.2018  17:07             4ÿ198 ClazzBlockMethod.cs
+18.04.2018  11:21             8ÿ334 ClazzBlockSource.cs
+18.04.2018  11:21             8ÿ345 ClazzBlockTarget.cs
+17.04.2018  17:04             6ÿ800 ClazzBlockValues.cs
+17.04.2018  17:15             2ÿ055 ClazzGeneratorDefinition.cs
+18.04.2018  11:47             2ÿ405 ClazzGeneratorMethods.cs
+17.04.2018  17:13             2ÿ030 ClazzGeneratorSources.cs
+17.04.2018  17:13             2ÿ032 ClazzGeneratorTargets.cs
+17.04.2018  17:13             2ÿ073 ClazzGeneratorValues.cs
+10.04.2018  14:35             4ÿ278 ClazzSourceBlock.cs
+10.04.2018  15:58             4ÿ241 StringExtensions.cs
+              14 File(s)         61ÿ538 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ClazzGeneratorConsoleApp\obj\Debug
+
+10.04.2018  12:25                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+10.04.2018  12:25                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+10.04.2018  12:25                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ClazzGeneratorConsoleApp\Properties
+
+10.04.2018  12:25             1ÿ460 AssemblyInfo.cs
+               1 File(s)          1ÿ460 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements
+
+18.04.2018  11:47             1ÿ586 ArticleResultStore.cs
+18.04.2018  16:22             8ÿ479 ArticleSourceStore.cs
+18.04.2018  11:21             6ÿ212 ArticleTarget.cs
+18.04.2018  13:28             4ÿ651 GeneralArticle.cs
+18.04.2018  12:46             2ÿ597 TargetSelector.cs
+               5 File(s)         23ÿ525 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements.Config.Articles
+
+18.04.2018  14:59             2ÿ493 ContractAbsenceArticle.cs
+18.04.2018  14:59             2ÿ991 ContractTermArticle.cs
+18.04.2018  14:59             2ÿ527 ContractTimesheetArticle.cs
+18.04.2018  14:59             2ÿ493 ContractWorkingArticle.cs
+18.04.2018  14:59             2ÿ493 PositionAbsenceArticle.cs
+18.04.2018  14:59             2ÿ513 PositionScheduleArticle.cs
+18.04.2018  14:59             2ÿ445 PositionTermArticle.cs
+18.04.2018  14:59             2ÿ527 PositionTimesheetArticle.cs
+18.04.2018  14:59             2ÿ493 PositionWorkingArticle.cs
+18.04.2018  14:59             1ÿ353 UnknownArticle.cs
+              10 File(s)         24ÿ328 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements.Config.ArticlesGen
+
+13.04.2018  15:41             2ÿ403 ContractAbsenceArticle.cs
+13.04.2018  15:41             2ÿ352 ContractTermArticle.cs
+13.04.2018  15:41             2ÿ437 ContractTimesheetArticle.cs
+13.04.2018  15:41             2ÿ403 ContractWorkingArticle.cs
+13.04.2018  15:41             2ÿ403 PositionAbsenceArticle.cs
+13.04.2018  15:41             2ÿ420 PositionScheduleArticle.cs
+13.04.2018  15:41             2ÿ352 PositionTermArticle.cs
+13.04.2018  15:41             2ÿ437 PositionTimesheetArticle.cs
+13.04.2018  15:41             2ÿ403 PositionWorkingArticle.cs
+10.04.2018  14:47             1ÿ084 UnknownArticle.cs
+              10 File(s)         22ÿ694 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements.Config.Sources
+
+18.04.2018  14:59               678 ArticleEmptySource.cs
+18.04.2018  14:59             1ÿ052 ContractAbsenceSource.cs
+18.04.2018  14:59             1ÿ379 ContractTermSource.cs
+18.04.2018  14:59             1ÿ062 ContractTimesheetSource.cs
+18.04.2018  14:59             1ÿ052 ContractWorkingSource.cs
+18.04.2018  14:59             1ÿ052 PositionAbsenceSource.cs
+18.04.2018  14:59             1ÿ465 PositionScheduleSource.cs
+18.04.2018  14:59             1ÿ379 PositionTermSource.cs
+18.04.2018  14:59             1ÿ314 PositionTimesheetSource.cs
+18.04.2018  14:59             1ÿ052 PositionWorkingSource.cs
+              10 File(s)         11ÿ485 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements.Config.SourcesGen
+
+17.04.2018  16:34             1ÿ052 ContractAbsenceSource.cs
+17.04.2018  16:34             1ÿ379 ContractTermSource.cs
+17.04.2018  16:34             1ÿ062 ContractTimesheetSource.cs
+17.04.2018  16:34             1ÿ052 ContractWorkingSource.cs
+17.04.2018  16:34             1ÿ052 PositionAbsenceSource.cs
+17.04.2018  16:34             1ÿ465 PositionScheduleSource.cs
+17.04.2018  16:34             1ÿ379 PositionTermSource.cs
+17.04.2018  16:34             1ÿ314 PositionTimesheetSource.cs
+17.04.2018  16:34             1ÿ052 PositionWorkingSource.cs
+17.04.2018  16:34               731 UnknownSource.cs
+              10 File(s)         11ÿ538 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Elements.Exceptions
+
+04.04.2018  11:22               409 ConfigExceptions.cs
+               1 File(s)            409 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist
+
+03.04.2018  12:54             1ÿ712 GeneralBundleProfile.cs
+03.04.2018  12:40               498 GeneralGuides.cs
+03.04.2018  11:25             1ÿ736 PeriodProfile.cs
+               3 File(s)          3ÿ946 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Bundles
+
+03.04.2018  16:05             2ÿ775 BundleProfileVersion2018.cs
+               1 File(s)          2ÿ775 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Config
+
+03.04.2018  17:11             3ÿ392 BundleVersionCollection.cs
+18.04.2018  12:37             2ÿ430 BundleVersionFactory.cs
+04.04.2018  12:38             3ÿ029 EmployProperties.cs
+04.04.2018  12:29             5ÿ140 HealthProperties.cs
+04.04.2018  12:39             2ÿ073 PenzixProperties.cs
+04.04.2018  12:30             8ÿ282 SocialProperties.cs
+04.04.2018  12:31            14ÿ532 TaxingProperties.cs
+               7 File(s)         38ÿ878 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Constants
+
+04.04.2018  14:35               879 ContractConstants.cs
+04.04.2018  14:47               620 PositionConstants.cs
+               2 File(s)          1ÿ499 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Exceptions
+
+03.04.2018  15:13               609 ProfileMapExceptions.cs
+               1 File(s)            609 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Guides.Employ
+
+03.04.2018  15:03             1ÿ383 EmployGuides.cs
+03.04.2018  15:03             1ÿ519 EmployGuidesBuilder.cs
+03.04.2018  15:04               509 IEmployGuidesBuilder.cs
+               3 File(s)          3ÿ411 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Guides.Health
+
+03.04.2018  13:17               494 HealthGuides.cs
+03.04.2018  13:17               741 HealthGuidesBuilder.cs
+03.04.2018  13:17               436 IHealthGuidesBuilder.cs
+               3 File(s)          1ÿ671 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Guides.Penzix
+
+03.04.2018  13:23               436 IPenzixGuidesBuilder.cs
+03.04.2018  13:22               494 PenzixGuides.cs
+03.04.2018  13:23               741 PenzixGuidesBuilder.cs
+               3 File(s)          1ÿ671 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Guides.Social
+
+03.04.2018  13:24               436 ISocialGuidesBuilder.cs
+03.04.2018  13:24               494 SocialGuides.cs
+03.04.2018  13:24               741 SocialGuidesBuilder.cs
+               3 File(s)          1ÿ671 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Guides.Taxing
+
+03.04.2018  13:24               436 ITaxingGuidesBuilder.cs
+03.04.2018  13:24               494 TaxingGuides.cs
+03.04.2018  13:24               741 TaxingGuidesBuilder.cs
+               3 File(s)          1ÿ671 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Operations
+
+13.04.2018  12:44             6ÿ269 OperationsEmploy.cs
+13.04.2018  12:45             8ÿ644 OperationsPeriod.cs
+               2 File(s)         14ÿ913 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Profiles.Employ
+
+03.04.2018  11:28               947 EmployBuilder.cs
+03.04.2018  11:24               279 IEmployProfilePrototype.cs
+               2 File(s)          1ÿ226 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Profiles.Health
+
+03.04.2018  13:43               947 HealthBuilder.cs
+03.04.2018  13:43               279 IHealthProfilePrototype.cs
+               2 File(s)          1ÿ226 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Profiles.Penzix
+
+03.04.2018  13:45               279 IPenzixProfilePrototype.cs
+03.04.2018  13:45               947 PenzixBuilder.cs
+               2 File(s)          1ÿ226 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Profiles.Social
+
+03.04.2018  13:45               279 ISocialProfilePrototype.cs
+03.04.2018  13:45               947 SocialBuilder.cs
+               2 File(s)          1ÿ226 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Profiles.Taxing
+
+03.04.2018  13:45               279 ITaxingProfilePrototype.cs
+03.04.2018  13:45               947 TaxingBuilder.cs
+               2 File(s)          1ÿ226 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Versions.Employ
+
+03.04.2018  15:03               824 EmployGuidesVersion2018.cs
+04.04.2018  12:13             2ÿ523 EmployGuidingProfile.cs
+03.04.2018  14:42               425 EmployProfileVersion2018.cs
+               3 File(s)          3ÿ772 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Versions.Health
+
+03.04.2018  13:35               347 HealthGuidesVersion2018.cs
+03.04.2018  14:47               716 HealthGuidingProfile.cs
+03.04.2018  14:49               423 HealthProfileVersion2018.cs
+               3 File(s)          1ÿ486 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Versions.Penzix
+
+03.04.2018  13:48               347 PenzixGuidesVersion2018.cs
+03.04.2018  14:47               716 PenzixGuidingProfile.cs
+03.04.2018  14:49               425 PenzixProfileVersion2018.cs
+               3 File(s)          1ÿ488 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Versions.Social
+
+03.04.2018  13:48               347 SocialGuidesVersion2018.cs
+03.04.2018  14:47               716 SocialGuidingProfile.cs
+03.04.2018  14:49               425 SocialProfileVersion2018.cs
+               3 File(s)          1ÿ488 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Legalist.Versions.Taxing
+
+03.04.2018  13:48               347 TaxingGuidesVersion2018.cs
+03.04.2018  14:47               716 TaxingGuidingProfile.cs
+03.04.2018  14:49               425 TaxingProfileVersion2018.cs
+               3 File(s)          1ÿ488 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Matrixus.Config
+
+18.04.2018  11:59             2ÿ799 ArticleConfigDetail.cs
+18.04.2018  13:25             2ÿ809 ArticleConfigFactory.cs
+18.04.2018  11:13             2ÿ200 ArticleConfigMaster.cs
+18.04.2018  16:14             1ÿ905 ArticleConfigProfile.cs
+18.04.2018  12:46            12ÿ118 ArticleDetailCollection.cs
+18.04.2018  10:24             1ÿ362 ArticleMasterCollection.cs
+17.04.2018  09:49             1ÿ562 GeneralConfigCollection.cs
+               7 File(s)         24ÿ755 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Codes
+
+18.04.2018  11:47             2ÿ588 ArticleCodeAdapter.cs
+18.04.2018  11:46             2ÿ143 ArticleCodeCz.cs
+18.04.2018  11:47             2ÿ542 ArticleRoleAdapter.cs
+18.04.2018  11:46             2ÿ011 ArticleRoleCz.cs
+16.04.2018  13:00               348 ArticleType.cs
+               5 File(s)          9ÿ632 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Common
+
+17.04.2018  11:47             1ÿ330 GeneralClazzFactory.cs
+17.04.2018  15:57             1ÿ281 GeneralNameFactory.cs
+               2 File(s)          2ÿ611 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Interfaces
+
+18.04.2018  11:21               827 ICalculusService.cs
+18.04.2018  15:28               292 IElementsService.cs
+18.04.2018  15:41               263 ILegalistService.cs
+18.04.2018  14:37               538 IMatrixusService.cs
+03.04.2018  09:58               162 IPeriodSelect.cs
+               5 File(s)          2ÿ082 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Interfaces.Elements
+
+17.04.2018  12:57               306 IArticleResult.cs
+18.04.2018  11:21               639 IArticleResultStore.cs
+18.04.2018  11:21               794 IArticleSource.cs
+18.04.2018  15:25             1ÿ373 IArticleSourceStore.cs
+18.04.2018  11:21               806 IArticleTarget.cs
+04.04.2018  13:37               232 ISourceValues.cs
+               6 File(s)          4ÿ150 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Interfaces.Legalist
+
+03.04.2018  10:56               438 IBundleProfile.cs
+03.04.2018  17:02               726 IBundleVersionFactory.cs
+03.04.2018  12:47               194 IEmployBuilder.cs
+04.04.2018  09:56               367 IEmployGuides.cs
+04.04.2018  09:56             1ÿ208 IEmployProfile.cs
+03.04.2018  12:48               213 IHealthBuilder.cs
+03.04.2018  10:21               107 IHealthGuides.cs
+03.04.2018  10:21               141 IHealthProfile.cs
+03.04.2018  12:48               213 IPenzixBuilder.cs
+03.04.2018  10:13               107 IPenzixGuides.cs
+03.04.2018  10:21               141 IPenzixProfile.cs
+03.04.2018  10:56               294 IPeriodProfile.cs
+13.04.2018  14:44               542 IProfileBundleCollection.cs
+03.04.2018  12:48               213 ISocialBuilder.cs
+03.04.2018  13:26               107 ISocialGuides.cs
+03.04.2018  10:17               108 ISocialProfile.cs
+03.04.2018  12:48               213 ITaxingBuilder.cs
+03.04.2018  13:27               107 ITaxingGuides.cs
+03.04.2018  10:18               108 ITaxingProfile.cs
+              19 File(s)          5ÿ547 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Interfaces.Matrixus
+
+18.04.2018  11:57               688 IArticleConfigDetail.cs
+18.04.2018  13:25               975 IArticleConfigFactory.cs
+18.04.2018  11:11               510 IArticleConfigMaster.cs
+18.04.2018  13:11             1ÿ122 IArticleConfigProfile.cs
+18.04.2018  12:46             1ÿ079 IArticleDetailCollection.cs
+18.04.2018  10:19               649 IArticleMasterCollection.cs
+17.04.2018  09:53               338 IConfigCollection.cs
+               7 File(s)          5ÿ361 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Interfaces.Permadom
+
+16.04.2018  16:23             1ÿ151 ArticleCodeConfigData.cs
+18.04.2018  14:58               585 ArticleData.cs
+17.04.2018  09:35               843 ArticleRoleConfigData.cs
+18.04.2018  15:01               539 IPermadumService.cs
+               4 File(s)          3ÿ118 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Items
+
+13.04.2018  14:40             3ÿ969 Period.cs
+               1 File(s)          3ÿ969 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Items.Utils
+
+03.04.2018  09:43               667 PeriodFmt.cs
+03.04.2018  09:41             1ÿ329 PeriodUtils.cs
+               2 File(s)          1ÿ996 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Json
+
+29.03.2018  13:55               829 ArticleConfigJson.cs
+12.04.2018  10:20             3ÿ174 ArticleJsonConverter.cs
+29.03.2018  13:55             1ÿ519 ConfigJsonReader.cs
+04.04.2018  15:21               935 ResultValuesJson.cs
+04.04.2018  14:01               768 SourceValuesJson.cs
+05.04.2018  13:22             1ÿ995 ValuesJsonConverters.cs
+               6 File(s)          9ÿ220 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Module.Libs
+
+29.03.2018  13:43               385 ArrayUtilsExtensions.cs
+29.03.2018  13:43             1ÿ075 DictionaryUtilsExtension.cs
+10.04.2018  12:52             1ÿ763 EnumUtilsExtensions.cs
+18.04.2018  11:21             3ÿ412 ResultMonadExtensions.cs
+04.04.2018  15:52             3ÿ632 StringUtilsExtensions.cs
+               5 File(s)         10ÿ267 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\obj\Debug
+
+26.03.2018  09:17                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+26.03.2018  09:17                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+26.03.2018  09:17                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Properties
+
+26.03.2018  09:17             1ÿ434 AssemblyInfo.cs
+               1 File(s)          1ÿ434 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Service.Calculus
+
+18.04.2018  16:10             3ÿ747 CalculusService.cs
+18.04.2018  16:04               632 SimpleCalculusService.cs
+               2 File(s)          4ÿ379 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Service.Elements
+
+18.04.2018  16:11               693 ElementsService.cs
+18.04.2018  16:12               782 SimpleElementsService.cs
+               2 File(s)          1ÿ475 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Service.Legalist
+
+18.04.2018  16:09             1ÿ213 LegalistService.cs
+18.04.2018  16:10               554 SimpleLegalistService.cs
+               2 File(s)          1ÿ767 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Service.Matrixus
+
+18.04.2018  16:14             1ÿ443 MatrixusService.cs
+18.04.2018  16:15               862 SimpleMatrixusService.cs
+               2 File(s)          2ÿ305 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsLib\Service.Permadom
+
+18.04.2018  16:15             3ÿ450 ArticleCodeConfigBuilder.cs
+18.04.2018  16:15             1ÿ856 ArticleRoleConfigBuilder.cs
+18.04.2018  16:12             4ÿ781 SimplePermadomService.cs
+               3 File(s)         10ÿ087 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsTest
+
+18.04.2018  16:19               985 ArticleFactoryTests.cs
+18.04.2018  16:18             8ÿ139 ArticleTargetsTests.cs
+               2 File(s)          9ÿ124 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsTest\obj\Debug
+
+26.03.2018  11:25                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+26.03.2018  11:25                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+26.03.2018  11:25                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ElementsTest\Properties
+
+26.03.2018  11:25             1ÿ436 AssemblyInfo.cs
+               1 File(s)          1ÿ436 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ExportJsonConsoleApp
+
+06.04.2018  12:35               982 Program.cs
+18.04.2018  14:59             2ÿ172 ProgramModule.cs
+               2 File(s)          3ÿ154 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ExportJsonConsoleApp\obj\Debug
+
+05.04.2018  11:08                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+05.04.2018  11:08                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+05.04.2018  11:08                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ExportJsonConsoleApp\Properties
+
+05.04.2018  11:08             1ÿ452 AssemblyInfo.cs
+               1 File(s)          1ÿ452 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonad
+
+03.09.2017  20:02                94 Allow_Unit_Testing_Of_Internal_Code.cs
+03.09.2017  20:02             3ÿ841 Maybe.cs
+03.09.2017  20:02               182 MaybeMessages.cs
+03.09.2017  20:02                99 MaybeStatus.cs
+               4 File(s)          4ÿ216 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonad\obj\Debug\netstandard2.0
+
+12.04.2018  12:43             1ÿ219 MaybeMonad.AssemblyInfo.cs
+               1 File(s)          1ÿ219 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadExtensionsLib\Extensions.ResultMonad
+
+12.04.2018  15:50               927 MapExtensions.cs
+               1 File(s)            927 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadExtensionsLib\obj\Debug
+
+12.04.2018  15:48                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+12.04.2018  15:48                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+12.04.2018  15:48                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadExtensionsLib\Properties
+
+12.04.2018  15:48             1ÿ458 AssemblyInfo.cs
+               1 File(s)          1ÿ458 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadLib
+
+12.04.2018  12:52             3ÿ912 Maybe.cs
+03.09.2017  20:02               182 MaybeMessages.cs
+03.09.2017  20:02                99 MaybeStatus.cs
+               3 File(s)          4ÿ193 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadLib\obj\Debug
+
+12.04.2018  12:38                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+12.04.2018  12:38                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+12.04.2018  12:38                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\MaybeMonadLib\Properties
+
+12.04.2018  12:38             1ÿ438 AssemblyInfo.cs
+               1 File(s)          1ÿ438 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\PayrollGeekConsoleApp
+
+18.04.2018  11:20               657 ArticleData.cs
+06.04.2018  12:30             3ÿ389 ClassToSerializeViaJson.cs
+06.04.2018  14:14               880 Program.cs
+18.04.2018  16:18             5ÿ584 ProgramModule.cs
+               4 File(s)         10ÿ510 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\PayrollGeekConsoleApp\obj\Debug
+
+27.03.2018  09:47                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+27.03.2018  09:47                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+27.03.2018  09:47                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\PayrollGeekConsoleApp\Properties
+
+27.03.2018  09:47             1ÿ454 AssemblyInfo.cs
+               1 File(s)          1ÿ454 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonad
+
+03.09.2017  20:02                95 Allow_Unit_Testing_Of_Internal_Code.cs
+03.09.2017  20:02               440 ResultMessages.cs
+03.09.2017  20:02                94 ResultStatus.cs
+03.09.2017  20:02             4ÿ795 Result_Simple.cs
+03.09.2017  20:02             4ÿ526 Result_With_Error.cs
+03.09.2017  20:02             3ÿ434 Result_With_Value.cs
+03.09.2017  20:02             3ÿ705 Result_With_Value_And_Error.cs
+               7 File(s)         17ÿ089 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonad\Extensions\ResultWithValueAndErrorMonad\Map
+
+03.09.2017  20:02               453 MapExtensions.cs
+               1 File(s)            453 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonad\obj\Debug\netstandard2.0
+
+12.04.2018  12:33             1ÿ284 ResultMonad.AssemblyInfo.cs
+               1 File(s)          1ÿ284 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadExtensionsLib\Extensions.ResultWithErrorMonad
+
+12.04.2018  15:49               707 EnsureExtensions.cs
+12.04.2018  16:05               656 OnSuccessExtensions.cs
+               2 File(s)          1ÿ363 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadExtensionsLib\Extensions.ResultWithValueAndErrorMonad
+
+12.04.2018  15:49             1ÿ965 EnsureExtensions.cs
+12.04.2018  15:49               453 MapExtensions.cs
+12.04.2018  15:49             1ÿ132 OnErrorExtensions.cs
+12.04.2018  16:08             1ÿ464 OnSuccessExtensions.cs
+               4 File(s)          5ÿ014 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadExtensionsLib\Extensions.ResultWithValueMonad
+
+12.04.2018  15:49               516 OnSuccessExtensions.cs
+               1 File(s)            516 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadExtensionsLib\obj\Debug
+
+12.04.2018  15:48                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+12.04.2018  15:48                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+12.04.2018  15:48                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadExtensionsLib\Properties
+
+12.04.2018  15:48             1ÿ460 AssemblyInfo.cs
+               1 File(s)          1ÿ460 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadLib
+
+03.09.2017  20:02               440 ResultMessages.cs
+03.09.2017  20:02                94 ResultStatus.cs
+12.04.2018  13:23             4ÿ835 Result_Simple.cs
+12.04.2018  13:22             4ÿ619 Result_With_Error.cs
+12.04.2018  13:23             3ÿ508 Result_With_Value.cs
+12.04.2018  13:23             3ÿ777 Result_With_Value_And_Error.cs
+               6 File(s)         17ÿ273 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadLib\Extensions.ResultWithValueAndErrorMonad
+
+03.09.2017  20:02               453 MapExtensions.cs
+               1 File(s)            453 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadLib\obj\Debug
+
+12.04.2018  12:38                 0 TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+12.04.2018  12:38                 0 TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+12.04.2018  12:38                 0 TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+               3 File(s)              0 bytes
+
+ Directory of C:\PROJEKTY_K10\PayrollGeek\ResultMonadLib\Properties
+
+12.04.2018  12:38             1ÿ440 AssemblyInfo.cs
+               1 File(s)          1ÿ440 bytes
+
+     Total Files Listed:
+             319 File(s)        459ÿ427 bytes
+               0 Dir(s)  121ÿ925ÿ836ÿ800 bytes free
