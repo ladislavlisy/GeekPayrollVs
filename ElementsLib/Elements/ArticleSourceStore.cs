@@ -12,6 +12,7 @@ namespace ElementsLib.Elements
     using TargetPart = UInt16;
     using TargetSeed = UInt16;
     using TargetSort = UInt16;
+    using ConfigSort = Int32;
 
     using SourceCase = Module.Interfaces.Matrixus.IArticleConfigProfile;
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -106,6 +107,7 @@ namespace ElementsLib.Elements
             IEnumerable<IArticleTarget> targetsZero = new List<IArticleTarget>();
 
             var contractsHead = SelectContractCode(contractCode);
+
             var positionsPart = SelectPositionCode(positionCode);
             
             IEnumerable<TargetItem> targetsInit = GetTargets();
@@ -117,14 +119,14 @@ namespace ElementsLib.Elements
         }
         private IEnumerable<TargetItem> ResolveTargets(TargetItem target, IEnumerable<TargetHead> heads, IEnumerable<Tuple<TargetHead, TargetPart>> parts)
         {
-            IEnumerable<ConfigCode> configResolve = ModelSourceProfile.GetConfigModelResolve(target.Code());
+            IEnumerable<ConfigCode> successQueue = ModelSourceProfile.GetSuccessQueue(target.Code());
 
-            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, heads, parts))).ToList();
+            IEnumerable<IArticleTarget> targetsQueue = successQueue.SelectMany((c) => (CreateTargetsQueue(c, target, heads, parts))).ToList();
 
-            return targetResolve.Where((c) => (c.Code() != 0));
+            return targetsQueue.Where((c) => (c.Code() != 0));
         }
 
-        private IEnumerable<TargetItem> CreateTarget(ConfigCode code, TargetItem target, IEnumerable<TargetHead> heads, IEnumerable<Tuple<TargetHead, TargetPart>> parts)
+        private IEnumerable<TargetItem> CreateTargetsQueue(ConfigCode code, TargetItem target, IEnumerable<TargetHead> heads, IEnumerable<Tuple<TargetHead, TargetPart>> parts)
         {
             IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
 
@@ -177,11 +179,11 @@ namespace ElementsLib.Elements
 
         public IList<SourcePair> GetEvaluationPath()
         {
-            IEnumerable<SortedPair> modelPath = ModelSourceProfile.ModelPath();
+            IDictionary<ConfigCode, ConfigSort> compareDict = ModelSourceProfile.ArticleRanks();
 
             IEnumerable<TargetItem> targets = Keys();
 
-            IEnumerable<TargetItem> sortedTargets = targets.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
+            IEnumerable<TargetItem> sortedTargets = targets.OrderBy((x) => (x), new CompareEvaluationTargets(compareDict)).ToList();
 
             return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
         }
@@ -276,9 +278,9 @@ namespace ElementsLib.Elements
 
     internal class CompareEvaluationTargets : IComparer<TargetItem>
     {
-        private IEnumerable<SortedPair> ModelOrderList;
+        private IDictionary<ConfigCode, ConfigSort> ModelOrderList;
 
-        public CompareEvaluationTargets(IEnumerable<SortedPair> modelOrderList)
+        public CompareEvaluationTargets(IDictionary<ConfigCode, ConfigSort> modelOrderList)
         {
             this.ModelOrderList = modelOrderList;
         }

@@ -9,6 +9,5 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     public interface IConfigCollection<TConfig, TIndex>
     {
         TConfig FindArticleConfig(TIndex modelCode);
-        IList<KeyValuePair<TIndex, Int32>> ModelPath();
     }
 }

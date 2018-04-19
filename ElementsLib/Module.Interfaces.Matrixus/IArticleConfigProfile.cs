@@ -6,6 +6,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigSort = Int32;
 
     using DetailData = IEnumerable<Permadom.ArticleCodeConfigData>;
     using MasterData = IEnumerable<Permadom.ArticleRoleConfigData>;
@@ -18,9 +19,9 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     public interface IArticleConfigProfile
     {
         void Initialize(Assembly configAssembly, MasterData configRoleData, DetailData configCodeData, IArticleConfigFactory configFactory);
-        IList<KeyValuePair<ConfigCode, Int32>> ModelPath();
+        IDictionary<ConfigCode, ConfigSort> ArticleRanks();
         ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals);
         ConfigType GetConfigType(ConfigCode configCode);
-        IEnumerable<ConfigCode> GetConfigModelResolve(ConfigCode configCode);
+        IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode);
     }
 }

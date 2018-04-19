@@ -9,6 +9,7 @@ namespace ElementsLib.Matrixus.Config
     using ConfigItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
     using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Matrixus.IArticleConfigDetail>;
     using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
+    using ConfigSort = Int32;
 
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
@@ -23,10 +24,18 @@ namespace ElementsLib.Matrixus.Config
     {
         public ArticleDetailCollection() : base()
         {
-            this.InternalModelResolve = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
+            this.InternalRanks = new Dictionary<ConfigCode, ConfigSort>();
+
+            this.InternalQueue = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
         }
 
-        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> InternalModelResolve { get; set; }
+        protected IDictionary<ConfigCode, ConfigSort> InternalRanks { get; set; }
+        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> InternalQueue { get; set; }
+
+        public IDictionary<ConfigCode, ConfigSort> Ranks()
+        {
+            return InternalRanks.ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
 
         public void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
@@ -35,7 +44,7 @@ namespace ElementsLib.Matrixus.Config
 
             ConfigureModel(configTypeList);
 
-            ConfigureModelPath();
+            ConfigureModelDependency();
         }
 
         public ConfigItem FindArticleConfig(ConfigCode modelCode)
@@ -69,31 +78,35 @@ namespace ElementsLib.Matrixus.Config
             return emptyInstance.Value.CloneSourceAndSetValues<SourceItem>(sourceVals);
         }
 
-        protected void ConfigureModelPath()
+        protected void ConfigureModelDependency()
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsZero = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
-            InternalModelResolve = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveModelPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
+            InternalQueue = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveDependencyPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
 
-            IList<ConfigCode> TempModelPath = InternalModels.Keys.ToList();
+            IList<ConfigCode> TempKeys = InternalModels.Keys.ToList();
 
-            InternalModelPath = TempModelPath.OrderBy((x) => (x), new CompareConfigCode(InternalModelResolve)).Select((k, i) => (new KeyValuePair<ConfigCode, Int32>(k, i))).ToList();
+            IList<ConfigCode> SortKeys = TempKeys.OrderBy((x) => (x), new CompareConfigCode(InternalQueue)).ToList();
+
+            IList<KeyValuePair<ConfigCode, ConfigSort>> SortPair = SortKeys.Select((k, i) => (new KeyValuePair<ConfigCode, Int32>(k, i))).ToList();
+
+            InternalRanks = SortPair.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        protected ConfigCode[] ResolveModelPath(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected ConfigCode[] ResolveDependencyPath(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
             ConfigCode[] articleSubs = new ConfigCode[0];
 
-            IDictionary<ConfigCode, IEnumerable<ConfigCode>> articleIter = articlePath.Aggregate(resultsSink, (agr, c) => ResolveModelIter(resultsHead, c, articleSubs, agr, articleTree));
+            IDictionary<ConfigCode, IEnumerable<ConfigCode>> articleIter = articlePath.Aggregate(resultsSink, (agr, c) => ResolveDependencyIter(resultsHead, c, articleSubs, agr, articleTree));
 
             ConfigCode[] resultsList = articleIter.SelectMany((c) => (c.Value.Merge(c.Key))).OrderBy(s => s).Distinct().ToArray();
 
             return resultsList.ToArray();
         }
 
-        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveModelIter(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveDependencyIter(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             if (articlePath.Contains(resolveCode))
             {
@@ -119,13 +132,13 @@ namespace ElementsLib.Matrixus.Config
                 return resultsSink;
             }
 
-            ConfigCode[] pathTree = ResolveModelCode(resolveCode, articleTree);
+            ConfigCode[] successQueue = ResolveSuccessQueue(resolveCode, articleTree);
 
-            IDictionary<ConfigCode, IEnumerable<ConfigCode>> codeSink = resultsSink.Merge(resolveCode, pathTree);
+            IDictionary<ConfigCode, IEnumerable<ConfigCode>> mergedSink = resultsSink.Merge(resolveCode, successQueue);
 
-            IDictionary<ConfigCode, IEnumerable<ConfigCode>> resolveSink = pathTree.Aggregate(codeSink, (agr, c) => ResolveModelIter(resultsHead, c, articleSubs, agr, articleTree));
+            IDictionary<ConfigCode, IEnumerable<ConfigCode>> returnSink = successQueue.Aggregate(mergedSink, (agr, c) => ResolveDependencyIter(resultsHead, c, articleSubs, agr, articleTree));
 
-            return resolveSink;
+            return returnSink;
         }
         public ConfigType GetConfigType(ConfigCode configCode)
         {
@@ -137,13 +150,13 @@ namespace ElementsLib.Matrixus.Config
             }
             return configItem.Type();
         }
-        public IEnumerable<ConfigCode> GetConfigModelResolve(ConfigCode configCode)
+        public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {
-            IEnumerable<ConfigCode> modelResolve = InternalModelResolve.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value.ToList();
+            IEnumerable<ConfigCode> successQueue = InternalQueue.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value.ToList();
 
-            return modelResolve;
+            return successQueue;
         }
-        protected ConfigCode[] ResolveModelCode(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected ConfigCode[] ResolveSuccessQueue(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             ConfigItem articleItem;
             bool foundTree = articleTree.TryGetValue(resolveCode, out articleItem);

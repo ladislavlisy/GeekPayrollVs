@@ -6,6 +6,7 @@ namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigSort = Int32;
 
     using DetailData = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
     using MasterData = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
@@ -33,9 +34,9 @@ namespace ElementsLib.Matrixus.Config
 
             detailBundle.LoadConfigData(masterBundle, configCodeData, configFactory);
         }
-        public IList<KeyValuePair<ConfigCode, Int32>> ModelPath()
+        public IDictionary<ConfigCode, ConfigSort> ArticleRanks()
         {
-            return detailBundle.ModelPath();
+            return detailBundle.Ranks();
         }
         public ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals)
         {
@@ -45,9 +46,9 @@ namespace ElementsLib.Matrixus.Config
         {
             return detailBundle.GetConfigType(configCode);
         }
-        public IEnumerable<ConfigCode> GetConfigModelResolve(ConfigCode configCode)
+        public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {
-            return detailBundle.GetConfigModelResolve(configCode);
+            return detailBundle.GetSuccessQueue(configCode);
         }
     }
 }
