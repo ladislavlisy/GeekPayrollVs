@@ -13,6 +13,7 @@ namespace ElementsLib.Elements.Config.Articles
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
 
     using Sources;
     using Module.Items;
@@ -53,7 +54,7 @@ namespace ElementsLib.Elements.Config.Articles
             return string.Format("PositionWorkingSource(ARTICLE_POSITION_WORKING, 5): { 0 }", message);
         }
 
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             IEmployProfile employProfile = evalProfile.Employ();
             if (employProfile == null)
