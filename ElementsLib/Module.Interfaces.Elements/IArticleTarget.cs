@@ -18,8 +18,8 @@ namespace ElementsLib.Module.Interfaces.Elements
         TargetPart Part();
         ConfigCode Code();
         TargetSeed Seed();
-        bool IsEqualToHeadTargetPart(IArticleTarget other);
-        bool IsEqualToHeadTargetPart(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode);
+        bool IsEqualByHeadAndPartAndCode(IArticleTarget other);
+        bool IsEqualByHeadAndPartAndCode(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode);
         string ToSymbolString<TENUM>() where TENUM : struct, IComparable;
     }
 }

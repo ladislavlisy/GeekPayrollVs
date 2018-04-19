@@ -16,17 +16,17 @@ namespace ElementsLib.Module.Interfaces.Elements
     using SourcePair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>>;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
 
-    using Matrixus;
-
     public interface IArticleSourceStore : IEnumerable<KeyValuePair<IArticleTarget, SourcePack>>
     {
+        void LoadSourceData(IEnumerable<TargetData> sourceData);
+        ICollection<TargetItem> Keys();
         IEnumerable<TargetItem> GetTargets();
         IEnumerable<SourcePair> GetModel();
         void CopyModel(IArticleSourceStore source);
         void AddGeneralItems(IEnumerable<TargetItem> targets);
         TargetItem StoreGeneralItem(TargetHead codeHead, TargetPart codePart, ConfigCode codeBody, TargetSeed seedBody, ISourceValues tagsBody);
-        TargetItem StoreGeneralItem(TargetData dataLoad);
-
-        IList<SourcePair> PrepareEvaluationPath(ConfigCode contractCode, ConfigCode positionCode);
+        TargetItem StoreGeneralItem(TargetData dataItem);
+        void EvolveStream(ConfigCode contractCode, ConfigCode positionCode);
+        IList<SourcePair> GetEvaluationPath();
     }
 }

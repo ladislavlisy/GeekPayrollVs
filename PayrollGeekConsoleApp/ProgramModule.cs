@@ -21,8 +21,8 @@ namespace PayrollGeekConsoleApp
     using ElementsLib.Service.Permadom;
     using ElementsLib.Service.Matrixus;
     using ElementsLib.Service.Legalist;
-    using ElementsLib.Service.Elements;
     using ElementsLib.Service.Calculus;
+    using ElementsLib.Module.Interfaces.Elements;
 
     static class ProgramModule
     {
@@ -32,15 +32,17 @@ namespace PayrollGeekConsoleApp
 
             var matrixService = new SimpleMatrixusService();
 
-            matrixService.InitializeService();
+            matrixService.InitializeService(memoryService);
 
             var legalsService = new SimpleLegalistService();
 
             legalsService.InitializeService();
 
-            var streamService = new SimpleElementsService(matrixService.Profile());
+            IArticleSourceStore sourceStore = new ArticleSourceStore(matrixService.Profile());
 
-            streamService.InitializeService();
+            var sourceData = memoryService.GetArticleSourceData();
+
+            sourceStore.LoadSourceData(sourceData);
 
             var calculService = new SimpleCalculusService(matrixService.Profile());
 
@@ -50,7 +52,7 @@ namespace PayrollGeekConsoleApp
 
             IPeriodProfile evalProfile = legalsService.GetPeriodProfile(evalPeriod);
 
-            calculService.EvaluateStore(streamService.SourceStream(), evalPeriod, evalProfile);
+            calculService.EvaluateStore(sourceStore, evalPeriod, evalProfile);
 
             List<SourcePair> evaluationPath = calculService.GetEvaluationPath();
 

@@ -5,10 +5,10 @@ using System.Reflection;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
-    using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using ConfigType = UInt16;
 
-    using CodeList = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
-    using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
+    using DetailData = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
+    using MasterData = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
 
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
@@ -25,7 +25,7 @@ namespace ElementsLib.Matrixus.Config
             detailBundle = new ArticleDetailCollection();
         }
 
-        public void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory)
+        public void Initialize(Assembly configAssembly, MasterData configRoleData, DetailData configCodeData, IArticleConfigFactory configFactory)
         {
             IArticleMasterCollection masterBundle = new ArticleMasterCollection();
 
@@ -33,19 +33,21 @@ namespace ElementsLib.Matrixus.Config
 
             detailBundle.LoadConfigData(masterBundle, configCodeData, configFactory);
         }
-        public IEnumerable<TargetItem> GetTargets(IEnumerable<TargetItem> targetsInit, ConfigCode headCode, ConfigCode partCode)
-        {
-            return detailBundle.GetTargets(targetsInit, headCode, partCode);
-        }
-
         public IList<KeyValuePair<ConfigCode, Int32>> ModelPath()
         {
             return detailBundle.ModelPath();
         }
-
         public ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals)
         {
             return detailBundle.CloneInstanceForCode(configCode, sourceVals);
+        }
+        public ConfigType GetConfigType(ConfigCode configCode)
+        {
+            return detailBundle.GetConfigType(configCode);
+        }
+        public IEnumerable<ConfigCode> GetConfigModelResolve(ConfigCode configCode)
+        {
+            return detailBundle.GetConfigModelResolve(configCode);
         }
     }
 }

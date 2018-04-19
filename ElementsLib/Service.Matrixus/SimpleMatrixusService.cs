@@ -6,22 +6,21 @@ namespace ElementsLib.Service.Matrixus
     using Elements;
     using Permadom;
     using ElementsLib.Matrixus.Config;
+    using Module.Interfaces.Permadom;
 
     public class SimpleMatrixusService : MatrixusService
     {
         public SimpleMatrixusService() : base()
         {
-            ModuleAssembly = typeof(ElementsService).Assembly;
+            ModuleAssembly = typeof(MatrixusService).Assembly;
 
             InternalConfigFactory = new ArticleConfigFactory();
 
             InternalConfigProfile = new ArticleConfigProfile();
         }
 
-        public void InitializeService()
+        public void InitializeService(IPermadomService configMemoryDb)
         {
-            var configMemoryDb = new SimplePermadomService();
-
             var configCodeData = configMemoryDb.GetArticleCodeData().ToList();
 
             var configRoleData = configMemoryDb.GetArticleRoleData().ToList();

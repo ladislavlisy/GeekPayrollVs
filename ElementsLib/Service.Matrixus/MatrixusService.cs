@@ -7,8 +7,8 @@ using System.Reflection;
 
 namespace ElementsLib.Service.Matrixus
 {
-    using CodeList = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
-    using RoleList = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
+    using DetailData = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
+    using MasterData = IEnumerable<Module.Interfaces.Permadom.ArticleRoleConfigData>;
 
     using Module.Interfaces;
     using Module.Interfaces.Matrixus;
@@ -32,7 +32,7 @@ namespace ElementsLib.Service.Matrixus
             InternalConfigProfile = configProfile;
         }
 
-        public void Initialize(RoleList configRoleData, CodeList configCodeData)
+        public void Initialize(MasterData configRoleData, DetailData configCodeData)
         {
             InternalConfigProfile.Initialize(ModuleAssembly, configRoleData, configCodeData, InternalConfigFactory);
         }

@@ -7,6 +7,7 @@ using System.Linq;
 namespace ElementsLib.Elements
 {
     using ConfigCode = UInt16;
+    using ConfigType = UInt16;
     using TargetHead = UInt16;
     using TargetPart = UInt16;
     using TargetSeed = UInt16;
@@ -24,6 +25,7 @@ namespace ElementsLib.Elements
     using Module.Interfaces.Elements;
     using Libs;
     using ResultMonad;
+    using Module.Codes;
 
     public class ArticleSourceStore : IArticleSourceStore
     {
@@ -43,9 +45,9 @@ namespace ElementsLib.Elements
         {
             return model.GetEnumerator();
         }
-        public ICollection<TargetItem> Keys
+        public ICollection<TargetItem> Keys()
         {
-            get { return model.Keys; }
+            return model.Keys;
         }
         public IEnumerable<TargetItem> GetTargets()
         {
@@ -66,19 +68,129 @@ namespace ElementsLib.Elements
             ModelSourceProfile = configProfile;
         }
 
+        public void LoadSourceData(IEnumerable<TargetData> sourceData)
+        {
+            List<TargetData> sourceList = sourceData.ToList();
+
+            sourceList.ForEach((s) => StoreGeneralItem(s));
+        }
+
         public void CopyModel(IArticleSourceStore source)
         {
             model = source.GetModel().ToDictionary((kv) => (kv.Key), (kv) => (kv.Value));
         }
-        public void AddGeneralItems(IEnumerable<TargetItem> targets)
+
+        private bool ExistTargetByHeadAndPartAndCode(TargetItem targetItem)
         {
-            foreach (var calc in targets)
+            return (Keys().FirstOrDefault((s) => (s.IsEqualByHeadAndPartAndCode(targetItem))) != null);
+        }
+
+        private IEnumerable<TargetHead> SelectContractCode(ConfigCode contractCode)
+        {
+            IEnumerable<TargetItem> targetsInit = GetTargets();
+
+            var contractsHead = targetsInit.Where((ch) => (ch.Code() == contractCode)).Select((cv) => (cv.Seed()));
+
+            return contractsHead;
+        }
+        private IEnumerable<Tuple<TargetHead, TargetPart>> SelectPositionCode(ConfigCode positionCode)
+        {
+            IEnumerable<TargetItem> targetsInit = GetTargets();
+
+            var positionsPart = targetsInit.Where((ch) => (ch.Code() == positionCode)).Select((cv) => new Tuple<TargetHead, TargetPart>(cv.Head(), cv.Seed()));
+
+            return positionsPart;
+        }
+        private IEnumerable<TargetItem> GetEvolvedTargets(ConfigCode contractCode, ConfigCode positionCode)
+        {
+            IEnumerable<IArticleTarget> targetsZero = new List<IArticleTarget>();
+
+            var contractsHead = SelectContractCode(contractCode);
+            var positionsPart = SelectPositionCode(positionCode);
+            
+            IEnumerable<TargetItem> targetsInit = GetTargets();
+
+            IEnumerable<IArticleTarget> targetsCalc = targetsInit.Aggregate(targetsZero, 
+                (agr, d) => agr.Concat(ResolveTargets(d, contractsHead, positionsPart)));
+
+            return targetsCalc.Distinct();
+        }
+        private IEnumerable<TargetItem> ResolveTargets(TargetItem target, IEnumerable<TargetHead> heads, IEnumerable<Tuple<TargetHead, TargetPart>> parts)
+        {
+            IEnumerable<ConfigCode> configResolve = ModelSourceProfile.GetConfigModelResolve(target.Code());
+
+            IEnumerable<IArticleTarget> targetResolve = configResolve.SelectMany((c) => (CreateTarget(c, target, heads, parts))).ToList();
+
+            return targetResolve.Where((c) => (c.Code() != 0));
+        }
+
+        private IEnumerable<TargetItem> CreateTarget(ConfigCode code, TargetItem target, IEnumerable<TargetHead> heads, IEnumerable<Tuple<TargetHead, TargetPart>> parts)
+        {
+            IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
+
+            ConfigType targetType = ModelSourceProfile.GetConfigType(code);
+
+            TargetHead codeHead = 0;
+            TargetPart codePart = 0;
+            ConfigCode codeBody = code;
+            TargetSeed seedBody = 0;
+
+            if (targetType == (ConfigType)ArticleType.NO_HEAD_PART_TYPE)
             {
-                if (Keys.SingleOrDefault((s) => (s.IsEqualToHeadTargetPart(calc))) == null)
+                targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+            }
+            if (targetType == (ConfigType)ArticleType.HEAD_CODE_ARTICLE)
+            {
+                if (target.Head() != 0)
                 {
-                    AddGeneralItem(calc.Head(), calc.Part(), calc.Code(), calc.Seed(), null);
+                    codeHead = target.Head();
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+                }
+                else
+                {
+                    targetList = heads.Select((ch) => (new ArticleTarget(ch, codePart, codeBody, seedBody))).ToList();
                 }
             }
+            else if (targetType == (ConfigType)ArticleType.PART_CODE_ARTICLE)
+            {
+                if (target.Head() != 0 && target.Part() != 0)
+                {
+                    codeHead = target.Head();
+                    codePart = target.Part();
+                    targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };
+                }
+                else
+                {
+                    targetList = parts.Select((pp) => (new ArticleTarget(pp.Item1, pp.Item2, codeBody, seedBody))).ToList();
+                }
+            }
+
+            return targetList;
+        }
+
+        public void EvolveStream(ConfigCode contractCode, ConfigCode positionCode)
+        {
+            IEnumerable<TargetItem> targetsInit = GetEvolvedTargets(contractCode, positionCode);
+
+            AddGeneralItems(targetsInit);
+        }
+
+        public IList<SourcePair> GetEvaluationPath()
+        {
+            IEnumerable<SortedPair> modelPath = ModelSourceProfile.ModelPath();
+
+            IEnumerable<TargetItem> targets = Keys();
+
+            IEnumerable<TargetItem> sortedTargets = targets.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
+
+            return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
+        }
+
+        public void AddGeneralItems(IEnumerable<TargetItem> targets)
+        {
+            var keysToAdd = targets.Where((s) => (ExistTargetByHeadAndPartAndCode(s)==false)).ToList();
+
+            keysToAdd.ForEach((a) => AddGeneralItem(a.Head(), a.Part(), a.Code(), a.Seed(), null));
         }
 
         public ConfigCode GetHeadConfigCode()
@@ -142,11 +254,11 @@ namespace ElementsLib.Elements
 
             return newTarget;
         }
-        public TargetItem StoreGeneralItem(TargetData dataLoad)
+        public TargetItem StoreGeneralItem(TargetData dataItem)
         {
-            ArticleTarget newTarget = new ArticleTarget(dataLoad.Head, dataLoad.Part, dataLoad.Code, dataLoad.Seed);
+            ArticleTarget newTarget = new ArticleTarget(dataItem.Head, dataItem.Part, dataItem.Code, dataItem.Seed);
 
-            SourcePack newSource = GetTemplateSourceForArticle(dataLoad.Code, dataLoad.Tags);
+            SourcePack newSource = GetTemplateSourceForArticle(dataItem.Code, dataItem.Tags);
 
             model.Add(newTarget, newSource);
 
@@ -160,25 +272,13 @@ namespace ElementsLib.Elements
             }
             return ModelSourceProfile.CloneInstanceForCode(codeBody, tagsBody);
         }
-        public IList<SourcePair> PrepareEvaluationPath(ConfigCode contractCode, ConfigCode positionCode)
-        {
-            IEnumerable<TargetItem> targetsInit = GetTargets();
-            IEnumerable<TargetItem> targetsCalc = ModelSourceProfile.GetTargets(targetsInit, contractCode, positionCode);
-            IList<SortedPair> modelPath = ModelSourceProfile.ModelPath();
-
-            AddGeneralItems(targetsCalc);
-
-            IList<TargetItem> sortedTargets = Keys.OrderBy((x) => (x), new CompareEvaluationTargets(modelPath)).ToList();
-
-            return sortedTargets.Select((s) => (model.SingleOrDefault((kv) => (kv.Key.CompareTo(s) == 0)))).ToList();
-        }
     }
 
     internal class CompareEvaluationTargets : IComparer<TargetItem>
     {
-        private IList<SortedPair> ModelOrderList;
+        private IEnumerable<SortedPair> ModelOrderList;
 
-        public CompareEvaluationTargets(IList<SortedPair> modelOrderList)
+        public CompareEvaluationTargets(IEnumerable<SortedPair> modelOrderList)
         {
             this.ModelOrderList = modelOrderList;
         }

@@ -14,6 +14,8 @@ namespace ElementsLib.Service.Calculus
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
+    using SortedPair = KeyValuePair<UInt16, Int32>;
+
     using Module.Libs;
     using Module.Items;
     using Module.Interfaces;
@@ -28,8 +30,8 @@ namespace ElementsLib.Service.Calculus
 
         IArticleConfigProfile ConfigProfile { get; set; }
 
-        IArticleSourceStore StreamSources { get; set; }
-        IArticleResultStore StreamResults { get; set; }
+        IArticleSourceStore SourcesStream { get; set; }
+        IArticleResultStore ResultsStream { get; set; }
 
         IEnumerable<SourcePair> EvaluationPath { get; set; }
         IEnumerable<ResultPair> EvaluationCase { get; set; }
@@ -47,18 +49,20 @@ namespace ElementsLib.Service.Calculus
 
         public void Initialize()
         {
-            StreamSources = new ArticleSourceStore(ConfigProfile);
+            SourcesStream = new ArticleSourceStore(ConfigProfile);
 
-            StreamResults = new ArticleResultStore();
+            ResultsStream = new ArticleResultStore();
 
             EvaluationPath = new List<SourcePair>();
         }
 
         public void EvaluateStore(IArticleSourceStore source, Period evalPeriod, IPeriodProfile evalProfile)
         {
-            StreamSources.CopyModel(source);
+            SourcesStream.CopyModel(source);
 
-            EvaluationPath = StreamSources.PrepareEvaluationPath(ContractCode, PositionCode);
+            SourcesStream.EvolveStream(ContractCode, PositionCode);
+
+            EvaluationPath = SourcesStream.GetEvaluationPath();
             /*
             // payrollData.ModelList - Evaluate => Results 
             */

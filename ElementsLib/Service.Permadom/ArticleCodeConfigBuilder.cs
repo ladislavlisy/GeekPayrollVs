@@ -14,10 +14,10 @@ namespace ElementsLib.Service.Permadom
     using ConfigTypeEnum = Module.Codes.ArticleType;
     using ConfigTypeData = UInt16;
 
-    using ConfigItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
+    using ConfigItemData = Module.Interfaces.Permadom.ArticleCodeConfigData;
     public class ArticleCodeConfigBuilder
     {
-        public static ConfigItem CreateConfigItem(ConfigCodeEnum codeEnum, ConfigRoleEnum roleEnum, ConfigTypeEnum typeEnum, params ConfigCodeEnum[] pathEnum)
+        public static ConfigItemData CreateConfigItem(ConfigCodeEnum codeEnum, ConfigRoleEnum roleEnum, ConfigTypeEnum typeEnum, params ConfigCodeEnum[] pathEnum)
         {
             ConfigCodeData codeData = (ConfigCodeData)codeEnum;
             ConfigRoleData roleData = (ConfigRoleData)roleEnum;
@@ -25,11 +25,11 @@ namespace ElementsLib.Service.Permadom
             ConfigCodeData[] codePath = pathEnum.Select((c) => ((ConfigCodeData)c)).ToArray();
             ConfigCodeName codeName = codeEnum.GetSymbol();
 
-            return new ConfigItem(codeData, roleData, typeData, codeName, codePath);
+            return new ConfigItemData(codeData, roleData, typeData, codeName, codePath);
         }
-        public static IEnumerable<ConfigItem> GetConfigDataList()
+        public static IEnumerable<ConfigItemData> GetConfigDataList()
         {
-            IList<ConfigItem> configList = new List<ConfigItem>()
+            IList<ConfigItemData> configList = new List<ConfigItemData>()
             {
                 CreateConfigItem(ConfigCodeEnum.FACT_UNKNOWN, ConfigRoleEnum.ARTICLE_UNKNOWN, ArticleType.NO_HEAD_PART_TYPE),
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_TERM, ConfigRoleEnum.ARTICLE_CONTRACT_TERM, ArticleType.NO_HEAD_PART_TYPE),

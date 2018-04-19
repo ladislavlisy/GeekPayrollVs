@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace ElementsLib.Module.Interfaces.Matrixus
 {
     using ConfigCode = UInt16;
-    using TargetItem = Elements.IArticleTarget;
+    using ConfigType = UInt16;
 
-    using CodeList = IEnumerable<Permadom.ArticleCodeConfigData>;
-    using RoleList = IEnumerable<Permadom.ArticleRoleConfigData>;
+    using DetailData = IEnumerable<Permadom.ArticleCodeConfigData>;
+    using MasterData = IEnumerable<Permadom.ArticleRoleConfigData>;
 
     using SourceItem = Module.Interfaces.Elements.IArticleSource;
     using SourceVals = Module.Interfaces.Elements.ISourceValues;
     using SourceErrs = String;
 
-    using Elements;
-    using System.Reflection;
 
     public interface IArticleConfigProfile
     {
-        void Initialize(Assembly configAssembly, RoleList configRoleData, CodeList configCodeData, IArticleConfigFactory configFactory);
-        IEnumerable<TargetItem> GetTargets(IEnumerable<TargetItem> targetsInit, ConfigCode headCode, ConfigCode partCode);
+        void Initialize(Assembly configAssembly, MasterData configRoleData, DetailData configCodeData, IArticleConfigFactory configFactory);
         IList<KeyValuePair<ConfigCode, Int32>> ModelPath();
         ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals);
+        ConfigType GetConfigType(ConfigCode configCode);
+        IEnumerable<ConfigCode> GetConfigModelResolve(ConfigCode configCode);
     }
 }

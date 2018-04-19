@@ -10,8 +10,8 @@ using ElementsLib.Module.Interfaces.Permadom;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Matrixus.Config;
 using ElementsLib.Elements;
-using ElementsLib.Service.Elements;
 using ElementsLib.Service.Permadom;
+using ElementsLib.Service.Matrixus;
 
 namespace ElementsTest
 {
@@ -155,7 +155,7 @@ namespace ElementsTest
 
         private static IArticleConfigProfile InitConfigModel()
         {
-            Assembly configAssembly = typeof(ElementsService).Assembly;
+            Assembly configAssembly = typeof(MatrixusService).Assembly;
 
             IArticleConfigFactory configFactory = new ArticleConfigFactory();
 

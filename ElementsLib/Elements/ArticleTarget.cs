@@ -107,11 +107,11 @@ namespace ElementsLib.Elements
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code() && this.InternalSeed == other.Seed());
         }
-        public bool IsEqualToHeadTargetPart(IArticleTarget other)
+        public bool IsEqualByHeadAndPartAndCode(IArticleTarget other)
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code());
         }
-        public bool IsEqualToHeadTargetPart(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode)
+        public bool IsEqualByHeadAndPartAndCode(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode)
         {
             return (this.InternalHead == otherHead && this.InternalPart == otherPart && this.InternalCode == otherCode);
         }

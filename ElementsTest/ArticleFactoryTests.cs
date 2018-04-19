@@ -5,7 +5,7 @@ using ElementsLib.Module.Codes;
 using ElementsLib.Module.Interfaces.Elements;
 using ElementsLib.Module.Interfaces.Matrixus;
 using ElementsLib.Matrixus.Config;
-using ElementsLib.Service.Elements;
+using ElementsLib.Service.Matrixus;
 
 namespace ElementsTest
 {
@@ -19,7 +19,7 @@ namespace ElementsTest
         {
             string testTargetLabel = "ARTICLE_CONTRACT_TERM";
 
-            Assembly configAssembly = typeof(ElementsService).Assembly;
+            Assembly configAssembly = typeof(MatrixusService).Assembly;
 
             IArticleConfigFactory configFactory = new ArticleConfigFactory();
 

@@ -63,7 +63,6 @@
     <Compile Include="Elements.Config.Sources\PositionTermSource.cs" />
     <Compile Include="Elements.Config.Sources\PositionTimesheetSource.cs" />
     <Compile Include="Elements.Config.Sources\PositionWorkingSource.cs" />
-    <Compile Include="Service.Elements\SimpleElementsService.cs" />
     <Compile Include="Service.Legalist\SimpleLegalistService.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigDetail.cs" />
     <Compile Include="Matrixus.Config\ArticleConfigMaster.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Elements\ArticleTarget.cs" />
     <Compile Include="Matrixus.Config\GeneralConfigCollection.cs" />
     <Compile Include="Module.Common\GeneralClazzFactory.cs" />
-    <Compile Include="Service.Elements\ElementsService.cs" />
     <Compile Include="Module.Interfaces.Matrixus\IArticleConfigFactory.cs" />
     <Compile Include="Module.Codes\ArticleCodeCz.cs" />
     <Compile Include="Module.Codes\ArticleRoleCz.cs" />
