@@ -26,7 +26,7 @@ namespace ElementsLib.Service.Calculus
 
     public class CalculusService : ICalculusService
     {
-        private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
+        private readonly Func<IArticleSource, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPair>, IEnumerable<ResultPack>> _evaluateResultsFunc = (s, t, p, f, r) => s.EvaluateResults(t, p, f, r);
 
         IArticleConfigProfile ConfigProfile { get; set; }
 
@@ -71,12 +71,15 @@ namespace ElementsLib.Service.Calculus
 
         public IEnumerable<ResultPair> EvaluateStream(IEnumerable<SourcePair> sourceStream, Period evalPeriod, IPeriodProfile evalProfile)
         {
-            IEnumerable<ResultPack> initResults = new List<ResultPack>();
+            IEnumerable<ResultPair> initResults = new List<ResultPair>();
 
-            return sourceStream.SelectMany((s) => EvaluateSourceItem(s, evalPeriod, evalProfile, initResults)).ToList();
+            IEnumerable<ResultPair> dropResults = sourceStream.Aggregate(initResults,
+                (agr, s) => (agr.Merge(EvaluateSourceItem(s, evalPeriod, evalProfile, agr)))).ToList(); 
+
+            return dropResults;
         }
 
-        private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        private IEnumerable<ResultPair> EvaluateSourceItem(SourcePair sourceItem, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             TargetItem targetInResult = sourceItem.Key;
             SourcePack sourceInResult = sourceItem.Value;

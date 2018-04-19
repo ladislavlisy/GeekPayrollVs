@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
     <Compile Include="Service.Calculus\CalculusService.cs" />
     <Compile Include="Service.Calculus\SimpleCalculusService.cs" />
     <Compile Include="Elements.Config.Articles\ContractAbsenceArticle.cs" />

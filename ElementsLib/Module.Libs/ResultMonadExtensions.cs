@@ -53,8 +53,8 @@ namespace ElementsLib.Module.Libs
             return onSuccessFunc(result.Value);
         }
         public static IEnumerable<ResultPack> OnSuccessEvaluateToResultSet(
-            this SourcePack result, TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults, 
-            Func<SourceItem, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPack>, IEnumerable<ResultPack>> onSuccessFunc)
+            this SourcePack result, TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults, 
+            Func<SourceItem, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPair>, IEnumerable<ResultPack>> onSuccessFunc)
         {
             if (result.IsFailure)
             {

@@ -10,6 +10,7 @@ namespace ElementsLib.Elements
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
+    using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
 
     using Module.Codes;
     using Module.Interfaces.Elements;
@@ -20,7 +21,7 @@ namespace ElementsLib.Elements
 
     public abstract class GeneralArticle : IArticleSource, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults);
+        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);
 
         public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
         public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
@@ -92,7 +93,7 @@ namespace ElementsLib.Elements
             return results.Select((r) => (r)).ToList();
         }
 
-        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
+        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             if (InternalEvaluate == null)
             {
