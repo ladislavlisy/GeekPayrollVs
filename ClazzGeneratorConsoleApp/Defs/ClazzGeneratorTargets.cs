@@ -9,7 +9,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 {
     public class ClazzGeneratorTargets
     {
-        private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Targets";
+        private const string NAME_SPACE_PREFIX = "ElementsLib.Elements.Config.Articles";
         public void DoSourceExport(string filesFolder)
         {
             ClazzArticlesBook articles = new ClazzArticlesBook();

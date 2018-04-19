@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ClazzGeneratorConsoleApp.Defs
 {
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     using ElementsLib.Module.Codes;
     using System.Text.RegularExpressions;
@@ -127,14 +128,14 @@ namespace ClazzGeneratorConsoleApp.Defs
     {
         public string Name { get; protected set; }
         public FieldType Type { get; protected set; }
-        public ArticleCode Refer { get; protected set; }
+        public ArticleRole Refer { get; protected set; }
         public ArticleParametr(string name, FieldType type)
         {
             Name = name;
             Type = type;
-            Refer = ArticleCode.FACT_UNKNOWN;
+            Refer = ArticleRole.ARTICLE_UNKNOWN;
         }
-        public ArticleParametr(string name, FieldType type, ArticleCode refer)
+        public ArticleParametr(string name, FieldType type, ArticleRole refer)
         {
             Name = name;
             Type = type;
@@ -143,16 +144,16 @@ namespace ClazzGeneratorConsoleApp.Defs
     }
     public class ArticleDefinition
     {
-        private const string NAME_CLASS_POSTFIX = "Target";
+        private const string NAME_CLASS_POSTFIX = "Article";
         private const string VALS_CLASS_POSTFIX = "Source";
-        private const string NAME_CLASS_PATTERN = "FACT_(.*)";
-        public ArticleCode Article { get; protected set; }
+        private const string NAME_CLASS_PATTERN = "ARTICLE_(.*)";
+        public ArticleRole Article { get; protected set; }
 
         public string ArticleDefn { get; protected set; }
         public IList<ArticleParametr> ArticleSources { get; protected set; }
         public IList<ArticleParametr> ArticleResults { get; protected set; }
 
-        public ArticleDefinition(ArticleCode article)
+        public ArticleDefinition(ArticleRole article)
         {
             Article = article;
 
@@ -160,7 +161,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             ArticleResults = new List<ArticleParametr>();
         }
-        public ArticleDefinition(ArticleCode article, IList<ArticleParametr> sources, IList<ArticleParametr> results)
+        public ArticleDefinition(ArticleRole article, IList<ArticleParametr> sources, IList<ArticleParametr> results)
         {
             Article = article;
 
@@ -168,7 +169,7 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             ArticleResults = results;
         }
-        public static ArticleDefinition Create(ArticleCode article, params ArticleParametr[] arg)
+        public static ArticleDefinition Create(ArticleRole article, params ArticleParametr[] arg)
         {
             IList<ArticleParametr> defnSources = arg.ToList();
             IList<ArticleParametr> defnResults = new List<ArticleParametr>();
@@ -198,7 +199,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             return new ArticleParametr(name, type);
         }
-        public static ArticleParametr CreateRefer(string name, FieldType type, ArticleCode refer)
+        public static ArticleParametr CreateRefer(string name, FieldType type, ArticleRole refer)
         {
             return new ArticleParametr(name, type, refer);
         }

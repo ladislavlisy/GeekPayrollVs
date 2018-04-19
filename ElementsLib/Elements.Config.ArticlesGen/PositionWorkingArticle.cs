@@ -4,24 +4,27 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
-    using BodyCode = UInt16;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
+    using ConfigCode = UInt16;
+    using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
+    using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
-    using Source;
+    using Sources;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
 
-    public class PositionWorkingArticle : ArticleGeneralSource, ICloneable
+    public class PositionWorkingArticle : GeneralArticle, ICloneable
     {
-        public static string ARTCODE_POSITION_WORKING_EXCEPTION_RESULT_NULL_TEXT = "PositionWorkingArticle(5): Evaluate Results is not implemented!";
+        public static string ARTICLE_POSITION_WORKING_EXCEPTION_RESULT_NULL_TEXT = "PositionWorkingArticle(5): Evaluate Results is not implemented!";
 
-        public PositionWorkingArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_WORKING)
+        public PositionWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_WORKING)
         {
             SourceValues = new PositionWorkingSource();
         }
@@ -42,17 +45,22 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override ISourceValues ExportSourceValues()
         {
-            return SourceValues As ISourceValues;
+            return SourceValues as ISourceValues;
         }
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionWorkingSource(ARTCODE_POSITION_WORKING, 5): { 0 }", message);
+            return string.Format("PositionWorkingSource(ARTICLE_POSITION_WORKING, 5): { 0 }", message);
         }
 
         public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return ErrorToResults(ARTCODE_POSITION_WORKING_EXCEPTION_RESULT_NULL_TEXT);
+            IEmployProfile employProfile = evalProfile.Employ();
+            if (employProfile == null)
+            {
+                return ErrorToResults("Employ profile is null!");
+            }
+            return ErrorToResults(ARTICLE_POSITION_WORKING_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()
@@ -60,6 +68,7 @@ namespace ElementsLib.Elements.Config.Articles
             PositionWorkingArticle cloneArticle = (PositionWorkingArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalRole = this.InternalRole;
 
             return cloneArticle;
         }

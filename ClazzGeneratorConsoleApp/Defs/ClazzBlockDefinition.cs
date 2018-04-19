@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace ClazzGeneratorConsoleApp.Defs
 {
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     using ElementsLib.Module.Codes;
 
@@ -47,16 +48,16 @@ namespace ClazzGeneratorConsoleApp.Defs
     }
     public class ClassDefinitionBlok : SourceBlokBase
     {
-        public ArticleCode ClassCode;
+        public ArticleRole ClassCode;
         public string ClassName { get; protected set; }
 
-        public ClassDefinitionBlok(SourceBlokBase parent, ArticleCode code, string name) : base(parent)
+        public ClassDefinitionBlok(SourceBlokBase parent, ArticleRole code, string name) : base(parent)
         {
             ClassCode = code;
             ClassName = name;
         }
 
-        public ClassDefinitionBlok(ArticleCode code, string name) : base()
+        public ClassDefinitionBlok(ArticleRole code, string name) : base()
         {
             ClassCode = code;
             ClassName = name;
@@ -74,7 +75,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             string CLASS_ENUM = ClassCode.GetSymbol();
 
-            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleCode.FACT_" + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleRole.ARTICLE_" + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "ArticleSources = ArticleDefinition.CreateParams();");
             WriteIndentBlokLine(writer, 1, "ArticleResults = ArticleDefinition.CreateParams();");

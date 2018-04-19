@@ -9,23 +9,15 @@ namespace ClazzGeneratorConsoleApp
 {
     public class ProgramModule
     {
-        internal static void GenerateMethodForArticles(string configFolder)
-        {
-            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.MethodsGen");
-
-            ClazzGeneratorMethods service = new ClazzGeneratorMethods();
-
-            service.DoSourceExport(genSourceFolder);
-        }
         internal static void GenerateSourceForArticles(string configFolder)
         {
-            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.TargetsGen");
+            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.ArticlesGen");
 
             ClazzGeneratorTargets service = new ClazzGeneratorTargets();
 
             service.DoSourceExport(genSourceFolder);
         }
-        internal static void GenerateSourceForValues(string configFolder)
+        internal static void GenerateSourceForSources(string configFolder)
         {
             string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.SourcesGen");
 

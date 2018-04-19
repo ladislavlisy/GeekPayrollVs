@@ -2,10 +2,11 @@ namespace ClazzGeneratorConsoleApp.Definitions
 {
     using Defs;
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     public class ContractTermDefinition : ArticleDefinition
 	{
-		public ContractTermDefinition() : base(ArticleCode.FACT_CONTRACT_TERM)
+		public ContractTermDefinition() : base(ArticleRole.ARTICLE_CONTRACT_TERM)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("DateFrom", FieldType.DATE),

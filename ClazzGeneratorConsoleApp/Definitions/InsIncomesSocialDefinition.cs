@@ -2,10 +2,11 @@ namespace ClazzGeneratorConsoleApp.Definitions
 {
     using Defs;
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     public class InsIncomesSocialDefinition : ArticleDefinition
 	{
-		public InsIncomesSocialDefinition() : base(ArticleCode.FACT_INS_INCOMES_SOCIAL)
+		public InsIncomesSocialDefinition() : base(ArticleRole.ARTICLE_INS_INCOMES_SOCIAL)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

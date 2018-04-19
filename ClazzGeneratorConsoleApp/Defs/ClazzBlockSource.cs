@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace ClazzGeneratorConsoleApp.Defs
 {
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     using ElementsLib.Module.Codes;
 
@@ -50,12 +51,12 @@ namespace ClazzGeneratorConsoleApp.Defs
         private const string NAME_ARTICLE_POSTFIX = "Target";
         private const string NAME_SOURCES_POSTFIX = "Source";
 
-        public ArticleCode ClassCode;
+        public ArticleRole ClassCode;
         public string ClassName { get; protected set; }
         public string FullClassName { get; protected set; }
         public string ValsClassName { get; protected set; }
 
-        public ClassSourceBlok(SourceBlokBase parent, ArticleCode code, string name) : base(parent)
+        public ClassSourceBlok(SourceBlokBase parent, ArticleRole code, string name) : base(parent)
         {
             ClassCode = code;
             ClassName = name;
@@ -63,7 +64,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             ValsClassName = name + NAME_SOURCES_POSTFIX;
         }
 
-        public ClassSourceBlok(ArticleCode code, string name) : base()
+        public ClassSourceBlok(ArticleRole code, string name) : base()
         {
             ClassCode = code;
             ClassName = name;
@@ -152,8 +153,6 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalCode = this.InternalCode;");
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalRole = this.InternalRole;");
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalType = this.InternalType;");
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalPath = this.InternalPath.ToList();");
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "return cloneArticle;");
             WriteBlokLine(writer, "}");

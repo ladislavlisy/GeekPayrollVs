@@ -10,6 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -21,7 +22,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class PositionTimesheetArticle : GeneralArticle, ICloneable
     {
-        public static string FACT_POSITION_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT = "PositionTimesheetArticle(4): Evaluate Results is not implemented!";
+        public static string ARTICLE_POSITION_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT = "PositionTimesheetArticle(4): Evaluate Results is not implemented!";
 
         public PositionTimesheetArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TIMESHEET)
         {
@@ -49,12 +50,17 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionTimesheetSource(FACT_POSITION_TIMESHEET, 4): { 0 }", message);
+            return string.Format("PositionTimesheetSource(ARTICLE_POSITION_TIMESHEET, 4): { 0 }", message);
         }
 
         public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return ErrorToResults(FACT_POSITION_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT);
+            IEmployProfile employProfile = evalProfile.Employ();
+            if (employProfile == null)
+            {
+                return ErrorToResults("Employ profile is null!");
+            }
+            return ErrorToResults(ARTICLE_POSITION_TIMESHEET_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()
@@ -62,6 +68,7 @@ namespace ElementsLib.Elements.Config.Articles
             PositionTimesheetArticle cloneArticle = (PositionTimesheetArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalRole = this.InternalRole;
 
             return cloneArticle;
         }

@@ -2,10 +2,11 @@ namespace ClazzGeneratorConsoleApp.Definitions
 {
     using Defs;
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     public class PositionTermDefinition : ArticleDefinition
 	{
-		public PositionTermDefinition() : base(ArticleCode.FACT_POSITION_TERM)
+		public PositionTermDefinition() : base(ArticleRole.ARTICLE_POSITION_TERM)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("DateFrom", FieldType.DATE),

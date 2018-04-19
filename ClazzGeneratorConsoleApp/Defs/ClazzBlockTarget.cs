@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace ClazzGeneratorConsoleApp.Defs
 {
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     using ElementsLib.Module.Codes;
 
@@ -29,7 +30,6 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             WriteBaseBlokLine(writer, "using System;");
             WriteBaseBlokLine(writer, "using System.Collections.Generic;");
-            WriteBaseBlokLine(writer, "using System.Linq;");
             WriteBaseBlokLine(writer, "using ResultMonad;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "namespace " + NamespaceName);
@@ -47,25 +47,26 @@ namespace ClazzGeneratorConsoleApp.Defs
     }
     public class ClassTargetBlok : SourceBlokBase
     {
-        private const string NAME_ARTICLE_POSTFIX = "Target";
+        private const string NAME_ARTICLE_POSTFIX = "Article";
         private const string NAME_SOURCES_POSTFIX = "Source";
 
         public ArticleCode ClassCode;
+        public ArticleRole ClassRole;
         public string ClassName { get; protected set; }
         public string FullClassName { get; protected set; }
         public string ValsClassName { get; protected set; }
 
-        public ClassTargetBlok(SourceBlokBase parent, ArticleCode code, string name) : base(parent)
+        public ClassTargetBlok(SourceBlokBase parent, ArticleRole code, string name) : base(parent)
         {
-            ClassCode = code;
+            ClassRole = code;
             ClassName = name;
             FullClassName = name + NAME_ARTICLE_POSTFIX;
             ValsClassName = name + NAME_SOURCES_POSTFIX;
         }
 
-        public ClassTargetBlok(ArticleCode code, string name) : base()
+        public ClassTargetBlok(ArticleRole code, string name) : base()
         {
-            ClassCode = code;
+            ClassRole = code;
             ClassName = name;
             FullClassName = name + NAME_ARTICLE_POSTFIX;
             ValsClassName = name + NAME_SOURCES_POSTFIX;
@@ -75,29 +76,32 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             WriteBaseBlokLine(writer, "using ConfigCodeEnum = Module.Codes.ArticleCodeCz;");
             WriteBaseBlokLine(writer, "using ConfigCode = UInt16;");
+            WriteBaseBlokLine(writer, "using ConfigRoleEnum = Module.Codes.ArticleRoleCz;");
+            WriteBaseBlokLine(writer, "using ConfigRole = UInt16;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using TargetItem = Module.Interfaces.Elements.IArticleTarget;");
-            WriteBaseBlokLine(writer, "using TargetPack = ResultMonad.Result<Module.Interfaces.Matrixus.IArticleTarget, string>;");
+            WriteBaseBlokLine(writer, "using TargetErrs = String;");
+            WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");           
             DelimitLine(writer);
+            WriteBaseBlokLine(writer, "using Sources;");
             WriteBaseBlokLine(writer, "using Module.Items;");
             WriteBaseBlokLine(writer, "using Module.Libs;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
-            WriteBaseBlokLine(writer, "using Matrixus.Target;");
             DelimitLine(writer);
-            WriteBaseBlokLine(writer, "public class " + FullClassName + " : ArticleGeneralTarget, ICloneable");
+            WriteBaseBlokLine(writer, "public class " + FullClassName + " : GeneralArticle, ICloneable");
             WriteBaseBlokLine(writer, "{");
         }
 
         public override void BlokBody(StreamWriter writer)
         {
-            string CLASS_ENUM = ClassCode.GetSymbol();
-            string CLASS_UINT = ((UInt16)ClassCode).ToString();
+            string CLASS_ENUM = ClassRole.GetSymbol();
+            string CLASS_UINT = ((UInt16)ClassRole).ToString();
 
             WriteBlokLine(writer, "public static string " + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + CLASS_UINT + "): Evaluate Results is not implemented!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public " + FullClassName + "() : base((ConfigCode)ConfigCodeEnum." + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + FullClassName + "() : base((ConfigRole)ConfigRoleEnum." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
             WriteBlokLine(writer, "}");
@@ -121,7 +125,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "return SourceValues as ISourceValues;");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public override string TargetDecorateMessage(string message)");
+            WriteBlokLine(writer, "public override string ArticleDecorateMessage(string message)");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ValsClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");
             WriteBlokLine(writer, "}");
@@ -152,8 +156,6 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalCode = this.InternalCode;");
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalRole = this.InternalRole;");
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalType = this.InternalType;");
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalPath = this.InternalPath.ToList();");
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "return cloneArticle;");
             WriteBlokLine(writer, "}");

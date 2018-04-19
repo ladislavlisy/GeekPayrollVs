@@ -4,24 +4,27 @@ using ResultMonad;
 
 namespace ElementsLib.Elements.Config.Articles
 {
-    using MarkCode = Module.Codes.ArticleCzCode;
-    using BodyCode = UInt16;
+    using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
+    using ConfigCode = UInt16;
+    using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
+    using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
-    using Source;
+    using Sources;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
 
-    public class PositionTermArticle : ArticleGeneralSource, ICloneable
+    public class PositionTermArticle : GeneralArticle, ICloneable
     {
-        public static string ARTCODE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
+        public static string ARTICLE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
 
-        public PositionTermArticle() : base((BodyCode)MarkCode.ARTCODE_POSITION_TERM)
+        public PositionTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TERM)
         {
             SourceValues = new PositionTermSource();
         }
@@ -42,17 +45,22 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override ISourceValues ExportSourceValues()
         {
-            return SourceValues As ISourceValues;
+            return SourceValues as ISourceValues;
         }
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionTermSource(ARTCODE_POSITION_TERM, 2): { 0 }", message);
+            return string.Format("PositionTermSource(ARTICLE_POSITION_TERM, 2): { 0 }", message);
         }
 
         public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
         {
-            return ErrorToResults(ARTCODE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT);
+            IEmployProfile employProfile = evalProfile.Employ();
+            if (employProfile == null)
+            {
+                return ErrorToResults("Employ profile is null!");
+            }
+            return ErrorToResults(ARTICLE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()
@@ -60,6 +68,7 @@ namespace ElementsLib.Elements.Config.Articles
             PositionTermArticle cloneArticle = (PositionTermArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalRole = this.InternalRole;
 
             return cloneArticle;
         }

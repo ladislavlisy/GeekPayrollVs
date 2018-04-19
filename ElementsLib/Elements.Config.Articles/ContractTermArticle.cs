@@ -10,6 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
+    using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
 
@@ -21,7 +22,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class ContractTermArticle : GeneralArticle, ICloneable
     {
-        public static string FACT_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT = "ContractTermArticle(1): Evaluate Results is not implemented!";
+        public static string ARTICLE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT = "ContractTermArticle(1): Evaluate Results is not implemented!";
 
         public ContractTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_TERM)
         {
@@ -49,7 +50,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("ContractTermSource(FACT_CONTRACT_TERM, 1): { 0 }", message);
+            return string.Format("ContractTermSource(ARTICLE_CONTRACT_TERM, 1): { 0 }", message);
         }
 
         public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPack> evalResults)
@@ -67,8 +68,7 @@ namespace ElementsLib.Elements.Config.Articles
             //SourceValues.DateFrom;
             //SourceValues.DateStop;
             //SourceValues.ContractType;
-
-            return ErrorToResults(FACT_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT);
+            return ErrorToResults(ARTICLE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT);
         }
 
         public override object Clone()
@@ -76,6 +76,7 @@ namespace ElementsLib.Elements.Config.Articles
             ContractTermArticle cloneArticle = (ContractTermArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalRole = this.InternalRole;
 
             return cloneArticle;
         }

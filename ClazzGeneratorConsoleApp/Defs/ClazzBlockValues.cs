@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace ClazzGeneratorConsoleApp.Defs
 {
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
+    using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
     using ElementsLib.Module.Codes;
 
@@ -51,14 +52,14 @@ namespace ClazzGeneratorConsoleApp.Defs
         private const string NAME_ARTICLE_POSTFIX = "Article";
         private const string NAME_SOURCES_POSTFIX = "Source";
 
-        public ArticleCode ClassCode;
+        public ArticleRole ClassCode;
 
         public ArticleDefinition ClassDefs;
         public string ClassName { get; protected set; }
         public string FullClassName { get; protected set; }
         public string ValsClassName { get; protected set; }
 
-        public ClassArticleValuesBlok(SourceBlokBase parent, ArticleCode code, ArticleDefinition defs, string name) : base(parent)
+        public ClassArticleValuesBlok(SourceBlokBase parent, ArticleRole code, ArticleDefinition defs, string name) : base(parent)
         {
             ClassCode = code;
             ClassDefs = defs;
@@ -67,7 +68,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             ValsClassName = name + NAME_SOURCES_POSTFIX;
         }
 
-        public ClassArticleValuesBlok(ArticleCode code, ArticleDefinition defs, string name) : base()
+        public ClassArticleValuesBlok(ArticleRole code, ArticleDefinition defs, string name) : base()
         {
             ClassCode = code;
             ClassDefs = defs;
