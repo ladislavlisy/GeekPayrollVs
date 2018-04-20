@@ -17,10 +17,12 @@ namespace ElementsLib.Elements.Config.Articles
     using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Sources;
+    using Concepts;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Utils;
 
     public class PositionWorkingArticle : GeneralArticle, ICloneable
     {
@@ -29,6 +31,8 @@ namespace ElementsLib.Elements.Config.Articles
         public PositionWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_WORKING)
         {
             SourceValues = new PositionWorkingSource();
+
+            InternalEvaluate = PositionWorkingConcept.EvaluateConcept;
         }
 
         public PositionWorkingArticle(ISourceValues values) : this()

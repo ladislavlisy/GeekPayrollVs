@@ -27,6 +27,17 @@ namespace ElementsLib.Elements.Utils
             return Result.Ok<IArticleSource, string>(source);
         }
     }
+    public static class ResultsUtils
+    {
+        public static ResultPack Error(string errorText)
+        {
+            return Result.Fail<IArticleResult, string>(errorText);
+        }
+        public static ResultPack Ok(IArticleResult source)
+        {
+            return Result.Ok<IArticleResult, string>(source);
+        }
+    }
     public static class EvaluateUtils
     {
         public static IEnumerable<ResultPack> Error(string errorText)

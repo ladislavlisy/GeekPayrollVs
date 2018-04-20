@@ -17,11 +17,11 @@ namespace ElementsLib.Elements.Config.Articles
     using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Sources;
+    using Concepts;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
-    using Concepts;
     using Utils;
 
     public class ContractTermArticle : GeneralArticle, ICloneable
@@ -53,6 +53,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             return SourceValues as ISourceValues;
         }
+
         public override string ArticleDecorateMessage(string message)
         {
             return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);

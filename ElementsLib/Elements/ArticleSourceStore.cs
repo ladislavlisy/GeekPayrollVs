@@ -83,7 +83,7 @@ namespace ElementsLib.Elements
 
         private bool ExistTargetByHeadAndPartAndCode(TargetItem targetItem)
         {
-            return (Keys().FirstOrDefault((s) => (s.IsEqualByHeadAndPartAndCode(targetItem))) != null);
+            return (Keys().FirstOrDefault((s) => (s.IsEqualByCodePlusHeadAndPart(targetItem))) != null);
         }
 
         private IEnumerable<TargetHead> SelectContractCode(ConfigCode contractCode)

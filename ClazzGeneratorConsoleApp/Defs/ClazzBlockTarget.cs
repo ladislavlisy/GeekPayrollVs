@@ -87,10 +87,12 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using ValidsPack = ResultMonad.Result<bool, string>;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using Sources;");
+            WriteBaseBlokLine(writer, "using Concepts;");
             WriteBaseBlokLine(writer, "using Module.Items;");
             WriteBaseBlokLine(writer, "using Module.Libs;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
+            WriteBaseBlokLine(writer, "using Utils;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public class " + FullClassName + " : GeneralArticle, ICloneable");
             WriteBaseBlokLine(writer, "{");
@@ -106,6 +108,8 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "public " + FullClassName + "() : base((ConfigRole)ConfigRoleEnum." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "SourceValues = new " + ValsClassName + "();");
+            DelimitLine(writer);
+            WriteIndentBlokLine(writer, 1, "InternalEvaluate = " + ClassName + "Concept.EvaluateConcept;");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteBlokLine(writer, "public " + FullClassName + "(ISourceValues values) : this()");

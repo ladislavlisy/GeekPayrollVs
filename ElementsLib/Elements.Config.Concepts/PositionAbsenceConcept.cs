@@ -20,10 +20,12 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
 
-    public static class PositionScheduleConcept
+    public static class PositionAbsenceConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionAbsenceConcept(ARTICLE_POSITION_ABSENCE, 6): {0}";
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {

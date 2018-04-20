@@ -27,7 +27,7 @@ namespace ClazzGeneratorConsoleApp
         }
         internal static void GenerateSourceForResults(string configFolder)
         {
-            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.ResultsGen");
+            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.ConceptsGen");
 
             ClazzGeneratorResults service = new ClazzGeneratorResults();
 

@@ -17,10 +17,12 @@ namespace ElementsLib.Elements.Config.Articles
     using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Sources;
+    using Concepts;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Utils;
 
     public class PositionScheduleArticle : GeneralArticle, ICloneable
     {
@@ -29,6 +31,8 @@ namespace ElementsLib.Elements.Config.Articles
         public PositionScheduleArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_SCHEDULE)
         {
             SourceValues = new PositionScheduleSource();
+
+            InternalEvaluate = PositionScheduleConcept.EvaluateConcept;
         }
 
         public PositionScheduleArticle(ISourceValues values) : this()

@@ -17,10 +17,12 @@ namespace ElementsLib.Elements.Config.Articles
     using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Sources;
+    using Concepts;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Utils;
 
     public class ContractTermArticle : GeneralArticle, ICloneable
     {
@@ -29,6 +31,8 @@ namespace ElementsLib.Elements.Config.Articles
         public ContractTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_TERM)
         {
             SourceValues = new ContractTermSource();
+
+            InternalEvaluate = ContractTermConcept.EvaluateConcept;
         }
 
         public ContractTermArticle(ISourceValues values) : this()

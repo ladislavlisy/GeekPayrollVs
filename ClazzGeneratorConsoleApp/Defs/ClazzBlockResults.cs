@@ -115,6 +115,8 @@ namespace ClazzGeneratorConsoleApp.Defs
 
             WriteBlokLine(writer, "public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = \"" + FullClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\";");
             WriteBlokLine(writer, "public static string CONCEPT_RESULT_NONE_TEXT = \"Evaluate Results is not implemented!\";");
+            WriteBlokLine(writer, "public static string CONCEPT_PROFILE_NULL_TEXT = \"Employ profile is null!\";");
+            WriteBlokLine(writer, "public static string CONCEPT_VALUES_INVALID_TEXT = \"Invalid source values!\";");
             DelimitLine(writer);
             WriteBlokLine(writer, "public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
             WriteBlokLine(writer, "{");

@@ -107,13 +107,38 @@ namespace ElementsLib.Elements
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code() && this.InternalSeed == other.Seed());
         }
-        public bool IsEqualByHeadAndPartAndCode(IArticleTarget other)
+
+        public bool IsEqualByCodePlusHead(ConfigCode otherCode, IArticleTarget other)
         {
-            return (this.InternalHead == other.Head() && this.InternalPart == other.Part() && this.InternalCode == other.Code());
+            return IsEqualByCodePlusHead(otherCode, other.Head());
         }
-        public bool IsEqualByHeadAndPartAndCode(TargetHead otherHead, TargetPart otherPart, ConfigCode otherCode)
+        public bool IsEqualByCodePlusHead(IArticleTarget other)
         {
-            return (this.InternalHead == otherHead && this.InternalPart == otherPart && this.InternalCode == otherCode);
+            return IsEqualByCodePlusHead(other.Code(), other.Head());
+        }
+        public bool IsEqualByCodePlusHeadAndPart(ConfigCode otherCode, IArticleTarget other)
+        {
+            return IsEqualByCodePlusHeadAndPart(otherCode, other.Head(), other.Part());
+        }
+        public bool IsEqualByCodePlusHeadAndPart(IArticleTarget other)
+        {
+            return IsEqualByCodePlusHeadAndPart(other.Code(), other.Head(), other.Part());
+        }
+        public bool IsEqualByCodePlusSeed(ConfigCode otherCode, TargetHead otherSeed)
+        {
+            return (this.InternalCode == otherCode && this.InternalSeed == otherSeed);
+        }
+        public bool IsEqualByCodePlusHead(ConfigCode otherCode, TargetHead otherHead)
+        {
+            return (this.InternalCode == otherCode && this.InternalHead == otherHead);
+        }
+        public bool IsEqualByCodePlusHeadAndSeed(ConfigCode otherCode, TargetHead otherHead, TargetPart otherSeed)
+        {
+            return (this.InternalCode == otherCode && this.InternalHead == otherHead && this.InternalSeed == otherSeed);
+        }
+        public bool IsEqualByCodePlusHeadAndPart(ConfigCode otherCode, TargetHead otherHead, TargetPart otherPart)
+        {
+            return (this.InternalCode == otherCode && this.InternalHead == otherHead && this.InternalPart == otherPart);
         }
 
         public static bool operator <(ArticleTarget x, ArticleTarget y)

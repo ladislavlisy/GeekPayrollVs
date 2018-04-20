@@ -44,9 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements.Config.Concepts\ContractAbsenceConcept.cs" />
     <Compile Include="Elements.Config.Concepts\ContractTermConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\ContractTimesheetConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\ContractWorkingConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\PositionAbsenceConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\PositionScheduleConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\PositionTermConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\PositionTimesheetConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\PositionWorkingConcept.cs" />
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />
+    <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
     <Compile Include="Elements\GeneralConcept.cs" />
     <Compile Include="Module.Libs\CloneUtils.cs" />
     <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
@@ -217,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Elements.Config.ArticlesGen\" />
-    <Folder Include="Elements.Config.ResultsGen\" />
+    <Folder Include="Elements.Config.ConceptsGen\" />
     <Folder Include="Elements.Config.SourcesGen\" />
     <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>

@@ -6,9 +6,9 @@
 1-0-7-1 ARTICLE_CONTRACT_TIMESHEET
 1-0-8-1 ARTICLE_CONTRACT_WORKING
 0-0-1-1 Result: Day FROM: 1, Day STOP: 31
-1-0-2-1 Error: PositionTermArticle(ARTICLE_POSITION_TERM, 2): Evaluate Results is not implemented!
-1-1-3-1 Error: PositionScheduleArticle(ARTICLE_POSITION_SCHEDULE, 3): Evaluate Results is not implemented!
-1-1-4-1 Error: PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 4): Evaluate Results is not implemented!
-1-1-5-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 5): Evaluate Results is not implemented!
-1-0-7-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 7): Evaluate Results is not implemented!
-1-0-8-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): Evaluate Results is not implemented!
+1-0-2-1 Result: Day FROM: 1, Day STOP: 31
+1-1-3-1 Error: PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): Evaluate Results is not implemented!
+1-1-4-1 Error: PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 4): Source values are null!
+1-1-5-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 5): Source values are null!
+1-0-7-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 7): Source values are null!
+1-0-8-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): Source values are null!

@@ -13,8 +13,6 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
 
-    using TDay = Byte;
-
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
     using Module.Items;
@@ -22,10 +20,12 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
 
-    public static class ContractTermConcept
+    public static class ContractTimesheetConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractTermConcept(ARTICLE_CONTRACT_TERM, 1): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractTimesheetConcept(ARTICLE_CONTRACT_TIMESHEET, 7): {0}";
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {

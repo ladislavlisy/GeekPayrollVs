@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,23 +31,9 @@ namespace ElementsLib.Elements.Config.Concepts
 
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
-            if (conceptProfile == null)
-            {
-                return ConceptDecorateResultError(CONCEPT_PROFILE_NULL_TEXT);
-            }
-            ContractTermSource conceptValues = evalValues as ContractTermSource;
-            if (conceptValues == null)
-            {
-                return ConceptDecorateResultError(CONCEPT_VALUES_INVALID_TEXT);
-            }
-            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DateFrom);
-            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DateStop);
-
-            IArticleResult conceptResult = new ArticleGeneralResult(evalCode, dayTermFrom, dayTermStop);
-
-            return EvaluateUtils.Results(conceptResult);
+            return ConceptDecorateResultError(CONCEPT_RESULT_NONE_TEXT);
         }
+
         public static IEnumerable<ResultPack> ConceptDecorateResultError(string message)
         {
             string conceptMessage = string.Format(CONCEPT_DESCRIPTION_ERROR_FORMAT, message);
