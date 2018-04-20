@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Elements.Config.ArticlesGen\" />
+    <Folder Include="Elements.Config.ResultsGen\" />
     <Folder Include="Elements.Config.SourcesGen\" />
     <Folder Include="Module.Interfaces.Calculus\" />
   </ItemGroup>

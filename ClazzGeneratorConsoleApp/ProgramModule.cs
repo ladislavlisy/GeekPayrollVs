@@ -25,5 +25,13 @@ namespace ClazzGeneratorConsoleApp
 
             service.DoSourceExport(genSourceFolder);
         }
+        internal static void GenerateSourceForResults(string configFolder)
+        {
+            string genSourceFolder = System.IO.Path.Combine(configFolder, "ElementsLib\\Elements.Config.ResultsGen");
+
+            ClazzGeneratorResults service = new ClazzGeneratorResults();
+
+            service.DoSourceExport(genSourceFolder);
+        }
     }
 }

@@ -13,7 +13,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
                 CreateParam("DateStop", FieldType.DATE),
                 CreateParam("ContractType", FieldType.WorkEmployTerms));
 			ArticleResults = ArticleDefinition.CreateParams(
-                CreateParam("term_status", FieldType.BYTE));
+                CreateParam("PeriodDayFrom", FieldType.TDay),
+                CreateParam("PeriodDayStop", FieldType.TDay),
+                CreateParam("PeriodTermStatus", FieldType.BYTE));
 		}
     }
 }

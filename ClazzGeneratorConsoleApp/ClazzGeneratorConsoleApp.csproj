@@ -45,7 +45,9 @@
   <ItemGroup>
     <Compile Include="Defs\ClazzBlockDefinition.cs" />
     <Compile Include="Defs\ClazzBlockMethod.cs" />
+    <Compile Include="Defs\ClazzBlockResults.cs" />
     <Compile Include="Defs\ClazzGeneratorDefinition.cs" />
+    <Compile Include="Defs\ClazzGeneratorResulrs.cs" />
     <Compile Include="Defs\ClazzGeneratorSources.cs" />
     <Compile Include="Defs\ArticleDefinition.cs" />
     <Compile Include="Defs\ClazzArticlesBook.cs" />

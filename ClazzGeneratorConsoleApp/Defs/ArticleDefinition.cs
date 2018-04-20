@@ -26,6 +26,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         DATE_REQ,
         TIME,
         TIME_REQ,
+        TDay,
         TSeconds,
         TSheetSeconds = 1000,
         WorkEmployTerms = 2000,
@@ -38,6 +39,8 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             switch (type)
             {
+                case FieldType.TDay:
+                    return "Byte";
                 case FieldType.BYTE:
                     return "Byte";
                 case FieldType.BOOLEAN:
@@ -73,6 +76,8 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             switch (type)
             {
+                case FieldType.TDay:
+                    return "0";
                 case FieldType.BYTE:
                     return "0";
                 case FieldType.BOOLEAN:
@@ -115,6 +120,8 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             switch (type)
             {
+                case FieldType.TDay:
+                    return "TDay = Byte";
                 case FieldType.TSeconds:
                     return "TSeconds = Int32";
                 case FieldType.TSheetSeconds:
@@ -144,8 +151,9 @@ namespace ClazzGeneratorConsoleApp.Defs
     }
     public class ArticleDefinition
     {
-        private const string NAME_CLASS_POSTFIX = "Article";
-        private const string VALS_CLASS_POSTFIX = "Source";
+        private const string SOURCE_CLASS_POSTFIX = "Article";
+        private const string VALUES_CLASS_POSTFIX = "Source";
+        private const string RESULT_CLASS_POSTFIX = "Concept";
         private const string NAME_CLASS_PATTERN = "ARTICLE_(.*)";
         public ArticleRole Article { get; protected set; }
 
@@ -225,13 +233,19 @@ namespace ClazzGeneratorConsoleApp.Defs
         }
         public string FullClassName()
         {
-            string className = ClassName() + NAME_CLASS_POSTFIX;
+            string className = ClassName() + SOURCE_CLASS_POSTFIX;
 
             return className;
         }
         public string ValsClassName()
         {
-            string className = ClassName() + VALS_CLASS_POSTFIX;
+            string className = ClassName() + VALUES_CLASS_POSTFIX;
+
+            return className;
+        }
+        public string ResultClassName()
+        {
+            string className = ClassName() + RESULT_CLASS_POSTFIX;
 
             return className;
         }

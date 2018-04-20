@@ -17,11 +17,12 @@ namespace ElementsLib.Elements.Config.Results
         public ArticleGeneralResult(ConfigCode code, TDay dayFrom, TDay dayStop)
         {
             InternalCode = code;
-            DayInPeriodFrom = dayFrom;
-            DayInPeriodStop = dayStop;
+
+            PeriodDayFrom = dayFrom;
+            PeriodDayStop = dayStop;
         }
-        public TDay DayInPeriodFrom { get; protected set; }
-        public TDay DayInPeriodStop { get; protected set; }
+        public TDay PeriodDayFrom { get; protected set; }
+        public TDay PeriodDayStop { get; protected set; }
 
         protected ConfigCode InternalCode { get; set; }
         public ConfigCode Code()
@@ -39,7 +40,7 @@ namespace ElementsLib.Elements.Config.Results
         public override string ToString()
         {
             return string.Format("Result: Day FROM: {0}, Day STOP: {1}", 
-                DayInPeriodFrom.ToString(), DayInPeriodStop.ToString());
+                PeriodDayFrom.ToString(), PeriodDayStop.ToString());
         }
     }
 }
