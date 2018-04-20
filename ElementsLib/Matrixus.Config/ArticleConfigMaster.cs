@@ -10,6 +10,7 @@ namespace ElementsLib.Matrixus.Config
 
     using Module.Interfaces.Matrixus;
     using Module.Interfaces.Elements;
+    using Module.Libs;
 
     public class ArticleConfigMaster : IArticleConfigMaster
     {
@@ -26,7 +27,7 @@ namespace ElementsLib.Matrixus.Config
 
             InternalPath = _path.ToList();
 
-            InternalStub = (ConfigStub)_stub.Clone();
+            InternalStub = CloneUtils<ConfigStub>.CloneOrNull(_stub);
         }
 
         public ConfigRole Role()
@@ -54,7 +55,7 @@ namespace ElementsLib.Matrixus.Config
 
             InternalPath = _path.ToList();
 
-            InternalStub = (ConfigStub)_stub.Clone();
+            InternalStub = CloneUtils<ConfigStub>.CloneOrNull(_stub);
         }
         public virtual object Clone()
         {
@@ -62,7 +63,7 @@ namespace ElementsLib.Matrixus.Config
             cloneMaster.InternalRole = this.InternalRole;
             cloneMaster.InternalName = this.InternalName;
             cloneMaster.InternalPath = this.InternalPath.ToList();
-            cloneMaster.InternalStub = (ConfigStub)this.InternalStub.Clone();
+            cloneMaster.InternalStub = CloneUtils<ConfigStub>.CloneOrNull(this.InternalStub);
 
             return cloneMaster;
         }

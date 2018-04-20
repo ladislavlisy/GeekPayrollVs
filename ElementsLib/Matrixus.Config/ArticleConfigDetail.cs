@@ -12,6 +12,7 @@ namespace ElementsLib.Matrixus.Config
 
     using Module.Interfaces.Matrixus;
     using Module.Interfaces.Elements;
+    using Module.Libs;
 
     public class ArticleConfigDetail : IArticleConfigDetail
     {
@@ -81,7 +82,7 @@ namespace ElementsLib.Matrixus.Config
             cloneMaster.InternalType = this.InternalType;
             cloneMaster.InternalName = this.InternalName;
             cloneMaster.InternalPath = this.InternalPath.ToList();
-            cloneMaster.InternalStub = (ConfigStub)this.InternalStub.Clone();
+            cloneMaster.InternalStub = CloneUtils<ConfigStub>.CloneOrNull(this.InternalStub);
 
             return cloneMaster;
         }

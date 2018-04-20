@@ -11,6 +11,7 @@ namespace ElementsLib.Elements
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Module.Codes;
     using Module.Interfaces.Elements;
@@ -23,10 +24,14 @@ namespace ElementsLib.Elements
     {
         protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);
 
-        public static string EXCEPTION_RESULT_NULL_TEXT = "Evaluate Results is not implemented!";
+        public static string EXCEPTION_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
         public static string EXCEPTION_EXPERT_NULL_TEXT = "Expert profile is null!";
-        public abstract string ArticleDecorateMessage(string message);
+        public static string EXCEPTION_PERIOD_NULL_TEXT = "Period is null!";
+        public static string EXCEPTION_TARGET_NULL_TEXT = "Target is null!";
+        public static string EXCEPTION_RESULT_NULL_TEXT = "List of Results is null!";
+
+public abstract string ArticleDecorateMessage(string message);
         public abstract void ImportSourceValues(ISourceValues values);
         public abstract ISourceValues ExportSourceValues();
         public GeneralArticle(ConfigRole role)
@@ -78,6 +83,15 @@ namespace ElementsLib.Elements
             return ResultMonad.Result.Ok<IArticleSource, string>(cloneArticle);
         }
 
+        protected ValidsPack ValidationError(string errorText)
+        {
+            return Result.Fail<bool, string>(errorText);
+        }
+        protected ValidsPack ValidationOk()
+        {
+            return Result.Ok<bool, string>(true);
+        }
+
         protected IEnumerable<ResultPack> ErrorToResults(string errorText)
         {
             return Result.Fail<IArticleResult, string>(errorText).ToList();
@@ -95,20 +109,42 @@ namespace ElementsLib.Elements
 
         public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
+            ValidsPack validParams = ValidateParams(evalTarget, evalPeriod, evalProfile, evalResults);
+            if (validParams.IsFailure)
+            {
+                return ErrorToResults(ArticleDecorateMessage(validParams.Error));
+            }
             if (InternalEvaluate == null)
             {
-                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_RESULT_NULL_TEXT));
+                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_RESULT_NONE_TEXT));
             }
             ISourceValues evalValues = ExportSourceValues();
             if (evalValues == null)
             {
                 return ErrorToResults(ArticleDecorateMessage(EXCEPTION_VALUES_NULL_TEXT));
             }
+            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+        }
+
+        protected ValidsPack ValidateParams(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        {
             if (evalProfile == null)
             {
-                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_EXPERT_NULL_TEXT));
+                return ValidationError(EXCEPTION_EXPERT_NULL_TEXT);
             }
-            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+            if (evalPeriod == null)
+            {
+                return ValidationError(EXCEPTION_PERIOD_NULL_TEXT);
+            }
+            if (evalTarget == null)
+            {
+                return ValidationError(EXCEPTION_TARGET_NULL_TEXT);
+            }
+            if (evalResults == null)
+            {
+                return ValidationError(EXCEPTION_RESULT_NULL_TEXT);
+            }
+            return ValidationOk();
         }
 
         public virtual object Clone()

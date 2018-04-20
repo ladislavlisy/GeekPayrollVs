@@ -84,6 +84,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");
             WriteBaseBlokLine(writer, "using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;");
+            WriteBaseBlokLine(writer, "using ValidsPack = ResultMonad.Result<bool, string>;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using Sources;");
             WriteBaseBlokLine(writer, "using Module.Items;");
@@ -111,7 +112,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, ValsClassName + " sourceValues = values as " + ValsClassName + ";");
             DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "SourceValues = (" + ValsClassName + ")sourceValues.Clone();");
+            WriteIndentBlokLine(writer, 1, "SourceValues = CloneUtils<" + ValsClassName + ">.CloneOrNull(sourceValues);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteBlokLine(writer, "public " + ValsClassName + " SourceValues { get; set; }");
@@ -136,7 +137,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "IEmployProfile employProfile = evalProfile.Employ();");
             WriteIndentBlokLine(writer, 1, "if (employProfile == null)");
             WriteIndentBlokLine(writer, 1, "{");
-            WriteIndentBlokLine(writer, 2, "return ErrorToResults(\"Employ profile is null!\");");
+            WriteIndentBlokLine(writer, 2, "return ErrorToResults(ArticleDecorateMessage(\"Employ profile is null!\"));");
             WriteIndentBlokLine(writer, 1, "}");
             WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
             WriteBlokLine(writer, "}");

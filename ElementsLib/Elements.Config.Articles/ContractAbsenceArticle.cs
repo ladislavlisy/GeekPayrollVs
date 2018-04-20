@@ -14,6 +14,7 @@ namespace ElementsLib.Elements.Config.Articles
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ValidsPack = ResultMonad.Result<bool, string>;
 
     using Sources;
     using Module.Items;
@@ -34,7 +35,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             ContractAbsenceSource sourceValues = values as ContractAbsenceSource;
 
-            SourceValues = (ContractAbsenceSource)sourceValues.Clone();
+            SourceValues = CloneUtils<ContractAbsenceSource>.CloneOrNull(sourceValues);
         }
 
         public ContractAbsenceSource SourceValues { get; set; }
@@ -59,7 +60,7 @@ namespace ElementsLib.Elements.Config.Articles
             IEmployProfile employProfile = evalProfile.Employ();
             if (employProfile == null)
             {
-                return ErrorToResults("Employ profile is null!");
+                return ErrorToResults(ArticleDecorateMessage("Employ profile is null!"));
             }
             return ErrorToResults(ARTICLE_CONTRACT_ABSENCE_EXCEPTION_RESULT_NULL_TEXT);
         }

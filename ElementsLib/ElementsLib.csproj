@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module.Libs\CloneUtils.cs" />
     <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
     <Compile Include="Service.Calculus\CalculusService.cs" />
     <Compile Include="Service.Calculus\SimpleCalculusService.cs" />
