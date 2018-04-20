@@ -105,7 +105,7 @@ namespace ElementsLib.Legalist.Operations
             return (workingDays * secondsDaily);
         }
 
-        public static uint DateFromInPeriod(Period period, TDate? dateFrom)
+        public static TDay DateFromInPeriod(Period period, TDate? dateFrom)
         {
             PeriodTerm dayTermFrom = TERM_BEG_FINISHED;
 

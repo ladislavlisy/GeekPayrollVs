@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class PositionTermArticle : GeneralArticle, ICloneable
     {
-        public static string ARTICLE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT = "PositionTermArticle(2): Evaluate Results is not implemented!";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionTermArticle(ARTICLE_POSITION_TERM, 2): {0}";
 
         public PositionTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TERM)
         {
@@ -52,17 +52,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionTermSource(ARTICLE_POSITION_TERM, 2): { 0 }", message);
-        }
-
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
-        {
-            IEmployProfile employProfile = evalProfile.Employ();
-            if (employProfile == null)
-            {
-                return ErrorToResults(ArticleDecorateMessage("Employ profile is null!"));
-            }
-            return ErrorToResults(ARTICLE_POSITION_TERM_EXCEPTION_RESULT_NULL_TEXT);
+            return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);
         }
 
         public override object Clone()

@@ -101,7 +101,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             string CLASS_ENUM = ClassRole.GetSymbol();
             string CLASS_UINT = ((UInt16)ClassRole).ToString();
 
-            WriteBlokLine(writer, "public static string " + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT = \"" + FullClassName + "(" + CLASS_UINT + "): Evaluate Results is not implemented!\";");
+            WriteBlokLine(writer, "public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = \"" + FullClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\";");
             DelimitLine(writer);
             WriteBlokLine(writer, "public " + FullClassName + "() : base((ConfigRole)ConfigRoleEnum." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
@@ -129,19 +129,24 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBlokLine(writer, "public override string ArticleDecorateMessage(string message)");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ValsClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");
+            WriteIndentBlokLine(writer, 1, "return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
-            WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "IEmployProfile employProfile = evalProfile.Employ();");
-            WriteIndentBlokLine(writer, 1, "if (employProfile == null)");
-            WriteIndentBlokLine(writer, 1, "{");
-            WriteIndentBlokLine(writer, 2, "return ErrorToResults(ArticleDecorateMessage(\"Employ profile is null!\"));");
-            WriteIndentBlokLine(writer, 1, "}");
-            WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
-            WriteBlokLine(writer, "}");
-            DelimitLine(writer);
+            //DelimitLine(writer);
+            //WriteBlokLine(writer, "public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
+            //WriteBlokLine(writer, "{");
+            //WriteIndentBlokLine(writer, 1, "ValidsPack validEvaluate = ValidateEvaluateIntent(evalTarget, evalPeriod, evalProfile, evalResults);");
+            //WriteIndentBlokLine(writer, 1, "if (validEvaluate.IsFailure)");
+            //WriteIndentBlokLine(writer, 1, "{");
+            //WriteIndentBlokLine(writer, 2, "return ErrorToResults(ArticleDecorateMessage(validEvaluate.Error));");
+            //WriteIndentBlokLine(writer, 1, "}");
+            //WriteIndentBlokLine(writer, 1, "IEmployProfile employProfile = evalProfile.Employ();");
+            //WriteIndentBlokLine(writer, 1, "if (employProfile == null)");
+            //WriteIndentBlokLine(writer, 1, "{");
+            //WriteIndentBlokLine(writer, 2, "return ErrorToResults(ArticleDecorateMessage(\"Employ profile is null!\"));");
+            //WriteIndentBlokLine(writer, 1, "}");
+            //WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
+            //WriteBlokLine(writer, "}");
 
             //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ISourceValues values)");
             //WriteBlokLine(writer, "{");

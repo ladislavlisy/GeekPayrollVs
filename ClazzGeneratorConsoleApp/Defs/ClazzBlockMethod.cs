@@ -84,7 +84,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBlokLine(writer, "public override string MethodDecorateMessage(string message)");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): { 0 }\", message);");
+            WriteIndentBlokLine(writer, 1, "return string.Format(\"" + ClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\", message);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteBlokLine(writer, "public override object Clone()");

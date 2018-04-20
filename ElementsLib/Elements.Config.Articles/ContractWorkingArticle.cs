@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class ContractWorkingArticle : GeneralArticle, ICloneable
     {
-        public static string ARTICLE_CONTRACT_WORKING_EXCEPTION_RESULT_NULL_TEXT = "ContractWorkingArticle(8): Evaluate Results is not implemented!";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): {0}";
 
         public ContractWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_WORKING)
         {
@@ -52,17 +52,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("ContractWorkingSource(ARTICLE_CONTRACT_WORKING, 8): { 0 }", message);
-        }
-
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
-        {
-            IEmployProfile employProfile = evalProfile.Employ();
-            if (employProfile == null)
-            {
-                return ErrorToResults(ArticleDecorateMessage("Employ profile is null!"));
-            }
-            return ErrorToResults(ARTICLE_CONTRACT_WORKING_EXCEPTION_RESULT_NULL_TEXT);
+            return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);
         }
 
         public override object Clone()

@@ -16,6 +16,9 @@ namespace ElementsLib.Module.Interfaces.Legalist
     {
         IEmployGuides Guides();
 
+        TDay DateFromInPeriod(Period period, TDate? dateFrom);
+        TDay DateStopInPeriod(Period period, TDate? dateStop);
+
         TDay DayEndsOrdinal(Period period, TDate? dateEnds);
 
         TSeconds[] TimesheetWeekSchedule(Period period, TSeconds secondsWeekly, TDays workdaysWeekly);

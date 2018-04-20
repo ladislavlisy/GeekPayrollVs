@@ -21,14 +21,18 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Concepts;
+    using Utils;
 
     public class ContractTermArticle : GeneralArticle, ICloneable
     {
-        public static string ARTICLE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT = "ContractTermArticle(1): Evaluate Results is not implemented!";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractTermArticle(ARTICLE_CONTRACT_TERM, 1): {0}";
 
         public ContractTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_TERM)
         {
             SourceValues = new ContractTermSource();
+
+            InternalEvaluate = ContractTermConcept.EvaluateConcept;
         }
 
         public ContractTermArticle(ISourceValues values) : this()
@@ -49,28 +53,9 @@ namespace ElementsLib.Elements.Config.Articles
         {
             return SourceValues as ISourceValues;
         }
-
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("ContractTermSource(ARTICLE_CONTRACT_TERM, 1): { 0 }", message);
-        }
-
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
-        {
-            IEmployProfile employProfile = evalProfile.Employ();
-            if (employProfile == null)
-            {
-                return ErrorToResults(ArticleDecorateMessage("Employ profile is null!"));
-            }
-            //Period period;
-            //IPeriodProfile : Employ()
-            //uint dayTermFrom = DateFromInPeriod(period, this.DateFrom);
-            //uint dayTermStop = DateFromInPeriod(period, this.DateStop);
-
-            //SourceValues.DateFrom;
-            //SourceValues.DateStop;
-            //SourceValues.ContractType;
-            return ErrorToResults(ARTICLE_CONTRACT_TERM_EXCEPTION_RESULT_NULL_TEXT);
+            return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);
         }
 
         public override object Clone()

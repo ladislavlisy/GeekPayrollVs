@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     public class PositionAbsenceArticle : GeneralArticle, ICloneable
     {
-        public static string ARTICLE_POSITION_ABSENCE_EXCEPTION_RESULT_NULL_TEXT = "PositionAbsenceArticle(6): Evaluate Results is not implemented!";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionAbsenceArticle(ARTICLE_POSITION_ABSENCE, 6): {0}";
 
         public PositionAbsenceArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_ABSENCE)
         {
@@ -52,17 +52,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override string ArticleDecorateMessage(string message)
         {
-            return string.Format("PositionAbsenceSource(ARTICLE_POSITION_ABSENCE, 6): { 0 }", message);
-        }
-
-        public override IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
-        {
-            IEmployProfile employProfile = evalProfile.Employ();
-            if (employProfile == null)
-            {
-                return ErrorToResults(ArticleDecorateMessage("Employ profile is null!"));
-            }
-            return ErrorToResults(ARTICLE_POSITION_ABSENCE_EXCEPTION_RESULT_NULL_TEXT);
+            return string.Format(ARTICLE_DESCRIPTION_ERROR_FORMAT, message);
         }
 
         public override object Clone()

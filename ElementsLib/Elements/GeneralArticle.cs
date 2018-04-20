@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ResultMonad;
 
 namespace ElementsLib.Elements
 {
@@ -15,10 +14,9 @@ namespace ElementsLib.Elements
 
     using Module.Codes;
     using Module.Interfaces.Elements;
-    using Module.Libs;
     using Module.Items;
     using Module.Interfaces.Legalist;
-    using System.Linq;
+    using Utils;
 
     public abstract class GeneralArticle : IArticleSource, ICloneable
     {
@@ -31,7 +29,7 @@ namespace ElementsLib.Elements
         public static string EXCEPTION_TARGET_NULL_TEXT = "Target is null!";
         public static string EXCEPTION_RESULT_NULL_TEXT = "List of Results is null!";
 
-public abstract string ArticleDecorateMessage(string message);
+        public abstract string ArticleDecorateMessage(string message);
         public abstract void ImportSourceValues(ISourceValues values);
         public abstract ISourceValues ExportSourceValues();
         public GeneralArticle(ConfigRole role)
@@ -77,74 +75,73 @@ public abstract string ArticleDecorateMessage(string message);
             }
             catch (Exception e)
             {
-                return ResultMonad.Result.Fail<IArticleSource, string>(e.ToString());
+                return SourcesUtils.Error(e.ToString());
             }
 
-            return ResultMonad.Result.Ok<IArticleSource, string>(cloneArticle);
+            return SourcesUtils.Ok(cloneArticle);
         }
-
-        protected ValidsPack ValidationError(string errorText)
+        public IEnumerable<ResultPack> ArticleDecorateResultError(string message)
         {
-            return Result.Fail<bool, string>(errorText);
+            return EvaluateUtils.Error(ArticleDecorateMessage(message));
         }
-        protected ValidsPack ValidationOk()
+        public IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
-            return Result.Ok<bool, string>(true);
-        }
-
-        protected IEnumerable<ResultPack> ErrorToResults(string errorText)
-        {
-            return Result.Fail<IArticleResult, string>(errorText).ToList();
-        }
-
-        protected IEnumerable<ResultPack> ErrorToResults(params string[] errorText)
-        {
-            return errorText.Select((e) => (Result.Fail<IArticleResult, string>(e))).ToList();
-        }
-
-        protected IEnumerable<ResultPack> ResultsToList(params ResultPack[] results)
-        {
-            return results.Select((r) => (r)).ToList();
-        }
-
-        public virtual IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
-        {
-            ValidsPack validParams = ValidateParams(evalTarget, evalPeriod, evalProfile, evalResults);
-            if (validParams.IsFailure)
+            ValidsPack validEvaluate = ValidateEvaluateIntent(evalTarget, evalPeriod, evalProfile, evalResults);
+            if (validEvaluate.IsFailure)
             {
-                return ErrorToResults(ArticleDecorateMessage(validParams.Error));
-            }
-            if (InternalEvaluate == null)
-            {
-                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_RESULT_NONE_TEXT));
+                return ArticleDecorateResultError(validEvaluate.Error);
             }
             ISourceValues evalValues = ExportSourceValues();
             if (evalValues == null)
             {
-                return ErrorToResults(ArticleDecorateMessage(EXCEPTION_VALUES_NULL_TEXT));
+                return ArticleDecorateResultError(EXCEPTION_VALUES_NULL_TEXT);
             }
             return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
 
-        protected ValidsPack ValidateParams(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        public virtual ValidsPack ValidateEvaluateIntent(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        {
+            ValidsPack validParameters = ValidationOfParameters(evalTarget, evalPeriod, evalProfile, evalResults);
+            if (validParameters.IsFailure)
+            {
+                return validParameters;
+            }
+            ValidsPack validContracts = ValidationOfContract();
+            if (validContracts.IsFailure)
+            {
+                return validContracts;
+            }
+            return ValidateUtils.Ok();
+        }
+
+        protected ValidsPack ValidationOfParameters(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             if (evalProfile == null)
             {
-                return ValidationError(EXCEPTION_EXPERT_NULL_TEXT);
+                return ValidateUtils.Error(EXCEPTION_EXPERT_NULL_TEXT);
             }
             if (evalPeriod == null)
             {
-                return ValidationError(EXCEPTION_PERIOD_NULL_TEXT);
+                return ValidateUtils.Error(EXCEPTION_PERIOD_NULL_TEXT);
             }
             if (evalTarget == null)
             {
-                return ValidationError(EXCEPTION_TARGET_NULL_TEXT);
+                return ValidateUtils.Error(EXCEPTION_TARGET_NULL_TEXT);
             }
             if (evalResults == null)
             {
-                return ValidationError(EXCEPTION_RESULT_NULL_TEXT);
+                return ValidateUtils.Error(EXCEPTION_RESULT_NULL_TEXT);
             }
-            return ValidationOk();
+            return ValidateUtils.Ok();
+        }
+
+        protected ValidsPack ValidationOfContract()
+        {
+            if (InternalEvaluate == null)
+            {
+                return ValidateUtils.Error(EXCEPTION_RESULT_NONE_TEXT);
+            }
+            return ValidateUtils.Ok();
         }
 
         public virtual object Clone()
@@ -160,6 +157,5 @@ public abstract string ArticleDecorateMessage(string message);
         {
             return ArticleRoleAdapter.GetSymbol(InternalRole);
         }
-
     }
 }

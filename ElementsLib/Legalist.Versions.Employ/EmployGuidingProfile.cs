@@ -33,7 +33,14 @@ namespace ElementsLib.Legalist.Versions.Employ
         {
             return InternalGuides;
         }
-
+        public TDay DateFromInPeriod(Period period, TDate? dateFrom)
+        {
+            return OperationsPeriod.DateFromInPeriod(period, dateFrom);
+        }
+        public TDay DateStopInPeriod(Period period, TDate? dateStop)
+        {
+            return OperationsPeriod.DateEndsInPeriod(period, dateStop);
+        }
         public TDay DayEndsOrdinal(Period period, TDate? dateEnds)
         {
             return OperationsPeriod.DateEndsInPeriod(period, dateEnds);
