@@ -152,7 +152,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             //WriteIndentBlokLine(writer, 1, "return ErrorToResults(" + CLASS_ENUM + "_EXCEPTION_RESULT_NULL_TEXT);");
             //WriteBlokLine(writer, "}");
 
-            //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ISourceValues values)");
+            //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ConfigCode configCode, ISourceValues values)");
             //WriteBlokLine(writer, "{");
             //WriteIndentBlokLine(writer, 1, FullClassName + " cloneArticle = (" + FullClassName + ")Clone();");
             //DelimitLine(writer);

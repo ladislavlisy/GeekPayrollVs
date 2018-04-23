@@ -91,8 +91,8 @@ namespace ElementsLib.Service.Permadom
         public static DateTime? DateStop = null;
         public static WorkEmployTerms EmployeeTerm = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
         public static WorkPositionType PositionTerm = WorkPositionType.POSITION_EXCLUSIVE;
-        public static Int32 ShiftLiable = 0;
-        public static Int32 ShiftActual = 0;
+        public static Int32 ShiftLiable = 144000;
+        public static Int32 ShiftActual = 144000;
         public static WorkScheduleType ScheduleType = WorkScheduleType.SCHEDULE_NORMALY_WEEK;
 
         #endregion

@@ -44,12 +44,22 @@ namespace ElementsLib.Elements.Utils
         {
             return Result.Fail<ResultItem, string>(errorText).ToList();
         }
-
         public static IEnumerable<ResultPack> Errors(params string[] errorText)
         {
             return errorText.Select((e) => (Result.Fail<ResultItem, string>(e))).ToList();
         }
+        public static IEnumerable<ResultPack> DecoratedError(string format, string message)
+        {
+            string conceptMessage = string.Format(format, message);
 
+            return Error(conceptMessage);
+        }
+        public static IEnumerable<ResultPack> DecoratedErrors(string format, params string[] messages)
+        {
+            string[] conceptMessages = messages.Select((m) => string.Format(format, m)).ToArray();
+
+            return Errors(conceptMessages);
+        }
         public static IEnumerable<ResultPack> Results(params ResultPack[] results)
         {
             return results.Select((r) => (r)).ToList();

@@ -54,9 +54,15 @@
     <Compile Include="Elements.Config.Concepts\PositionTimesheetConcept.cs" />
     <Compile Include="Elements.Config.Concepts\PositionWorkingConcept.cs" />
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
+    <Compile Include="Elements.Config.Results\GeneralResultValue.cs" />
+    <Compile Include="Elements.Config.Results\MonthFromStopResultValue.cs" />
+    <Compile Include="Elements.Config.Results\WorkMonthResultValue.cs" />
+    <Compile Include="Elements.Config.Results\WorkWeekResultValue.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />
     <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
-    <Compile Include="Elements\GeneralConcept.cs" />
+    <Compile Include="Elements\ResultValuesStore.cs" />
+    <Compile Include="Module.Interfaces.Elements\IArticleResultValues.cs" />
+    <Compile Include="Module.Items.Utils\FormatUtils.cs" />
     <Compile Include="Module.Libs\CloneUtils.cs" />
     <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
     <Compile Include="Service.Calculus\CalculusService.cs" />
@@ -234,6 +240,10 @@
     <ProjectReference Include="..\MaybeMonadExtensionsLib\MaybeMonadExtensionsLib.csproj">
       <Project>{fdbe4cf4-985c-4ed1-a27a-f42a69ac3d8b}</Project>
       <Name>MaybeMonadExtensionsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaybeMonadLib\MaybeMonadLib.csproj">
+      <Project>{13211D6F-48ED-41D5-A87C-C040BFABDD53}</Project>
+      <Name>MaybeMonadLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResultMonadExtensionsLib\ResultMonadExtensionsLib.csproj">
       <Project>{5675bf8a-cceb-44bd-97b0-a15c05ce3e1a}</Project>

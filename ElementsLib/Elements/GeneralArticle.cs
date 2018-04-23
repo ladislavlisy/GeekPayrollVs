@@ -54,6 +54,10 @@ namespace ElementsLib.Elements
             return InternalRole;
         }
 
+        public void SetSourceCode(ConfigCode code)
+        {
+            InternalCode = code;
+        }
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
         {
             T sourceValues = values as T;
@@ -65,13 +69,14 @@ namespace ElementsLib.Elements
             return (T)sourceValues.Clone();
         }
 
-        public SourcePack CloneSourceAndSetValues<T>(ISourceValues values) where T : class, IArticleSource
+        public SourcePack CloneSourceAndSetValues<T>(ConfigCode configCode, ISourceValues values) where T : class, IArticleSource
         {
             T cloneArticle = (T)Clone();
 
             try
             {
                 cloneArticle.ImportSourceValues(values);
+                cloneArticle.SetSourceCode(configCode);
             }
             catch (Exception e)
             {
@@ -92,10 +97,7 @@ namespace ElementsLib.Elements
                 return ArticleDecorateResultError(validEvaluate.Error);
             }
             ISourceValues evalValues = ExportSourceValues();
-            if (evalValues == null)
-            {
-                return ArticleDecorateResultError(EXCEPTION_VALUES_NULL_TEXT);
-            }
+
             return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
 

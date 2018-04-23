@@ -15,8 +15,9 @@ namespace ElementsLib.Module.Interfaces.Elements
     {
         ConfigCode Code();
         void ImportSourceValues(ISourceValues values);
+        void SetSourceCode(ConfigCode code);
         ISourceValues ExportSourceValues();
-        ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ISourceValues values) where T : class, IArticleSource;
+        ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ConfigCode configCode, ISourceValues values) where T : class, IArticleSource;
         IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);
     }
 }

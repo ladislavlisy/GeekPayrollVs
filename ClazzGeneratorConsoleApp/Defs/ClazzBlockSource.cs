@@ -145,7 +145,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             //WriteBlokLine(writer, "}");
             //DelimitLine(writer);
 
-            //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ISourceValues values)");
+            //WriteBlokLine(writer, "public override IArticleSource CloneSourceAndSetValues(ConfigCode configCode, ISourceValues values)");
             //WriteBlokLine(writer, "{");
             //WriteIndentBlokLine(writer, 1, FullClassName + " cloneArticle = (" + FullClassName + ")Clone();");
             //DelimitLine(writer);

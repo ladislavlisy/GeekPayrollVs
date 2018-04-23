@@ -5,9 +5,9 @@
 1-1-5-1 ARTICLE_POSITION_WORKING
 1-0-7-1 ARTICLE_CONTRACT_TIMESHEET
 1-0-8-1 ARTICLE_CONTRACT_WORKING
-0-0-1-1 Result: Day FROM: 1, Day STOP: 31
-1-0-2-1 Result: Day FROM: 1, Day STOP: 31
-1-1-3-1 Error: PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): Evaluate Results is not implemented!
+0-0-1-1 Day FROM: 1, Day STOP: 31
+1-0-2-1 Day FROM: 1, Day STOP: 31
+1-1-3-1 Hours in week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-1-4-1 Error: PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 4): Source values are null!
 1-1-5-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 5): Source values are null!
 1-0-7-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 7): Source values are null!

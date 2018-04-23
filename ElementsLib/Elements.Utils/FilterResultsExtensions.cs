@@ -20,13 +20,63 @@ namespace ElementsLib.Elements.Utils
 
     public static class FilterResultsExtensions
     {
-        public static ResultPack FindResultForCodePlusSeed(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetSeed findSeed)
+        public static ResultPack FindContractResultForCode(this IEnumerable<ResultPair> evalResults, ConfigCode contractCode, TargetSeed contractSeed)
         {
-            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusSeed(r.Key, findCode, findSeed));
+            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusSeed(r.Key, contractCode, contractSeed));
 
             if (findResult.Key == null)
             {
-                return ResultsUtils.Error("Result for Target and Code not found!");
+                return ResultsUtils.Error("Contract Result not found!");
+            }
+            ResultPack packResult = findResult.Value;
+            if (packResult.IsFailure)
+            {
+                return ResultsUtils.Error(packResult.Error);
+            }
+            return packResult;
+        }
+
+        public static ResultPack FindPositionResultForCode(this IEnumerable<ResultPair> evalResults, ConfigCode positionCode, TargetHead contractCode, TargetSeed positionSeed)
+        {
+            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndSeed(r.Key, positionCode, contractCode, positionSeed));
+
+            if (findResult.Key == null)
+            {
+                return ResultsUtils.Error("Position Result not found!");
+            }
+            ResultPack packResult = findResult.Value;
+            if (packResult.IsFailure)
+            {
+                return ResultsUtils.Error(packResult.Error);
+            }
+            return packResult;
+        }
+
+        public static ResultPack FindResultForCodePlusHead(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode)
+        {
+            TargetPart partCode = ArticleTarget.PART_CODE_NULL;
+
+            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndPart(r.Key, findCode, headCode, partCode));
+
+            if (findResult.Key == null)
+            {
+                return ResultsUtils.Error("Result for Contract Target and Code not found!");
+            }
+            ResultPack packResult = findResult.Value;
+            if (packResult.IsFailure)
+            {
+                return ResultsUtils.Error(packResult.Error);
+            }
+            return packResult;
+        }
+
+        public static ResultPack FindResultForCodePlusPart(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode, TargetPart partCode)
+        {
+            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndPart(r.Key, findCode, headCode, partCode));
+
+            if (findResult.Key == null)
+            {
+                return ResultsUtils.Error("Result for Position Target and Code not found!");
             }
             ResultPack packResult = findResult.Value;
             if (packResult.IsFailure)
@@ -39,6 +89,14 @@ namespace ElementsLib.Elements.Utils
         public static bool IsEqualByCodePlusSeed(IArticleTarget currtarget, ConfigCode findCode, TargetSeed findSeed)
         {
             return currtarget.IsEqualByCodePlusSeed(findCode, findSeed);
+        }
+        public static bool IsEqualByCodePlusHeadAndSeed(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode, TargetSeed findSeed)
+        {
+            return currtarget.IsEqualByCodePlusHeadAndSeed(findCode, headCode, findSeed);
+        }
+        public static bool IsEqualByCodePlusHeadAndPart(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode, TargetPart partCode)
+        {
+            return currtarget.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode);
         }
     }
 }

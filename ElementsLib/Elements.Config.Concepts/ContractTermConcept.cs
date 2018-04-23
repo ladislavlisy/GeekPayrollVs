@@ -21,6 +21,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using Utils;
     using Sources;
     using Results;
+    using ResultMonad;
 
     public static class ContractTermConcept
     {
@@ -28,31 +29,68 @@ namespace ElementsLib.Elements.Config.Concepts
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
         public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
+        public static string CONCEPT_RESULT_INVALID_TEXT = "Invalid dependent result values!";
+
+        private struct EvaluateStruct
+        {
+            public DateTime? DayTermFrom { get; set; }
+            public DateTime? DayTermStop { get; set; }
+        }
 
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
+            ResultMonad.Result<EvaluateStruct, string> initValues = GetValuesFromSources(evalValues);
+            if (initValues.IsFailure)
+            {
+                return EvaluateUtils.DecoratedErrors(initValues.Error, 
+                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_VALUES_INVALID_TEXT);
+            }
+
+            ResultMonad.Result<EvaluateStruct, string> prepValues = GetValuesFromResults(initValues, evalTarget, evalResults);
+            if (prepValues.IsFailure)
+            {
+                return EvaluateUtils.DecoratedErrors(prepValues.Error, 
+                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_RESULT_INVALID_TEXT);
+            }
             IEmployProfile conceptProfile = evalProfile.Employ();
             if (conceptProfile == null)
             {
-                return ConceptDecorateResultError(CONCEPT_PROFILE_NULL_TEXT);
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
             }
-            ContractTermSource conceptValues = evalValues as ContractTermSource;
-            if (conceptValues == null)
-            {
-                return ConceptDecorateResultError(CONCEPT_VALUES_INVALID_TEXT);
-            }
-            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DateFrom);
-            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DateStop);
 
-            IArticleResult conceptResult = new ArticleGeneralResult(evalCode, dayTermFrom, dayTermStop);
+            EvaluateStruct mainValues = prepValues.Value;
+
+            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, mainValues.DayTermFrom);
+            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, mainValues.DayTermStop);
+
+            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+
+            conceptResult.AddMonthFromStop(dayTermFrom, dayTermStop);
 
             return EvaluateUtils.Results(conceptResult);
         }
-        public static IEnumerable<ResultPack> ConceptDecorateResultError(string message)
+        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromSources(ISourceValues evalValues)
         {
-            string conceptMessage = string.Format(CONCEPT_DESCRIPTION_ERROR_FORMAT, message);
-
-            return EvaluateUtils.Error(conceptMessage);
+            ContractTermSource conceptValues = evalValues as ContractTermSource;
+            if (conceptValues == null)
+            {
+                return Result.Fail<EvaluateStruct, string>(CONCEPT_VALUES_INVALID_TEXT);
+            }
+            EvaluateStruct initValues = new EvaluateStruct
+            {
+                DayTermFrom = conceptValues.DateFrom, DayTermStop = conceptValues.DateStop
+            };
+            return Result.Ok<EvaluateStruct, string>(initValues);
+        }
+        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromResults(
+            ResultMonad.Result<EvaluateStruct, string> initValues, 
+            TargetItem evalTarget, IEnumerable<ResultPair> evalResults)
+        {
+            if (initValues.IsFailure)
+            {
+                return initValues;
+            }
+            return initValues;
         }
     }
 }

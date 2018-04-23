@@ -75,7 +75,7 @@ namespace ElementsLib.Matrixus.Config
             {
                 return emptyInstance;
             }
-            return emptyInstance.Value.CloneSourceAndSetValues<SourceItem>(sourceVals);
+            return emptyInstance.Value.CloneSourceAndSetValues<SourceItem>(configCode, sourceVals);
         }
 
         protected void ConfigureModelDependency()
