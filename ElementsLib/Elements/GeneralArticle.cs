@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ElementsLib.Elements
 {
@@ -17,12 +18,11 @@ namespace ElementsLib.Elements
     using Module.Items;
     using Module.Interfaces.Legalist;
     using Utils;
+    using ResultMonad;
 
     public abstract class GeneralArticle : IArticleSource, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateDelegate(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);
-
-        public static string EXCEPTION_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
+        public static string EXCEPTION_RESULT_NONE_TEXT = "EvaluateConceptDelegate is not implemented!";
         public static string EXCEPTION_VALUES_NULL_TEXT = "Source values are null!";
         public static string EXCEPTION_EXPERT_NULL_TEXT = "Expert profile is null!";
         public static string EXCEPTION_PERIOD_NULL_TEXT = "Period is null!";
@@ -37,14 +37,11 @@ namespace ElementsLib.Elements
             InternalCode = 0;
 
             InternalRole = role;
-
-            InternalEvaluate = null;
         }
 
         protected ConfigCode InternalCode { get; set; }
         protected ConfigRole InternalRole { get; set; }
 
-        protected EvaluateDelegate InternalEvaluate;
         public ConfigCode Code()
         {
             return InternalCode;
@@ -98,8 +95,21 @@ namespace ElementsLib.Elements
             }
             ISourceValues evalValues = ExportSourceValues();
 
-            return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+            return EvaluateArticleResults(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
+            //return InternalEvaluate(evalTarget, InternalCode, evalValues, evalPeriod, evalProfile, evalResults);
         }
+        protected ResultMonad.Result<ET, string> PrepareConceptValues<ET>(EvalValuesBuilder<ET> sourceBuilder, EvalValuesBuilder<ET> resultBuilder) where ET : class, new()
+        {
+            ResultMonad.Result<ET, string> initValues = Result.Ok<ET, string>(new ET());
+
+            IList<EvalValuesBuilder<ET>> evalBuilders = new List<EvalValuesBuilder<ET>>()
+            {
+                sourceBuilder, resultBuilder,
+            };
+
+            return evalBuilders.Aggregate(initValues, (agr, x) => (x.GetValues(agr)));
+        }
+        protected abstract IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);
 
         public virtual ValidsPack ValidateEvaluateIntent(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
@@ -107,11 +117,6 @@ namespace ElementsLib.Elements
             if (validParameters.IsFailure)
             {
                 return validParameters;
-            }
-            ValidsPack validContracts = ValidationOfContract();
-            if (validContracts.IsFailure)
-            {
-                return validContracts;
             }
             return ValidateUtils.Ok();
         }
@@ -137,21 +142,11 @@ namespace ElementsLib.Elements
             return ValidateUtils.Ok();
         }
 
-        protected ValidsPack ValidationOfContract()
-        {
-            if (InternalEvaluate == null)
-            {
-                return ValidateUtils.Error(EXCEPTION_RESULT_NONE_TEXT);
-            }
-            return ValidateUtils.Ok();
-        }
-
         public virtual object Clone()
         {
             GeneralArticle cloneArticle = (GeneralArticle)this.MemberwiseClone();
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
-            cloneArticle.InternalEvaluate = this.InternalEvaluate;
 
             return cloneArticle;
         }

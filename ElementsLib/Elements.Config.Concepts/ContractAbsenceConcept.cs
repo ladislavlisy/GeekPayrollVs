@@ -12,6 +12,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
+    using MasterItem = Articles.ContractAbsenceArticle;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -19,24 +20,28 @@ namespace ElementsLib.Elements.Config.Concepts
     using Utils;
     using Sources;
     using Results;
+    using ResultMonad;
 
     public static class ContractAbsenceConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractAbsenceConcept(ARTICLE_CONTRACT_ABSENCE, 9): {0}";
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
-        public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
 
-        public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
+            Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            return ConceptDecorateResultError(CONCEPT_RESULT_NONE_TEXT);
-        }
+            IEmployProfile conceptProfile = evalProfile.Employ();
+            if (conceptProfile == null)
+            {
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
+            }
 
-        public static IEnumerable<ResultPack> ConceptDecorateResultError(string message)
-        {
-            string conceptMessage = string.Format(CONCEPT_DESCRIPTION_ERROR_FORMAT, message);
+            MasterItem.EvaluateSource conceptValues = prepValues.Value;
 
-            return EvaluateUtils.Error(conceptMessage);
+            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+
+            return EvaluateUtils.Results(conceptResult);
         }
     }
 }
