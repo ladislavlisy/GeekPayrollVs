@@ -48,7 +48,8 @@ namespace ElementsLib.Elements.Config.Concepts
 
             TSeconds[] scheduleFullMonth = conceptProfile.TimesheetFullSchedule(evalPeriod, conceptValues.WorkWeekHours);
             TSeconds[] scheduleTermMonth = conceptProfile.TimesheetWorkSchedule(evalPeriod, scheduleFullMonth, conceptValues.DayTermFrom, conceptValues.DayTermStop);
-
+            
+            //TODO: RESULT ADD
             //conceptResult.AddWorkMonthFullScheduleValue(scheduleFullMonth);
             //conceptResult.AddWorkMonthTermScheduleValue(scheduleTermMonth);
 
