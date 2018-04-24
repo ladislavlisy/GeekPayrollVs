@@ -29,29 +29,64 @@ namespace ElementsLib.Elements.Config.Concepts
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): {0}";
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
-        public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
-        public static string CONCEPT_RESULT_INVALID_TEXT = "Invalid dependent result values!";
 
         private class EvaluateStruct
         {
             public WorkScheduleType ScheduleType { get; set; }
             public TSeconds ShiftLiable { get; set; }
             public TSeconds ShiftActual { get; set; }
+            public class SourceBuilder : EvalValuesSourceBuilder<EvaluateStruct>
+            {
+                public SourceBuilder(ISourceValues evalValues) : base(evalValues)
+                {
+                }
+
+                public override EvaluateStruct GetNewValues(EvaluateStruct initValues)
+                {
+                    PositionScheduleSource conceptValues = InternalValues as PositionScheduleSource;
+                    if (conceptValues == null)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+                    return new EvaluateStruct
+                    {
+                        ScheduleType = conceptValues.ScheduleType,
+                        ShiftLiable = conceptValues.ShiftLiable,
+                        ShiftActual = conceptValues.ShiftActual
+                    };
+                }
+            }
+            public class ResultBuilder : EvalValuesResultBuilder<EvaluateStruct>
+            {
+                public ResultBuilder(TargetItem evalTarget, IEnumerable<ResultPair> evalResults) : base(evalTarget, evalResults)
+                {
+                }
+
+                public override EvaluateStruct GetNewValues(EvaluateStruct initValues)
+                {
+                    return initValues;
+                }
+            }
         }
+        private static ResultMonad.Result<EvaluateStruct, string> PrepareConceptValues(TargetItem evalTarget, ISourceValues evalValues, IEnumerable<ResultPair> evalResults)
+        {
+            ResultMonad.Result<EvaluateStruct, string> initValues = Result.Ok<EvaluateStruct, string>(new EvaluateStruct());
+
+            IList<EvalValuesBuilder<EvaluateStruct>> evalBuilders = new List<EvalValuesBuilder<EvaluateStruct>>()
+            {
+                new EvaluateStruct.SourceBuilder(evalValues),
+                new EvaluateStruct.ResultBuilder(evalTarget, evalResults),
+            };
+
+            return evalBuilders.Aggregate(initValues, (agr, x) => (x.GetValues(agr)));
+        }
+
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
-            ResultMonad.Result<EvaluateStruct, string> initValues = GetValuesFromSources(evalValues);
-            if (initValues.IsFailure)
-            {
-                return EvaluateUtils.DecoratedErrors(initValues.Error,
-                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_VALUES_INVALID_TEXT);
-            }
-
-            ResultMonad.Result<EvaluateStruct, string> prepValues = GetValuesFromResults(initValues, evalTarget, evalResults);
+            ResultMonad.Result<EvaluateStruct, string> prepValues = PrepareConceptValues(evalTarget, evalValues, evalResults);
             if (prepValues.IsFailure)
             {
-                return EvaluateUtils.DecoratedErrors(prepValues.Error,
-                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_RESULT_INVALID_TEXT);
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, prepValues.Error);
             }
             IEmployProfile conceptProfile = evalProfile.Employ();
             if (conceptProfile == null)
@@ -59,13 +94,13 @@ namespace ElementsLib.Elements.Config.Concepts
                 return EvaluateUtils.DecoratedErrors(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
             }
 
-            EvaluateStruct mainValues = prepValues.Value;
+            EvaluateStruct conceptValues = prepValues.Value;
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
-            if (mainValues.ScheduleType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
+            if (conceptValues.ScheduleType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
             {
-                TSeconds[] hoursWeek = conceptProfile.TimesheetWeekSchedule(evalPeriod, mainValues.ShiftActual, 5);
+                TSeconds[] hoursWeek = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftActual, 5);
 
                 conceptResult.AddWorkWeekValue(hoursWeek);
             }
@@ -74,27 +109,6 @@ namespace ElementsLib.Elements.Config.Concepts
                 return EvaluateUtils.DecoratedErrors(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_RESULT_NONE_TEXT);
             }
             return EvaluateUtils.Results(conceptResult);
-        }
-        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromSources(ISourceValues evalValues)
-        {
-            PositionScheduleSource conceptValues = evalValues as PositionScheduleSource;
-            if (conceptValues == null)
-            {
-                return Result.Fail<EvaluateStruct, string>(CONCEPT_VALUES_INVALID_TEXT);
-            }
-            EvaluateStruct initValues = new EvaluateStruct
-            {
-                ScheduleType = conceptValues.ScheduleType,
-                ShiftLiable = conceptValues.ShiftLiable,
-                ShiftActual = conceptValues.ShiftActual
-            };
-            return Result.Ok<EvaluateStruct, string>(initValues);
-        }
-        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromResults(
-            ResultMonad.Result<EvaluateStruct, string> initValues,
-            TargetItem evalTarget, IEnumerable<ResultPair> evalResults)
-        {
-            return initValues;
         }
     }
 }

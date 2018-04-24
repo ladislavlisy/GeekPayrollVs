@@ -60,6 +60,7 @@
     <Compile Include="Elements.Config.Results\WorkWeekResultValue.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />
     <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
+    <Compile Include="Elements\EvalValuesBuilder.cs" />
     <Compile Include="Elements\ResultValuesStore.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleResultValues.cs" />
     <Compile Include="Module.Items.Utils\FormatUtils.cs" />

@@ -31,8 +31,6 @@ namespace ElementsLib.Elements.Config.Concepts
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionTermConcept(ARTICLE_POSITION_TERM, 2): {0}";
         public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
-        public static string CONCEPT_VALUES_INVALID_TEXT = "Invalid source values!";
-        public static string CONCEPT_RESULT_INVALID_TEXT = "Invalid dependent result values!";
 
         private class EvaluateStruct
         {
@@ -40,40 +38,103 @@ namespace ElementsLib.Elements.Config.Concepts
             public DateTime? DayTermStop { get; set; }
             public TDay DayContractFrom { get; set; }
             public TDay DayContractStop { get; set; }
+
+            public class SourceBuilder : EvalValuesSourceBuilder<EvaluateStruct>
+            {
+                public SourceBuilder(ISourceValues evalValues) : base(evalValues)
+                {
+                }
+
+                public override EvaluateStruct GetNewValues(EvaluateStruct initValues)
+                {
+                    PositionTermSource conceptValues = InternalValues as PositionTermSource;
+                    if (conceptValues == null)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+                    return new EvaluateStruct
+                    {
+                        DayTermFrom = conceptValues.DateFrom,
+                        DayTermStop = conceptValues.DateStop
+                    };
+                }
+            }
+            public class ResultBuilder : EvalValuesResultBuilder<EvaluateStruct>
+            {
+                public ResultBuilder(TargetItem evalTarget, IEnumerable<ResultPair> evalResults) : base(evalTarget, evalResults)
+                {
+                }
+
+                public override EvaluateStruct GetNewValues(EvaluateStruct initValues)
+                {
+                    ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM;
+
+                    ResultPack termBundle = InternalValues.FindContractResultForCode(termCode, InternalTarget.Head());
+                    if (termBundle.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, termBundle.Error);
+                    }
+                    ArticleGeneralResult termResult = termBundle.Value as ArticleGeneralResult;
+                    if (termResult == null)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+                    Maybe<MonthFromStopResultValue> termValues = termResult.ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
+                    if (termValues.HasNoValue)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+
+                    MonthFromStopResultValue termValuesPrep = termValues.Value;
+
+                    return new EvaluateStruct
+                    {
+                        DayTermFrom = initValues.DayTermFrom,
+                        DayTermStop = initValues.DayTermStop,
+                        DayContractFrom = termValuesPrep.PeriodDayFrom,
+                        DayContractStop = termValuesPrep.PeriodDayStop
+                    };
+                }
+            }
+        }
+
+        private static ResultMonad.Result<EvaluateStruct, string> PrepareConceptValues(TargetItem evalTarget, ISourceValues evalValues, IEnumerable<ResultPair> evalResults)
+        {
+            ResultMonad.Result<EvaluateStruct, string> initValues = Result.Ok<EvaluateStruct, string>(new EvaluateStruct());
+
+            IList<EvalValuesBuilder<EvaluateStruct>> evalBuilders = new List<EvalValuesBuilder<EvaluateStruct>>()
+            {
+                new EvaluateStruct.SourceBuilder(evalValues),
+                new EvaluateStruct.ResultBuilder(evalTarget, evalResults),
+            };
+
+            return evalBuilders.Aggregate(initValues, (agr, x) => (x.GetValues(agr)));
         }
 
         public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
-            ResultMonad.Result<EvaluateStruct, string> initValues = GetValuesFromSources(evalValues);
-            if (initValues.IsFailure)
-            {
-                return EvaluateUtils.DecoratedErrors(initValues.Error,
-                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_VALUES_INVALID_TEXT);
-            }
-
-            ResultMonad.Result<EvaluateStruct, string> prepValues = GetValuesFromResults(initValues, evalTarget, evalResults);
+            ResultMonad.Result<EvaluateStruct, string> prepValues = PrepareConceptValues(evalTarget, evalValues, evalResults);
             if (prepValues.IsFailure)
             {
-                return EvaluateUtils.DecoratedErrors(prepValues.Error,
-                    CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_RESULT_INVALID_TEXT);
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, prepValues.Error);
             }
             IEmployProfile conceptProfile = evalProfile.Employ();
             if (conceptProfile == null)
             {
-                return ConceptDecorateResultError(CONCEPT_PROFILE_NULL_TEXT);
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
             }
 
-            EvaluateStruct mainValues = prepValues.Value;
+            EvaluateStruct conceptValues = prepValues.Value;
 
-            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, mainValues.DayTermFrom);
-            if (dayTermFrom < mainValues.DayContractFrom)
+            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DayTermFrom);
+            if (dayTermFrom < conceptValues.DayContractFrom)
             {
-                dayTermFrom = mainValues.DayContractFrom;
+                dayTermFrom = conceptValues.DayContractFrom;
             }
-            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, mainValues.DayTermStop);
-            if (dayTermStop > mainValues.DayContractStop)
+            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DayTermStop);
+            if (dayTermStop > conceptValues.DayContractStop)
             {
-                dayTermStop = mainValues.DayContractStop;
+                dayTermStop = conceptValues.DayContractStop;
             }
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
@@ -83,58 +144,5 @@ namespace ElementsLib.Elements.Config.Concepts
             return EvaluateUtils.Results(conceptResult);
         }
 
-        public static IEnumerable<ResultPack> ConceptDecorateResultError(string message)
-        {
-            string conceptMessage = string.Format(CONCEPT_DESCRIPTION_ERROR_FORMAT, message);
-
-            return EvaluateUtils.Error(conceptMessage);
-        }
-        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromSources(ISourceValues evalValues)
-        {
-            PositionTermSource conceptValues = evalValues as PositionTermSource;
-            if (conceptValues == null)
-            {
-                return Result.Fail<EvaluateStruct, string>(CONCEPT_VALUES_INVALID_TEXT);
-            }
-            EvaluateStruct initValues = new EvaluateStruct
-            {
-                DayTermFrom = conceptValues.DateFrom, DayTermStop = conceptValues.DateStop
-            };
-            return Result.Ok<EvaluateStruct, string>(initValues);
-        }
-        private static ResultMonad.Result<EvaluateStruct, string> GetValuesFromResults(ResultMonad.Result<EvaluateStruct, string> initValues, 
-            TargetItem evalTarget, IEnumerable<ResultPair> evalResults)
-        {
-            if (initValues.IsFailure)
-            {
-                return initValues;
-            }
-            ResultPack termResultPack = evalResults.FindContractResultForCode((ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM, evalTarget.Head());
-            if (termResultPack.IsFailure)
-            {
-                return Result.Fail<EvaluateStruct, string>(termResultPack.Error);
-            }
-            ArticleGeneralResult termResultItem = termResultPack.Value as ArticleGeneralResult;
-            if (termResultItem == null)
-            {
-                return Result.Fail<EvaluateStruct, string>(CONCEPT_RESULT_INVALID_TEXT);
-            }
-            Maybe<MonthFromStopResultValue> termResultVals = termResultItem.ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
-            if (termResultVals.HasNoValue)
-            {
-                return Result.Fail<EvaluateStruct, string>(CONCEPT_RESULT_INVALID_TEXT);
-            }
-            MonthFromStopResultValue termResultPrep = termResultVals.Value;
-
-            EvaluateStruct succValues = initValues.Value;
-            EvaluateStruct prepValues = new EvaluateStruct
-            {
-                DayTermFrom = succValues.DayTermFrom, DayTermStop = succValues.DayTermStop,
-                DayContractFrom = termResultPrep.PeriodDayFrom,
-                DayContractStop = termResultPrep.PeriodDayStop
-            };
-
-            return Result.Ok<EvaluateStruct, string>(prepValues);
-        }
     }
 }
