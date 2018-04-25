@@ -54,6 +54,7 @@
     <Compile Include="Elements.Config.Concepts\PositionTimesheetConcept.cs" />
     <Compile Include="Elements.Config.Concepts\PositionWorkingConcept.cs" />
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
+    <Compile Include="Elements.Config.Results\ArticleResultCode.cs" />
     <Compile Include="Elements.Config.Results\GeneralResultValue.cs" />
     <Compile Include="Elements.Config.Results\MonthFromStopResultValue.cs" />
     <Compile Include="Elements.Config.Results\WorkMonthResultValue.cs" />

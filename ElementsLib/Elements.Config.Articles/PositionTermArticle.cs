@@ -49,6 +49,7 @@ namespace ElementsLib.Elements.Config.Articles
 
             SourceValues = CloneUtils<PositionTermSource>.CloneOrNull(sourceValues);
         }
+
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
         protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
@@ -98,10 +99,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            // PROPERTIES DEF
             public DateTime? DayTermFrom { get; set; }
             public DateTime? DayTermStop { get; set; }
             public TDay DayContractFrom { get; set; }
             public TDay DayContractStop { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -117,8 +120,10 @@ namespace ElementsLib.Elements.Config.Articles
                     }
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
                         DayTermFrom = conceptValues.DateFrom,
                         DayTermStop = conceptValues.DateStop
+                        // PROPERTIES SET
                     };
                 }
             }
@@ -152,10 +157,12 @@ namespace ElementsLib.Elements.Config.Articles
 
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
                         DayTermFrom = initValues.DayTermFrom,
                         DayTermStop = initValues.DayTermStop,
                         DayContractFrom = termValuesPrep.PeriodDayFrom,
                         DayContractStop = termValuesPrep.PeriodDayStop
+                        // PROPERTIES SET
                     };
                 }
             }

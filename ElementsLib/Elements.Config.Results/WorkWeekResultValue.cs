@@ -4,16 +4,13 @@ using System.Linq;
 namespace ElementsLib.Elements.Config.Results
 {
     using TSeconds = Int32;
+    using ResultCode = UInt16;
 
     using Module.Items.Utils;
 
     public class WorkWeekResultValue : GeneralResultValue
     {
-        public override bool IsWorkWeekValue()
-        {
-            return true;
-        }
-        public WorkWeekResultValue(TSeconds[] hoursWeek)
+        public WorkWeekResultValue(TSeconds[] hoursWeek) : base((ResultCode)ArticleResultCode.RESULT_VALUE_WORK_WEEK_HOURS)
         {
             HoursWeek = hoursWeek.ToArray();
         }

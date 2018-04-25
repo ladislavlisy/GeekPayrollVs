@@ -27,7 +27,6 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class ContractTermConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractTermConcept(ARTICLE_CONTRACT_TERM, 1): {0}";
-        public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
@@ -40,13 +39,16 @@ namespace ElementsLib.Elements.Config.Concepts
             }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
-
+            // EVALUATION
             TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DayTermFrom);
             TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DayTermStop);
+            // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
+            // SET RESULT VALUES
             conceptResult.AddMonthFromStop(dayTermFrom, dayTermStop);
+            // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);
         }

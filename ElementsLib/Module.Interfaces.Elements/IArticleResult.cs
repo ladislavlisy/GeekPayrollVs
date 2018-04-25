@@ -8,10 +8,13 @@ namespace ElementsLib.Module.Interfaces.Elements
 {
     using ConfigCode = UInt16;
     using TDay = Byte;
+    using TSeconds = Int32;
     public interface IArticleResult : ICloneable
     {
         ConfigCode Code();
-        IArticleResult AddWorkWeekValue(int[] hoursWeek);
+        IArticleResult AddWorkWeekValue(TSeconds[] hoursWeek);
         IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop);
+        IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth);
+        IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
     }
 }

@@ -28,8 +28,8 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class PositionScheduleConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): {0}";
-        public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string SCHEDULE_TYPE_NOTIMPLEMENTED_TEXT = "Schedule type is not implemented!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
@@ -41,19 +41,23 @@ namespace ElementsLib.Elements.Config.Concepts
             }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
-
-            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
-
+            // EVALUATION
+	    TSeconds[] hoursWeek = new TSeconds[0]; 
             if (conceptValues.ScheduleType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
             {
-                TSeconds[] hoursWeek = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftActual, 5);
-
-                conceptResult.AddWorkWeekValue(hoursWeek);
+                hoursWeek = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftActual, 5);
             }
             else
             {
-                return EvaluateUtils.DecoratedErrors(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_RESULT_NONE_TEXT);
+                return EvaluateUtils.DecoratedErrors(CONCEPT_DESCRIPTION_ERROR_FORMAT, SCHEDULE_TYPE_NOTIMPLEMENTED_TEXT);
             }
+            // EVALUATION
+
+            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+            // SET RESULT VALUES
+            conceptResult.AddWorkWeekValue(hoursWeek);
+            // SET RESULT VALUES
+
             return EvaluateUtils.Results(conceptResult);
         }
     }

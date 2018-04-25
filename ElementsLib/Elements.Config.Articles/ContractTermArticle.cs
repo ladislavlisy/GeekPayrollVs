@@ -95,8 +95,10 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            // PROPERTIES DEF
             public DateTime? DayTermFrom { get; set; }
             public DateTime? DayTermStop { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -112,8 +114,10 @@ namespace ElementsLib.Elements.Config.Articles
                     }
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
                         DayTermFrom = conceptValues.DateFrom,
                         DayTermStop = conceptValues.DateStop
+                        // PROPERTIES SET
                     };
                 }
             }
@@ -125,6 +129,8 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+                    // PROPERTIES SET
+                    // PROPERTIES SET
                     return initValues;
                 }
             }

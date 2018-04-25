@@ -25,7 +25,6 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class PositionAbsenceConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionAbsenceConcept(ARTICLE_POSITION_ABSENCE, 6): {0}";
-        public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
@@ -38,8 +37,12 @@ namespace ElementsLib.Elements.Config.Concepts
             }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
+            // EVALUATION
+            // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+            // SET RESULT VALUES
+            // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);
         }

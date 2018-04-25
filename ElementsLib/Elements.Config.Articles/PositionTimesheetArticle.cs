@@ -50,6 +50,7 @@ namespace ElementsLib.Elements.Config.Articles
 
             SourceValues = CloneUtils<PositionTimesheetSource>.CloneOrNull(sourceValues);
         }
+
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
         protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
@@ -99,9 +100,11 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            // PROPERTIES DEF
             public TDay DayTermFrom { get; set; }
             public TDay DayTermStop { get; set; }
             public TSeconds[] WorkWeekHours { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -110,6 +113,8 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+                    // PROPERTIES SET
+                    // PROPERTIES SET
                     return initValues;
                 }
             }
@@ -163,9 +168,11 @@ namespace ElementsLib.Elements.Config.Articles
 
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
                         DayTermFrom = termValuesPrep.PeriodDayFrom,
                         DayTermStop = termValuesPrep.PeriodDayStop,
                         WorkWeekHours = workValuesPrep.HoursWeek
+                        // PROPERTIES SET
                     };
                 }
             }

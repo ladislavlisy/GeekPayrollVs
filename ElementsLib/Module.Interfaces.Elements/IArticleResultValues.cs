@@ -11,5 +11,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         string Description();
         bool IsWorkWeekValue();
         bool IsMonthFromStopValue();
+        bool IsFullMonthValue();
+        bool IsTermMonthValue();
     }
 }

@@ -45,6 +45,7 @@ namespace ElementsLib.Elements.Config.Articles
 
             SourceValues = CloneUtils<ContractTimesheetSource>.CloneOrNull(sourceValues);
         }
+
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
         protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
@@ -94,6 +95,9 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            // PROPERTIES DEF
+            // public XXX ZZZ { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -109,6 +113,8 @@ namespace ElementsLib.Elements.Config.Articles
                     }
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
+                        // PROPERTIES SET
                     };
                 }
             }
@@ -120,6 +126,8 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+                    // PROPERTIES SET
+                    // PROPERTIES SET
                     return initValues;
                 }
             }

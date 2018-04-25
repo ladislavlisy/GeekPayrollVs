@@ -30,7 +30,6 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class PositionTimesheetConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetConcept(ARTICLE_POSITION_TIMESHEET, 4): {0}";
-        public static string CONCEPT_RESULT_NONE_TEXT = "Evaluate Results is not implemented!";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
@@ -43,15 +42,17 @@ namespace ElementsLib.Elements.Config.Concepts
             }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
+            // EVALUATION
+            TSeconds[] scheduleFullMonth = conceptProfile.TimesheetFullSchedule(evalPeriod, conceptValues.WorkWeekHours);
+            TSeconds[] scheduleTermMonth = conceptProfile.TimesheetWorkSchedule(evalPeriod, scheduleFullMonth, conceptValues.DayTermFrom, conceptValues.DayTermStop);
+            // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
-            TSeconds[] scheduleFullMonth = conceptProfile.TimesheetFullSchedule(evalPeriod, conceptValues.WorkWeekHours);
-            TSeconds[] scheduleTermMonth = conceptProfile.TimesheetWorkSchedule(evalPeriod, scheduleFullMonth, conceptValues.DayTermFrom, conceptValues.DayTermStop);
-            
-            //TODO: RESULT ADD
-            //conceptResult.AddWorkMonthFullScheduleValue(scheduleFullMonth);
-            //conceptResult.AddWorkMonthTermScheduleValue(scheduleTermMonth);
+            // SET RESULT VALUES
+            conceptResult.AddWorkMonthFullScheduleValue(scheduleFullMonth);
+            conceptResult.AddWorkMonthTermScheduleValue(scheduleTermMonth);
+            // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);
         }

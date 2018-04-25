@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ElementsLib.Elements.Config.Results
 {
     using ConfigCode = UInt16;
+    using ResultCode = UInt16;
 
     using TDay = Byte;
     using TSeconds = Int32;
@@ -14,6 +15,7 @@ namespace ElementsLib.Elements.Config.Results
     using Module.Interfaces.Elements;
     using Module.Libs;
     using MaybeMonad;
+    using Module.Codes;
 
     public class ArticleGeneralResult : IArticleResult
     {
@@ -22,7 +24,7 @@ namespace ElementsLib.Elements.Config.Results
             InternalCode = code;
             ResultValues = new ResultValuesStore();
         }
-        public IArticleResult AddWorkWeekValue(int[] hoursWeek)
+        public IArticleResult AddWorkWeekValue(TSeconds[] hoursWeek)
         {
             IArticleResultValues value = new WorkWeekResultValue(hoursWeek);
 
@@ -39,7 +41,23 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        
+        public IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth)
+        {
+            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS, hoursMonth);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth)
+        {
+            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_TERM_MONTH_HOURS, hoursMonth);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+
         protected ConfigCode InternalCode { get; set; }
         protected ResultValuesStore ResultValues { get; set; }
 
@@ -58,7 +76,11 @@ namespace ElementsLib.Elements.Config.Results
 
         public override string ToString()
         {
-            return string.Join(",", ResultValues.Select((v) => (v.Description())));
+            string articleCode = ArticleCodeAdapter.GetSymbol(InternalCode);
+
+            string articleDesc = string.Join("\r\n", ResultValues.Select((v) => (v.Description())));
+
+            return string.Format("{0}\r\n{1}", articleCode, articleDesc);
         }
 
         public Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues

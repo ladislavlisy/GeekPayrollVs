@@ -85,6 +85,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");
             WriteBaseBlokLine(writer, "using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;");
             WriteBaseBlokLine(writer, "using ValidsPack = ResultMonad.Result<bool, string>;");
+            WriteBaseBlokLine(writer, "using MasterItem = Articles." + ClassName + "Article;");
             DelimitLine(writer);
             FieldType[] usingTypes = ClassDefs.ArticleResults.Where((u) => (u.Type.ToUsingType() != "")).Select((x) => (x.Type)).Distinct().ToArray();
 
@@ -103,6 +104,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using Utils;");
             WriteBaseBlokLine(writer, "using Sources;");
             WriteBaseBlokLine(writer, "using Results;");
+            WriteBaseBlokLine(writer, "using ResultMonad;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public static class " + FullClassName);
             WriteBaseBlokLine(writer, "{");
@@ -114,20 +116,26 @@ namespace ClazzGeneratorConsoleApp.Defs
             string CLASS_UINT = ((UInt16)ClassCode).ToString();
 
             WriteBlokLine(writer, "public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = \"" + FullClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\";");
-            WriteBlokLine(writer, "public static string CONCEPT_RESULT_NONE_TEXT = \"Evaluate Results is not implemented!\";");
             WriteBlokLine(writer, "public static string CONCEPT_PROFILE_NULL_TEXT = \"Employ profile is null!\";");
-            WriteBlokLine(writer, "public static string CONCEPT_VALUES_INVALID_TEXT = \"Invalid source values!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public static IEnumerable<ResultPack> EvaluateConcept(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
+            WriteBlokLine(writer, "public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,");
+            WriteIndentBlokLine(writer, 1, "Result<MasterItem.EvaluateSource, string> prepValues)");
             WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "return ConceptDecorateResultError(CONCEPT_RESULT_NONE_TEXT);");
-            WriteBlokLine(writer, "}");
+            WriteIndentBlokLine(writer, 1, "IEmployProfile conceptProfile = evalProfile.Employ();");
+            WriteIndentBlokLine(writer, 1, "if (conceptProfile == null)");
+            WriteIndentBlokLine(writer, 1, "{");
+            WriteIndentBlokLine(writer, 2, "return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);");
+            WriteIndentBlokLine(writer, 1, "}");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public static IEnumerable<ResultPack> ConceptDecorateResultError(string message)");
-            WriteBlokLine(writer, "{");
-            WriteIndentBlokLine(writer, 1, "string conceptMessage = string.Format(CONCEPT_DESCRIPTION_ERROR_FORMAT, message);");
+            WriteIndentBlokLine(writer, 1, "MasterItem.EvaluateSource conceptValues = prepValues.Value;");
+            WriteIndentBlokLine(writer, 1, "// EVALUATION");
+            WriteIndentBlokLine(writer, 1, "// EVALUATION");
             DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "return EvaluateUtils.Error(conceptMessage);");
+            WriteIndentBlokLine(writer, 1, "IArticleResult conceptResult = new ArticleGeneralResult(evalCode);");
+            WriteIndentBlokLine(writer, 1, "// SET RESULT VALUES");
+            WriteIndentBlokLine(writer, 1, "// SET RESULT VALUES");
+            DelimitLine(writer);
+            WriteIndentBlokLine(writer, 1, "return EvaluateUtils.Results(conceptResult);");
             WriteBlokLine(writer, "}");
         }
 

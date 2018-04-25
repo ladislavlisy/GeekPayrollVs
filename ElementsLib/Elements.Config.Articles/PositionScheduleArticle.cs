@@ -48,6 +48,7 @@ namespace ElementsLib.Elements.Config.Articles
 
             SourceValues = CloneUtils<PositionScheduleSource>.CloneOrNull(sourceValues);
         }
+
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
         protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
@@ -97,9 +98,11 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            // PROPERTIES DEF
             public WorkScheduleType ScheduleType { get; set; }
             public TSeconds ShiftLiable { get; set; }
             public TSeconds ShiftActual { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -115,9 +118,11 @@ namespace ElementsLib.Elements.Config.Articles
                     }
                     return new EvaluateSource
                     {
+                        // PROPERTIES SET
                         ScheduleType = conceptValues.ScheduleType,
                         ShiftLiable = conceptValues.ShiftLiable,
                         ShiftActual = conceptValues.ShiftActual
+                        // PROPERTIES SET
                     };
                 }
             }
@@ -129,6 +134,8 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+                    // PROPERTIES SET
+                    // PROPERTIES SET
                     return initValues;
                 }
             }
