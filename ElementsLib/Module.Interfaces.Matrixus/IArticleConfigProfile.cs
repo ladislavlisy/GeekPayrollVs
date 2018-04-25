@@ -6,6 +6,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ConfigSort = Int32;
 
     using DetailData = IEnumerable<Permadom.ArticleCodeConfigData>;
@@ -22,6 +23,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
         IDictionary<ConfigCode, ConfigSort> ArticleRanks();
         ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals);
         ConfigType GetConfigType(ConfigCode configCode);
+        ConfigBind GetConfigBind(ConfigCode configCode);
         IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode);
     }
 }

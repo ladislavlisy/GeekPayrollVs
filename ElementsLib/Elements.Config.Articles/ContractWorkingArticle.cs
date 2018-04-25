@@ -30,7 +30,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 3): {0}";
 
         public ContractWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_WORKING)
         {

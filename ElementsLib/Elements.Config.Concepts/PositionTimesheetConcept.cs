@@ -29,7 +29,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class PositionTimesheetConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetConcept(ARTICLE_POSITION_TIMESHEET, 4): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetConcept(ARTICLE_POSITION_TIMESHEET, 8): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,

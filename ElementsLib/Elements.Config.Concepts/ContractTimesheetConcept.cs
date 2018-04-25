@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class ContractTimesheetConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractTimesheetConcept(ARTICLE_CONTRACT_TIMESHEET, 7): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractTimesheetConcept(ARTICLE_CONTRACT_TIMESHEET, 2): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,

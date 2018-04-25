@@ -126,6 +126,8 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+                    // PROPERTIES SET
+                    // PROPERTIES SET
                     return initValues;
                 }
             }

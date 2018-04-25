@@ -27,7 +27,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class PositionScheduleConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 3): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionScheduleConcept(ARTICLE_POSITION_SCHEDULE, 7): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
         public static string SCHEDULE_TYPE_NOTIMPLEMENTED_TEXT = "Schedule type is not implemented!";
 

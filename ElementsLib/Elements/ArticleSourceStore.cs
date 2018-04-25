@@ -8,6 +8,7 @@ namespace ElementsLib.Elements
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using TargetHead = UInt16;
     using TargetPart = UInt16;
     using TargetSeed = UInt16;
@@ -131,12 +132,17 @@ namespace ElementsLib.Elements
             IEnumerable<ArticleTarget> targetList = new List<ArticleTarget>();
 
             ConfigType targetType = ModelSourceProfile.GetConfigType(code);
+            ConfigBind targetBind = ModelSourceProfile.GetConfigBind(code);
 
             TargetHead codeHead = 0;
             TargetPart codePart = 0;
             ConfigCode codeBody = code;
             TargetSeed seedBody = 0;
 
+            if (targetBind == (ConfigBind)ArticleBind.ARTICLE_OPT)
+            {
+                return targetList;
+            }
             if (targetType == (ConfigType)ArticleType.NO_HEAD_PART_TYPE)
             {
                 targetList = new List<ArticleTarget>() { new ArticleTarget(codeHead, codePart, codeBody, seedBody) };

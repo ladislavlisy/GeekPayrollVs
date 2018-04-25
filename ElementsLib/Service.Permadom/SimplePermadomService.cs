@@ -35,6 +35,10 @@ namespace ElementsLib.Service.Permadom
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_WORKING,
                     Tags = null,
                 },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_ABSENCE,
+                    Tags = null,
+                },
                 //FACT_POSITION_TIMESHEET,
                 //FACT_POSITION_WORKING,
                 //FACT_POSITION_ABSENCE,

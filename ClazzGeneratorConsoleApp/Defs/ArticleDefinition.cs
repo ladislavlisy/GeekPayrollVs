@@ -29,6 +29,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         TDay,
         TSeconds,
         TSheetSeconds = 1000,
+        AWorkDayPieceType,
         WorkEmployTerms = 2000,
         WorkPositionType,
         WorkScheduleType,
@@ -68,6 +69,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "DateTime";
                 case FieldType.TSheetSeconds:
                     return "TSeconds[]";
+                case FieldType.AWorkDayPieceType:
+                    return "WorkDayPieceType[]";
                 default:
                     return type.ToString();
             }
@@ -115,6 +118,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "0";
                 case FieldType.TSheetSeconds:
                     return "new TSeconds[0]";
+                case FieldType.AWorkDayPieceType:
+                    return "new WorkDayPieceType[0]";
                 default:
                     return type.ToString();
             }

@@ -6,6 +6,7 @@ namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ConfigSort = Int32;
 
     using DetailData = IEnumerable<Module.Interfaces.Permadom.ArticleCodeConfigData>;
@@ -45,6 +46,10 @@ namespace ElementsLib.Matrixus.Config
         public ConfigType GetConfigType(ConfigCode configCode)
         {
             return detailBundle.GetConfigType(configCode);
+        }
+        public ConfigBind GetConfigBind(ConfigCode configCode)
+        {
+            return detailBundle.GetConfigBind(configCode);
         }
         public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {

@@ -20,7 +20,7 @@ namespace ElementsLib.Elements.Config.Sources
     {
         public Byte DayFrom { get; set; }
         public Byte DayStop { get; set; }
-        public AWorkDayPieceType[] PieceInDays { get; set; }
+        public WorkDayPieceType[] PieceInDays { get; set; }
         public TSeconds[] HoursInDays { get; set; }
 
         public ContractAttendItemSource()
@@ -31,7 +31,7 @@ namespace ElementsLib.Elements.Config.Sources
             HoursInDays = new TSeconds[0];
         }
 
-        public ContractAttendItemSource(Byte dayFrom, Byte dayStop, AWorkDayPieceType[] pieceInDays, TSeconds[] hoursInDays)
+        public ContractAttendItemSource(Byte dayFrom, Byte dayStop, WorkDayPieceType[] pieceInDays, TSeconds[] hoursInDays)
         {
             DayFrom = dayFrom;
             DayStop = dayStop;

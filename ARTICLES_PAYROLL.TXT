@@ -5,6 +5,8 @@
 1-0-2-1 ARTICLE_CONTRACT_TIMESHEET
 1-1-9-1 ARTICLE_POSITION_WORKING
 1-0-3-1 ARTICLE_CONTRACT_WORKING
+1-1-10-1 ARTICLE_POSITION_ABSENCE
+1-0-4-1 ARTICLE_CONTRACT_ABSENCE
 0-0-1-1 FACT_CONTRACT_TERM
 Day FROM: 1, Day STOP: 31
 1-0-6-1 FACT_POSITION_TERM
@@ -16,6 +18,8 @@ Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-1-8-1 FACT_POSITION_TIMESHEET
 Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
-1-0-2-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 7): Invalid source values!
-1-1-9-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 5): Invalid source values!
-1-0-3-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): Invalid source values!
+1-0-2-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 2): Invalid source values!
+1-1-9-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 9): Invalid source values!
+1-0-3-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 3): Invalid source values!
+1-1-10-1 Error: PositionAbsenceArticle(ARTICLE_POSITION_ABSENCE, 10): Invalid source values!
+1-0-4-1 Error: ContractAbsenceArticle(ARTICLE_CONTRACT_ABSENCE, 4): Invalid source values!

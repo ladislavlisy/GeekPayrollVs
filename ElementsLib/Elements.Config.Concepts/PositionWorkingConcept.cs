@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class PositionWorkingConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionWorkingConcept(ARTICLE_POSITION_WORKING, 5): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "PositionWorkingConcept(ARTICLE_POSITION_WORKING, 9): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,

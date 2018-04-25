@@ -11,12 +11,8 @@
             ArticleSources = ArticleDefinition.CreateParams(
                 CreateParam("DayFrom", FieldType.TDay),
                 CreateParam("DayStop", FieldType.TDay),
-                CreateParam("PieceInDayFrom", FieldType.WorkDayPieceType),
-                CreateParam("PieceInDayBetw", FieldType.WorkDayPieceType),
-                CreateParam("PieceInDayStop", FieldType.WorkDayPieceType),
-                CreateParam("HoursInDayFrom", FieldType.TSheetSeconds),
-                CreateParam("HoursInDayBetw", FieldType.TSheetSeconds),
-                CreateParam("HoursInDayStop", FieldType.TSheetSeconds));
+                CreateParam("PieceInDays", FieldType.AWorkDayPieceType),
+                CreateParam("HoursInDays", FieldType.TSheetSeconds));
             ArticleResults = ArticleDefinition.CreateParams();
         }
     }

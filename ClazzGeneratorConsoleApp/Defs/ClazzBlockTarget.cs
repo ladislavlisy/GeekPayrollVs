@@ -228,6 +228,8 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 2, "public override EvaluateSource GetNewValues(EvaluateSource initValues)");
             WriteIndentBlokLine(writer, 2, "{");
+            WriteIndentBlokLine(writer, 3, "// PROPERTIES SET");
+            WriteIndentBlokLine(writer, 3, "// PROPERTIES SET");
             WriteIndentBlokLine(writer, 3, "return initValues;");
             WriteIndentBlokLine(writer, 2, "}");
             WriteIndentBlokLine(writer, 1, "}");

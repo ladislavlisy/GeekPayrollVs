@@ -6,6 +6,7 @@ namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ConfigItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
     using ConfigPair = KeyValuePair<UInt16, Module.Interfaces.Matrixus.IArticleConfigDetail>;
     using ConfigData = Module.Interfaces.Permadom.ArticleCodeConfigData;
@@ -149,6 +150,16 @@ namespace ElementsLib.Matrixus.Config
                 return (ConfigType)ArticleType.NO_HEAD_PART_TYPE;
             }
             return configItem.Type();
+        }
+        public ConfigBind GetConfigBind(ConfigCode configCode)
+        {
+            ConfigItem configItem = InternalModels.FirstOrDefault((c) => (c.Key == configCode)).Value;
+
+            if (configItem == null)
+            {
+                return (ConfigBind)ArticleBind.ARTICLE_OPT;
+            }
+            return configItem.Bind();
         }
         public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {

@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.ContractAbsenceSource;
+    using SourceItem = Sources.ContractAttendItemSource;
 
     using Sources;
     using Concepts;
@@ -26,24 +26,24 @@ namespace ElementsLib.Elements.Config.Articles
     using Utils;
     using Results;
 
-    public class ContractAbsenceArticle : GeneralArticle, ICloneable
+    public class ContractAttendItemArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractAbsenceArticle(ARTICLE_CONTRACT_ABSENCE, 4): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractAttendItemArticle(ARTICLE_CONTRACT_ATTEND_ITEM, 5): {0}";
 
-        public ContractAbsenceArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE)
+        public ContractAttendItemArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_ATTEND_ITEM)
         {
-            SourceValues = new ContractAbsenceSource();
+            SourceValues = new ContractAttendItemSource();
 
-            InternalEvaluate = ContractAbsenceConcept.EvaluateConcept;
+            InternalEvaluate = ContractAttendItemConcept.EvaluateConcept;
         }
 
-        public ContractAbsenceArticle(ISourceValues values) : this()
+        public ContractAttendItemArticle(ISourceValues values) : this()
         {
-            ContractAbsenceSource sourceValues = values as ContractAbsenceSource;
+            ContractAttendItemSource sourceValues = values as ContractAttendItemSource;
 
-            SourceValues = CloneUtils<ContractAbsenceSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<ContractAttendItemSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +65,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public ContractAbsenceSource SourceValues { get; set; }
+        public ContractAttendItemSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<ContractAbsenceSource>(values);
+            SourceValues = SetSourceValues<ContractAttendItemSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +84,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            ContractAbsenceArticle cloneArticle = (ContractAbsenceArticle)this.MemberwiseClone();
+            ContractAttendItemArticle cloneArticle = (ContractAttendItemArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -126,8 +126,6 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
                     return initValues;
                 }
             }
