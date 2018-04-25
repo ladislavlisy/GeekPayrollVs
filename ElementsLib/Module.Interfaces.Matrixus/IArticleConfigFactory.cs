@@ -11,6 +11,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 
     using DetailCode = UInt16;
     using DetailType = UInt16;
+    using DetailBind = UInt16;
     using DetailName = String;
     using DetailItem = Matrixus.IArticleConfigDetail;
 
@@ -19,6 +20,6 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     {
         MasterStub CreateSourceClassStub(Assembly configAssembly, MasterCode symbolCode, MasterName symbolName);
         MasterItem CreateMasterItem(Assembly configAssembly, MasterCode symbolCode, MasterName symbolName, params MasterCode[] symbolPath);
-        DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailType symbolType, params DetailCode[] symbolPath);
+        DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailType symbolType, DetailBind symbolBind, params DetailCode[] symbolPath);
     }
 }

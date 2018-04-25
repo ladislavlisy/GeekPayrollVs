@@ -29,9 +29,6 @@ namespace ClazzGeneratorConsoleApp.Defs
         public override void StartBlok(StreamWriter writer)
         {
             WriteBaseBlokLine(writer, "using System;");
-            WriteBaseBlokLine(writer, "using System.Collections.Generic;");
-            WriteBaseBlokLine(writer, "using System.Linq;");
-            WriteBaseBlokLine(writer, "using ResultMonad;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "namespace " + NamespaceName);
             WriteBaseBlokLine(writer, "{");
@@ -65,7 +62,9 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         public override void StartBlok(StreamWriter writer)
         {
-            WriteBaseBlokLine(writer, "using System.Collections.Generic;");
+            WriteBaseBlokLine(writer, "using Defs;");
+            WriteBaseBlokLine(writer, "using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;");
+            WriteBaseBlokLine(writer, "using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public class " + ClassName + "Definition : ArticleDefinition");
             WriteBaseBlokLine(writer, "{");
@@ -75,7 +74,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             string CLASS_ENUM = ClassCode.GetSymbol();
 
-            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleRole.ARTICLE_" + CLASS_ENUM + ")");
+            WriteBlokLine(writer, "public " + ClassName + "Definition() : base(ArticleRole." + CLASS_ENUM + ")");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "ArticleSources = ArticleDefinition.CreateParams();");
             WriteIndentBlokLine(writer, 1, "ArticleResults = ArticleDefinition.CreateParams();");

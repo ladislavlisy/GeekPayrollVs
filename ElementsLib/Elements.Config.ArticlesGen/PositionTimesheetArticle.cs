@@ -30,7 +30,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 4): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 8): {0}";
 
         public PositionTimesheetArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TIMESHEET)
         {

@@ -22,4 +22,11 @@ namespace ElementsLib.Legalist.Constants
         SCHEDULE_SPECIAL_TURN = 2,
         SCHEDULE_NONEDAY_WORK = 9,
     };
+    public enum WorkDayPieceType : CONSTANTS_CODE
+    {
+        WORKDAY_NONE = 0,
+        WORKDAY_FULL = 1,
+        WORKDAY_HALF = 2,
+        WORKDAY_TIME = 3,
+    };
 }

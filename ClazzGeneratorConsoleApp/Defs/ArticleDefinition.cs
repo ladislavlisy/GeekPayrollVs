@@ -32,6 +32,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         WorkEmployTerms = 2000,
         WorkPositionType,
         WorkScheduleType,
+        WorkDayPieceType,
     }
     public static class FieldTypeExtensions
     {
@@ -108,6 +109,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "WorkPositionType.POSITION_EXCLUSIVE";
                 case FieldType.WorkScheduleType:
                     return "WorkScheduleType.SCHEDULE_NORMALY_WEEK";
+                case FieldType.WorkDayPieceType:
+                    return "WorkDayPieceType.WORKDAY_FULL";
                 case FieldType.TSeconds:
                     return "0";
                 case FieldType.TSheetSeconds:

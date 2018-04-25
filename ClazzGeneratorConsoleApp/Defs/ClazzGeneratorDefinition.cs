@@ -35,9 +35,9 @@ namespace ClazzGeneratorConsoleApp.Defs
 
         private void DoOneClassFileExport(string filesFolder, ArticleDefinition article)
         {
-            string articleClassName = article.FullClassName();
+            string articleClassName = article.ClassName();
 
-            string genSourcePath = System.IO.Path.Combine(filesFolder, articleClassName + ".cs");
+            string genSourcePath = System.IO.Path.Combine(filesFolder, articleClassName + "Definition.cs");
 
             FileInfo genSourceFile = new FileInfo(genSourcePath);
             FileStream genSourceStream = genSourceFile.Create();

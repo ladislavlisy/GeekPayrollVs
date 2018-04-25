@@ -10,6 +10,7 @@ namespace ElementsLib.Matrixus.Config
 
     using DetailCode = UInt16;
     using DetailType = UInt16;
+    using DetailBind = UInt16;
     using DetailName = String;
     using DetailItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
     using DetailData = Module.Interfaces.Permadom.ArticleCodeConfigData;
@@ -50,13 +51,13 @@ namespace ElementsLib.Matrixus.Config
 
             return symbolClass;
         }
-        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailType symbolType, params DetailCode[] symbolPath)
+        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailType symbolType, DetailBind symbolBind, params DetailCode[] symbolPath)
         {
             MasterItem elementNode = masterStore.FindArticleConfig(symbolRole);
 
             MasterStub elementStub = elementNode.Stub();
 
-            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolType, symbolPath);
+            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolType, symbolBind, symbolPath);
 
             elementItem.SetSymbolRole(symbolRole, elementStub);
 

@@ -6,6 +6,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using ConfigRole = UInt16;
     using ConfigName = String;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ConfigStub = Module.Interfaces.Elements.IArticleSource;
 
     public interface IArticleConfigDetail : ICloneable
@@ -14,9 +15,10 @@ namespace ElementsLib.Module.Interfaces.Matrixus
         ConfigName Name();
         ConfigRole Role();
         ConfigType Type();
+        ConfigBind Bind();
         ConfigCode[] Path();
         ConfigStub Stub();
-        void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, params ConfigCode[] _path);
+        void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path);
         void SetSymbolRole(ConfigRole _role, ConfigStub _stub);
     }
 }

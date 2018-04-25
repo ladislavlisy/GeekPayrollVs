@@ -7,6 +7,7 @@ namespace ElementsLib.Matrixus.Config
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
     using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ConfigName = String;
     using ConfigStub = Module.Interfaces.Elements.IArticleSource;
 
@@ -19,17 +20,20 @@ namespace ElementsLib.Matrixus.Config
         protected ConfigCode InternalCode { get; set; }
         protected ConfigRole InternalRole { get; set; }
         protected ConfigType InternalType { get; set; }
+        protected ConfigBind InternalBind { get; set; }
         protected ConfigName InternalName { get; set; }
         protected IList<ConfigCode> InternalPath { get; set; }
         protected ConfigStub InternalStub { get; set; }
 
-        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigType _type, params ConfigCode[] _path)
+        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
         {
             InternalCode = _code;
 
             InternalName = _name;
 
             InternalType = _type;
+
+            InternalBind = _bind;
 
             InternalPath = _path.ToList();
         }
@@ -45,6 +49,10 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalType;
         }
+        public ConfigBind Bind()
+        {
+            return InternalBind;
+        }
         public ConfigName Name()
         {
             return InternalName;
@@ -58,7 +66,7 @@ namespace ElementsLib.Matrixus.Config
             return InternalStub;
         }
 
-        public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, params ConfigCode[] _path)
+        public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
         {
             InternalCode = _code;
 
@@ -80,6 +88,7 @@ namespace ElementsLib.Matrixus.Config
             cloneMaster.InternalCode = this.InternalCode;
             cloneMaster.InternalRole = this.InternalRole;
             cloneMaster.InternalType = this.InternalType;
+            cloneMaster.InternalBind = this.InternalBind;
             cloneMaster.InternalName = this.InternalName;
             cloneMaster.InternalPath = this.InternalPath.ToList();
             cloneMaster.InternalStub = CloneUtils<ConfigStub>.CloneOrNull(this.InternalStub);

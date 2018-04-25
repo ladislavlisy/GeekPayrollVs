@@ -55,4 +55,18 @@ namespace ElementsLib.Module.Json
         }
     }
 
+    public class WorkDayPieceTypeConverter : JsonConverter<WorkDayPieceType>
+    {
+        public override void WriteJson(JsonWriter writer, WorkDayPieceType value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ToString());
+        }
+
+        public override WorkDayPieceType ReadJson(JsonReader reader, Type objectType, WorkDayPieceType existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            string symbolName = (string)reader.Value;
+
+            return symbolName.ToEnum<WorkDayPieceType>();
+        }
+    }
 }

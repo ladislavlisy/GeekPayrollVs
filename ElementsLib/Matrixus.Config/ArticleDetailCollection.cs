@@ -40,7 +40,7 @@ namespace ElementsLib.Matrixus.Config
         public void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Type, c.Path)))).ToList();
+                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Type, c.Bind, c.Path)))).ToList();
 
             ConfigureModel(configTypeList);
 
