@@ -12,9 +12,11 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleResult : ICloneable
     {
         ConfigCode Code();
-        IArticleResult AddWorkWeekValue(TSeconds[] hoursWeek);
+        IArticleResult AddWorkWeeksFullScheduleValue(TSeconds[] hoursWeek);
+        IArticleResult AddWorkWeeksRealScheduleValue(TSeconds[] hoursWeek);
         IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop);
         IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth);
+        IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
     }
 }

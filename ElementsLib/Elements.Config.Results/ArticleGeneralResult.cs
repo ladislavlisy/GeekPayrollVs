@@ -24,9 +24,17 @@ namespace ElementsLib.Elements.Config.Results
             InternalCode = code;
             ResultValues = new ResultValuesStore();
         }
-        public IArticleResult AddWorkWeekValue(TSeconds[] hoursWeek)
+        public IArticleResult AddWorkWeeksFullScheduleValue(TSeconds[] hoursWeek)
         {
-            IArticleResultValues value = new WorkWeekResultValue(hoursWeek);
+            IArticleResultValues value = new WorkWeekResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS, hoursWeek);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddWorkWeeksRealScheduleValue(TSeconds[] hoursWeek)
+        {
+            IArticleResultValues value = new WorkWeekResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_WEEKS_HOURS, hoursWeek);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -44,6 +52,14 @@ namespace ElementsLib.Elements.Config.Results
         public IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth)
         {
             IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS, hoursMonth);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth)
+        {
+            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_MONTH_HOURS, hoursMonth);
 
             ResultValues = ResultValues.Concat(value);
 

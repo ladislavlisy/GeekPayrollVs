@@ -14,19 +14,27 @@ namespace ElementsLib.Elements.Config.Results
         protected ResultCode Code { get; set; }
         public abstract string Description();
 
-        public virtual bool IsWorkWeekValue()
+        public bool IsFullWeeksValue()
         {
-            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_WORK_WEEK_HOURS;
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS;
         }
-        public virtual bool IsMonthFromStopValue()
+        public bool IsPartWeeksValue()
+        {
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_REAL_WEEKS_HOURS;
+        }
+        public bool IsMonthFromStopValue()
         {
             return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_MONTH_FROM_STOP;
         }
-        public virtual bool IsFullMonthValue()
+        public bool IsFullMonthValue()
         {
             return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS;
         }
-        public virtual bool IsTermMonthValue()
+        public bool IsRealMonthValue()
+        {
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS;
+        }
+        public bool IsTermMonthValue()
         {
             return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_TERM_MONTH_HOURS;
         }

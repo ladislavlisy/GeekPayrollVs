@@ -11,9 +11,11 @@ Day FROM: 1, Day STOP: 31
 Day FROM: 1, Day STOP: 31
 1-1-3-1 FACT_POSITION_SCHEDULE
 Hours in week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
+Hours in week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
+Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
+Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-1-4-1 FACT_POSITION_TIMESHEET
-Hours in month: 184,00; First Week 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
-Hours in month: 184,00; First Week 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
+Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-1-5-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 5): Invalid source values!
 1-0-7-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 7): Invalid source values!
 1-0-8-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 8): Invalid source values!

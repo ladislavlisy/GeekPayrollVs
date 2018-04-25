@@ -10,7 +10,7 @@ namespace ElementsLib.Elements.Config.Results
 
     public class WorkWeekResultValue : GeneralResultValue
     {
-        public WorkWeekResultValue(TSeconds[] hoursWeek) : base((ResultCode)ArticleResultCode.RESULT_VALUE_WORK_WEEK_HOURS)
+        public WorkWeekResultValue(ResultCode code, TSeconds[] hoursWeek) : base(code)
         {
             HoursWeek = hoursWeek.ToArray();
         }

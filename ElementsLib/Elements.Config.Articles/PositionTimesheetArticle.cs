@@ -103,7 +103,7 @@ namespace ElementsLib.Elements.Config.Articles
             // PROPERTIES DEF
             public TDay DayTermFrom { get; set; }
             public TDay DayTermStop { get; set; }
-            public TSeconds[] WorkWeekHours { get; set; }
+            public TSeconds[] RealMonthHours { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -138,13 +138,13 @@ namespace ElementsLib.Elements.Config.Articles
                     {
                         return ReturnFailure(initValues);
                     }
-                    Maybe<WorkWeekResultValue> workValues = workResult.ReturnValue<WorkWeekResultValue>((v) => (v.IsWorkWeekValue()));
+                    Maybe<WorkMonthResultValue> workValues = workResult.ReturnValue<WorkMonthResultValue>((v) => (v.IsRealMonthValue()));
                     if (workValues.HasNoValue)
                     {
                         return ReturnFailure(initValues);
                     }
 
-                    WorkWeekResultValue workValuesPrep = workValues.Value;
+                    WorkMonthResultValue workValuesPrep = workValues.Value;
 
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
@@ -171,7 +171,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         DayTermFrom = termValuesPrep.PeriodDayFrom,
                         DayTermStop = termValuesPrep.PeriodDayStop,
-                        WorkWeekHours = workValuesPrep.HoursWeek
+                        RealMonthHours = workValuesPrep.HoursMonth
                         // PROPERTIES SET
                     };
                 }

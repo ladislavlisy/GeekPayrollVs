@@ -42,10 +42,17 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-	    TSeconds[] hoursWeek = new TSeconds[0]; 
+	        TSeconds[] hoursFullWeeks = new TSeconds[0];
+	        TSeconds[] hoursRealWeeks = new TSeconds[0];
+            TSeconds[] hoursFullMonth = new TSeconds[0];
+            TSeconds[] hoursRealMonth = new TSeconds[0];
+
             if (conceptValues.ScheduleType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
             {
-                hoursWeek = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftActual, 5);
+                hoursFullWeeks = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftLiable, 5);
+                hoursRealWeeks = conceptProfile.TimesheetWeekSchedule(evalPeriod, conceptValues.ShiftActual, 5);
+                hoursFullMonth = conceptProfile.TimesheetFullSchedule(evalPeriod, hoursFullWeeks);
+                hoursRealMonth = conceptProfile.TimesheetFullSchedule(evalPeriod, hoursRealWeeks);
             }
             else
             {
@@ -55,7 +62,10 @@ namespace ElementsLib.Elements.Config.Concepts
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
-            conceptResult.AddWorkWeekValue(hoursWeek);
+            conceptResult.AddWorkWeeksFullScheduleValue(hoursFullWeeks);
+            conceptResult.AddWorkWeeksRealScheduleValue(hoursRealWeeks);
+            conceptResult.AddWorkMonthFullScheduleValue(hoursFullMonth);
+            conceptResult.AddWorkMonthRealScheduleValue(hoursRealMonth);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

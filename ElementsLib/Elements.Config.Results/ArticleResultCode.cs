@@ -9,9 +9,11 @@ namespace ElementsLib.Elements.Config.Results
     using EnumCode = UInt16;
     public enum ArticleResultCode : EnumCode
     {
-        RESULT_VALUE_WORK_WEEK_HOURS = 0,
+        RESULT_VALUE_FULL_WEEKS_HOURS = 0,
+        RESULT_VALUE_REAL_WEEKS_HOURS,
         RESULT_VALUE_MONTH_FROM_STOP,
         RESULT_VALUE_FULL_MONTH_HOURS,
+        RESULT_VALUE_REAL_MONTH_HOURS,
         RESULT_VALUE_TERM_MONTH_HOURS
     }
     public static class ArticleCzCodeExtensions
