@@ -39,8 +39,8 @@ namespace ElementsLib.Module.Libs
                 return value.Value.ToString();
             }
         }
-        public static IEnumerable<ResultPack> OnSuccessToResultSet(
-            this SourcePack result, Func<SourceItem, IEnumerable<ResultPack>> onSuccessFunc)
+        public static IEnumerable<ResultPack> OnSuccessToResultSet(this SourcePack result, 
+            Func<SourceItem, IEnumerable<ResultPack>> onSuccessFunc)
         {
             if (result.IsFailure)
             {
@@ -49,8 +49,8 @@ namespace ElementsLib.Module.Libs
 
             return onSuccessFunc(result.Value);
         }
-        public static IEnumerable<ResultPack> OnSuccessEvaluateToResultSet(
-            this SourcePack result, TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults, 
+        public static IEnumerable<ResultPack> OnSuccessToResultSetEvaluate(this SourcePack result, 
+            TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults, 
             Func<SourceItem, TargetItem, Period, IPeriodProfile, IEnumerable<ResultPair>, IEnumerable<ResultPack>> onSuccessFunc)
         {
             if (result.IsFailure)

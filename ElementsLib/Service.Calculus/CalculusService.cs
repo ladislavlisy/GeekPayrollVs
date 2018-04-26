@@ -84,7 +84,7 @@ namespace ElementsLib.Service.Calculus
             TargetItem targetInResult = sourceItem.Key;
             SourcePack sourceInResult = sourceItem.Value;
 
-            IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessEvaluateToResultSet(targetInResult, evalPeriod, evalProfile, evalResults, _evaluateResultsFunc);
+            IEnumerable<ResultPack> resultList = sourceInResult.OnSuccessToResultSetEvaluate(targetInResult, evalPeriod, evalProfile, evalResults, _evaluateResultsFunc);
 
             return resultList.Select((r) => (new ResultPair(sourceItem.Key, r))).ToList();
         }

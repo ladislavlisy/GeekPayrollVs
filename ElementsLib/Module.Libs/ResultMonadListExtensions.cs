@@ -38,6 +38,24 @@ namespace ElementsLib.Module.Libs
             return Result.Ok<IEnumerable<KValue>, TError>(resultList);
         }
 
+        public static Result<IEnumerable<KValue>, TError> ToResultWithValueListAndError<TValue, TError, KValue>(
+            this IEnumerable<Result<TValue, TError>> results,
+            Func<TValue, KValue> onSuccessFunc)
+        {
+            IEnumerable<KValue> resultList = new List<KValue>();
+            foreach (var r in results)
+            {
+                if (r.IsFailure)
+                {
+                    return Result.Fail<IEnumerable<KValue>, TError>(r.Error);
+                }
+                KValue v = onSuccessFunc(r.Value);
+
+                resultList = resultList.Merge(v);
+            }
+            return Result.Ok<IEnumerable<KValue>, TError>(resultList);
+        }
+
         public static Result<IEnumerable<KValue>, TError> ToResultWithValueListAndError<Target, TValue, TError, KValue>(
             this IEnumerable<KeyValuePair<Target, Result<TValue, TError>>> results,
             Func<KeyValuePair<Target, Result<TValue, TError>>, Result<KValue, TError>> onSuccessFunc)

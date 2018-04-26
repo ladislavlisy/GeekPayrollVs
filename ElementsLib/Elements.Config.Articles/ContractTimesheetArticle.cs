@@ -36,6 +36,7 @@ namespace ElementsLib.Elements.Config.Articles
     using System.Linq;
     using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
     using MaybeMonad;
+    using Module.Items.Utils;
 
     public class ContractTimesheetArticle : GeneralArticle, ICloneable
     {
@@ -106,34 +107,26 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
-            public class PositionSortItem
+            public class PositionEvaluateSource
             {
-                public PositionSortItem()
+                public PositionEvaluateSource()
                 {
                     PositionPart = 0;
                     DateFrom = null;
                     DateStop = null;
                     PositionType = WorkPositionType.POSITION_EXCLUSIVE;
+                    ScheduleMonth = new TSeconds[0];
+                    ScheduleTract = new TSeconds[0];
                 }
                 public TargetPart PositionPart { get; set; }
                 public DateTime? DateFrom { get; set; }
                 public DateTime? DateStop { get; set; }
                 public WorkPositionType PositionType { get; set; }
-
-            }
-            public class WorkTimesheetItem
-            {
-                public WorkTimesheetItem()
-                {
-                    PositionPart = 0;
-                    ScheduleMonth = new TSeconds[0];
-                    ScheduleTract = new TSeconds[0];
-                }
-                public TargetPart PositionPart { get; set; }
                 public TSeconds[] ScheduleMonth { get; set; }
                 public TSeconds[] ScheduleTract { get; set; }
             }
-            internal class ComparePositionTerms : IComparer<PositionSortItem>
+
+            internal class ComparePositionTerms : IComparer<PositionEvaluateSource>
             {
                 public int CompareDate(DateTime? x, DateTime? y)
                 {
@@ -154,7 +147,7 @@ namespace ElementsLib.Elements.Config.Articles
                     }
                     return 0;
                 }
-                public int Compare(PositionSortItem x, PositionSortItem y)
+                public int Compare(PositionEvaluateSource x, PositionEvaluateSource y)
                 {
                     int compareFrom = CompareDate(x.DateFrom, y.DateFrom);
                     if (compareFrom == 0)
@@ -169,10 +162,8 @@ namespace ElementsLib.Elements.Config.Articles
                     return compareFrom;
                 }
             }
-
             // PROPERTIES DEF
-            IList<PositionSortItem> PositionList { get; set; }
-            IDictionary<TargetPart, WorkTimesheetItem> TimesheetList { get; set; }
+            IList<PositionEvaluateSource> PositionList { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -189,113 +180,86 @@ namespace ElementsLib.Elements.Config.Articles
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
             {
+                // TODO: Names and ToResultWithValueListAndError and ZipToResultWithTupleListAndError
                 public ResultBuilder(TargetItem evalTarget, IEnumerable<ResultPair> evalResults) : base(evalTarget, evalResults)
                 {
                 }
 
-                protected ResultMonad.Result<PositionSortItem, string> BuildPositionSortItem(ResultPair resultPair)
+                protected ResultMonad.Result<PositionEvaluateSource, string> BuildItem(TargetPart part, ResultItem resultTerm, ResultItem resultWork)
                 {
-                    TargetItem resultNode = resultPair.Key;
-                    ResultPack resultPack = resultPair.Value;
+                    ArticleGeneralResult termResult = resultTerm as ArticleGeneralResult;
+                    if (termResult == null)
+                    {
+                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+                    Maybe<TermFromStopPositionValue> termValues = termResult.ReturnPositionTermFromStopValue();
+                    if (termValues.HasNoValue)
+                    {
+                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
 
-                    if (resultPack.IsFailure)
-                    {
-                        return Result.Fail<PositionSortItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    ArticleGeneralResult typeResult = resultPack.Value as ArticleGeneralResult;
-                    if (typeResult == null)
-                    {
-                        return Result.Fail<PositionSortItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    Maybe<TermFromStopPositionValue> termResult = typeResult.ReturnPositionTermFromStopValue();
-                    if (termResult.HasNoValue)
-                    {
-                        return Result.Fail<PositionSortItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    TermFromStopPositionValue termValues = termResult.Value;
+                    TermFromStopPositionValue termPosition = termValues.Value;
 
-                    PositionSortItem buildResult = new PositionSortItem
+                    ArticleGeneralResult workResult = resultWork as ArticleGeneralResult;
+                    if (workResult == null)
                     {
-                        PositionPart = resultNode.Seed(),
-                        DateFrom = termValues.DateFrom,
-                        DateStop = termValues.DateStop,
-                        PositionType = termValues.PositionType
+                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+                    Maybe<WorkMonthResultValue> realValues = workResult.ReturnRealMonthValue();
+                    if (realValues.HasNoValue)
+                    {
+                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+                    Maybe<WorkMonthResultValue> restValues = workResult.ReturnTermMonthValue();
+                    if (restValues.HasNoValue)
+                    {
+                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+
+                    WorkMonthResultValue realSchedule = realValues.Value;
+                    WorkMonthResultValue restSchedule = restValues.Value;
+
+                    PositionEvaluateSource buildResult = new PositionEvaluateSource
+                    {
+                        PositionPart = part,
+                        DateFrom = termPosition.DateFrom,
+                        DateStop = termPosition.DateStop,
+                        PositionType = termPosition.PositionType,
+                        ScheduleMonth = realSchedule.HoursMonth,
+                        ScheduleTract = restSchedule.HoursMonth
                     };
-                    return Result.Ok<PositionSortItem, string>(buildResult);
-                }
-                protected ResultMonad.Result<IEnumerable<PositionSortItem>, string> BuildPositionSortList(TargetItem target, IEnumerable<ResultPair> results)
-                {
-                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
-
-                    IEnumerable<ResultPair> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
-
-                    return positionList.ToResultWithValueListAndError((s) => BuildPositionSortItem(s));
-                }
-                protected ResultMonad.Result<WorkTimesheetItem, string> BuildWorkScheduleItem(ResultPair resultPair)
-                {
-                    TargetItem resultNode = resultPair.Key;
-                    ResultPack resultPack = resultPair.Value;
-
-                    if (resultPack.IsFailure)
-                    {
-                        return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    ArticleGeneralResult typeResult = resultPack.Value as ArticleGeneralResult;
-                    if (typeResult == null)
-                    {
-                        return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    Maybe<WorkMonthResultValue> realResult = typeResult.ReturnRealMonthValue();
-                    if (realResult.HasNoValue)
-                    {
-                        return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    Maybe<WorkMonthResultValue> termResult = typeResult.ReturnTermMonthValue();
-                    if (termResult.HasNoValue)
-                    {
-                        return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    WorkMonthResultValue realValues = realResult.Value;
-                    WorkMonthResultValue termValues = termResult.Value;
-
-                    WorkTimesheetItem buildResult = new WorkTimesheetItem
-                    {
-                        PositionPart = resultNode.Part(),
-                        ScheduleMonth = realValues.HoursMonth,
-                        ScheduleTract = termValues.HoursMonth
-                    };
-                    return Result.Ok<WorkTimesheetItem, string>(buildResult);
-                }
-                protected ResultMonad.Result<IEnumerable<WorkTimesheetItem>, string> BuildWorkScheduleList(TargetItem target, IEnumerable<ResultPair> results)
-                {
-                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
-
-                    IEnumerable<ResultPair> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
-
-                    return positionList.ToResultWithValueListAndError((s) => BuildWorkScheduleItem(s));
+                    return Result.Ok<PositionEvaluateSource, string>(buildResult);
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    var positionResult = BuildPositionSortList(InternalTarget, InternalValues);
-                    var scheduleResult = BuildWorkScheduleList(InternalTarget, InternalValues);
+                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
 
+                    IEnumerable<ResultPair> positionList = InternalValues.GetResultForCodePlusHead(positionCode, InternalTarget.Head());
+                    IEnumerable<ResultPair> positionComp = positionList.OrderBy((c) => (c.Key.Seed()));
+
+                    IEnumerable<ResultPair> scheduleList = InternalValues.GetResultForCodePlusHead(scheduleCode, InternalTarget.Head());
+                    IEnumerable<ResultPair> scheduleComp = scheduleList.OrderBy((c) => (c.Key.Part()));
+
+                    var positionResult = ResultMonadUtils.ZipToResultWithTupleListAndError(positionComp, scheduleComp, "position missing", "schedule missing",
+                        (ka, kb) => (kb.Part()), (xa, xb) => (xa.Key.Seed().CompareTo(xb.Key.Part())));
                     if (positionResult.IsFailure)
                     {
                         return ReturnFailureAndError(initValues, positionResult.Error);
                     }
-                    if (scheduleResult.IsFailure)
+                    var positionStream = positionResult.Value.Select((tp) => (BuildItem(tp.Key, tp.Value.Item1, tp.Value.Item2))).ToList();
+                    var positionValida = positionStream.ToResultWithValueListAndError((tp) => (tp));
+                    if (positionValida.IsFailure)
                     {
-                        return ReturnFailureAndError(initValues, scheduleResult.Error);
+                        return ReturnFailureAndError(initValues, positionValida.Error);
                     }
 
-                    var positionSorted = positionResult.Value.OrderBy((p) => (p), new ComparePositionTerms());
-                    var scheduleInDict = scheduleResult.Value.ToDictionary((kv) => (kv.PositionPart), (kv) => (kv));
+                    var completeSorted = positionValida.Value.OrderBy((p) => (p), new ComparePositionTerms());
 
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        PositionList = positionSorted.ToList(),
-                        TimesheetList = scheduleInDict.ToDictionary((kv) => (kv.Key), (kv) => (kv.Value))
+                        PositionList = completeSorted.ToList()
                         // PROPERTIES SET
                     };
                 }
