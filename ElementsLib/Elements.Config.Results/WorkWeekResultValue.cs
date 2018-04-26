@@ -7,6 +7,7 @@ namespace ElementsLib.Elements.Config.Results
     using ResultCode = UInt16;
 
     using Module.Items.Utils;
+    using Module.Libs;
 
     public class WorkWeekResultValue : GeneralResultValue
     {
@@ -18,7 +19,9 @@ namespace ElementsLib.Elements.Config.Results
         public override string Description()
         {
             string formatedValue = string.Join("; ", HoursWeek.Select((h) => (FormatUtils.HoursFormat(h))));
-            return string.Format("Hours in week: {0}", formatedValue);
+            return string.Format("{0}: Hours in week: {1}",
+                Code.ToEnum<ArticleResultCode>().GetSymbol(),
+                formatedValue);
         }
 
     }

@@ -5,6 +5,8 @@ namespace ElementsLib.Elements.Config.Results
     using TDay = Byte;
     using ResultCode = UInt16;
 
+    using Module.Libs;
+
     public class MonthFromStopResultValue : GeneralResultValue
     {
         public TDay PeriodDayFrom { get; protected set; }
@@ -17,7 +19,8 @@ namespace ElementsLib.Elements.Config.Results
         }
         public override string Description()
         {
-            return string.Format("Day FROM: {0}, Day STOP: {1}", 
+            return string.Format("{0}: Day FROM: {1}, Day STOP: {2}",
+                Code.ToEnum<ArticleResultCode>().GetSymbol(), 
                 PeriodDayFrom.ToString(), PeriodDayStop.ToString());
         }
     }

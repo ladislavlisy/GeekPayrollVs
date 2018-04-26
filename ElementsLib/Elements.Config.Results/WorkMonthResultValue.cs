@@ -10,6 +10,7 @@ namespace ElementsLib.Elements.Config.Results
     using ResultCode = UInt16;
 
     using Module.Items.Utils;
+    using Module.Libs;
 
     public class WorkMonthResultValue : GeneralResultValue
     {
@@ -23,7 +24,9 @@ namespace ElementsLib.Elements.Config.Results
             TSeconds hoursSummary = HoursMonth.Aggregate(0, (agr, x) => (agr + x));
             string formatedMonth = string.Join("; ", HoursMonth.Take(7).Select((h) => (FormatUtils.HoursFormat(h))));
             string formatedValue = FormatUtils.HoursFormat(hoursSummary);
-            return string.Format("Hours in month: {0}; First Week: {1}", formatedValue, formatedMonth);
+            return string.Format("{0}: Hours in month: {1}; First Week: {2}",
+                Code.ToEnum<ArticleResultCode>().GetSymbol(),
+                formatedValue, formatedMonth);
         }
     }
 }

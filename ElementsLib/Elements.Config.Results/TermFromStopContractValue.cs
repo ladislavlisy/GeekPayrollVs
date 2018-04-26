@@ -2,10 +2,10 @@
 
 namespace ElementsLib.Elements.Config.Results
 {
-    using Module.Libs;
     using ResultCode = UInt16;
 
     using ElementsLib.Legalist.Constants;
+    using Module.Libs;
     public class TermFromStopContractValue : GeneralResultValue
     {
         public DateTime? DateFrom { get; set; }
@@ -20,7 +20,8 @@ namespace ElementsLib.Elements.Config.Results
         }
         public override string Description()
         {
-            return string.Format("Date FROM: {0}, Date STOP: {1}, Position: {2}",
+            return string.Format("{0}: Date FROM: {1}, Date STOP: {2}, Position: {3}",
+                Code.ToEnum<ArticleResultCode>().GetSymbol(),
                 DateFrom.ToString(), DateStop.ToString(), ContractType.GetSymbol());
         }
     }
