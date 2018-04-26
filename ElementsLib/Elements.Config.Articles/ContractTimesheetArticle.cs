@@ -180,6 +180,7 @@ namespace ElementsLib.Elements.Config.Articles
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
             {
+                // TODO: Names and ResultMonadListExtensions and ResultMonadUtils
                 // TODO: Names and ToResultWithValueListAndError and ZipToResultWithTupleListAndError
                 public ResultBuilder(TargetItem evalTarget, IEnumerable<ResultPair> evalResults) : base(evalTarget, evalResults)
                 {
