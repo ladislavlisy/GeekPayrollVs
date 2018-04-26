@@ -40,7 +40,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public bool IsRealMonthValue()
         {
-            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS;
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_REAL_MONTH_HOURS;
         }
         public bool IsTermMonthValue()
         {

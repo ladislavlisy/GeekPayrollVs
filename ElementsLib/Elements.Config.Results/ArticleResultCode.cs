@@ -9,7 +9,7 @@ namespace ElementsLib.Elements.Config.Results
     using EnumCode = UInt16;
     public enum ArticleResultCode : EnumCode
     {
-        RESULT_VALUE_FROM_STOP_CONTRACT = 0,
+        RESULT_VALUE_FROM_STOP_CONTRACT = 1,
         RESULT_VALUE_FROM_STOP_POSITION,
         RESULT_VALUE_MONTH_FROM_STOP,
         RESULT_VALUE_FULL_WEEKS_HOURS,

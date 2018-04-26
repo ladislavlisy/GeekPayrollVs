@@ -110,16 +110,12 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 public PositionSortItem()
                 {
+                    PositionPart = 0;
                     DateFrom = null;
                     DateStop = null;
                     PositionType = WorkPositionType.POSITION_EXCLUSIVE;
                 }
-                public PositionSortItem(DateTime? from, DateTime? stop, WorkPositionType type)
-                {
-                    DateFrom = from;
-                    DateStop = stop;
-                    PositionType = type;
-                }
+                public TargetPart PositionPart { get; set; }
                 public DateTime? DateFrom { get; set; }
                 public DateTime? DateStop { get; set; }
                 public WorkPositionType PositionType { get; set; }
@@ -129,9 +125,11 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 public WorkTimesheetItem()
                 {
+                    PositionPart = 0;
                     ScheduleMonth = new TSeconds[0];
                     ScheduleTract = new TSeconds[0];
                 }
+                public TargetPart PositionPart { get; set; }
                 public TSeconds[] ScheduleMonth { get; set; }
                 public TSeconds[] ScheduleTract { get; set; }
             }
@@ -162,7 +160,10 @@ namespace ElementsLib.Elements.Config.Articles
                     if (compareFrom == 0)
                     {
                         int compareStop = CompareDate(x.DateStop, y.DateStop);
-
+                        if (compareStop == 0)
+                        {
+                            return x.PositionPart.CompareTo(y.PositionPart);
+                        }
                         return compareStop;
                     }
                     return compareFrom;
@@ -192,9 +193,16 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
-                protected ResultMonad.Result<PositionSortItem, string> BuildPositionSortItem(ResultItem result)
+                protected ResultMonad.Result<PositionSortItem, string> BuildPositionSortItem(ResultPair resultPair)
                 {
-                    ArticleGeneralResult typeResult = result as ArticleGeneralResult;
+                    TargetItem resultNode = resultPair.Key;
+                    ResultPack resultPack = resultPair.Value;
+
+                    if (resultPack.IsFailure)
+                    {
+                        return Result.Fail<PositionSortItem, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+                    ArticleGeneralResult typeResult = resultPack.Value as ArticleGeneralResult;
                     if (typeResult == null)
                     {
                         return Result.Fail<PositionSortItem, string>(CONCEPT_RESULT_INVALID_TEXT);
@@ -208,6 +216,7 @@ namespace ElementsLib.Elements.Config.Articles
 
                     PositionSortItem buildResult = new PositionSortItem
                     {
+                        PositionPart = resultNode.Seed(),
                         DateFrom = termValues.DateFrom,
                         DateStop = termValues.DateStop,
                         PositionType = termValues.PositionType
@@ -218,13 +227,20 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
-                    IEnumerable<ResultPack> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
+                    IEnumerable<ResultPair> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
 
                     return positionList.ToResultWithValueListAndError((s) => BuildPositionSortItem(s));
                 }
-                protected ResultMonad.Result<WorkTimesheetItem, string> BuildWorkTimesheetItem(ResultItem result)
+                protected ResultMonad.Result<WorkTimesheetItem, string> BuildWorkScheduleItem(ResultPair resultPair)
                 {
-                    ArticleGeneralResult typeResult = result as ArticleGeneralResult;
+                    TargetItem resultNode = resultPair.Key;
+                    ResultPack resultPack = resultPair.Value;
+
+                    if (resultPack.IsFailure)
+                    {
+                        return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
+                    }
+                    ArticleGeneralResult typeResult = resultPack.Value as ArticleGeneralResult;
                     if (typeResult == null)
                     {
                         return Result.Fail<WorkTimesheetItem, string>(CONCEPT_RESULT_INVALID_TEXT);
@@ -244,36 +260,44 @@ namespace ElementsLib.Elements.Config.Articles
 
                     WorkTimesheetItem buildResult = new WorkTimesheetItem
                     {
-                        ScheduleMonth =realValues.HoursMonth ,
+                        PositionPart = resultNode.Part(),
+                        ScheduleMonth = realValues.HoursMonth,
                         ScheduleTract = termValues.HoursMonth
                     };
                     return Result.Ok<WorkTimesheetItem, string>(buildResult);
                 }
-                protected ResultMonad.Result<IEnumerable<WorkTimesheetItem>, string> BuilWorkTimesheetList(TargetItem target, IEnumerable<ResultPair> results)
+                protected ResultMonad.Result<IEnumerable<WorkTimesheetItem>, string> BuildWorkScheduleList(TargetItem target, IEnumerable<ResultPair> results)
                 {
                     ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
 
-                    IEnumerable<ResultPack> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
+                    IEnumerable<ResultPair> positionList = results.GetResultForCodePlusHead(positionCode, target.Head());
 
-                    return positionList.ToResultWithValueListAndError((s) => BuildWorkTimesheetItem(s));
+                    return positionList.ToResultWithValueListAndError((s) => BuildWorkScheduleItem(s));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
                     var positionResult = BuildPositionSortList(InternalTarget, InternalValues);
+                    var scheduleResult = BuildWorkScheduleList(InternalTarget, InternalValues);
 
                     if (positionResult.IsFailure)
                     {
                         return ReturnFailureAndError(initValues, positionResult.Error);
                     }
-
-                    var positionSorted = positionResult.Value.OrderBy((p) => (p), new ComparePositionTerms());
-                    foreach (var p in positionResult.Value)
+                    if (scheduleResult.IsFailure)
                     {
+                        return ReturnFailureAndError(initValues, scheduleResult.Error);
                     }
 
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    var positionSorted = positionResult.Value.OrderBy((p) => (p), new ComparePositionTerms());
+                    var scheduleInDict = scheduleResult.Value.ToDictionary((kv) => (kv.PositionPart), (kv) => (kv));
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        PositionList = positionSorted.ToList(),
+                        TimesheetList = scheduleInDict.ToDictionary((kv) => (kv.Key), (kv) => (kv.Value))
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

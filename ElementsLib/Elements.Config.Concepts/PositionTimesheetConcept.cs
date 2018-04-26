@@ -50,7 +50,7 @@ namespace ElementsLib.Elements.Config.Concepts
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
             // SET RESULT VALUES
-            conceptResult.AddWorkMonthTermScheduleValue(scheduleRealMonth);
+            conceptResult.AddWorkMonthRealScheduleValue(scheduleRealMonth);
             conceptResult.AddWorkMonthTermScheduleValue(scheduleTermMonth);
             // SET RESULT VALUES
 
