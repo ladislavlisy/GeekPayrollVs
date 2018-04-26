@@ -14,6 +14,14 @@ namespace ElementsLib.Elements.Config.Results
         protected ResultCode Code { get; set; }
         public abstract string Description();
 
+        public bool IsContractFromStopValue()
+        {
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_CONTRACT;
+        }
+        public bool IsPositionFromStopValue()
+        {
+            return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_POSITION;
+        }
         public bool IsFullWeeksValue()
         {
             return Code == (ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS;

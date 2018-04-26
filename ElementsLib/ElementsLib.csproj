@@ -59,6 +59,8 @@
     <Compile Include="Elements.Config.Results\ArticleResultCode.cs" />
     <Compile Include="Elements.Config.Results\GeneralResultValue.cs" />
     <Compile Include="Elements.Config.Results\MonthFromStopResultValue.cs" />
+    <Compile Include="Elements.Config.Results\TermFromStopContractValue.cs" />
+    <Compile Include="Elements.Config.Results\TermFromStopPositionValue.cs" />
     <Compile Include="Elements.Config.Results\WorkMonthResultValue.cs" />
     <Compile Include="Elements.Config.Results\WorkWeekResultValue.cs" />
     <Compile Include="Elements.Config.Sources\ContractAttendItemSource.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Module.Items.Utils\FormatUtils.cs" />
     <Compile Include="Module.Libs\CloneUtils.cs" />
     <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
+    <Compile Include="Module.Libs\ResultMonadListExtensions.cs" />
     <Compile Include="Service.Calculus\CalculusService.cs" />
     <Compile Include="Service.Calculus\SimpleCalculusService.cs" />
     <Compile Include="Elements.Config.Articles\ContractAbsenceArticle.cs" />
@@ -206,7 +209,7 @@
     <Compile Include="Module.Json\ResultValuesJson.cs" />
     <Compile Include="Module.Json\SourceValuesJson.cs" />
     <Compile Include="Module.Json\ValuesJsonConverters.cs" />
-    <Compile Include="Module.Libs\ArrayUtilsExtensions.cs" />
+    <Compile Include="Module.Libs\EnumerableUtilsExtensions.cs" />
     <Compile Include="Module.Libs\DictionaryUtilsExtension.cs" />
     <Compile Include="Elements\ArticleSourceStore.cs" />
     <Compile Include="Elements.Config.Articles\PositionTermArticle.cs" />

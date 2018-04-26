@@ -29,6 +29,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Results;
     using MaybeMonad;
     using Module.Codes;
+    using Legalist.Constants;
 
     public class PositionTermArticle : GeneralArticle, ICloneable
     {
@@ -99,9 +100,18 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                DateTermFrom = null;
+                DateTermStop = null;
+                PositionType = WorkPositionType.POSITION_EXCLUSIVE;
+                DayContractFrom = 0;
+                DayContractStop = 0;
+            }
             // PROPERTIES DEF
-            public DateTime? DayTermFrom { get; set; }
-            public DateTime? DayTermStop { get; set; }
+            public DateTime? DateTermFrom { get; set; }
+            public DateTime? DateTermStop { get; set; }
+            public WorkPositionType PositionType {get; set;}
             public TDay DayContractFrom { get; set; }
             public TDay DayContractStop { get; set; }
             // PROPERTIES DEF
@@ -121,8 +131,9 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        DayTermFrom = conceptValues.DateFrom,
-                        DayTermStop = conceptValues.DateStop
+                        DateTermFrom = conceptValues.DateFrom,
+                        DateTermStop = conceptValues.DateStop,
+                        PositionType = conceptValues.PositionType
                         // PROPERTIES SET
                     };
                 }
@@ -158,8 +169,9 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        DayTermFrom = initValues.DayTermFrom,
-                        DayTermStop = initValues.DayTermStop,
+                        DateTermFrom = initValues.DateTermFrom,
+                        DateTermStop = initValues.DateTermStop,
+                        PositionType = initValues.PositionType,
                         DayContractFrom = termValuesPrep.PeriodDayFrom,
                         DayContractStop = termValuesPrep.PeriodDayStop
                         // PROPERTIES SET

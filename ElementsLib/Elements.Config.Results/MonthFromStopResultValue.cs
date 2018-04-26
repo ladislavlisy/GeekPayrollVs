@@ -5,7 +5,7 @@ namespace ElementsLib.Elements.Config.Results
     using TDay = Byte;
     using ResultCode = UInt16;
 
-    internal class MonthFromStopResultValue : GeneralResultValue
+    public class MonthFromStopResultValue : GeneralResultValue
     {
         public TDay PeriodDayFrom { get; protected set; }
         public TDay PeriodDayStop { get; protected set; }

@@ -32,6 +32,10 @@ namespace ElementsLib.Module.Libs
                 }
             }
         }
+        public static string GetSymbol(this Enum value)
+        {
+            return value.ToString();
+        }
 
         /// <summary>
         /// Gets all items for an enum type.

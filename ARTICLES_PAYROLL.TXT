@@ -18,6 +18,7 @@ Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-1-8-1 FACT_POSITION_TIMESHEET
 Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
+Hours in month: 184,00; First Week: 8,00; 8,00; 8,00; 8,00; 8,00; 0,00; 0,00
 1-0-2-1 Error: ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 2): Invalid source values!
 1-1-9-1 Error: PositionWorkingArticle(ARTICLE_POSITION_WORKING, 9): Invalid source values!
 1-0-3-1 Error: ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 3): Invalid source values!

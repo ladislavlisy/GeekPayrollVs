@@ -43,12 +43,14 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TSeconds[] scheduleTermMonth = conceptProfile.TimesheetWorkSchedule(evalPeriod, conceptValues.RealMonthHours, conceptValues.DayTermFrom, conceptValues.DayTermStop);
+            TSeconds[] scheduleRealMonth = conceptValues.RealMonthHours.ToArray();
+            TSeconds[] scheduleTermMonth = conceptProfile.TimesheetWorkSchedule(evalPeriod, scheduleRealMonth, conceptValues.DayTermFrom, conceptValues.DayTermStop);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
             // SET RESULT VALUES
+            conceptResult.AddWorkMonthTermScheduleValue(scheduleRealMonth);
             conceptResult.AddWorkMonthTermScheduleValue(scheduleTermMonth);
             // SET RESULT VALUES
 

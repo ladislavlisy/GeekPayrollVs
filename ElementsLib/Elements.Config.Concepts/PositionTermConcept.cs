@@ -43,12 +43,12 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DayTermFrom);
+            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DateTermFrom);
             if (dayTermFrom < conceptValues.DayContractFrom)
             {
                 dayTermFrom = conceptValues.DayContractFrom;
             }
-            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DayTermStop);
+            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DateTermStop);
             if (dayTermStop > conceptValues.DayContractStop)
             {
                 dayTermStop = conceptValues.DayContractStop;
@@ -57,6 +57,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddPositionFromStop(conceptValues.DateTermFrom, conceptValues.DateTermStop, conceptValues.PositionType);
             conceptResult.AddMonthFromStop(dayTermFrom, dayTermStop);
             // SET RESULT VALUES
 

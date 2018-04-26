@@ -86,9 +86,22 @@ namespace ElementsLib.Elements.Utils
             return packResult;
         }
 
+        public static IEnumerable<ResultPack> GetResultForCodePlusHead(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode)
+        {
+            IEnumerable<ResultPair> findResults = evalResults.Where((r) => IsEqualByCodePlusHead(r.Key, findCode, headCode));
+
+            IEnumerable<ResultPack> packResults = findResults.Select((r) => (r.Value));
+
+            return packResults;
+        }
+
         public static bool IsEqualByCodePlusSeed(IArticleTarget currtarget, ConfigCode findCode, TargetSeed findSeed)
         {
             return currtarget.IsEqualByCodePlusSeed(findCode, findSeed);
+        }
+        public static bool IsEqualByCodePlusHead(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode)
+        {
+            return currtarget.IsEqualByCodePlusHead(findCode, headCode);
         }
         public static bool IsEqualByCodePlusHeadAndSeed(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode, TargetSeed findSeed)
         {

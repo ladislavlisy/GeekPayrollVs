@@ -16,6 +16,7 @@ namespace ElementsLib.Elements.Config.Results
     using Module.Libs;
     using MaybeMonad;
     using Module.Codes;
+    using Legalist.Constants;
 
     public class ArticleGeneralResult : IArticleResult
     {
@@ -41,6 +42,22 @@ namespace ElementsLib.Elements.Config.Results
             return this;
         }
         
+        public IArticleResult AddContractFromStop(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType)
+        {
+            IArticleResultValues value = new TermFromStopContractValue(dateFrom, dateStop, contractType);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddPositionFromStop(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType)
+        {
+            IArticleResultValues value = new TermFromStopPositionValue(dateFrom, dateStop, positionType);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
         public IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop)
         {
             IArticleResultValues value = new MonthFromStopResultValue(dayFrom, dayStop);
@@ -108,6 +125,30 @@ namespace ElementsLib.Elements.Config.Results
                 return Maybe<T>.Nothing;
             }
             return Maybe.From<T>(value);
+        }
+        public Maybe<TermFromStopContractValue> ReturnContractTermFromStopValue()
+        {
+            return ReturnValue<TermFromStopContractValue>((v) => (v.IsContractFromStopValue()));
+        }
+        public Maybe<TermFromStopPositionValue> ReturnPositionTermFromStopValue()
+        {
+            return ReturnValue<TermFromStopPositionValue>((v) => (v.IsPositionFromStopValue()));
+        }
+        public Maybe<MonthFromStopResultValue> ReturnMonthFromStopValue()
+        {
+            return ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
+        }
+        public Maybe<WorkMonthResultValue> ReturnFullMonthValue()
+        {
+            return ReturnValue<WorkMonthResultValue>((v) => (v.IsFullMonthValue()));
+        }
+        public Maybe<WorkMonthResultValue> ReturnRealMonthValue()
+        {
+            return ReturnValue<WorkMonthResultValue>((v) => (v.IsRealMonthValue()));
+        }
+        public Maybe<WorkMonthResultValue> ReturnTermMonthValue()
+        {
+            return ReturnValue<WorkMonthResultValue>((v) => (v.IsTermMonthValue()));
         }
     }
 }

@@ -9,9 +9,11 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleResultValues
     {
         string Description();
+        bool IsContractFromStopValue();
+        bool IsPositionFromStopValue();
+        bool IsMonthFromStopValue();
         bool IsFullWeeksValue();
         bool IsPartWeeksValue();
-        bool IsMonthFromStopValue();
         bool IsFullMonthValue();
         bool IsRealMonthValue();
         bool IsTermMonthValue();

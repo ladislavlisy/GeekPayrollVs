@@ -40,13 +40,14 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DayTermFrom);
-            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DayTermStop);
+            TDay dayTermFrom = conceptProfile.DateFromInPeriod(evalPeriod, conceptValues.DateTermFrom);
+            TDay dayTermStop = conceptProfile.DateStopInPeriod(evalPeriod, conceptValues.DateTermStop);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
 
             // SET RESULT VALUES
+            conceptResult.AddContractFromStop(conceptValues.DateTermFrom, conceptValues.DateTermStop, conceptValues.ContractType);
             conceptResult.AddMonthFromStop(dayTermFrom, dayTermStop);
             // SET RESULT VALUES
 

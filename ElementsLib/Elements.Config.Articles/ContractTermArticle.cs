@@ -25,6 +25,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Legalist.Constants;
 
     public class ContractTermArticle : GeneralArticle, ICloneable
     {
@@ -95,9 +96,16 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                DateTermFrom = null;
+                DateTermStop = null;
+                ContractType = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
+            }
             // PROPERTIES DEF
-            public DateTime? DayTermFrom { get; set; }
-            public DateTime? DayTermStop { get; set; }
+            public DateTime? DateTermFrom { get; set; }
+            public DateTime? DateTermStop { get; set; }
+            public WorkEmployTerms ContractType { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -115,8 +123,9 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        DayTermFrom = conceptValues.DateFrom,
-                        DayTermStop = conceptValues.DateStop
+                        DateTermFrom = conceptValues.DateFrom,
+                        DateTermStop = conceptValues.DateStop,
+                        ContractType = conceptValues.ContractType
                         // PROPERTIES SET
                     };
                 }
