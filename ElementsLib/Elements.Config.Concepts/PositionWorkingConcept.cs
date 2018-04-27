@@ -7,6 +7,8 @@ namespace ElementsLib.Elements.Config.Concepts
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
 
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
@@ -21,6 +23,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
     using ResultMonad;
+    using Module.Items.Utils;
 
     public static class PositionWorkingConcept
     {
@@ -38,10 +41,12 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TSeconds[] scheduleWorked = PeriodUtils.ScheduleFromTemplate(conceptValues.ScheduleMonth, 1, 32);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddWorkMonthTermScheduleValue(scheduleWorked);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

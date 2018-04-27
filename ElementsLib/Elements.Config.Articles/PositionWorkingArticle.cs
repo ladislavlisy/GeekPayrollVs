@@ -9,6 +9,9 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
@@ -25,6 +28,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Module.Codes;
 
     public class PositionWorkingArticle : GeneralArticle, ICloneable
     {
@@ -96,7 +100,7 @@ namespace ElementsLib.Elements.Config.Articles
         public class EvaluateSource
         {
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public TSeconds[] ScheduleMonth { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -106,6 +110,7 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+#if GET_SOURCE_VALUE
                     SourceItem conceptValues = InternalValues as SourceItem;
                     if (conceptValues == null)
                     {
@@ -116,6 +121,9 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         // PROPERTIES SET
                     };
+#else
+                    return initValues;
+#endif
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -126,9 +134,26 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode timeCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
+
+                    Result<WorkMonthResultValue, string> timeFindResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WorkMonthResultValue>(
+                        timeCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsTermMonthValue()));
+
+                    if (timeFindResult.IsFailure)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+
+                    WorkMonthResultValue timePrepValues = timeFindResult.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        ScheduleMonth = timePrepValues.HoursMonth
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

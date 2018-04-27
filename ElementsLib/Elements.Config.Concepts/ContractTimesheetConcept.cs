@@ -46,9 +46,9 @@ namespace ElementsLib.Elements.Config.Concepts
             TDay periodDay = 1;
             foreach (var position in conceptValues.PositionList)
             {
-                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleMonth, periodDay, position.DayPeriodFrom);
-                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleLimit, position.DayPeriodFrom, position.DayPeriodStop);
-                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleMonth, position.DayPeriodStop, 32);
+                contractMonth = PeriodUtils.ScheduleFromTemplateStopExc(contractMonth, position.ScheduleMonth, periodDay, position.DayPeriodFrom);
+                contractMonth = PeriodUtils.ScheduleFromTemplateStopInc(contractMonth, position.ScheduleLimit, position.DayPeriodFrom, position.DayPeriodStop);
+                contractMonth = PeriodUtils.ScheduleFromTemplateStopInc(contractMonth, position.ScheduleMonth, position.DayPeriodStop, 31);
 
                 periodDay = (TDay)(position.DayPeriodStop + 1);
             }

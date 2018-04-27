@@ -57,7 +57,17 @@ namespace ElementsLib.Module.Items.Utils
             return new TSeconds[31] { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
         }
 
-        public static TSeconds[] ScheduleFromTemplate(TSeconds[] agr, TSeconds[] template, TDay from, TDay stop)
+        public static TSeconds[] ScheduleFromTemplate(TSeconds[] template, TDay from, TDay stop)
+        {
+            TSeconds[] result = EmptyMonthSchedule();
+            for (TDay day = from; day < stop; day++)
+            {
+                int index = day - 1;
+                result[index] = template[index];
+            }
+            return result;
+        }
+        public static TSeconds[] ScheduleFromTemplateStopExc(TSeconds[] agr, TSeconds[] template, TDay from, TDay stop)
         {
             TSeconds[] result = agr;
             if (from < stop)
@@ -65,6 +75,20 @@ namespace ElementsLib.Module.Items.Utils
                 result = agr.ToArray();
             }
             for (TDay day = from; day < stop; day++)
+            {
+                int index = day - 1;
+                result[index] = template[index];
+            }
+            return result;
+        }
+        public static TSeconds[] ScheduleFromTemplateStopInc(TSeconds[] agr, TSeconds[] template, TDay from, TDay stop)
+        {
+            TSeconds[] result = agr;
+            if (from < stop)
+            {
+                result = agr.ToArray();
+            }
+            for (TDay day = from; day <= stop; day++)
             {
                 int index = day - 1;
                 result[index] = template[index];
