@@ -21,6 +21,10 @@ namespace ElementsLib.Module.Items.Utils
         {
             return (resultA.IsFailure || resultB.IsFailure || resultC.IsFailure);
         }
+        public static bool HaveAnyResultFailed<AValue, BValue, CValue, DValue, TError>(Result<AValue, TError> resultA, Result<BValue, TError> resultB, Result<CValue, TError> resultC, Result<DValue, TError> resultD)
+        {
+            return (resultA.IsFailure || resultB.IsFailure || resultC.IsFailure || resultD.IsFailure);
+        }
         public static Result<IEnumerable<Tuple<TAValue, TBValue>>, TError> Zip2ToResultWithZipListAndError<TAValue, TBValue, TError>(
             IEnumerable<TAValue> resultsA, IEnumerable<TBValue> resultsB,
             Func<Result<TAValue, TError>> defaultResultA, Func<Result<TBValue, TError>> defaultResultB, 

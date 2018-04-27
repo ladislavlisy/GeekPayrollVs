@@ -8,6 +8,8 @@ namespace ElementsLib.Module.Items.Utils
 {
     using PeriodYear = UInt16;
     using PeriodMnth = Byte;
+    using TSeconds = Int32;
+    using TDay = Byte;
     public static class PeriodUtils
     {
         public static int DayOfWeekMonToSun(int weekDayCode)
@@ -48,6 +50,26 @@ namespace ElementsLib.Module.Items.Utils
         public static Period EndYear(PeriodYear year)
         {
             return new Period(year, 12);
+        }
+
+        public static TSeconds[] EmptyMonthSchedule()
+        {
+            return new TSeconds[31] { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+        }
+
+        public static TSeconds[] ScheduleFromTemplate(TSeconds[] agr, TSeconds[] template, TDay from, TDay stop)
+        {
+            TSeconds[] result = agr;
+            if (from < stop)
+            {
+                result = agr.ToArray();
+            }
+            for (TDay day = from; day < stop; day++)
+            {
+                int index = day - 1;
+                result[index] = template[index];
+            }
+            return result;
         }
     }
 }

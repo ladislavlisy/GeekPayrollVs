@@ -113,17 +113,21 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     PositionPart = 0;
                     DateFrom = null;
+                    DayPeriodFrom = 0;
                     DateStop = null;
+                    DayPeriodStop = 0;
                     PositionType = WorkPositionType.POSITION_EXCLUSIVE;
                     ScheduleMonth = new TSeconds[0];
-                    ScheduleTract = new TSeconds[0];
+                    ScheduleLimit = new TSeconds[0];
                 }
                 public TargetPart PositionPart { get; set; }
                 public DateTime? DateFrom { get; set; }
+                public TDay DayPeriodFrom { get; set; }
                 public DateTime? DateStop { get; set; }
+                public TDay DayPeriodStop { get; set; }
                 public WorkPositionType PositionType { get; set; }
                 public TSeconds[] ScheduleMonth { get; set; }
-                public TSeconds[] ScheduleTract { get; set; }
+                public TSeconds[] ScheduleLimit { get; set; }
             }
 
             internal class ComparePositionTerms : IComparer<PositionEvaluateSource>
@@ -163,7 +167,7 @@ namespace ElementsLib.Elements.Config.Articles
                 }
             }
             // PROPERTIES DEF
-            IList<PositionEvaluateSource> PositionList { get; set; }
+            public IList<PositionEvaluateSource> PositionList { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -188,20 +192,22 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ArticleGeneralResult termResult = resultTerm as ArticleGeneralResult;
                     ArticleGeneralResult workResult = resultWork as ArticleGeneralResult;
-                    if (MaybeMonadUtils.HaveAllNotNullValues(termResult, workResult))
+                    if (MaybeMonadUtils.HaveAnyResultNullValue(termResult, workResult))
                     {
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
 
                     Maybe<TermFromStopPositionValue> termValues = termResult.ReturnPositionTermFromStopValue();
+                    Maybe<MonthFromStopResultValue> daysValues = termResult.ReturnMonthFromStopValue();
                     Maybe<WorkMonthResultValue> realValues = workResult.ReturnRealMonthValue();
                     Maybe<WorkMonthResultValue> restValues = workResult.ReturnTermMonthValue();
-                    if (MaybeMonadUtils.HaveAllResultsValues(termValues, realValues, restValues))
+                    if (MaybeMonadUtils.HaveAnyResultNoValues(termValues, daysValues, realValues, restValues))
                     {
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
 
                     TermFromStopPositionValue termPosition = termValues.Value;
+                    MonthFromStopResultValue daysPosition = daysValues.Value;
                     WorkMonthResultValue realSchedule = realValues.Value;
                     WorkMonthResultValue restSchedule = restValues.Value;
 
@@ -209,10 +215,12 @@ namespace ElementsLib.Elements.Config.Articles
                     {
                         PositionPart = part,
                         DateFrom = termPosition.DateFrom,
+                        DayPeriodFrom = daysPosition.PeriodDayFrom,
                         DateStop = termPosition.DateStop,
+                        DayPeriodStop = daysPosition.PeriodDayStop,
                         PositionType = termPosition.PositionType,
                         ScheduleMonth = realSchedule.HoursMonth,
-                        ScheduleTract = restSchedule.HoursMonth
+                        ScheduleLimit = restSchedule.HoursMonth
                     };
                     return Result.Ok<PositionEvaluateSource, string>(buildResult);
                 }

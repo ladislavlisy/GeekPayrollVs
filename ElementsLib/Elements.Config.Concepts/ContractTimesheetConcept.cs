@@ -7,6 +7,9 @@ namespace ElementsLib.Elements.Config.Concepts
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
@@ -21,6 +24,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
     using ResultMonad;
+    using Module.Items.Utils;
 
     public static class ContractTimesheetConcept
     {
@@ -38,10 +42,21 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TSeconds[] contractMonth = PeriodUtils.EmptyMonthSchedule();
+            TDay periodDay = 1;
+            foreach (var position in conceptValues.PositionList)
+            {
+                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleMonth, periodDay, position.DayPeriodFrom);
+                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleLimit, position.DayPeriodFrom, position.DayPeriodStop);
+                contractMonth = PeriodUtils.ScheduleFromTemplate(contractMonth, position.ScheduleMonth, position.DayPeriodStop, 32);
+
+                periodDay = (TDay)(position.DayPeriodStop + 1);
+            }
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddWorkMonthRealScheduleValue(contractMonth);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

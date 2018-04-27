@@ -22,7 +22,7 @@ namespace ElementsLib.Elements.Config.Results
         {
             return string.Format("{0}: Date FROM: {1}, Date STOP: {2}, Position: {3}",
                 Code.ToEnum<ArticleResultCode>().GetSymbol(),
-                DateFrom.ToString(), DateStop.ToString(), PositionType.GetSymbol());
+                DateFrom.Format(), DateStop.Format(), PositionType.GetSymbol());
         }
     }
 }

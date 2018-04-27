@@ -7,21 +7,25 @@ namespace ElementsLib.Module.Items.Utils
 {
     public static class MaybeMonadUtils
     {
-        public static bool HaveAllNotNullValues<TValue>(params TValue[] results) where TValue : class
+        public static bool HaveAnyResultNullValue<TValue>(params TValue[] results) where TValue : class
         {
-            return results.Aggregate(true, (agr, x) => (agr && x != null));
+            return results.Aggregate(false, (agr, x) => (agr || x == null));
         }
-        public static bool HaveResultsValues<TValue>(params Maybe<TValue>[] results)
+        public static bool HaveAnyResultNoValues<TValue>(params Maybe<TValue>[] results)
         {
-            return results.Aggregate(true, (agr, x) => (agr && x.HasValue));
+            return results.Aggregate(false, (agr, x) => (agr || x.HasNoValue));
         }
-        public static bool HaveAllResultsValues<AValue, BValue>(Maybe<AValue> resultA, Maybe<BValue> resultB)
+        public static bool HaveAnyResultNoValues<AValue, BValue>(Maybe<AValue> resultA, Maybe<BValue> resultB)
         {
-            return (resultA.HasValue && resultB.HasValue);
+            return (resultA.HasNoValue || resultB.HasNoValue);
         }
-        public static bool HaveAllResultsValues<AValue, BValue, CValue>(Maybe<AValue> resultA, Maybe<BValue> resultB, Maybe<CValue> resultC)
+        public static bool HaveAnyResultNoValues<AValue, BValue, CValue>(Maybe<AValue> resultA, Maybe<BValue> resultB, Maybe<CValue> resultC)
         {
-            return (resultA.HasValue && resultB.HasValue && resultC.HasValue);
+            return (resultA.HasNoValue || resultB.HasNoValue || resultC.HasNoValue);
+        }
+        public static bool HaveAnyResultNoValues<AValue, BValue, CValue, DValue>(Maybe<AValue> resultA, Maybe<BValue> resultB, Maybe<CValue> resultC, Maybe<DValue> resultD)
+        {
+            return (resultA.HasNoValue || resultB.HasNoValue || resultC.HasNoValue || resultD.HasNoValue);
         }
     }
 }

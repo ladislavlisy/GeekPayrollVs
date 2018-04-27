@@ -74,6 +74,7 @@
     <Compile Include="Module.Items.Utils\MaybeMonadUtils.cs" />
     <Compile Include="Module.Items.Utils\ResultMonadUtils.cs" />
     <Compile Include="Module.Libs\CloneUtils.cs" />
+    <Compile Include="Module.Libs\DateTimeExtensions.cs" />
     <Compile Include="Module.Libs\ListUtilsExtensions.cs" />
     <Compile Include="Module.Libs\ResultMonadListExtensions.cs" />
     <Compile Include="Service.Calculus\CalculusService.cs" />
