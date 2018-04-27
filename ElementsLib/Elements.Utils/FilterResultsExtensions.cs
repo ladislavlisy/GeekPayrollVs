@@ -15,99 +15,231 @@ namespace ElementsLib.Elements.Utils
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
 
-    using Module.Interfaces.Elements;
+    using Module.Libs;
     using ResultMonad;
+    using MaybeMonad;
+    using Module.Interfaces.Elements;
 
     public static class FilterResultsExtensions
     {
+        public static string ERROR_TEXT_CONTRACT_NOT_FOUND = "Contract Result not found!";
+        public static string ERROR_TEXT_POSITION_NOT_FOUND = "Position Result not found!";
+        public static string ERROR_TEXT_CONTRACT_CODE_NOT_FOUND = "Result for Contract Target and Code not found!";
+        public static string ERROR_TEXT_POSITION_CODE_NOT_FOUND = "Result for Position Target and Code not found!";
         public static ResultPack FindContractResultForCode(this IEnumerable<ResultPair> evalResults, ConfigCode contractCode, TargetSeed contractSeed)
         {
-            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusSeed(r.Key, contractCode, contractSeed));
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusSeed(contractCode, contractSeed));
 
-            if (findResult.Key == null)
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+
+            return findResult;
+        }
+
+        public static Result<TResult, string> FindContractTypeResultForCode<TResult>(this IEnumerable<ResultPair> evalResults, ConfigCode contractCode, TargetSeed contractSeed) where TResult : class, ResultItem
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusSeed(contractCode, contractSeed));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
             {
-                return ResultsUtils.Error("Contract Result not found!");
+                return Result.Fail<TResult, string>(findResult.Error);
             }
-            ResultPack packResult = findResult.Value;
-            if (packResult.IsFailure)
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
             {
-                return ResultsUtils.Error(packResult.Error);
+                return Result.Fail<TResult, string>("Failed casting");
             }
-            return packResult;
+            return Result.Ok<TResult, string>(typeResult);
+        }
+        public static Result<TRValue, string> FindContractResultValueForCode<TResult, TRValue>(this IEnumerable<ResultPair> evalResults, 
+            ConfigCode contractCode, TargetSeed contractSeed, 
+            Func<IArticleResultValues, bool> getValsFunc) 
+            where TResult : class, ResultItem
+            where TRValue : class, IArticleResultValues
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusSeed(contractCode, contractSeed));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TRValue, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TRValue, string>("Failed casting");
+            }
+            Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(getValsFunc);
+            if (typeValues.HasNoValue)
+            {
+                return Result.Fail<TRValue, string>("Failed value lookup");
+            }
+            return Result.Ok<TRValue, string>(typeValues.Value);
         }
 
         public static ResultPack FindPositionResultForCode(this IEnumerable<ResultPair> evalResults, ConfigCode positionCode, TargetHead contractCode, TargetSeed positionSeed)
         {
-            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndSeed(r.Key, positionCode, contractCode, positionSeed));
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndSeed(positionCode, contractCode, positionSeed));
 
-            if (findResult.Key == null)
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_POSITION_NOT_FOUND);
+
+            return findResult;
+        }
+
+        public static Result<TResult, string> FindPositionTypeResultForCode<TResult>(this IEnumerable<ResultPair> evalResults, ConfigCode positionCode, TargetHead contractCode, TargetSeed positionSeed) where TResult : class, ResultItem
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndSeed(positionCode, contractCode, positionSeed));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
             {
-                return ResultsUtils.Error("Position Result not found!");
+                return Result.Fail<TResult, string>(findResult.Error);
             }
-            ResultPack packResult = findResult.Value;
-            if (packResult.IsFailure)
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
             {
-                return ResultsUtils.Error(packResult.Error);
+                return Result.Fail<TResult, string>("Failed casting");
             }
-            return packResult;
+            return Result.Ok<TResult, string>(typeResult);
+        }
+        public static Result<TRValue, string> FindPositionResultValueForCode<TResult, TRValue>(this IEnumerable<ResultPair> evalResults, ConfigCode positionCode, TargetHead contractCode, TargetSeed positionSeed, 
+            Func<IArticleResultValues, bool> getValsFunc) 
+            where TResult : class, ResultItem
+            where TRValue : class, IArticleResultValues
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndSeed(positionCode, contractCode, positionSeed));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TRValue, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TRValue, string>("Failed casting");
+            }
+            Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(getValsFunc);
+            if (typeValues.HasNoValue)
+            {
+                return Result.Fail<TRValue, string>("Failed value lookup");
+            }
+            return Result.Ok<TRValue, string>(typeValues.Value);
         }
 
         public static ResultPack FindResultForCodePlusHead(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode)
         {
             TargetPart partCode = ArticleTarget.PART_CODE_NULL;
 
-            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndPart(r.Key, findCode, headCode, partCode));
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
 
-            if (findResult.Key == null)
-            {
-                return ResultsUtils.Error("Result for Contract Target and Code not found!");
-            }
-            ResultPack packResult = findResult.Value;
-            if (packResult.IsFailure)
-            {
-                return ResultsUtils.Error(packResult.Error);
-            }
-            return packResult;
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_CODE_NOT_FOUND);
+
+            return findResult;
         }
+        public static Result<TResult, string> FindTypeResultForCodePlusHead<TResult>(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode) where TResult : class, ResultItem
+        {
+            TargetPart partCode = ArticleTarget.PART_CODE_NULL;
+
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TResult, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TResult, string>("Failed casting");
+            }
+            return Result.Ok<TResult, string>(typeResult);
+        }
+        public static Result<TRValue, string> FindResultValueForCodePlusHead<TResult, TRValue>(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode,
+            Func<IArticleResultValues, bool> getValsFunc)
+            where TResult : class, ResultItem
+            where TRValue : class, IArticleResultValues
+        {
+            TargetPart partCode = ArticleTarget.PART_CODE_NULL;
+
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TRValue, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TRValue, string>("Failed casting");
+            }
+            Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(getValsFunc);
+            if (typeValues.HasNoValue)
+            {
+                return Result.Fail<TRValue, string>("Failed value lookup");
+            }
+            return Result.Ok<TRValue, string>(typeValues.Value);
+        }
+
 
         public static ResultPack FindResultForCodePlusPart(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode, TargetPart partCode)
         {
-            ResultPair findResult = evalResults.FirstOrDefault((r) => IsEqualByCodePlusHeadAndPart(r.Key, findCode, headCode, partCode));
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
 
-            if (findResult.Key == null)
-            {
-                return ResultsUtils.Error("Result for Position Target and Code not found!");
-            }
-            ResultPack packResult = findResult.Value;
-            if (packResult.IsFailure)
-            {
-                return ResultsUtils.Error(packResult.Error);
-            }
-            return packResult;
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_POSITION_CODE_NOT_FOUND);
+
+            return findResult;
         }
+        public static Result<TResult, string> FindTypeResultForCodePlusPart<TResult>(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode, TargetPart partCode) where TResult : class, ResultItem
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TResult, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TResult, string>("Failed casting");
+            }
+            return Result.Ok<TResult, string>(typeResult);
+        }
+        public static Result<TRValue, string> FindResultValueForCodePlusPart<TResult, TRValue>(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode, TargetPart partCode,
+            Func<IArticleResultValues, bool> getValsFunc)
+            where TResult : class, ResultItem
+            where TRValue : class, IArticleResultValues
+        {
+            Func<TargetItem, bool> filterFunc = (x) => (x.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode));
+
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TRValue, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TRValue, string>("Failed casting");
+            }
+            Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(getValsFunc);
+            if (typeValues.HasNoValue)
+            {
+                return Result.Fail<TRValue, string>("Failed value lookup");
+            }
+            return Result.Ok<TRValue, string>(typeValues.Value);
+        }
+
 
         public static IEnumerable<ResultPair> GetResultForCodePlusHead(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode)
         {
-            IEnumerable<ResultPair> findResults = evalResults.Where((r) => IsEqualByCodePlusHead(r.Key, findCode, headCode));
+            Func<ResultPair, bool> filterFunc = (x) => (x.Key.IsEqualByCodePlusHead(findCode, headCode));
+
+            IEnumerable<ResultPair> findResults = evalResults.Where(filterFunc);
 
             return findResults;
-        }
-
-        public static bool IsEqualByCodePlusSeed(IArticleTarget currtarget, ConfigCode findCode, TargetSeed findSeed)
-        {
-            return currtarget.IsEqualByCodePlusSeed(findCode, findSeed);
-        }
-        public static bool IsEqualByCodePlusHead(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode)
-        {
-            return currtarget.IsEqualByCodePlusHead(findCode, headCode);
-        }
-        public static bool IsEqualByCodePlusHeadAndSeed(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode, TargetSeed findSeed)
-        {
-            return currtarget.IsEqualByCodePlusHeadAndSeed(findCode, headCode, findSeed);
-        }
-        public static bool IsEqualByCodePlusHeadAndPart(IArticleTarget currtarget, ConfigCode findCode, TargetHead headCode, TargetPart partCode)
-        {
-            return currtarget.IsEqualByCodePlusHeadAndPart(findCode, headCode, partCode);
         }
     }
 }

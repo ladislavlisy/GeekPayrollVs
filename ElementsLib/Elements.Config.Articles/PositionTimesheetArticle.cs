@@ -30,6 +30,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Results;
     using MaybeMonad;
     using Module.Codes;
+    using Module.Items.Utils;
 
     public class PositionTimesheetArticle : GeneralArticle, ICloneable
     {
@@ -128,43 +129,25 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode workCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_SCHEDULE;
 
-                    ResultPack workBundle = InternalValues.FindResultForCodePlusPart(workCode, InternalTarget.Head(), InternalTarget.Part());
-                    if (workBundle.IsFailure)
-                    {
-                        return ReturnFailureAndError(initValues, workBundle.Error);
-                    }
-                    ArticleGeneralResult workResult = workBundle.Value as ArticleGeneralResult;
-                    if (workResult == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    Maybe<WorkMonthResultValue> workValues = workResult.ReturnValue<WorkMonthResultValue>((v) => (v.IsRealMonthValue()));
-                    if (workValues.HasNoValue)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-
-                    WorkMonthResultValue workValuesPrep = workValues.Value;
+                    Result<WorkMonthResultValue, string> workFindResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WorkMonthResultValue>(
+                        workCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsRealMonthValue()));
+                    WorkMonthResultValue workValuesPrep = workFindResult.Value;
 
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
-                    ResultPack termBundle = InternalValues.FindPositionResultForCode(termCode, InternalTarget.Head(), InternalTarget.Part());
-                    if (termBundle.IsFailure)
-                    {
-                        return ReturnFailureAndError(initValues, termBundle.Error);
-                    }
-                    ArticleGeneralResult termResult = termBundle.Value as ArticleGeneralResult;
-                    if (termResult == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    Maybe<MonthFromStopResultValue> termValues = termResult.ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
-                    if (termValues.HasNoValue)
+                    Result<MonthFromStopResultValue, string> termFindResult = InternalValues
+                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopResultValue>(
+                        termCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsMonthFromStopValue()));
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(workFindResult, workFindResult))
                     {
                         return ReturnFailure(initValues);
                     }
 
-                    MonthFromStopResultValue termValuesPrep = termValues.Value;
+                    MonthFromStopResultValue termValuesPrep = termFindResult.Value;
 
                     return new EvaluateSource
                     {

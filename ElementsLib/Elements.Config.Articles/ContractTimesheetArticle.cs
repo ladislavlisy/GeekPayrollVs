@@ -180,8 +180,6 @@ namespace ElementsLib.Elements.Config.Articles
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
             {
-                // TODO: Names and ResultMonadListExtensions and ResultMonadUtils
-                // TODO: Names and ToResultWithValueListAndError and ZipToResultWithTupleListAndError
                 public ResultBuilder(TargetItem evalTarget, IEnumerable<ResultPair> evalResults) : base(evalTarget, evalResults)
                 {
                 }
@@ -189,34 +187,21 @@ namespace ElementsLib.Elements.Config.Articles
                 protected ResultMonad.Result<PositionEvaluateSource, string> BuildItem(TargetPart part, ResultItem resultTerm, ResultItem resultWork)
                 {
                     ArticleGeneralResult termResult = resultTerm as ArticleGeneralResult;
-                    if (termResult == null)
+                    ArticleGeneralResult workResult = resultWork as ArticleGeneralResult;
+                    if (MaybeMonadUtils.HaveAllNotNullValues(termResult, workResult))
                     {
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
+
                     Maybe<TermFromStopPositionValue> termValues = termResult.ReturnPositionTermFromStopValue();
-                    if (termValues.HasNoValue)
+                    Maybe<WorkMonthResultValue> realValues = workResult.ReturnRealMonthValue();
+                    Maybe<WorkMonthResultValue> restValues = workResult.ReturnTermMonthValue();
+                    if (MaybeMonadUtils.HaveAllResultsValues(termValues, realValues, restValues))
                     {
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
 
                     TermFromStopPositionValue termPosition = termValues.Value;
-
-                    ArticleGeneralResult workResult = resultWork as ArticleGeneralResult;
-                    if (workResult == null)
-                    {
-                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    Maybe<WorkMonthResultValue> realValues = workResult.ReturnRealMonthValue();
-                    if (realValues.HasNoValue)
-                    {
-                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-                    Maybe<WorkMonthResultValue> restValues = workResult.ReturnTermMonthValue();
-                    if (restValues.HasNoValue)
-                    {
-                        return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-
                     WorkMonthResultValue realSchedule = realValues.Value;
                     WorkMonthResultValue restSchedule = restValues.Value;
 
@@ -231,31 +216,50 @@ namespace ElementsLib.Elements.Config.Articles
                     };
                     return Result.Ok<PositionEvaluateSource, string>(buildResult);
                 }
-                public override EvaluateSource GetNewValues(EvaluateSource initValues)
+
+                private Result<IEnumerable<KeyValuePair<TargetPart, Tuple<ResultItem, ResultItem>>>, string> GetZip2Position(IEnumerable<ResultPair> positionList, IEnumerable<ResultPair> scheduleList)
+                {
+                    Func<Result<ResultItem, string>> defaultPosition = () => (Result.Fail<ResultItem, string>("position missing"));
+                    Func<Result<ResultItem, string>> defaultSchedule = () => (Result.Fail<ResultItem, string>("schedule missing"));
+
+                    Func<TargetItem, TargetItem, TargetPart> indexBuilder = (xa, xb) => (xb.Part());
+                    Func<TargetItem, TargetItem, int> compareTarget = (xa, xb) => (xa.Seed().CompareTo(xb.Part()));
+
+                    var positionZips = ResultMonadUtils.Zip2ToResultWithKeyValListAndError(positionList, scheduleList, 
+                        defaultPosition, defaultSchedule, indexBuilder, compareTarget);
+
+                    return positionZips;
+                }
+                private Result<IEnumerable<PositionEvaluateSource>, string> GetPositionValues()
                 {
                     ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
                     ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
 
-                    IEnumerable<ResultPair> positionList = InternalValues.GetResultForCodePlusHead(positionCode, InternalTarget.Head());
-                    IEnumerable<ResultPair> positionComp = positionList.OrderBy((c) => (c.Key.Seed()));
+                    IEnumerable<ResultPair> positionGets = InternalValues.GetResultForCodePlusHead(positionCode, InternalTarget.Head());
+                    IEnumerable<ResultPair> positionList = positionGets.OrderBy((c) => (c.Key.Seed()));
 
-                    IEnumerable<ResultPair> scheduleList = InternalValues.GetResultForCodePlusHead(scheduleCode, InternalTarget.Head());
-                    IEnumerable<ResultPair> scheduleComp = scheduleList.OrderBy((c) => (c.Key.Part()));
-
-                    var positionResult = ResultMonadUtils.ZipToResultWithTupleListAndError(positionComp, scheduleComp, "position missing", "schedule missing",
-                        (ka, kb) => (kb.Part()), (xa, xb) => (xa.Key.Seed().CompareTo(xb.Key.Part())));
-                    if (positionResult.IsFailure)
+                    IEnumerable<ResultPair> scheduleGets = InternalValues.GetResultForCodePlusHead(scheduleCode, InternalTarget.Head());
+                    IEnumerable<ResultPair> scheduleList = scheduleGets.OrderBy((c) => (c.Key.Part()));
+                    
+                    var positionZips = GetZip2Position(positionList, scheduleList);
+                    if (positionZips.IsFailure)
                     {
-                        return ReturnFailureAndError(initValues, positionResult.Error);
+                        return Result.Fail<IEnumerable<PositionEvaluateSource>, string>(positionZips.Error);
                     }
-                    var positionStream = positionResult.Value.Select((tp) => (BuildItem(tp.Key, tp.Value.Item1, tp.Value.Item2))).ToList();
-                    var positionValida = positionStream.ToResultWithValueListAndError((tp) => (tp));
-                    if (positionValida.IsFailure)
+                    var positionStream = positionZips.Value.Select((tp) => (BuildItem(tp.Key, tp.Value.Item1, tp.Value.Item2))).ToList();
+
+                    return positionStream.ToResultWithValueListAndError((tp) => (tp));
+                }
+                public override EvaluateSource GetNewValues(EvaluateSource initValues)
+                {
+                    var positionValues = GetPositionValues();
+
+                    if (positionValues.IsFailure)
                     {
-                        return ReturnFailureAndError(initValues, positionValida.Error);
+                        return ReturnFailureAndError(initValues, positionValues.Error);
                     }
 
-                    var completeSorted = positionValida.Value.OrderBy((p) => (p), new ComparePositionTerms());
+                    var completeSorted = positionValues.Value.OrderBy((p) => (p), new ComparePositionTerms());
 
                     return new EvaluateSource
                     {

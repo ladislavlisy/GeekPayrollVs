@@ -18,6 +18,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.PositionTermSource;
+    using ResultType = ResultMonad.Result<Results.ArticleGeneralResult, string>;
 
     using Sources;
     using Concepts;
@@ -148,23 +149,17 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM;
 
-                    ResultPack termBundle = InternalValues.FindContractResultForCode(termCode, InternalTarget.Head());
-                    if (termBundle.IsFailure)
-                    {
-                        return ReturnFailureAndError(initValues, termBundle.Error);
-                    }
-                    ArticleGeneralResult termResult = termBundle.Value as ArticleGeneralResult;
-                    if (termResult == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    Maybe<MonthFromStopResultValue> termValues = termResult.ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
-                    if (termValues.HasNoValue)
+                    Result<MonthFromStopResultValue, string> termFindResult = InternalValues
+                        .FindContractResultValueForCode<ArticleGeneralResult, MonthFromStopResultValue>(
+                        termCode, InternalTarget.Head(), 
+                        (x) => (x.IsMonthFromStopValue()));
+
+                    if (termFindResult.IsFailure)
                     {
                         return ReturnFailure(initValues);
                     }
 
-                    MonthFromStopResultValue termValuesPrep = termValues.Value;
+                    MonthFromStopResultValue termPrepValues = termFindResult.Value;
 
                     return new EvaluateSource
                     {
@@ -172,8 +167,8 @@ namespace ElementsLib.Elements.Config.Articles
                         DateTermFrom = initValues.DateTermFrom,
                         DateTermStop = initValues.DateTermStop,
                         PositionType = initValues.PositionType,
-                        DayContractFrom = termValuesPrep.PeriodDayFrom,
-                        DayContractStop = termValuesPrep.PeriodDayStop
+                        DayContractFrom = termPrepValues.PeriodDayFrom,
+                        DayContractStop = termPrepValues.PeriodDayStop
                         // PROPERTIES SET
                     };
                 }

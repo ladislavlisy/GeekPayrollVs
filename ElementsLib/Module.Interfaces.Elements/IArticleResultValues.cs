@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
+    using ResultCode = UInt16;
     public interface IArticleResultValues
     {
         string Description();
+        bool IsResultCodeValue(ResultCode code);
         bool IsContractFromStopValue();
         bool IsPositionFromStopValue();
         bool IsMonthFromStopValue();

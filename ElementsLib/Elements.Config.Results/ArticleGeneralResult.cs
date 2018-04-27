@@ -115,7 +115,6 @@ namespace ElementsLib.Elements.Config.Results
 
             return string.Format("{0}\r\n{1}", articleCode, articleDesc);
         }
-
         public Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues
         {
             IArticleResultValues generalvalue = ResultValues.SingleOrDefault(filterFunc);
@@ -125,6 +124,10 @@ namespace ElementsLib.Elements.Config.Results
                 return Maybe<T>.Nothing;
             }
             return Maybe.From<T>(value);
+        }
+        public Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues
+        {
+            return ReturnValue<T>((x) => (x.IsResultCodeValue(filterCode)));
         }
         public Maybe<TermFromStopContractValue> ReturnContractTermFromStopValue()
         {

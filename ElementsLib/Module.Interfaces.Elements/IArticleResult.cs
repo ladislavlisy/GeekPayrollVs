@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Interfaces.Elements
 {
-    using ElementsLib.Legalist.Constants;
     using ConfigCode = UInt16;
+    using ResultCode = UInt16;
     using TDay = Byte;
     using TSeconds = Int32;
+
+    using ElementsLib.Legalist.Constants;
+    using MaybeMonad;
     public interface IArticleResult : ICloneable
     {
         ConfigCode Code();
@@ -21,5 +24,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
+        Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
+        Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;
     }
 }
