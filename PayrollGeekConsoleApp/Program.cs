@@ -8,6 +8,8 @@ namespace PayrollGeekConsoleApp
         {
             string configFolder = ConfigFilesFolder();
 
+            ProgramModule.ExportArticlesConfigForLoad(configFolder);
+
             ProgramModule.CreatePayrollData(configFolder);
         }
 

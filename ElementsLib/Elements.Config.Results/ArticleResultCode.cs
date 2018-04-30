@@ -17,7 +17,8 @@ namespace ElementsLib.Elements.Config.Results
         RESULT_VALUE_FULL_MONTH_HOURS,
         RESULT_VALUE_REAL_MONTH_HOURS,
         RESULT_VALUE_TERM_MONTH_HOURS,
-        RESULT_VALUE_ATTN_MONTH_HOURS
+        RESULT_VALUE_ATTN_MONTH_HOURS,
+        RESULT_VALUE_PAYMENT_MONEY
     }
     public static class ArticleCzCodeExtensions
     {

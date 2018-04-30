@@ -77,9 +77,21 @@ namespace ElementsLib.Legalist.Versions.Employ
         }
 
         public TAnmount SalaryAmountScheduleWork(Period period, TAnmount amountMonthly,
-            TSeconds fulltimeHour, TSeconds workingHours, TSeconds absenceHours)
+            TSeconds fulltimeHour, TSeconds workingHours)
         {
-            return TAnmount.Zero;
+            int positiveHours = Math.Max(0, workingHours);
+
+            decimal salaryValue = BigMultiAndDiv(positiveHours, amountMonthly, fulltimeHour);
+
+            return salaryValue;
+        }
+        protected decimal BigMultiAndDiv(decimal op1, decimal op2, decimal div)
+        {
+            if (div == 0m)
+            {
+                return 0m;
+            }
+            return decimal.Divide(decimal.Multiply(op1, op2), div);
         }
     }
 }

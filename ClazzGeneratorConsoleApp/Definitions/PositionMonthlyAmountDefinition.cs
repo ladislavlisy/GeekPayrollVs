@@ -9,12 +9,13 @@ namespace ClazzGeneratorConsoleApp.Definitions
 		public PositionMonthlyAmountDefinition() : base(ArticleRole.ARTICLE_POSITION_MONTHLY_AMOUNT)
 		{
             ArticleSources = ArticleDefinition.CreateParams(
-                CreateParam("total_amount", FieldType.DECIMAL),
-                CreateRefer("shift_liable", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_SCHEDULE),  // Plný Úvazek
-                CreateRefer("shift_worked", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_SCHEDULE),  // Skuteèný úvazek
-                CreateRefer("hours_liable", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_TIMESHEET), // Hodin skuteèného úvazku
-                CreateRefer("hours_worked", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_WORKING));  // Hodin odpracováno
-            ArticleResults = ArticleDefinition.CreateParams();
+                CreateParam("MonthlyAmount", FieldType.TAmount),
+                CreateRefer("ShiftLiable", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_SCHEDULE),  // Plný Úvazek
+                CreateRefer("ShiftWorked", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_SCHEDULE),  // Skuteèný úvazek
+                CreateRefer("HoursLiable", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_TIMESHEET), // Hodin skuteèného úvazku
+                CreateRefer("HoursWorked", FieldType.SHORT, ArticleRole.ARTICLE_POSITION_WORKING));  // Hodin odpracováno
+            ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("Payment", FieldType.TAmount));
 		}
 	}
 }

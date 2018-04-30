@@ -23,6 +23,8 @@ namespace PayrollGeekConsoleApp
     using ElementsLib.Service.Legalist;
     using ElementsLib.Service.Calculus;
     using ElementsLib.Module.Interfaces.Elements;
+    using System.Linq;
+    using ElementsLib.Module.Codes;
 
     static class ProgramModule
     {
@@ -58,13 +60,28 @@ namespace PayrollGeekConsoleApp
 
             List<ResultPair> evaluationCase = calculService.GetEvaluationCase();
 
-            string configFilePath = System.IO.Path.Combine(configFolder, "ARTICLES_PAYROLL.TXT");
+            string articlesFilePath = System.IO.Path.Combine(configFolder, "PROCESS_ARTICLES.TXT");
 
             try
             {
-                StreamWriter writerFile = new StreamWriter(configFilePath, false, Encoding.GetEncoding("windows-1250"));
+                StreamWriter writerFile = new StreamWriter(articlesFilePath, false, Encoding.GetEncoding("windows-1250"));
 
                 evaluationPath.ForEach((c) => writerFile.WriteLine(c.Description()));
+
+                writerFile.Flush();
+
+                writerFile.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Print(ex.Message);
+            }
+
+            string payrollFilePath = System.IO.Path.Combine(configFolder, "PROCESS_EVALUATE.TXT");
+
+            try
+            {
+                StreamWriter writerFile = new StreamWriter(payrollFilePath, false, Encoding.GetEncoding("windows-1250"));
 
                 evaluationCase.ForEach((c) => writerFile.WriteLine(c.Description()));
 
@@ -77,6 +94,40 @@ namespace PayrollGeekConsoleApp
                 System.Diagnostics.Debug.Print(ex.Message);
             }
         }
+        public static void ExportArticlesConfigForLoad(string filesFolder)
+        {
+            string genSourcePath = System.IO.Path.Combine(filesFolder, "ARTICLE_CONFIG_DATA.TXT");
+            var codes = ArticleCodeConfigBuilder.GetConfigDataList();
+            var roles = ArticleRoleConfigBuilder.GetConfigDataList();
+
+            FileInfo genSourceFile = new FileInfo(genSourcePath);
+            FileStream genSourceStream = genSourceFile.Create();
+
+            using (StreamWriter genSourceWriter = new StreamWriter(genSourceStream, System.Text.Encoding.GetEncoding("windows-1250")))
+            {
+                foreach (var code in codes)
+                {
+                    string TypeSymbol = code.Type.ToEnum<ArticleType>().GetSymbol();
+                    string BindSymbol = code.Bind.ToEnum<ArticleBind>().GetSymbol();
+
+                    //new ArticleCodeConfigData(9, 9, 1, "FACT_CONTRACT_ABSENCE", 7, 6)
+                    genSourceWriter.WriteLine(string.Format("new ArticleCodeConfigData({0}, {1}, {2}, {3}, \"{4}\", {5}),",
+                        code.Code.ToString(), code.Role.ToString(), TypeSymbol, BindSymbol, code.Name,
+                        string.Join(", ", code.Path.Select((p) => (p.ToString())))));
+                }
+
+                genSourceWriter.WriteLine();
+
+                foreach (var role in roles)
+                {
+                    //new ArticleRoleConfigData(0, "ARTICLE_UNKNOWN")
+                    genSourceWriter.WriteLine(string.Format("new ArticleRoleConfigData({0}, \"{1}\"),",
+                        role.Role.ToString(), role.Name));
+                }
+                genSourceWriter.Flush();
+            }
+        }
+
 
         public static void LoadSourceJson(string configFolder)
         {

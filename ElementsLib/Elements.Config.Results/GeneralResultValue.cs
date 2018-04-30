@@ -30,7 +30,7 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS);
         }
-        public bool IsPartWeeksValue()
+        public bool IsRealWeeksValue()
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_WEEKS_HOURS);
         }

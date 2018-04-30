@@ -31,8 +31,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                 new ContractWorkingDefinition(),
                 new ContractAbsenceDefinition(),
                 new ContractAttendItemDefinition(),
-#if ALL_ARTICLES_DEF
                 new PositionMonthlyAmountDefinition(),
+#if ALL_ARTICLES_DEF
                 new TaxDeclarationDefinition(),
                 new InsHealthDeclarationDefinition(),
                 new InsSocialDeclarationDefinition(),

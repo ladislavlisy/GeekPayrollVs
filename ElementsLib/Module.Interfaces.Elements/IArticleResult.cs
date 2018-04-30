@@ -10,6 +10,7 @@ namespace ElementsLib.Module.Interfaces.Elements
     using ResultCode = UInt16;
     using TDay = Byte;
     using TSeconds = Int32;
+    using TAmount = Decimal;
 
     using ElementsLib.Legalist.Constants;
     using MaybeMonad;
@@ -25,6 +26,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth);
+        IArticleResult AddMoneyPaymentValue(TAmount payment);
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;
     }

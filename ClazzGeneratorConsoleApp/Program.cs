@@ -12,8 +12,6 @@ namespace ClazzGeneratorConsoleApp
         {
             string configFolder = ConfigFilesFolder();
 
-            ProgramModule.ExportArticlesConfigForLoad(configFolder);
-
             ProgramModule.GenerateDefinitionForArticles(configFolder);
 
             ProgramModule.GenerateSourceForArticles(configFolder);

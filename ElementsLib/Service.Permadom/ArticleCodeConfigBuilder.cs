@@ -30,6 +30,7 @@ namespace ElementsLib.Service.Permadom
 
             return new ConfigItemData(codeData, roleData, typeData, bindData, codeName, codePath);
         }
+        #region CONFIG_DATA
         public static IEnumerable<ConfigItemData> GetConfigDataList()
         {
             IList<ConfigItemData> configList = new List<ConfigItemData>()
@@ -65,8 +66,12 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_WORKING, ConfigRoleEnum.ARTICLE_POSITION_WORKING, 
                     ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigCodeEnum.FACT_POSITION_ABSENCE),
+                CreateConfigItem(ConfigCodeEnum.FACT_POSITION_MONTHLY_AMOUNT, ConfigRoleEnum.ARTICLE_POSITION_MONTHLY_AMOUNT, 
+                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_OPT,
+                    ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigCodeEnum.FACT_POSITION_WORKING),
             };
             return configList;
         }
+        #endregion
     }
 }

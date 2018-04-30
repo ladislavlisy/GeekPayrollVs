@@ -15,7 +15,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         bool IsPositionFromStopValue();
         bool IsMonthFromStopValue();
         bool IsFullWeeksValue();
-        bool IsPartWeeksValue();
+        bool IsRealWeeksValue();
         bool IsFullMonthValue();
         bool IsRealMonthValue();
         bool IsTermMonthValue();

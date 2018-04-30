@@ -28,6 +28,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         TIME_REQ,
         TDay,
         TSeconds,
+        TAmount,
         TSheetSeconds = 1000,
         AWorkDayPieceType,
         WorkEmployTerms = 2000,
@@ -120,6 +121,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "new TSeconds[0]";
                 case FieldType.AWorkDayPieceType:
                     return "new WorkDayPieceType[0]";
+                case FieldType.TAmount:
+                    return "decimal.Zero";
                 default:
                     return type.ToString();
             }
@@ -134,6 +137,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "TSeconds = Int32";
                 case FieldType.TSheetSeconds:
                     return "TSeconds = Int32";
+                case FieldType.TAmount:
+                    return "TAmount = Decimal";
                 default:
                     return "";
             }

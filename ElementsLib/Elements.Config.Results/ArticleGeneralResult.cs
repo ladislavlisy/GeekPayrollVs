@@ -11,6 +11,7 @@ namespace ElementsLib.Elements.Config.Results
 
     using TDay = Byte;
     using TSeconds = Int32;
+    using TAmount = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Libs;
@@ -101,6 +102,15 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
+        public IArticleResult AddMoneyPaymentValue(TAmount payment)
+        {
+            IArticleResultValues value = new MoneyPaymentValue((ResultCode)ArticleResultCode.RESULT_VALUE_PAYMENT_MONEY, payment);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+
 
         protected ConfigCode InternalCode { get; set; }
         protected ResultValuesStore ResultValues { get; set; }

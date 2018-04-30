@@ -141,5 +141,18 @@ namespace ElementsLib.Module.Items.Utils
             }
             return result;
         }
+
+        public static TSeconds TotalWeekHours(TSeconds[] template)
+        {
+            TSeconds result = template.Take(7).Aggregate(0, (agr, x) => (agr + x));
+
+            return result;
+        }
+        public static TSeconds TotalMonthHours(TSeconds[] template)
+        {
+            TSeconds result = template.Take(31).Aggregate(0, (agr, x) => (agr + x));
+
+            return result;
+        }
     }
 }

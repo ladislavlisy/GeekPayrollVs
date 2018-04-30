@@ -39,6 +39,7 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_WORKING),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_ATTEND_ITEM),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_MONTHLY_AMOUNT),
             };
             return configList;
         }
