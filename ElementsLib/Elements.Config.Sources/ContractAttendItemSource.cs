@@ -18,8 +18,8 @@ namespace ElementsLib.Elements.Config.Sources
 
     public class ContractAttendItemSource : ISourceValues, ICloneable
     {
-        public Byte DayFrom { get; set; }
-        public Byte DayStop { get; set; }
+        public TDay DayFrom { get; set; }
+        public TDay DayStop { get; set; }
         public WorkDayPieceType[] PieceInDays { get; set; }
         public TSeconds[] HoursInDays { get; set; }
 
@@ -50,6 +50,5 @@ namespace ElementsLib.Elements.Config.Sources
 
             return cloneSource;
         }
-
     }
 }

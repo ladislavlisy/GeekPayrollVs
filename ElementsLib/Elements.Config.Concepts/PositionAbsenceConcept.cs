@@ -7,6 +7,9 @@ namespace ElementsLib.Elements.Config.Concepts
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
@@ -21,6 +24,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
     using ResultMonad;
+    using Module.Items.Utils;
 
     public static class PositionAbsenceConcept
     {
@@ -38,10 +42,17 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TSeconds[] positionMonth = PeriodUtils.EmptyMonthSchedule();
+            foreach (var absence in conceptValues.AbsenceList)
+            {
+                positionMonth = PeriodUtils.ScheduleFromTemplateStopInc(positionMonth, 
+                    absence.ScheduleMonth, conceptValues.DayPositionFrom, conceptValues.DayPositionStop);
+            }
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddWorkMonthTermScheduleValue(positionMonth);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

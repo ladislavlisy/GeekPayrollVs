@@ -12,9 +12,9 @@ namespace ElementsLib.Elements.Config.Results
     using Module.Items.Utils;
     using Module.Libs;
 
-    public class WorkMonthResultValue : GeneralResultValue
+    public class MonthScheduleValue : GeneralResultValue
     {
-        public WorkMonthResultValue(ResultCode code, TSeconds[] hoursMonth) : base(code)
+        public MonthScheduleValue(ResultCode code, TSeconds[] hoursMonth) : base(code)
         {
             HoursMonth = hoursMonth.ToArray();
         }

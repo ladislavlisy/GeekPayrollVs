@@ -19,5 +19,6 @@ namespace ElementsLib.Module.Interfaces.Elements
         bool IsFullMonthValue();
         bool IsRealMonthValue();
         bool IsTermMonthValue();
+        bool IsMonthAttendanceValue();
     }
 }

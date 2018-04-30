@@ -50,5 +50,9 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TERM_MONTH_HOURS);
         }
+        public bool IsMonthAttendanceValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_ATTN_MONTH_HOURS);
+        }
     }
 }

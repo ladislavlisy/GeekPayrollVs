@@ -27,7 +27,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddWorkWeeksFullScheduleValue(TSeconds[] hoursWeek)
         {
-            IArticleResultValues value = new WorkWeekResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS, hoursWeek);
+            IArticleResultValues value = new WeekScheduleValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_WEEKS_HOURS, hoursWeek);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -35,7 +35,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddWorkWeeksRealScheduleValue(TSeconds[] hoursWeek)
         {
-            IArticleResultValues value = new WorkWeekResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_WEEKS_HOURS, hoursWeek);
+            IArticleResultValues value = new WeekScheduleValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_WEEKS_HOURS, hoursWeek);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -44,7 +44,7 @@ namespace ElementsLib.Elements.Config.Results
         
         public IArticleResult AddContractFromStop(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType)
         {
-            IArticleResultValues value = new TermFromStopContractValue(dateFrom, dateStop, contractType);
+            IArticleResultValues value = new ContractFromStopValue(dateFrom, dateStop, contractType);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -52,7 +52,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddPositionFromStop(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType)
         {
-            IArticleResultValues value = new TermFromStopPositionValue(dateFrom, dateStop, positionType);
+            IArticleResultValues value = new PositionFromStopValue(dateFrom, dateStop, positionType);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -60,7 +60,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop)
         {
-            IArticleResultValues value = new MonthFromStopResultValue(dayFrom, dayStop);
+            IArticleResultValues value = new MonthFromStopValue(dayFrom, dayStop);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -68,7 +68,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth)
         {
-            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS, hoursMonth);
+            IArticleResultValues value = new MonthScheduleValue((ResultCode)ArticleResultCode.RESULT_VALUE_FULL_MONTH_HOURS, hoursMonth);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -76,7 +76,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth)
         {
-            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_MONTH_HOURS, hoursMonth);
+            IArticleResultValues value = new MonthScheduleValue((ResultCode)ArticleResultCode.RESULT_VALUE_REAL_MONTH_HOURS, hoursMonth);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -84,7 +84,18 @@ namespace ElementsLib.Elements.Config.Results
         }
         public IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth)
         {
-            IArticleResultValues value = new WorkMonthResultValue((ResultCode)ArticleResultCode.RESULT_VALUE_TERM_MONTH_HOURS, hoursMonth);
+            IArticleResultValues value = new MonthScheduleValue((ResultCode)ArticleResultCode.RESULT_VALUE_TERM_MONTH_HOURS, hoursMonth);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+
+        public IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth)
+        {
+            IArticleResultValues value = new MonthAttendanceValue(
+                (ResultCode)ArticleResultCode.RESULT_VALUE_ATTN_MONTH_HOURS, 
+                dayFrom, dayStop, hoursMonth);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -129,29 +140,33 @@ namespace ElementsLib.Elements.Config.Results
         {
             return ReturnValue<T>((x) => (x.IsResultCodeValue(filterCode)));
         }
-        public Maybe<TermFromStopContractValue> ReturnContractTermFromStopValue()
+        public Maybe<ContractFromStopValue> ReturnContractTermFromStopValue()
         {
-            return ReturnValue<TermFromStopContractValue>((v) => (v.IsContractFromStopValue()));
+            return ReturnValue<ContractFromStopValue>((v) => (v.IsContractFromStopValue()));
         }
-        public Maybe<TermFromStopPositionValue> ReturnPositionTermFromStopValue()
+        public Maybe<PositionFromStopValue> ReturnPositionTermFromStopValue()
         {
-            return ReturnValue<TermFromStopPositionValue>((v) => (v.IsPositionFromStopValue()));
+            return ReturnValue<PositionFromStopValue>((v) => (v.IsPositionFromStopValue()));
         }
-        public Maybe<MonthFromStopResultValue> ReturnMonthFromStopValue()
+        public Maybe<MonthFromStopValue> ReturnMonthFromStopValue()
         {
-            return ReturnValue<MonthFromStopResultValue>((v) => (v.IsMonthFromStopValue()));
+            return ReturnValue<MonthFromStopValue>((v) => (v.IsMonthFromStopValue()));
         }
-        public Maybe<WorkMonthResultValue> ReturnFullMonthValue()
+        public Maybe<MonthScheduleValue> ReturnFullMonthValue()
         {
-            return ReturnValue<WorkMonthResultValue>((v) => (v.IsFullMonthValue()));
+            return ReturnValue<MonthScheduleValue>((v) => (v.IsFullMonthValue()));
         }
-        public Maybe<WorkMonthResultValue> ReturnRealMonthValue()
+        public Maybe<MonthScheduleValue> ReturnRealMonthValue()
         {
-            return ReturnValue<WorkMonthResultValue>((v) => (v.IsRealMonthValue()));
+            return ReturnValue<MonthScheduleValue>((v) => (v.IsRealMonthValue()));
         }
-        public Maybe<WorkMonthResultValue> ReturnTermMonthValue()
+        public Maybe<MonthScheduleValue> ReturnTermMonthValue()
         {
-            return ReturnValue<WorkMonthResultValue>((v) => (v.IsTermMonthValue()));
+            return ReturnValue<MonthScheduleValue>((v) => (v.IsTermMonthValue()));
+        }
+        public Maybe<MonthAttendanceValue> ReturnMonthAttendanceValue()
+        {
+            return ReturnValue<MonthAttendanceValue>((v) => (v.IsMonthAttendanceValue()));
         }
     }
 }

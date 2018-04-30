@@ -9,6 +9,9 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
@@ -25,6 +28,9 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Module.Codes;
+    using Legalist.Constants;
+    using System.Linq;
 
     public class ContractAttendItemArticle : GeneralArticle, ICloneable
     {
@@ -96,7 +102,12 @@ namespace ElementsLib.Elements.Config.Articles
         public class EvaluateSource
         {
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public ConfigCode AbsenceCode { get; set; }
+            public TDay DayFrom { get; set; }
+            public TDay DayStop { get; set; }
+            public WorkDayPieceType[] SchedulePiece { get; set; }
+            public TSeconds[] ScheduleHours { get; set; }
+            public TSeconds[] ScheduleMonth { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -114,6 +125,12 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
+                        AbsenceCode = 0,
+                        DayFrom = conceptValues.DayFrom,
+                        DayStop = conceptValues.DayStop,
+                        SchedulePiece = conceptValues.PieceInDays.ToArray(),
+                        ScheduleHours = conceptValues.HoursInDays.ToArray(),
+                        ScheduleMonth = new TSeconds[0]
                         // PROPERTIES SET
                     };
                 }
@@ -126,7 +143,31 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    return initValues;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TIMESHEET;
+
+                    Result<MonthScheduleValue, string> scheduleResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsRealMonthValue()));
+
+                    if (scheduleResult.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, scheduleResult.Error);
+                    }
+
+                    MonthScheduleValue scheduleValues = scheduleResult.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        AbsenceCode = initValues.AbsenceCode,
+                        DayFrom = initValues.DayFrom,
+                        DayStop = initValues.DayStop,
+                        SchedulePiece = initValues.SchedulePiece,
+                        ScheduleHours = initValues.ScheduleHours,
+                        ScheduleMonth = scheduleValues.HoursMonth.ToArray()
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

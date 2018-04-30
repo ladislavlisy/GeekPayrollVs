@@ -6,13 +6,13 @@ namespace ElementsLib.Elements.Config.Results
 
     using ElementsLib.Legalist.Constants;
     using Module.Libs;
-    public class TermFromStopPositionValue : GeneralResultValue
+    public class PositionFromStopValue : GeneralResultValue
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateStop { get; set; }
         public WorkPositionType PositionType { get; set; }
 
-        public TermFromStopPositionValue(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType) : base((ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_POSITION)
+        public PositionFromStopValue(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType) : base((ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_POSITION)
         {
             DateFrom = dateFrom;
             DateStop = dateStop;

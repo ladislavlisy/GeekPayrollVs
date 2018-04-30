@@ -241,5 +241,13 @@ namespace ElementsLib.Elements.Utils
 
             return findResults;
         }
+        public static IEnumerable<ResultPair> GetResultForCodePlusHeadOrderBySeed(this IEnumerable<ResultPair> evalResults, ConfigCode findCode, TargetHead headCode)
+        {
+            Func<ResultPair, bool> filterFunc = (x) => (x.Key.IsEqualByCodePlusHead(findCode, headCode));
+
+            IEnumerable<ResultPair> findResults = evalResults.Where(filterFunc).OrderBy((c) => (c.Key.Seed()));
+
+            return findResults;
+        }
     }
 }

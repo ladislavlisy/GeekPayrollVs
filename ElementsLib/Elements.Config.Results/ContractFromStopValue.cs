@@ -6,13 +6,13 @@ namespace ElementsLib.Elements.Config.Results
 
     using ElementsLib.Legalist.Constants;
     using Module.Libs;
-    public class TermFromStopContractValue : GeneralResultValue
+    public class ContractFromStopValue : GeneralResultValue
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateStop { get; set; }
         public WorkEmployTerms ContractType { get; set; }
 
-        public TermFromStopContractValue(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType) : base((ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_POSITION)
+        public ContractFromStopValue(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType) : base((ResultCode)ArticleResultCode.RESULT_VALUE_FROM_STOP_POSITION)
         {
             DateFrom = dateFrom;
             DateStop = dateStop;

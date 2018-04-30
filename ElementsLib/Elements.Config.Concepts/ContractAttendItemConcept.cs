@@ -7,6 +7,8 @@ namespace ElementsLib.Elements.Config.Concepts
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
 
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
@@ -21,6 +23,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using Sources;
     using Results;
     using ResultMonad;
+    using Module.Items.Utils;
 
     public static class ContractAttendItemConcept
     {
@@ -38,10 +41,18 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TSeconds[] absencseMonth = PeriodUtils.ScheduleFromTimesheet(
+                conceptValues.ScheduleMonth, 
+                conceptValues.SchedulePiece, 
+                conceptValues.ScheduleHours, 
+                conceptValues.DayFrom,
+                conceptValues.DayStop);
+
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddMonthAttendanceScheduleValue(conceptValues.DayFrom, conceptValues.DayStop, absencseMonth);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

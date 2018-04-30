@@ -197,19 +197,19 @@ namespace ElementsLib.Elements.Config.Articles
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
 
-                    Maybe<TermFromStopPositionValue> termValues = termResult.ReturnPositionTermFromStopValue();
-                    Maybe<MonthFromStopResultValue> daysValues = termResult.ReturnMonthFromStopValue();
-                    Maybe<WorkMonthResultValue> realValues = workResult.ReturnRealMonthValue();
-                    Maybe<WorkMonthResultValue> restValues = workResult.ReturnTermMonthValue();
+                    Maybe<PositionFromStopValue> termValues = termResult.ReturnPositionTermFromStopValue();
+                    Maybe<MonthFromStopValue> daysValues = termResult.ReturnMonthFromStopValue();
+                    Maybe<MonthScheduleValue> realValues = workResult.ReturnRealMonthValue();
+                    Maybe<MonthScheduleValue> restValues = workResult.ReturnTermMonthValue();
                     if (MaybeMonadUtils.HaveAnyResultNoValues(termValues, daysValues, realValues, restValues))
                     {
                         return Result.Fail<PositionEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
                     }
 
-                    TermFromStopPositionValue termPosition = termValues.Value;
-                    MonthFromStopResultValue daysPosition = daysValues.Value;
-                    WorkMonthResultValue realSchedule = realValues.Value;
-                    WorkMonthResultValue restSchedule = restValues.Value;
+                    PositionFromStopValue termPosition = termValues.Value;
+                    MonthFromStopValue daysPosition = daysValues.Value;
+                    MonthScheduleValue realSchedule = realValues.Value;
+                    MonthScheduleValue restSchedule = restValues.Value;
 
                     PositionEvaluateSource buildResult = new PositionEvaluateSource
                     {
@@ -243,11 +243,11 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
                     ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
 
-                    IEnumerable<ResultPair> positionGets = InternalValues.GetResultForCodePlusHead(positionCode, InternalTarget.Head());
-                    IEnumerable<ResultPair> positionList = positionGets.OrderBy((c) => (c.Key.Seed()));
+                    IEnumerable<ResultPair> positionList = InternalValues.GetResultForCodePlusHeadOrderBySeed(
+                        positionCode, InternalTarget.Head());
 
-                    IEnumerable<ResultPair> scheduleGets = InternalValues.GetResultForCodePlusHead(scheduleCode, InternalTarget.Head());
-                    IEnumerable<ResultPair> scheduleList = scheduleGets.OrderBy((c) => (c.Key.Part()));
+                    IEnumerable<ResultPair> scheduleList = InternalValues.GetResultForCodePlusHeadOrderBySeed(
+                        scheduleCode, InternalTarget.Head());
                     
                     var positionZips = GetZip2Position(positionList, scheduleList);
                     if (positionZips.IsFailure)

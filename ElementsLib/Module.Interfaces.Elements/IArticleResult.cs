@@ -24,6 +24,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthFullScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
+        IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth);
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;
     }

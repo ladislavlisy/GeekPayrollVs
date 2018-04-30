@@ -41,7 +41,8 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TSeconds[] scheduleWorked = PeriodUtils.ScheduleFromTemplate(conceptValues.ScheduleMonth, 1, 32);
+            TSeconds[] scheduleWorked = PeriodUtils.ScheduleBaseSubtract(
+                conceptValues.ScheduleMonth, conceptValues.AbsencesMonth, 1, 31);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);

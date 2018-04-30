@@ -129,25 +129,26 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode workCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_SCHEDULE;
 
-                    Result<WorkMonthResultValue, string> workFindResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WorkMonthResultValue>(
+                    Result<MonthScheduleValue, string> workFindResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
                         workCode, InternalTarget.Head(), InternalTarget.Part(),
                         (x) => (x.IsRealMonthValue()));
-                    WorkMonthResultValue workValuesPrep = workFindResult.Value;
+                    MonthScheduleValue workValuesPrep = workFindResult.Value;
 
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
-                    Result<MonthFromStopResultValue, string> termFindResult = InternalValues
-                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopResultValue>(
+                    Result<MonthFromStopValue, string> termFindResult = InternalValues
+                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
                         termCode, InternalTarget.Head(), InternalTarget.Part(),
                         (x) => (x.IsMonthFromStopValue()));
 
                     if (ResultMonadUtils.HaveAnyResultFailed(workFindResult, workFindResult))
                     {
-                        return ReturnFailure(initValues);
+                        return ReturnFailureAndError(initValues, 
+                            ResultMonadUtils.FirstFailedResultError(workFindResult, workFindResult));
                     }
 
-                    MonthFromStopResultValue termValuesPrep = termFindResult.Value;
+                    MonthFromStopValue termValuesPrep = termFindResult.Value;
 
                     return new EvaluateSource
                     {

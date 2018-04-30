@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Elements.Config.Articles\ContractAttendItemArticle.cs" />
     <Compile Include="Elements.Config.Concepts\ContractAbsenceConcept.cs" />
-    <Compile Include="Elements.Config.Concepts\ContractAttendItemSource.cs" />
+    <Compile Include="Elements.Config.Concepts\ContractAttendItemConcept.cs" />
     <Compile Include="Elements.Config.Concepts\ContractTermConcept.cs" />
     <Compile Include="Elements.Config.Concepts\ContractTimesheetConcept.cs" />
     <Compile Include="Elements.Config.Concepts\ContractWorkingConcept.cs" />
@@ -58,12 +58,15 @@
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
     <Compile Include="Elements.Config.Results\ArticleResultCode.cs" />
     <Compile Include="Elements.Config.Results\GeneralResultValue.cs" />
-    <Compile Include="Elements.Config.Results\MonthFromStopResultValue.cs" />
-    <Compile Include="Elements.Config.Results\TermFromStopContractValue.cs" />
-    <Compile Include="Elements.Config.Results\TermFromStopPositionValue.cs" />
-    <Compile Include="Elements.Config.Results\WorkMonthResultValue.cs" />
-    <Compile Include="Elements.Config.Results\WorkWeekResultValue.cs" />
+    <Compile Include="Elements.Config.Results\MonthAttendanceValue.cs" />
+    <Compile Include="Elements.Config.Results\MonthFromStopValue.cs" />
+    <Compile Include="Elements.Config.Results\ContractFromStopValue.cs" />
+    <Compile Include="Elements.Config.Results\PositionFromStopValue.cs" />
+    <Compile Include="Elements.Config.Results\MonthScheduleValue.cs" />
+    <Compile Include="Elements.Config.Results\WeekScheduleValue.cs" />
     <Compile Include="Elements.Config.Sources\ContractAttendItemSource.cs" />
+    <Compile Include="Elements.Evaluate.Sources\PositionDetailsBuilder.cs" />
+    <Compile Include="Elements.Evaluate.Sources\PositionScheduleEvalDetail.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />
     <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
     <Compile Include="Elements\EvalValuesBuilder.cs" />

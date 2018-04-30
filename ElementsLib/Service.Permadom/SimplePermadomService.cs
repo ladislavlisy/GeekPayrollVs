@@ -4,6 +4,9 @@ using System.Collections.Generic;
 namespace ElementsLib.Service.Permadom
 {
     using ConfigBind = UInt16;
+    using TDay = Byte;
+    using TSeconds = Int32;
+
 
     using ArticleCodeConfigItem = Module.Interfaces.Permadom.ArticleCodeConfigData;
     using ArticleRoleConfigItem = Module.Interfaces.Permadom.ArticleRoleConfigData;
@@ -39,6 +42,10 @@ namespace ElementsLib.Service.Permadom
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_ABSENCE,
                     Tags = null,
                 },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_CONTRACT_ATTEND_ITEM,
+                    Tags = new ContractAttendItemSource(TestModule.AbsenceFrom, TestModule.AbsenceStop, TestModule.AbsenceDaysParam, TestModule.AbsenceDaysHours),
+                },
                 //FACT_POSITION_TIMESHEET,
                 //FACT_POSITION_WORKING,
                 //FACT_POSITION_ABSENCE,
@@ -57,14 +64,14 @@ namespace ElementsLib.Service.Permadom
                 new ArticleCodeConfigData(0, 0, 0, OPT, "FACT_UNKNOWN"),
                 new ArticleCodeConfigData(1, 1, 0, REQ, "FACT_CONTRACT_TERM"),
                 new ArticleCodeConfigData(2, 2, 1, REQ, "FACT_CONTRACT_TIMESHEET", 1, 8),
-                new ArticleCodeConfigData(3, 3, 1, REQ, "FACT_CONTRACT_WORKING", 2, 9),
                 new ArticleCodeConfigData(5, 5, 1, OPT, "FACT_CONTRACT_ATTEND_ITEM", 2),
                 new ArticleCodeConfigData(4, 4, 1, REQ, "FACT_CONTRACT_ABSENCE", 2, 10),
+                new ArticleCodeConfigData(3, 3, 1, REQ, "FACT_CONTRACT_WORKING", 2, 9),
                 new ArticleCodeConfigData(6, 6, 1, REQ, "FACT_POSITION_TERM", 1),
                 new ArticleCodeConfigData(7, 7, 2, REQ, "FACT_POSITION_SCHEDULE", 6),
                 new ArticleCodeConfigData(8, 8, 2, REQ, "FACT_POSITION_TIMESHEET", 7),
-                new ArticleCodeConfigData(9, 9, 2, REQ, "FACT_POSITION_WORKING", 8),
                 new ArticleCodeConfigData(10, 10, 2, REQ, "FACT_POSITION_ABSENCE", 8, 5),
+                new ArticleCodeConfigData(9, 9, 2, REQ, "FACT_POSITION_WORKING", 8, 10),
             };
         }
         public IEnumerable<ArticleRoleConfigItem> GetArticleRoleData()
@@ -109,6 +116,17 @@ namespace ElementsLib.Service.Permadom
         public static WorkDayPieceType HalfDayType = WorkDayPieceType.WORKDAY_HALF;
         public static WorkDayPieceType NoneDayType = WorkDayPieceType.WORKDAY_NONE;
         public static WorkDayPieceType TimeDayType = WorkDayPieceType.WORKDAY_TIME;
+        public static TDay AbsenceFrom = 8;
+        public static TDay AbsenceStop = 14;
+        public static WorkDayPieceType[] AbsenceDaysParam = new WorkDayPieceType[7] {
+            WorkDayPieceType.WORKDAY_FULL,
+            WorkDayPieceType.WORKDAY_FULL,
+            WorkDayPieceType.WORKDAY_FULL,
+            WorkDayPieceType.WORKDAY_HALF,
+            WorkDayPieceType.WORKDAY_HALF,
+            WorkDayPieceType.WORKDAY_NONE,
+            WorkDayPieceType.WORKDAY_NONE };
+        public static TSeconds[] AbsenceDaysHours = new TSeconds[7] {0, 0, 0, 0, 0, 0, 0 };
 
         #endregion
     }

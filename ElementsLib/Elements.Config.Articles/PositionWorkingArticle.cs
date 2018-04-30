@@ -29,6 +29,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Utils;
     using Results;
     using Module.Codes;
+    using Module.Items.Utils;
 
     public class PositionWorkingArticle : GeneralArticle, ICloneable
     {
@@ -101,6 +102,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             // PROPERTIES DEF
             public TSeconds[] ScheduleMonth { get; set; }
+            public TSeconds[] AbsencesMonth { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -134,24 +136,33 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    ConfigCode timeCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
+                    ConfigCode absencesCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
 
-                    Result<WorkMonthResultValue, string> timeFindResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WorkMonthResultValue>(
-                        timeCode, InternalTarget.Head(), InternalTarget.Part(),
+                    Result<MonthScheduleValue, string> scheduleResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
                         (x) => (x.IsTermMonthValue()));
 
-                    if (timeFindResult.IsFailure)
+                    Result<MonthScheduleValue, string> absencesResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        absencesCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsTermMonthValue()));
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(scheduleResult, absencesResult))
                     {
-                        return ReturnFailure(initValues);
+                        return ReturnFailureAndError(initValues, 
+                            ResultMonadUtils.FirstFailedResultError(scheduleResult, absencesResult));
                     }
 
-                    WorkMonthResultValue timePrepValues = timeFindResult.Value;
+                    MonthScheduleValue scheduleValues = scheduleResult.Value;
+                    MonthScheduleValue absencesValues = absencesResult.Value;
 
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        ScheduleMonth = timePrepValues.HoursMonth
+                        ScheduleMonth = scheduleValues.HoursMonth,
+                        AbsencesMonth = absencesValues.HoursMonth
                         // PROPERTIES SET
                     };
                 }

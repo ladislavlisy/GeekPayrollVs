@@ -149,17 +149,17 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM;
 
-                    Result<MonthFromStopResultValue, string> termFindResult = InternalValues
-                        .FindContractResultValueForCode<ArticleGeneralResult, MonthFromStopResultValue>(
+                    Result<MonthFromStopValue, string> termFindResult = InternalValues
+                        .FindContractResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
                         termCode, InternalTarget.Head(), 
                         (x) => (x.IsMonthFromStopValue()));
 
                     if (termFindResult.IsFailure)
                     {
-                        return ReturnFailure(initValues);
+                        return ReturnFailureAndError(initValues, termFindResult.Error);
                     }
 
-                    MonthFromStopResultValue termPrepValues = termFindResult.Value;
+                    MonthFromStopValue termPrepValues = termFindResult.Value;
 
                     return new EvaluateSource
                     {

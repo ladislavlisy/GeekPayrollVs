@@ -9,9 +9,9 @@ namespace ElementsLib.Elements.Config.Results
     using Module.Items.Utils;
     using Module.Libs;
 
-    public class WorkWeekResultValue : GeneralResultValue
+    public class WeekScheduleValue : GeneralResultValue
     {
-        public WorkWeekResultValue(ResultCode code, TSeconds[] hoursWeek) : base(code)
+        public WeekScheduleValue(ResultCode code, TSeconds[] hoursWeek) : base(code)
         {
             HoursWeek = hoursWeek.ToArray();
         }

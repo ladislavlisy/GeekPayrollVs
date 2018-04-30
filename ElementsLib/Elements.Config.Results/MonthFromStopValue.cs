@@ -7,12 +7,12 @@ namespace ElementsLib.Elements.Config.Results
 
     using Module.Libs;
 
-    public class MonthFromStopResultValue : GeneralResultValue
+    public class MonthFromStopValue : GeneralResultValue
     {
         public TDay PeriodDayFrom { get; protected set; }
         public TDay PeriodDayStop { get; protected set; }
 
-        public MonthFromStopResultValue(byte dayFrom, byte dayStop) : base((ResultCode)ArticleResultCode.RESULT_VALUE_MONTH_FROM_STOP)
+        public MonthFromStopValue(byte dayFrom, byte dayStop) : base((ResultCode)ArticleResultCode.RESULT_VALUE_MONTH_FROM_STOP)
         {
             this.PeriodDayFrom = dayFrom;
             this.PeriodDayStop = dayStop;

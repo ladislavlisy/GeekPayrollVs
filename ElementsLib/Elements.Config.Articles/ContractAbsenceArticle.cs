@@ -25,6 +25,9 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Evaluate.Sources;
+    using Module.Codes;
+    using System.Linq;
 
     public class ContractAbsenceArticle : GeneralArticle, ICloneable
     {
@@ -96,7 +99,7 @@ namespace ElementsLib.Elements.Config.Articles
         public class EvaluateSource
         {
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public IList<PositionScheduleEvalDetail> PositionList { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -106,16 +109,7 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    SourceItem conceptValues = InternalValues as SourceItem;
-                    if (conceptValues == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    return new EvaluateSource
-                    {
-                        // PROPERTIES SET
-                        // PROPERTIES SET
-                    };
+                    return initValues;
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -126,9 +120,24 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
+
+                    var positionValues = PositionDetailsBuilder.GetPositionValues(InternalValues, positionCode, scheduleCode, InternalTarget.Head());
+
+                    if (positionValues.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, positionValues.Error);
+                    }
+
+                    var completeSorted = positionValues.Value.OrderBy((p) => (p), new ComparePositionTerms());
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        PositionList = completeSorted.ToList()
+                        // PROPERTIES SET
+                    };
                 }
             }
         }
