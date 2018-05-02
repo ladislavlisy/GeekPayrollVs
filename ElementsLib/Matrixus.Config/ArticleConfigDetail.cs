@@ -5,6 +5,7 @@ using System.Linq;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
+    using ConfigGang = UInt16;
     using ConfigRole = UInt16;
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
@@ -18,6 +19,7 @@ namespace ElementsLib.Matrixus.Config
     public class ArticleConfigDetail : IArticleConfigDetail
     {
         protected ConfigCode InternalCode { get; set; }
+        protected ConfigGang InternalGang { get; set; }
         protected ConfigRole InternalRole { get; set; }
         protected ConfigType InternalType { get; set; }
         protected ConfigBind InternalBind { get; set; }
@@ -25,11 +27,13 @@ namespace ElementsLib.Matrixus.Config
         protected IList<ConfigCode> InternalPath { get; set; }
         protected ConfigStub InternalStub { get; set; }
 
-        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
+        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
         {
             InternalCode = _code;
 
             InternalName = _name;
+
+            InternalGang = _gang;
 
             InternalType = _type;
 
@@ -44,6 +48,10 @@ namespace ElementsLib.Matrixus.Config
         public ConfigRole Role()
         {
             return InternalRole;
+        }
+        public ConfigGang Gang()
+        {
+            return InternalGang;
         }
         public ConfigType Type()
         {
@@ -66,11 +74,13 @@ namespace ElementsLib.Matrixus.Config
             return InternalStub;
         }
 
-        public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
+        public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
         {
             InternalCode = _code;
 
             InternalName = _name;
+
+            InternalGang = _gang;
 
             InternalType = _type;
 
@@ -86,6 +96,7 @@ namespace ElementsLib.Matrixus.Config
         {
             ArticleConfigDetail cloneMaster = (ArticleConfigDetail)this.MemberwiseClone();
             cloneMaster.InternalCode = this.InternalCode;
+            cloneMaster.InternalGang = this.InternalGang;
             cloneMaster.InternalRole = this.InternalRole;
             cloneMaster.InternalType = this.InternalType;
             cloneMaster.InternalBind = this.InternalBind;

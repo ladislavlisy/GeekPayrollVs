@@ -15,20 +15,24 @@ namespace ElementsLib.Service.Permadom
     using ConfigTypeData = UInt16;
     using ConfigBindEnum = Module.Codes.ArticleBind;
     using ConfigBindData = UInt16;
+    using ConfigGangEnum = Module.Codes.ArticleGang;
+    using ConfigGangData = UInt16;
 
     using ConfigItemData = Module.Interfaces.Permadom.ArticleCodeConfigData;
     public class ArticleCodeConfigBuilder
     {
-        public static ConfigItemData CreateConfigItem(ConfigCodeEnum codeEnum, ConfigRoleEnum roleEnum, ConfigTypeEnum typeEnum, ConfigBindEnum bindEnum, params ConfigCodeEnum[] pathEnum)
+        public static ConfigItemData CreateConfigItem(ConfigCodeEnum codeEnum, ConfigRoleEnum roleEnum, 
+            ConfigGangEnum gangEnum, ConfigTypeEnum typeEnum, ConfigBindEnum bindEnum, params ConfigCodeEnum[] pathEnum)
         {
             ConfigCodeData codeData = (ConfigCodeData)codeEnum;
             ConfigRoleData roleData = (ConfigRoleData)roleEnum;
+            ConfigGangData gangData = (ConfigGangData)gangEnum;
             ConfigTypeData typeData = (ConfigTypeData)typeEnum;
             ConfigBindData bindData = (ConfigBindData)bindEnum;
             ConfigCodeData[] codePath = pathEnum.Select((c) => ((ConfigCodeData)c)).ToArray();
             ConfigCodeName codeName = codeEnum.GetSymbol();
 
-            return new ConfigItemData(codeData, roleData, typeData, bindData, codeName, codePath);
+            return new ConfigItemData(codeData, roleData, gangData, typeData, bindData, codeName, codePath);
         }
         #region CONFIG_DATA
         public static IEnumerable<ConfigItemData> GetConfigDataList()
@@ -36,39 +40,80 @@ namespace ElementsLib.Service.Permadom
             IList<ConfigItemData> configList = new List<ConfigItemData>()
             {
                 CreateConfigItem(ConfigCodeEnum.FACT_UNKNOWN, ConfigRoleEnum.ARTICLE_UNKNOWN, 
-                    ArticleType.NO_HEAD_PART_TYPE, ArticleBind.ARTICLE_OPT),
+                    ConfigGangEnum.EARNINGS_GANG,
+                    ConfigTypeEnum.NO_HEAD_PART_TYPE, ConfigBindEnum.ARTICLE_OPT),
+#region CONTRACT_ARTICLES
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_TERM, ConfigRoleEnum.ARTICLE_CONTRACT_TERM, 
-                    ArticleType.NO_HEAD_PART_TYPE, ArticleBind.ARTICLE_REQ),
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.NO_HEAD_PART_TYPE, ConfigBindEnum.ARTICLE_REQ),
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_TIMESHEET, ConfigRoleEnum.ARTICLE_CONTRACT_TIMESHEET, 
-                    ArticleType.HEAD_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_CONTRACT_TERM, ConfigCodeEnum.FACT_POSITION_TIMESHEET),
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_ATTEND_ITEM, ConfigRoleEnum.ARTICLE_CONTRACT_ATTEND_ITEM, 
-                    ArticleType.HEAD_CODE_ARTICLE, ArticleBind.ARTICLE_OPT,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_OPT,
                     ConfigCodeEnum.FACT_CONTRACT_TIMESHEET),
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_ABSENCE, ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE, 
-                    ArticleType.HEAD_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_CONTRACT_TIMESHEET, ConfigCodeEnum.FACT_POSITION_ABSENCE),
                 CreateConfigItem(ConfigCodeEnum.FACT_CONTRACT_WORKING, ConfigRoleEnum.ARTICLE_CONTRACT_WORKING, 
-                    ArticleType.HEAD_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_CONTRACT_TIMESHEET, ConfigCodeEnum.FACT_POSITION_WORKING),
+#endregion
+#region POSITION_ARTICLES
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_TERM, ConfigRoleEnum.ARTICLE_POSITION_TERM, 
-                    ArticleType.HEAD_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_CONTRACT_TERM),
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_SCHEDULE, ConfigRoleEnum.ARTICLE_POSITION_SCHEDULE, 
-                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.PART_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_POSITION_TERM),
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigRoleEnum.ARTICLE_POSITION_TIMESHEET, 
-                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.PART_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_POSITION_SCHEDULE),
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_ABSENCE, ConfigRoleEnum.ARTICLE_POSITION_ABSENCE, 
-                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.PART_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigCodeEnum.FACT_CONTRACT_ATTEND_ITEM),
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_WORKING, ConfigRoleEnum.ARTICLE_POSITION_WORKING, 
-                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_REQ,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.PART_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
                     ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigCodeEnum.FACT_POSITION_ABSENCE),
+#endregion
+#region SALARY_ARTICLES
                 CreateConfigItem(ConfigCodeEnum.FACT_POSITION_MONTHLY_AMOUNT, ConfigRoleEnum.ARTICLE_POSITION_MONTHLY_AMOUNT, 
-                    ArticleType.PART_CODE_ARTICLE, ArticleBind.ARTICLE_OPT,
+                    ConfigGangEnum.EARNINGS_GANG, 
+                    ConfigTypeEnum.PART_CODE_ARTICLE, ConfigBindEnum.ARTICLE_OPT,
                     ConfigCodeEnum.FACT_POSITION_TIMESHEET, ConfigCodeEnum.FACT_POSITION_WORKING),
+#endregion
+#region TAXING_AND_INSURACE
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_DECLARATION, ConfigRoleEnum.ARTICLE_TAX_DECLARATION, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ),
+                CreateConfigItem(ConfigCodeEnum.FACT_INS_DECLARATION_HEALTH, ConfigRoleEnum.ARTICLE_INS_DECLARATION_HEALTH, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ),
+                CreateConfigItem(ConfigCodeEnum.FACT_INS_DECLARATION_SOCIAL, ConfigRoleEnum.ARTICLE_INS_DECLARATION_SOCIAL, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ),
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_INCOMES_GENERAL, ConfigRoleEnum.ARTICLE_TAX_INCOMES_GENERAL, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
+                    ConfigCodeEnum.FACT_TAX_DECLARATION),
+                CreateConfigItem(ConfigCodeEnum.FACT_INS_INCOMES_HEALTH, ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
+                    ConfigCodeEnum.FACT_INS_DECLARATION_HEALTH),
+                CreateConfigItem(ConfigCodeEnum.FACT_INS_INCOMES_SOCIAL, ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL, 
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ,
+                    ConfigCodeEnum.FACT_INS_DECLARATION_SOCIAL),
+#endregion
             };
             return configList;
         }

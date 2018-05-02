@@ -40,7 +40,13 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_CONTRACT_ATTEND_ITEM),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_POSITION_MONTHLY_AMOUNT),
-            };
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_DECLARATION),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_DECLARATION_HEALTH),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_DECLARATION_SOCIAL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_GENERAL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL),
+           };
             return configList;
         }
 

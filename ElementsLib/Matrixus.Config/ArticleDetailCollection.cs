@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
+    using ConfigGang = UInt16;
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
     using ConfigItem = Module.Interfaces.Matrixus.IArticleConfigDetail;
@@ -27,11 +28,11 @@ namespace ElementsLib.Matrixus.Config
         {
             this.InternalRanks = new Dictionary<ConfigCode, ConfigSort>();
 
-            this.InternalQueue = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
+            this.InternalQueue = new Dictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>>();
         }
 
         protected IDictionary<ConfigCode, ConfigSort> InternalRanks { get; set; }
-        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> InternalQueue { get; set; }
+        protected IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> InternalQueue { get; set; }
 
         public IDictionary<ConfigCode, ConfigSort> Ranks()
         {
@@ -41,7 +42,7 @@ namespace ElementsLib.Matrixus.Config
         public void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
             IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Type, c.Bind, c.Path)))).ToList();
+                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Gang, c.Type, c.Bind, c.Path)))).ToList();
 
             ConfigureModel(configTypeList);
 
@@ -81,9 +82,9 @@ namespace ElementsLib.Matrixus.Config
 
         protected void ConfigureModelDependency()
         {
-            IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsZero = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
+            IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsZero = new Dictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>>();
 
-            InternalQueue = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), ResolveDependencyPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
+            InternalQueue = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), c.Value.Gang(), ResolveDependencyPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
 
             IList<ConfigCode> TempKeys = InternalModels.Keys.ToList();
 
@@ -94,7 +95,7 @@ namespace ElementsLib.Matrixus.Config
             InternalRanks = SortPair.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        protected ConfigCode[] ResolveDependencyPath(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected ConfigCode[] ResolveDependencyPath(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
@@ -107,7 +108,7 @@ namespace ElementsLib.Matrixus.Config
             return resultsList.ToArray();
         }
 
-        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveDependencyIter(IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveDependencyIter(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             if (articlePath.Contains(resolveCode))
             {
@@ -117,12 +118,12 @@ namespace ElementsLib.Matrixus.Config
 
             ConfigCode[] articleSubs = articlePath.Merge(resolveCode).ToArray();
 
-            IEnumerable<ConfigCode> pathHead;
+            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> pathHead;
             bool foundHead = resultsHead.TryGetValue(resolveCode, out pathHead);
 
-            if (foundHead && pathHead != null)
+            if (foundHead && pathHead.Value != null)
             {
-                return resultsSink.Merge(resolveCode, pathHead);
+                return resultsSink.Merge(resolveCode, pathHead.Value);
             }
 
             IEnumerable<ConfigCode> pathSink;
@@ -163,9 +164,9 @@ namespace ElementsLib.Matrixus.Config
         }
         public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {
-            IEnumerable<ConfigCode> successQueue = InternalQueue.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value.ToList();
+            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> successConfig = InternalQueue.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value;
 
-            return successQueue;
+            return successConfig.Value.ToList();
         }
         protected ConfigCode[] ResolveSuccessQueue(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
@@ -194,9 +195,9 @@ namespace ElementsLib.Matrixus.Config
 
     internal class CompareConfigCode : IComparer<ConfigCode>
     {
-        private IDictionary<ushort, IEnumerable<ushort>> ModelOrderDict;
+        private IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> ModelOrderDict;
 
-        public CompareConfigCode(IDictionary<ushort, IEnumerable<ushort>> modelOrderDict)
+        public CompareConfigCode(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> modelOrderDict)
         {
             this.ModelOrderDict = modelOrderDict;
         }
@@ -208,25 +209,35 @@ namespace ElementsLib.Matrixus.Config
                 return 0;
             }
 
-            IEnumerable<ConfigCode> xResolve;
+            ConfigGang xResolveGang = 0;
+            IEnumerable<ConfigCode> xResolvePath;
+            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> xResolve;
             bool foundX = ModelOrderDict.TryGetValue(x, out xResolve);
 
-            if (foundX == false || xResolve == null)
+            if (foundX == false || xResolve.Value == null)
             {
-                xResolve = new ConfigCode[0];
+                xResolveGang = 0;
+                xResolvePath = new ConfigCode[0];
             }
+            xResolveGang = xResolve.Key;
+            xResolvePath = xResolve.Value;
 
-            IEnumerable<ConfigCode> yResolve;
+            ConfigGang yResolveGang = 0;
+            IEnumerable<ConfigCode> yResolvePath;
+            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> yResolve;
             bool foundY = ModelOrderDict.TryGetValue(y, out yResolve);
 
-            if (foundY == false || yResolve == null)
+            if (foundY == false || yResolve.Value == null)
             {
-                yResolve = new ConfigCode[0];
+                yResolveGang = 0;
+                yResolvePath = new ConfigCode[0];
             }
+            yResolveGang = yResolve.Key;
+            yResolvePath = yResolve.Value;
 
-            bool xDependsOnY = xResolve.Contains(y);
+            bool xDependsOnY = xResolvePath.Contains(y);
 
-            bool yDependsOnX = yResolve.Contains(x);
+            bool yDependsOnX = yResolvePath.Contains(x);
 
             if (xDependsOnY)
             {
@@ -238,9 +249,13 @@ namespace ElementsLib.Matrixus.Config
                 return -1;
             }
 
-            if (xResolve.Count() != yResolve.Count())
+            if (xResolveGang != yResolveGang)
             {
-                return xResolve.Count().CompareTo(yResolve.Count());
+                return xResolveGang.CompareTo(yResolveGang);
+            }
+            if (xResolvePath.Count() != yResolvePath.Count())
+            {
+                return xResolvePath.Count().CompareTo(yResolvePath.Count());
             }
 
             return x.CompareTo(y);

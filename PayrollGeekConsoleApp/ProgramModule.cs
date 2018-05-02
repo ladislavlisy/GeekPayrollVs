@@ -107,12 +107,13 @@ namespace PayrollGeekConsoleApp
             {
                 foreach (var code in codes)
                 {
+                    string GangSymbol = code.Gang.ToEnum<ArticleGang>().GetSymbol();
                     string TypeSymbol = code.Type.ToEnum<ArticleType>().GetSymbol();
                     string BindSymbol = code.Bind.ToEnum<ArticleBind>().GetSymbol();
 
                     //new ArticleCodeConfigData(9, 9, 1, "FACT_CONTRACT_ABSENCE", 7, 6)
-                    genSourceWriter.WriteLine(string.Format("new ArticleCodeConfigData({0}, {1}, {2}, {3}, \"{4}\", {5}),",
-                        code.Code.ToString(), code.Role.ToString(), TypeSymbol, BindSymbol, code.Name,
+                    genSourceWriter.WriteLine(string.Format("new ArticleCodeConfigData({0}, {1}, {2}, {3}, {4}, \"{5}\", {6}),",
+                        code.Code.ToString(), code.Role.ToString(), GangSymbol, TypeSymbol, BindSymbol, code.Name,
                         string.Join(", ", code.Path.Select((p) => (p.ToString())))));
                 }
 

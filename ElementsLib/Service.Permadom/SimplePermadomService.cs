@@ -5,6 +5,7 @@ namespace ElementsLib.Service.Permadom
 {
     using ConfigCode = UInt16;
     using ConfigRole = UInt16;
+    using ConfigGang = UInt16;
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
     using SymbolName = String;
@@ -56,6 +57,30 @@ namespace ElementsLib.Service.Permadom
                     Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_POSITION_MONTHLY_AMOUNT,
                     Tags = new MonthlyAmountSource(TestModule.BasicSalary),
                 },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_HEALTH,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_SOCIAL,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_DECLARATION,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_INCOMES_HEALTH,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_INCOMES_SOCIAL,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_INCOMES_GENERAL,
+                    Tags = null,
+                },
                 //FACT_POSITION_TIMESHEET,
                 //FACT_POSITION_WORKING,
                 //FACT_POSITION_ABSENCE,
@@ -66,6 +91,12 @@ namespace ElementsLib.Service.Permadom
         #endregion
         public IEnumerable<ArticleCodeConfigItem> GetArticleCodeData()
         {
+            const ConfigGang EARNINGS_GANG = 1;
+            const ConfigGang TRANSFER_GANG = 2;
+            //const ConfigGang GROSSNET_GANG = 3;
+            //const ConfigGang DEDUCTED_GANG = 4;
+            //const ConfigGang PAYMENTS_GANG = 5;
+
             const ConfigType NO_HEAD_PART_TYPE = 0;
             const ConfigType HEAD_CODE_ARTICLE = 1;
             const ConfigType PART_CODE_ARTICLE = 2;
@@ -75,18 +106,24 @@ namespace ElementsLib.Service.Permadom
 
             return new List<ArticleCodeConfigItem>()
             {
-                new ArticleCodeConfigData(0, 0, NO_HEAD_PART_TYPE, ARTICLE_OPT, "FACT_UNKNOWN"),
-                new ArticleCodeConfigData(1, 1, NO_HEAD_PART_TYPE, ARTICLE_REQ, "FACT_CONTRACT_TERM"),
-                new ArticleCodeConfigData(2, 2, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_TIMESHEET", 1, 8),
-                new ArticleCodeConfigData(5, 5, HEAD_CODE_ARTICLE, ARTICLE_OPT, "FACT_CONTRACT_ATTEND_ITEM", 2),
-                new ArticleCodeConfigData(4, 4, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_ABSENCE", 2, 10),
-                new ArticleCodeConfigData(3, 3, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_WORKING", 2, 9),
-                new ArticleCodeConfigData(6, 6, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_TERM", 1),
-                new ArticleCodeConfigData(7, 7, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_SCHEDULE", 6),
-                new ArticleCodeConfigData(8, 8, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_TIMESHEET", 7),
-                new ArticleCodeConfigData(10, 10, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_ABSENCE", 8, 5),
-                new ArticleCodeConfigData(9, 9, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_WORKING", 8, 10),
-                new ArticleCodeConfigData(10000, 1000, PART_CODE_ARTICLE, ARTICLE_OPT, "FACT_POSITION_MONTHLY_AMOUNT", 8, 9),
+                new ArticleCodeConfigData(0, 0, EARNINGS_GANG, NO_HEAD_PART_TYPE, ARTICLE_OPT, "FACT_UNKNOWN"),
+                new ArticleCodeConfigData(1, 1, EARNINGS_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, "FACT_CONTRACT_TERM"),
+                new ArticleCodeConfigData(2, 2, EARNINGS_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_TIMESHEET", 1, 8),
+                new ArticleCodeConfigData(5, 5, EARNINGS_GANG, HEAD_CODE_ARTICLE, ARTICLE_OPT, "FACT_CONTRACT_ATTEND_ITEM", 2),
+                new ArticleCodeConfigData(4, 4, EARNINGS_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_ABSENCE", 2, 10),
+                new ArticleCodeConfigData(3, 3, EARNINGS_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_CONTRACT_WORKING", 2, 9),
+                new ArticleCodeConfigData(6, 6, EARNINGS_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_TERM", 1),
+                new ArticleCodeConfigData(7, 7, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_SCHEDULE", 6),
+                new ArticleCodeConfigData(8, 8, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_TIMESHEET", 7),
+                new ArticleCodeConfigData(10, 10, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_ABSENCE", 8, 5),
+                new ArticleCodeConfigData(9, 9, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_REQ, "FACT_POSITION_WORKING", 8, 10),
+                new ArticleCodeConfigData(10000, 1000, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_OPT, "FACT_POSITION_MONTHLY_AMOUNT", 8, 9),
+                new ArticleCodeConfigData(10001, 1001, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_TAX_DECLARATION"),
+                new ArticleCodeConfigData(10002, 1002, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_INS_HEALTH_DECLARATION"),
+                new ArticleCodeConfigData(10003, 1003, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_INS_SOCIAL_DECLARATION"),
+                new ArticleCodeConfigData(10004, 1004, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_TAX_INCOMES_GENERAL", 10001),
+                new ArticleCodeConfigData(10007, 1007, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_INS_INCOMES_HEALTH", 10002),
+                new ArticleCodeConfigData(10008, 1008, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, "FACT_INS_INCOMES_SOCIAL", 10003),
             };
         }
         public IEnumerable<ArticleRoleConfigItem> GetArticleRoleData()
@@ -105,6 +142,12 @@ namespace ElementsLib.Service.Permadom
                 new ArticleRoleConfigData(4, "ARTICLE_CONTRACT_ABSENCE"),
                 new ArticleRoleConfigData(5, "ARTICLE_CONTRACT_ATTEND_ITEM"),
                 new ArticleRoleConfigData(1000, "ARTICLE_POSITION_MONTHLY_AMOUNT"),
+                new ArticleRoleConfigData(1001, "ARTICLE_TAX_DECLARATION"),
+                new ArticleRoleConfigData(1002, "ARTICLE_INS_DECLARATION_HEALTH"),
+                new ArticleRoleConfigData(1003, "ARTICLE_INS_DECLARATION_SOCIAL"),
+                new ArticleRoleConfigData(1004, "ARTICLE_TAX_INCOMES_GENERAL"),
+                new ArticleRoleConfigData(1007, "ARTICLE_INS_INCOMES_HEALTH"),
+                new ArticleRoleConfigData(1008, "ARTICLE_INS_INCOMES_SOCIAL"),
            };
         }
 

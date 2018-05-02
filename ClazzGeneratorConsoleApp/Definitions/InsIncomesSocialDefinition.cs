@@ -9,7 +9,10 @@ namespace ClazzGeneratorConsoleApp.Definitions
 		public InsIncomesSocialDefinition() : base(ArticleRole.ARTICLE_INS_INCOMES_SOCIAL)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
-			ArticleResults = ArticleDefinition.CreateParams();
-		}
-	}
+            ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("SummarizeType", FieldType.WorkSocialTerms),
+                CreateParam("IncomeExclude", FieldType.TAmount),
+                CreateParam("IncomeRelated", FieldType.TAmount));
+        }
+    }
 }

@@ -3,6 +3,7 @@
 namespace ElementsLib.Module.Interfaces.Matrixus
 {
     using ConfigCode = UInt16;
+    using ConfigGang = UInt16;
     using ConfigRole = UInt16;
     using ConfigName = String;
     using ConfigType = UInt16;
@@ -13,12 +14,13 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     {
         ConfigCode Code();
         ConfigName Name();
+        ConfigGang Gang();
         ConfigRole Role();
         ConfigType Type();
         ConfigBind Bind();
         ConfigCode[] Path();
         ConfigStub Stub();
-        void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path);
+        void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path);
         void SetSymbolRole(ConfigRole _role, ConfigStub _stub);
     }
 }

@@ -35,6 +35,9 @@ namespace ClazzGeneratorConsoleApp.Defs
         WorkPositionType,
         WorkScheduleType,
         WorkDayPieceType,
+        WorkTaxingTerms,
+        WorkHealthTerms,
+        WorkSocialTerms,
     }
     public static class FieldTypeExtensions
     {
@@ -115,6 +118,12 @@ namespace ClazzGeneratorConsoleApp.Defs
                     return "WorkScheduleType.SCHEDULE_NORMALY_WEEK";
                 case FieldType.WorkDayPieceType:
                     return "WorkDayPieceType.WORKDAY_FULL";
+                case FieldType.WorkTaxingTerms:
+                    return "WorkTaxingTerms.TAXING_TERM_EMPLOYMENT";
+                case FieldType.WorkHealthTerms:
+                    return "WorkHealthTerms.HEALTH_TERM_EMPLOYMENT";
+                case FieldType.WorkSocialTerms:
+                    return "WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT";
                 case FieldType.TSeconds:
                     return "0";
                 case FieldType.TSheetSeconds:

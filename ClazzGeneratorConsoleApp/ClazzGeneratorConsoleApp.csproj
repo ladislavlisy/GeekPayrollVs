@@ -65,12 +65,12 @@
     <Compile Include="Definitions\IncomeGrossDefinition.cs" />
     <Compile Include="Definitions\IncomeNettoDefinition.cs" />
     <Compile Include="Definitions\InsHealthBaseDefinition.cs" />
-    <Compile Include="Definitions\InsHealthDeclarationDefinition.cs" />
+    <Compile Include="Definitions\InsDeclarationHealthDefinition.cs" />
     <Compile Include="Definitions\InsHealthFinalDefinition.cs" />
     <Compile Include="Definitions\InsIncomesHealthDefinition.cs" />
     <Compile Include="Definitions\InsIncomesSocialDefinition.cs" />
     <Compile Include="Definitions\InsSocialBaseDefinition.cs" />
-    <Compile Include="Definitions\InsSocialDeclarationDefinition.cs" />
+    <Compile Include="Definitions\InsDeclarationSocialDefinition.cs" />
     <Compile Include="Definitions\InsSocialFinalDefinition.cs" />
     <Compile Include="Definitions\PositionAbsenceDefinition.cs" />
     <Compile Include="Definitions\PositionMonthlyAmountDefinition.cs" />

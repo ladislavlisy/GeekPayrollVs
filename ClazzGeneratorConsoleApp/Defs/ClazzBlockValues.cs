@@ -92,10 +92,10 @@ namespace ClazzGeneratorConsoleApp.Defs
             }
             WriteBaseBlokLine(writer, "using Legalist.Constants;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
-            WriteBaseBlokLine(writer, "using Module.Json;");
-            WriteBaseBlokLine(writer, "using Module.Libs;");
-            WriteBaseBlokLine(writer, "using Newtonsoft.Json;");
-            WriteBaseBlokLine(writer, "using Newtonsoft.Json.Converters;");
+            //WriteBaseBlokLine(writer, "using Module.Json;");
+            //WriteBaseBlokLine(writer, "using Module.Libs;");
+            //WriteBaseBlokLine(writer, "using Newtonsoft.Json;");
+            //WriteBaseBlokLine(writer, "using Newtonsoft.Json.Converters;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public class " + ValsClassName + " : ISourceValues, ICloneable");
             WriteBaseBlokLine(writer, "{");

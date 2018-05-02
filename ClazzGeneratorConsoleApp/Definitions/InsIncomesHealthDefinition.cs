@@ -9,7 +9,10 @@ namespace ClazzGeneratorConsoleApp.Definitions
 		public InsIncomesHealthDefinition() : base(ArticleRole.ARTICLE_INS_INCOMES_HEALTH)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
-			ArticleResults = ArticleDefinition.CreateParams();
-		}
-	}
+            ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("SummarizeType", FieldType.WorkHealthTerms),
+                CreateParam("IncomeExclude", FieldType.TAmount),
+                CreateParam("IncomeRelated", FieldType.TAmount));
+        }
+    }
 }

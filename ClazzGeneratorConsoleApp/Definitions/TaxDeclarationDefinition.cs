@@ -8,8 +8,17 @@ namespace ClazzGeneratorConsoleApp.Definitions
 	{
 		public TaxDeclarationDefinition() : base(ArticleRole.ARTICLE_TAX_DECLARATION)
 		{
-			ArticleSources = ArticleDefinition.CreateParams();
-			ArticleResults = ArticleDefinition.CreateParams();
+			ArticleSources = ArticleDefinition.CreateParams(
+                CreateParam("StatementType", FieldType.BYTE),
+                CreateParam("SummarizeType", FieldType.WorkTaxingTerms),
+                CreateParam("DeclaracyType", FieldType.BYTE),
+                CreateParam("ResidencyType", FieldType.BYTE));
+
+            ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("StatementType", FieldType.BYTE),
+                CreateParam("SummarizeType", FieldType.WorkTaxingTerms),
+                CreateParam("DeclaracyType", FieldType.BYTE),
+                CreateParam("ResidencyType", FieldType.BYTE));
 		}
 	}
 }

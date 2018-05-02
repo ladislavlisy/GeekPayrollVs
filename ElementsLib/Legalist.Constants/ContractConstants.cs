@@ -16,6 +16,12 @@ namespace ElementsLib.Legalist.Constants
         WORKTERM_STATUTORY__Q = 3,
         WORKTERM_UNKNOWN_TYPE = 9
     };
+    public enum WorkTaxingTerms : CONSTANTS_CODE
+    {
+        TAXING_TERM_EMPLOYMENT = 0,
+        TAXING_TERM_AGREE_WORK = 1,
+        TAXING_TERM_STATUTORYQ = 2
+    };
     public enum WorkHealthTerms : CONSTANTS_CODE
     {
         HEALTH_TERM_EMPLOYMENT = 0,

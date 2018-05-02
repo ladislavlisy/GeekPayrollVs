@@ -15,7 +15,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             Book = new List<ArticleDefinition>();
         }
-
+        #region CONFIG_GENERATOR
         public void InitBook()
         {
             Book = new List<ArticleDefinition>()
@@ -32,15 +32,15 @@ namespace ClazzGeneratorConsoleApp.Defs
                 new ContractAbsenceDefinition(),
                 new ContractAttendItemDefinition(),
                 new PositionMonthlyAmountDefinition(),
-#if ALL_ARTICLES_DEF
                 new TaxDeclarationDefinition(),
-                new InsHealthDeclarationDefinition(),
-                new InsSocialDeclarationDefinition(),
+                new InsDeclarationHealthDefinition(),
+                new InsDeclarationSocialDefinition(),
                 new TaxIncomesGeneralDefinition(),
-                new TaxIncomesAdvanceDefinition(),
-                new TaxIncomesWithholdDefinition(),
                 new InsIncomesHealthDefinition(),
                 new InsIncomesSocialDefinition(),
+#if ALL_ARTICLES_DEF
+                new TaxIncomesAdvanceDefinition(),
+                new TaxIncomesWithholdDefinition(),
                 new TaxAdvanceBaseDefinition(),
                 new TaxAdvanceHealthDefinition(),
                 new TaxAdvanceSocialDefinition(),
@@ -70,5 +70,6 @@ namespace ClazzGeneratorConsoleApp.Defs
 #endif
             };
         }
+        #endregion
     }
 }

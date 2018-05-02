@@ -8,8 +8,11 @@ namespace ClazzGeneratorConsoleApp.Definitions
 	{
 		public TaxIncomesGeneralDefinition() : base(ArticleRole.ARTICLE_TAX_INCOMES_GENERAL)
 		{
-			ArticleSources = ArticleDefinition.CreateParams();
-			ArticleResults = ArticleDefinition.CreateParams();
+            ArticleSources = ArticleDefinition.CreateParams();
+            ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("SummarizeType", FieldType.WorkTaxingTerms),
+                CreateParam("IncomeExclude", FieldType.TAmount),
+                CreateParam("IncomeRelated", FieldType.TAmount));
 		}
 	}
 }
