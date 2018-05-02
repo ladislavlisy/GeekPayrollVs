@@ -9,13 +9,16 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.TaxDeclarationSource;
+    using SourceItem = Sources.PositionWorkingSource;
 
     using Sources;
     using Concepts;
@@ -25,25 +28,27 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Module.Codes;
+    using Module.Items.Utils;
 
-    public class TaxDeclarationArticle : GeneralArticle, ICloneable
+    public class PositionWorkingArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxDeclarationArticle(ARTICLE_TAX_DECLARATION, 1001): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionWorkingArticle(ARTICLE_POSITION_WORKING, 9): {0}";
 
-        public TaxDeclarationArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_DECLARATION)
+        public PositionWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_WORKING)
         {
-            SourceValues = new TaxDeclarationSource();
+            SourceValues = new PositionWorkingSource();
 
-            InternalEvaluate = TaxDeclarationConcept.EvaluateConcept;
+            InternalEvaluate = PositionWorkingConcept.EvaluateConcept;
         }
 
-        public TaxDeclarationArticle(ISourceValues values) : this()
+        public PositionWorkingArticle(ISourceValues values) : this()
         {
-            TaxDeclarationSource sourceValues = values as TaxDeclarationSource;
+            PositionWorkingSource sourceValues = values as PositionWorkingSource;
 
-            SourceValues = CloneUtils<TaxDeclarationSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<PositionWorkingSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +70,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public TaxDeclarationSource SourceValues { get; set; }
+        public PositionWorkingSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<TaxDeclarationSource>(values);
+            SourceValues = SetSourceValues<PositionWorkingSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +89,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxDeclarationArticle cloneArticle = (TaxDeclarationArticle)this.MemberwiseClone();
+            PositionWorkingArticle cloneArticle = (PositionWorkingArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -95,8 +100,14 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                ScheduleMonth = new TSeconds[0];
+                AbsencesMonth = new TSeconds[0];
+            }
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public TSeconds[] ScheduleMonth { get; set; }
+            public TSeconds[] AbsencesMonth { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -106,6 +117,7 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
+#if GET_SOURCE_VALUE
                     SourceItem conceptValues = InternalValues as SourceItem;
                     if (conceptValues == null)
                     {
@@ -116,6 +128,9 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         // PROPERTIES SET
                     };
+#else
+                    return initValues;
+#endif
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -126,9 +141,35 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
+                    ConfigCode absencesCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
+
+                    Result<MonthScheduleValue, string> scheduleResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsTermMonthValue()));
+
+                    Result<MonthScheduleValue, string> absencesResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        absencesCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsTermMonthValue()));
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(scheduleResult, absencesResult))
+                    {
+                        return ReturnFailureAndError(initValues, 
+                            ResultMonadUtils.FirstFailedResultError(scheduleResult, absencesResult));
+                    }
+
+                    MonthScheduleValue scheduleValues = scheduleResult.Value;
+                    MonthScheduleValue absencesValues = absencesResult.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        ScheduleMonth = scheduleValues.HoursMonth,
+                        AbsencesMonth = absencesValues.HoursMonth,
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

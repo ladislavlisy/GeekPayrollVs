@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ResultMonad;
+using System.Linq;
 
 namespace ElementsLib.Elements.Config.Articles
 {
@@ -9,13 +9,19 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TargetHead = UInt16;
+    using TargetPart = UInt16;
+    using TDay = Byte;
+    using TSeconds = Int32;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.InsIncomesHealthSource;
+    using SourceItem = Sources.ContractWorkingSource;
 
     using Sources;
     using Concepts;
@@ -25,25 +31,31 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Legalist.Constants;
+    using Module.Codes;
+    using Module.Items.Utils;
+    using ResultMonad;
+    using MaybeMonad;
+    using Evaluate.Sources;
 
-    public class InsIncomesHealthArticle : GeneralArticle, ICloneable
+    public class ContractWorkingArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesHealthArticle(ARTICLE_INS_INCOMES_HEALTH, 1007): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractWorkingArticle(ARTICLE_CONTRACT_WORKING, 3): {0}";
 
-        public InsIncomesHealthArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH)
+        public ContractWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_WORKING)
         {
-            SourceValues = new InsIncomesHealthSource();
+            SourceValues = new ContractWorkingSource();
 
-            InternalEvaluate = InsIncomesHealthConcept.EvaluateConcept;
+            InternalEvaluate = ContractWorkingConcept.EvaluateConcept;
         }
 
-        public InsIncomesHealthArticle(ISourceValues values) : this()
+        public ContractWorkingArticle(ISourceValues values) : this()
         {
-            InsIncomesHealthSource sourceValues = values as InsIncomesHealthSource;
+            ContractWorkingSource sourceValues = values as ContractWorkingSource;
 
-            SourceValues = CloneUtils<InsIncomesHealthSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<ContractWorkingSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +77,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public InsIncomesHealthSource SourceValues { get; set; }
+        public ContractWorkingSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<InsIncomesHealthSource>(values);
+            SourceValues = SetSourceValues<ContractWorkingSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +96,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            InsIncomesHealthArticle cloneArticle = (InsIncomesHealthArticle)this.MemberwiseClone();
+            ContractWorkingArticle cloneArticle = (ContractWorkingArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -95,8 +107,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                PositionList = new List<PositionScheduleEvalDetail>();
+            }
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public IList<PositionScheduleEvalDetail> PositionList { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -106,16 +122,9 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    SourceItem conceptValues = InternalValues as SourceItem;
-                    if (conceptValues == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    return new EvaluateSource
-                    {
-                        // PROPERTIES SET
-                        // PROPERTIES SET
-                    };
+                    // PROPERTIES SET
+                    // PROPERTIES SET
+                    return initValues;
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -126,9 +135,24 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_WORKING;
+
+                    var positionValues = PositionDetailsBuilder.GetPositionValues(InternalValues, positionCode, scheduleCode, InternalTarget.Head());
+
+                    if (positionValues.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, positionValues.Error);
+                    }
+
+                    var completeSorted = positionValues.Value.OrderBy((p) => (p), new ComparePositionTerms());
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        PositionList = completeSorted.ToList(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

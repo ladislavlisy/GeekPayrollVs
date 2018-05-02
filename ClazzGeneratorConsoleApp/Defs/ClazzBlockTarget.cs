@@ -197,6 +197,10 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBlokLine(writer, "public class EvaluateSource");
             WriteBlokLine(writer, "{");
+            WriteIndentBlokLine(writer, 1, "public EvaluateSource()");
+            WriteIndentBlokLine(writer, 1, "{");
+            WriteIndentBlokLine(writer, 1, "}");
+            DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "// PROPERTIES DEF");
             WriteIndentBlokLine(writer, 1, "// public XXX ZZZ { get; set; }");
             WriteIndentBlokLine(writer, 1, "// PROPERTIES DEF");

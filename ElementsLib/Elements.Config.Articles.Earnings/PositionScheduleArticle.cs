@@ -98,6 +98,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                ScheduleType = WorkScheduleType.SCHEDULE_NONEDAY_WORK;
+                ShiftLiable = 0;
+                ShiftActual = 0;
+            }
             // PROPERTIES DEF
             public WorkScheduleType ScheduleType { get; set; }
             public TSeconds ShiftLiable { get; set; }
@@ -121,7 +127,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         ScheduleType = conceptValues.ScheduleType,
                         ShiftLiable = conceptValues.ShiftLiable,
-                        ShiftActual = conceptValues.ShiftActual
+                        ShiftActual = conceptValues.ShiftActual,
                         // PROPERTIES SET
                     };
                 }

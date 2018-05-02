@@ -12,9 +12,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using MasterItem = Articles.InsIncomesSocialArticle;
-
-    using TAmount = Decimal;
+    using MasterItem = Articles.TaxDeclarationArticle;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -24,15 +22,15 @@ namespace ElementsLib.Elements.Config.Concepts
     using Results;
     using ResultMonad;
 
-    public static class InsIncomesSocialConcept
+    public static class TaxDeclarationConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialConcept(ARTICLE_INS_INCOMES_SOCIAL, 1008): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxDeclarationConcept(ARTICLE_TAX_DECLARATION, 1001): {0}";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ITaxingProfile conceptProfile = evalProfile.Taxing();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -44,6 +42,8 @@ namespace ElementsLib.Elements.Config.Concepts
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddDeclarationTaxingValue(conceptValues.StatementType, conceptValues.SummarizeType, 
+                conceptValues.DeclaracyType, conceptValues.ResidencyType);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

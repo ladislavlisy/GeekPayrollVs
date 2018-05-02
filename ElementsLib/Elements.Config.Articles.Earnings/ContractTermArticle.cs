@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ResultMonad;
 
@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.InsIncomesSocialSource;
+    using SourceItem = Sources.ContractTermSource;
 
     using Sources;
     using Concepts;
@@ -25,25 +25,26 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Legalist.Constants;
 
-    public class InsIncomesSocialArticle : GeneralArticle, ICloneable
+    public class ContractTermArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialArticle(ARTICLE_INS_INCOMES_SOCIAL, 1008): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractTermArticle(ARTICLE_CONTRACT_TERM, 1): {0}";
 
-        public InsIncomesSocialArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL)
+        public ContractTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_TERM)
         {
-            SourceValues = new InsIncomesSocialSource();
+            SourceValues = new ContractTermSource();
 
-            InternalEvaluate = InsIncomesSocialConcept.EvaluateConcept;
+            InternalEvaluate = ContractTermConcept.EvaluateConcept;
         }
 
-        public InsIncomesSocialArticle(ISourceValues values) : this()
+        public ContractTermArticle(ISourceValues values) : this()
         {
-            InsIncomesSocialSource sourceValues = values as InsIncomesSocialSource;
+            ContractTermSource sourceValues = values as ContractTermSource;
 
-            SourceValues = CloneUtils<InsIncomesSocialSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<ContractTermSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +66,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public InsIncomesSocialSource SourceValues { get; set; }
+        public ContractTermSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<InsIncomesSocialSource>(values);
+            SourceValues = SetSourceValues<ContractTermSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +85,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            InsIncomesSocialArticle cloneArticle = (InsIncomesSocialArticle)this.MemberwiseClone();
+            ContractTermArticle cloneArticle = (ContractTermArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -95,8 +96,16 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                DateTermFrom = null;
+                DateTermStop = null;
+                ContractType = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
+            }
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public DateTime? DateTermFrom { get; set; }
+            public DateTime? DateTermStop { get; set; }
+            public WorkEmployTerms ContractType { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -114,6 +123,9 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
+                        DateTermFrom = conceptValues.DateFrom,
+                        DateTermStop = conceptValues.DateStop,
+                        ContractType = conceptValues.ContractType,
                         // PROPERTIES SET
                     };
                 }

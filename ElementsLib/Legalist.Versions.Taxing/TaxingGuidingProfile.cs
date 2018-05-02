@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Versions.Taxing
 {
+    using TAmount = Decimal;
+
+    using Constants;
     using Module.Interfaces.Legalist;
     using Module.Items;
     public class TaxingGuidingProfile : ITaxingProfile
@@ -23,6 +26,26 @@ namespace ElementsLib.Legalist.Versions.Taxing
         public ITaxingGuides Guides()
         {
             return InternalGuides;
+        }
+
+        public TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAmount TaxableAggWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAmount TaxableStatutsIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        {
+            throw new NotImplementedException();
         }
     }
 }

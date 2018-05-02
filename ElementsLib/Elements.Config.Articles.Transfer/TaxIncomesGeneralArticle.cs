@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ResultMonad;
 
@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.ArticleEmptySource;
+    using SourceItem = Sources.TaxIncomesGeneralSource;
 
     using Sources;
     using Concepts;
@@ -25,33 +25,52 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Legalist.Constants;
 
-    public class UnknownArticle : GeneralArticle, ICloneable
+    public class TaxIncomesGeneralArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "UnknownArticle(ARTICLE_UNKNOWN, 0): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesGeneralArticle(ARTICLE_TAX_INCOMES_GENERAL, 1004): {0}";
 
-        public UnknownArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_UNKNOWN)
+        public TaxIncomesGeneralArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_GENERAL)
         {
-            SourceValues = new ArticleEmptySource();
+            SourceValues = new TaxIncomesGeneralSource();
 
-            InternalEvaluate = null;
+            InternalEvaluate = TaxIncomesGeneralConcept.EvaluateConcept;
         }
 
-        public UnknownArticle(ISourceValues values) : this()
+        public TaxIncomesGeneralArticle(ISourceValues values) : this()
         {
+            TaxIncomesGeneralSource sourceValues = values as TaxIncomesGeneralSource;
+
+            SourceValues = CloneUtils<TaxIncomesGeneralSource>.CloneOrNull(sourceValues);
         }
+
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
         protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
-            return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, EXCEPTION_RESULT_NONE_TEXT);
+            if (InternalEvaluate == null)
+            {
+                return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, EXCEPTION_RESULT_NONE_TEXT);
+            }
+            var sourceBuilder = new EvaluateSource.SourceBuilder(evalValues);
+            var resultBuilder = new EvaluateSource.ResultBuilder(evalTarget, evalResults);
+
+            var bundleValues = PrepareConceptValues<EvaluateSource>(sourceBuilder, resultBuilder);
+            if (bundleValues.IsFailure)
+            {
+                return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, bundleValues.Error);
+            }
+            return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public ArticleEmptySource SourceValues { get; set; }
+        public TaxIncomesGeneralSource SourceValues { get; set; }
+
         public override void ImportSourceValues(ISourceValues values)
         {
+            SourceValues = SetSourceValues<TaxIncomesGeneralSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -66,7 +85,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            UnknownArticle cloneArticle = (UnknownArticle)this.MemberwiseClone();
+            TaxIncomesGeneralArticle cloneArticle = (TaxIncomesGeneralArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -74,8 +93,16 @@ namespace ElementsLib.Elements.Config.Articles
 
             return cloneArticle;
         }
+
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+            }
+            // PROPERTIES DEF
+            public WorkTaxingTerms SummarizeType { get; set; }
+            // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
                 public SourceBuilder(ISourceValues evalValues) : base(evalValues)
@@ -84,9 +111,20 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
+#if GET_SOURCE_VALUE
+                    SourceItem conceptValues = InternalValues as SourceItem;
+                    if (conceptValues == null)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        // PROPERTIES SET
+                    };
+#else
                     return initValues;
+#endif
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>

@@ -111,6 +111,56 @@ namespace ElementsLib.Elements.Config.Results
             return this;
         }
 
+        public IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency)
+        {
+            IArticleResultValues value = new DeclarationTaxingValue(statement, summarize, declaracy, residency);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, Byte foreigner)
+        {
+            IArticleResultValues value = new DeclarationHealthValue(statement, summarize, foreigner);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, Byte foreigner)
+        {
+            IArticleResultValues value = new DeclarationSocialValue(statement, summarize, foreigner);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+
+        public IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, TAmount related, TAmount exclude)
+        {
+            IArticleResultValues value = new IncomeTaxGeneralValue(summarize, related, exclude);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+
+        public IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmount related, TAmount exclude)
+        {
+            IArticleResultValues value = new IncomeInsHealthValue(summarize, related, exclude);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmount related, TAmount exclude)
+        {
+            IArticleResultValues value = new IncomeInsSocialValue(summarize, related, exclude);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
 
         protected ConfigCode InternalCode { get; set; }
         protected ResultValuesStore ResultValues { get; set; }

@@ -9,13 +9,16 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TDay = Byte;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.ContractTermSource;
+    using SourceItem = Sources.PositionTermSource;
+    using ResultType = ResultMonad.Result<Results.ArticleGeneralResult, string>;
 
     using Sources;
     using Concepts;
@@ -25,26 +28,28 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using MaybeMonad;
+    using Module.Codes;
     using Legalist.Constants;
 
-    public class ContractTermArticle : GeneralArticle, ICloneable
+    public class PositionTermArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractTermArticle(ARTICLE_CONTRACT_TERM, 1): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionTermArticle(ARTICLE_POSITION_TERM, 6): {0}";
 
-        public ContractTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_TERM)
+        public PositionTermArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TERM)
         {
-            SourceValues = new ContractTermSource();
+            SourceValues = new PositionTermSource();
 
-            InternalEvaluate = ContractTermConcept.EvaluateConcept;
+            InternalEvaluate = PositionTermConcept.EvaluateConcept;
         }
 
-        public ContractTermArticle(ISourceValues values) : this()
+        public PositionTermArticle(ISourceValues values) : this()
         {
-            ContractTermSource sourceValues = values as ContractTermSource;
+            PositionTermSource sourceValues = values as PositionTermSource;
 
-            SourceValues = CloneUtils<ContractTermSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<PositionTermSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -66,11 +71,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public ContractTermSource SourceValues { get; set; }
+        public PositionTermSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<ContractTermSource>(values);
+            SourceValues = SetSourceValues<PositionTermSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -85,7 +90,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            ContractTermArticle cloneArticle = (ContractTermArticle)this.MemberwiseClone();
+            PositionTermArticle cloneArticle = (PositionTermArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -100,12 +105,16 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 DateTermFrom = null;
                 DateTermStop = null;
-                ContractType = WorkEmployTerms.WORKTERM_EMPLOYMENT_1;
+                PositionType = WorkPositionType.POSITION_EXCLUSIVE;
+                DayContractFrom = 0;
+                DayContractStop = 0;
             }
             // PROPERTIES DEF
             public DateTime? DateTermFrom { get; set; }
             public DateTime? DateTermStop { get; set; }
-            public WorkEmployTerms ContractType { get; set; }
+            public WorkPositionType PositionType {get; set;}
+            public TDay DayContractFrom { get; set; }
+            public TDay DayContractStop { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -125,7 +134,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         DateTermFrom = conceptValues.DateFrom,
                         DateTermStop = conceptValues.DateStop,
-                        ContractType = conceptValues.ContractType
+                        PositionType = conceptValues.PositionType,
                         // PROPERTIES SET
                     };
                 }
@@ -138,9 +147,30 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM;
+
+                    Result<MonthFromStopValue, string> termFindResult = InternalValues
+                        .FindContractResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
+                        termCode, InternalTarget.Head(), 
+                        (x) => (x.IsMonthFromStopValue()));
+
+                    if (termFindResult.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, termFindResult.Error);
+                    }
+
+                    MonthFromStopValue termPrepValues = termFindResult.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        DateTermFrom = initValues.DateTermFrom,
+                        DateTermStop = initValues.DateTermStop,
+                        PositionType = initValues.PositionType,
+                        DayContractFrom = termPrepValues.PeriodDayFrom,
+                        DayContractStop = termPrepValues.PeriodDayStop,
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

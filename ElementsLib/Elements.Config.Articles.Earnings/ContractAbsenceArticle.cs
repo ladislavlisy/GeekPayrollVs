@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.InsDeclarationHealthSource;
+    using SourceItem = Sources.ContractAbsenceSource;
 
     using Sources;
     using Concepts;
@@ -25,25 +25,28 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Evaluate.Sources;
+    using Module.Codes;
+    using System.Linq;
 
-    public class InsDeclarationHealthArticle : GeneralArticle, ICloneable
+    public class ContractAbsenceArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsDeclarationHealthArticle(ARTICLE_INS_DECLARATION_HEALTH, 1002): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractAbsenceArticle(ARTICLE_CONTRACT_ABSENCE, 4): {0}";
 
-        public InsDeclarationHealthArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_DECLARATION_HEALTH)
+        public ContractAbsenceArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_CONTRACT_ABSENCE)
         {
-            SourceValues = new InsDeclarationHealthSource();
+            SourceValues = new ContractAbsenceSource();
 
-            InternalEvaluate = InsDeclarationHealthConcept.EvaluateConcept;
+            InternalEvaluate = ContractAbsenceConcept.EvaluateConcept;
         }
 
-        public InsDeclarationHealthArticle(ISourceValues values) : this()
+        public ContractAbsenceArticle(ISourceValues values) : this()
         {
-            InsDeclarationHealthSource sourceValues = values as InsDeclarationHealthSource;
+            ContractAbsenceSource sourceValues = values as ContractAbsenceSource;
 
-            SourceValues = CloneUtils<InsDeclarationHealthSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<ContractAbsenceSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +68,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public InsDeclarationHealthSource SourceValues { get; set; }
+        public ContractAbsenceSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<InsDeclarationHealthSource>(values);
+            SourceValues = SetSourceValues<ContractAbsenceSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +87,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            InsDeclarationHealthArticle cloneArticle = (InsDeclarationHealthArticle)this.MemberwiseClone();
+            ContractAbsenceArticle cloneArticle = (ContractAbsenceArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -95,8 +98,12 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                PositionList = new List<PositionScheduleEvalDetail>();
+            }
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public IList<PositionScheduleEvalDetail> PositionList { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -106,16 +113,7 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    SourceItem conceptValues = InternalValues as SourceItem;
-                    if (conceptValues == null)
-                    {
-                        return ReturnFailure(initValues);
-                    }
-                    return new EvaluateSource
-                    {
-                        // PROPERTIES SET
-                        // PROPERTIES SET
-                    };
+                    return initValues;
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -126,9 +124,24 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
+                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
+
+                    var positionValues = PositionDetailsBuilder.GetPositionValues(InternalValues, positionCode, scheduleCode, InternalTarget.Head());
+
+                    if (positionValues.IsFailure)
+                    {
+                        return ReturnFailureAndError(initValues, positionValues.Error);
+                    }
+
+                    var completeSorted = positionValues.Value.OrderBy((p) => (p), new ComparePositionTerms());
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        PositionList = completeSorted.ToList(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

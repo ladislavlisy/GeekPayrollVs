@@ -27,6 +27,13 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth);
         IArticleResult AddMoneyPaymentValue(TAmount payment);
+        IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
+        IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, Byte foreigner);
+        IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, Byte foreigner);
+        IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, TAmount related, TAmount exclude);
+        IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmount related, TAmount exclude);
+        IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmount related, TAmount exclude);
+
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;
     }

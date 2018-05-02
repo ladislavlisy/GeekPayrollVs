@@ -107,6 +107,10 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                PositionList = new List<PositionEvaluateSource>();
+            }
             public class PositionEvaluateSource
             {
                 public PositionEvaluateSource()
@@ -272,7 +276,7 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        PositionList = completeSorted.ToList()
+                        PositionList = completeSorted.ToList(),
                         // PROPERTIES SET
                     };
                 }

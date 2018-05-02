@@ -9,16 +9,13 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using TDay = Byte;
-    using TSeconds = Int32;
-
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.PositionTimesheetSource;
+    using SourceItem = Sources.InsDeclarationHealthSource;
 
     using Sources;
     using Concepts;
@@ -28,28 +25,26 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
-    using MaybeMonad;
-    using Module.Codes;
-    using Module.Items.Utils;
+    using Legalist.Constants;
 
-    public class PositionTimesheetArticle : GeneralArticle, ICloneable
+    public class InsDeclarationHealthArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionTimesheetArticle(ARTICLE_POSITION_TIMESHEET, 8): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsDeclarationHealthArticle(ARTICLE_INS_DECLARATION_HEALTH, 1002): {0}";
 
-        public PositionTimesheetArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_TIMESHEET)
+        public InsDeclarationHealthArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_DECLARATION_HEALTH)
         {
-            SourceValues = new PositionTimesheetSource();
+            SourceValues = new InsDeclarationHealthSource();
 
-            InternalEvaluate = PositionTimesheetConcept.EvaluateConcept;
+            InternalEvaluate = InsDeclarationHealthConcept.EvaluateConcept;
         }
 
-        public PositionTimesheetArticle(ISourceValues values) : this()
+        public InsDeclarationHealthArticle(ISourceValues values) : this()
         {
-            PositionTimesheetSource sourceValues = values as PositionTimesheetSource;
+            InsDeclarationHealthSource sourceValues = values as InsDeclarationHealthSource;
 
-            SourceValues = CloneUtils<PositionTimesheetSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<InsDeclarationHealthSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -71,11 +66,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public PositionTimesheetSource SourceValues { get; set; }
+        public InsDeclarationHealthSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<PositionTimesheetSource>(values);
+            SourceValues = SetSourceValues<InsDeclarationHealthSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -90,7 +85,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            PositionTimesheetArticle cloneArticle = (PositionTimesheetArticle)this.MemberwiseClone();
+            InsDeclarationHealthArticle cloneArticle = (InsDeclarationHealthArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -101,10 +96,14 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                StatementType = 0;
+                SummarizeType = WorkHealthTerms.HEALTH_TERM_EMPLOYMENT;
+            }
             // PROPERTIES DEF
-            public TDay DayTermFrom { get; set; }
-            public TDay DayTermStop { get; set; }
-            public TSeconds[] RealMonthHours { get; set; }
+            public Byte StatementType { get; set; }
+            public WorkHealthTerms SummarizeType { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -114,9 +113,18 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    SourceItem conceptValues = InternalValues as SourceItem;
+                    if (conceptValues == null)
+                    {
+                        return ReturnFailure(initValues);
+                    }
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        StatementType = conceptValues.StatementType,
+                        SummarizeType = conceptValues.SummarizeType,
+                        // PROPERTIES SET
+                    };
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -127,37 +135,9 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    ConfigCode workCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_SCHEDULE;
-
-                    Result<MonthScheduleValue, string> workFindResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        workCode, InternalTarget.Head(), InternalTarget.Part(),
-                        (x) => (x.IsRealMonthValue()));
-                    MonthScheduleValue workValuesPrep = workFindResult.Value;
-
-                    ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
-
-                    Result<MonthFromStopValue, string> termFindResult = InternalValues
-                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
-                        termCode, InternalTarget.Head(), InternalTarget.Part(),
-                        (x) => (x.IsMonthFromStopValue()));
-
-                    if (ResultMonadUtils.HaveAnyResultFailed(workFindResult, workFindResult))
-                    {
-                        return ReturnFailureAndError(initValues, 
-                            ResultMonadUtils.FirstFailedResultError(workFindResult, workFindResult));
-                    }
-
-                    MonthFromStopValue termValuesPrep = termFindResult.Value;
-
-                    return new EvaluateSource
-                    {
-                        // PROPERTIES SET
-                        DayTermFrom = termValuesPrep.PeriodDayFrom,
-                        DayTermStop = termValuesPrep.PeriodDayStop,
-                        RealMonthHours = workValuesPrep.HoursMonth
-                        // PROPERTIES SET
-                    };
+                    // PROPERTIES SET
+                    // PROPERTIES SET
+                    return initValues;
                 }
             }
         }

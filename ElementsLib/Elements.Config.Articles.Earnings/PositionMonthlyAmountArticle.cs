@@ -11,6 +11,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     using TDay = Byte;
     using TSeconds = Int32;
+    using TAmount = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -18,7 +19,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.PositionWorkingSource;
+    using SourceItem = Sources.MonthlyAmountSource;
 
     using Sources;
     using Concepts;
@@ -31,24 +32,24 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Module.Items.Utils;
 
-    public class PositionWorkingArticle : GeneralArticle, ICloneable
+    public class PositionMonthlyAmountArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionWorkingArticle(ARTICLE_POSITION_WORKING, 9): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "PositionMonthlyAmountArticle(ARTICLE_POSITION_MONTHLY_AMOUNT, 1000): {0}";
 
-        public PositionWorkingArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_WORKING)
+        public PositionMonthlyAmountArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_POSITION_MONTHLY_AMOUNT)
         {
-            SourceValues = new PositionWorkingSource();
+            SourceValues = new MonthlyAmountSource();
 
-            InternalEvaluate = PositionWorkingConcept.EvaluateConcept;
+            InternalEvaluate = PositionMonthlyAmountConcept.EvaluateConcept;
         }
 
-        public PositionWorkingArticle(ISourceValues values) : this()
+        public PositionMonthlyAmountArticle(ISourceValues values) : this()
         {
-            PositionWorkingSource sourceValues = values as PositionWorkingSource;
+            MonthlyAmountSource sourceValues = values as MonthlyAmountSource;
 
-            SourceValues = CloneUtils<PositionWorkingSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<MonthlyAmountSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -70,11 +71,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public PositionWorkingSource SourceValues { get; set; }
+        public MonthlyAmountSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<PositionWorkingSource>(values);
+            SourceValues = SetSourceValues<MonthlyAmountSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -89,7 +90,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            PositionWorkingArticle cloneArticle = (PositionWorkingArticle)this.MemberwiseClone();
+            PositionMonthlyAmountArticle cloneArticle = (PositionMonthlyAmountArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -100,9 +101,20 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                MonthlyAmount = 0m;
+                ShiftLiable = 0;
+                ShiftWorked = 0;
+                HoursLiable = 0;
+                HoursWorked = 0;
+            }
             // PROPERTIES DEF
-            public TSeconds[] ScheduleMonth { get; set; }
-            public TSeconds[] AbsencesMonth { get; set; }
+            public TAmount MonthlyAmount { get; set; }
+            public TSeconds ShiftLiable { get; set; }
+            public TSeconds ShiftWorked { get; set; }
+            public TSeconds HoursLiable { get; set; }
+            public TSeconds HoursWorked { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -112,7 +124,6 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-#if GET_SOURCE_VALUE
                     SourceItem conceptValues = InternalValues as SourceItem;
                     if (conceptValues == null)
                     {
@@ -121,11 +132,13 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
+                        MonthlyAmount = conceptValues.MonthlyAmount,
+                        ShiftLiable = 0,
+                        ShiftWorked = 0,
+                        HoursLiable = 0,
+                        HoursWorked = 0,
                         // PROPERTIES SET
                     };
-#else
-                    return initValues;
-#endif
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -136,33 +149,54 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
-                    ConfigCode absencesCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
+                    ConfigCode scheduledCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_SCHEDULE;
+                    ConfigCode timesheetCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
+                    ConfigCode worksheetCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_WORKING;
 
-                    Result<MonthScheduleValue, string> scheduleResult = InternalValues
+                    Result<WeekScheduleValue, string> fullWeekResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WeekScheduleValue>(
+                        scheduledCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsFullWeeksValue()));
+                    Result<WeekScheduleValue, string> realWeekResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WeekScheduleValue>(
+                        scheduledCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsRealWeeksValue()));
+                    Result<MonthScheduleValue, string> timesheetResult = InternalValues
                         .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
+                        timesheetCode, InternalTarget.Head(), InternalTarget.Part(),
+                        (x) => (x.IsRealMonthValue()));
+                    Result<MonthScheduleValue, string> worksheetResult = InternalValues
+                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
+                        worksheetCode, InternalTarget.Head(), InternalTarget.Part(),
                         (x) => (x.IsTermMonthValue()));
 
-                    Result<MonthScheduleValue, string> absencesResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        absencesCode, InternalTarget.Head(), InternalTarget.Part(),
-                        (x) => (x.IsTermMonthValue()));
-
-                    if (ResultMonadUtils.HaveAnyResultFailed(scheduleResult, absencesResult))
+                    if (ResultMonadUtils.HaveAnyResultFailed(
+                        fullWeekResult, 
+                        realWeekResult, 
+                        timesheetResult, 
+                        worksheetResult))
                     {
-                        return ReturnFailureAndError(initValues, 
-                            ResultMonadUtils.FirstFailedResultError(scheduleResult, absencesResult));
+                        return ReturnFailureAndError(initValues,
+                            ResultMonadUtils.FirstFailedResultError(
+                                fullWeekResult, 
+                                realWeekResult, 
+                                timesheetResult, 
+                                worksheetResult));
                     }
 
-                    MonthScheduleValue scheduleValues = scheduleResult.Value;
-                    MonthScheduleValue absencesValues = absencesResult.Value;
+                    WeekScheduleValue fullWeekValues = fullWeekResult.Value;
+                    WeekScheduleValue realWeekValues = realWeekResult.Value;
+                    MonthScheduleValue timesheetValues = timesheetResult.Value;
+                    MonthScheduleValue worksheetValues = worksheetResult.Value;
 
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        ScheduleMonth = scheduleValues.HoursMonth,
-                        AbsencesMonth = absencesValues.HoursMonth
+                        MonthlyAmount = initValues.MonthlyAmount,
+                        ShiftLiable = PeriodUtils.TotalWeekHours(fullWeekValues.HoursWeek),
+                        ShiftWorked = PeriodUtils.TotalWeekHours(realWeekValues.HoursWeek),
+                        HoursLiable = PeriodUtils.TotalMonthHours(timesheetValues.HoursMonth),
+                        HoursWorked = PeriodUtils.TotalMonthHours(worksheetValues.HoursMonth),
                         // PROPERTIES SET
                     };
                 }

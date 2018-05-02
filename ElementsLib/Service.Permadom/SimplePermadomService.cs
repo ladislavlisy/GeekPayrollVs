@@ -58,16 +58,16 @@ namespace ElementsLib.Service.Permadom
                     Tags = new MonthlyAmountSource(TestModule.BasicSalary),
                 },
                 new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_DECLARATION,
+                    Tags = new TaxDeclarationSource(TestModule.TaxStatementType, TestModule.TaxingPartyType, TestModule.TaxDeclaracyType, TestModule.TaxResidencyType),
+                },
+                new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_HEALTH,
-                    Tags = null,
+                    Tags = new InsDeclarationHealthSource(TestModule.HealthStatementType, TestModule.HealthPartyType),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_SOCIAL,
-                    Tags = null,
-                },
-                new ArticleData() {
-                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_DECLARATION,
-                    Tags = null,
+                    Tags = new InsDeclarationSocialSource(TestModule.SocialStatementType, TestModule.SocialPartyType),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_INCOMES_HEALTH,
@@ -187,6 +187,19 @@ namespace ElementsLib.Service.Permadom
             WorkDayPieceType.WORKDAY_NONE };
         public static TSeconds[] AbsenceDaysHours = new TSeconds[7] {0, 0, 0, 0, 0, 0, 0 };
         public static decimal BasicSalary = 15000m;
+
+        public static Byte TaxStatementType = 1;
+        public static WorkTaxingTerms TaxingPartyType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+        public static Byte TaxDeclaracyType = 1;
+        public static Byte TaxResidencyType = 0;
+
+        public static Byte HealthStatementType = 1;
+        public static WorkHealthTerms HealthPartyType = WorkHealthTerms.HEALTH_TERM_EMPLOYMENT;
+        public static Byte HealthForeignerType = 0;
+
+        public static Byte SocialStatementType = 1;
+        public static WorkSocialTerms SocialPartyType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT;
+        public static Byte SocialForeignerType = 0;
 
         #endregion
     }

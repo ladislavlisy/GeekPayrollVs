@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Versions.Health
 {
+    using TAmount = Decimal;
+
+    using Constants;
     using Module.Interfaces.Legalist;
     using Module.Items;
     public class HealthGuidingProfile : IHealthProfile
@@ -23,6 +26,16 @@ namespace ElementsLib.Legalist.Versions.Health
         public IHealthGuides Guides()
         {
             return InternalGuides;
+        }
+
+        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize)
+        {
+            throw new NotImplementedException();
         }
     }
 }

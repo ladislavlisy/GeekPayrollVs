@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.TaxIncomesGeneralSource;
+    using SourceItem = Sources.InsDeclarationSocialSource;
 
     using Sources;
     using Concepts;
@@ -25,25 +25,26 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Legalist.Constants;
 
-    public class TaxIncomesGeneralArticle : GeneralArticle, ICloneable
+    public class InsDeclarationSocialArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesGeneralArticle(ARTICLE_TAX_INCOMES_GENERAL, 1004): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsDeclarationSocialArticle(ARTICLE_INS_DECLARATION_SOCIAL, 1003): {0}";
 
-        public TaxIncomesGeneralArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_GENERAL)
+        public InsDeclarationSocialArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_DECLARATION_SOCIAL)
         {
-            SourceValues = new TaxIncomesGeneralSource();
+            SourceValues = new InsDeclarationSocialSource();
 
-            InternalEvaluate = TaxIncomesGeneralConcept.EvaluateConcept;
+            InternalEvaluate = InsDeclarationSocialConcept.EvaluateConcept;
         }
 
-        public TaxIncomesGeneralArticle(ISourceValues values) : this()
+        public InsDeclarationSocialArticle(ISourceValues values) : this()
         {
-            TaxIncomesGeneralSource sourceValues = values as TaxIncomesGeneralSource;
+            InsDeclarationSocialSource sourceValues = values as InsDeclarationSocialSource;
 
-            SourceValues = CloneUtils<TaxIncomesGeneralSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<InsDeclarationSocialSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -65,11 +66,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
         }
 
-        public TaxIncomesGeneralSource SourceValues { get; set; }
+        public InsDeclarationSocialSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<TaxIncomesGeneralSource>(values);
+            SourceValues = SetSourceValues<InsDeclarationSocialSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -84,7 +85,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxIncomesGeneralArticle cloneArticle = (TaxIncomesGeneralArticle)this.MemberwiseClone();
+            InsDeclarationSocialArticle cloneArticle = (InsDeclarationSocialArticle)this.MemberwiseClone();
 
             cloneArticle.InternalCode = this.InternalCode;
             cloneArticle.InternalRole = this.InternalRole;
@@ -95,8 +96,14 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                StatementType = 0;
+                SummarizeType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT;
+            }
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public Byte StatementType { get; set; }
+            public WorkSocialTerms SummarizeType { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -114,6 +121,8 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
+                        StatementType = conceptValues.StatementType,
+                        SummarizeType = conceptValues.SummarizeType,
                         // PROPERTIES SET
                     };
                 }

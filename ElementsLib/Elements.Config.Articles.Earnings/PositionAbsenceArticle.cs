@@ -106,6 +106,14 @@ namespace ElementsLib.Elements.Config.Articles
 
         public class EvaluateSource
         {
+            public EvaluateSource()
+            {
+                PositionType = WorkPositionType.POSITION_EXCLUSIVE;
+                DayPositionFrom = 0;
+                DayPositionStop = 0;
+                AbsenceList = new List<AbsenceEvaluateSource>();
+
+            }
             public class AbsenceEvaluateSource
             {
                 public AbsenceEvaluateSource()
@@ -255,7 +263,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         DayPositionFrom = termPrepValues.PeriodDayFrom,
                         DayPositionStop = termPrepValues.PeriodDayStop,
-                        AbsenceList = completeSorted.ToList()
+                        AbsenceList = completeSorted.ToList(),
                         // PROPERTIES SET
                     };
                 }

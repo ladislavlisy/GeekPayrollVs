@@ -12,7 +12,9 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using MasterItem = Articles.InsDeclarationSocialArticle;
+    using MasterItem = Articles.InsIncomesSocialArticle;
+
+    using TAmount = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -22,15 +24,15 @@ namespace ElementsLib.Elements.Config.Concepts
     using Results;
     using ResultMonad;
 
-    public static class InsDeclarationSocialConcept
+    public static class InsIncomesSocialConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsDeclarationSocialConcept(ARTICLE_INS_DECLARATION_SOCIAL, 1003): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialConcept(ARTICLE_INS_INCOMES_SOCIAL, 1008): {0}";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Social profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ISocialProfile conceptProfile = evalProfile.Social();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -38,10 +40,13 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TAmount incomeTotalsRelated = conceptProfile.IncludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
+            TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
             // SET RESULT VALUES
+            conceptResult.AddIncomeInsSocialValue(conceptValues.SummarizeType, incomeTotalsRelated, incomeTotalsExclude);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);
