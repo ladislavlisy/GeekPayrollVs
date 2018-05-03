@@ -10,14 +10,9 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using ConfigBind = UInt16;
     using ConfigStub = Module.Interfaces.Elements.IArticleSource;
 
-    public interface IArticleConfigDetail : ICloneable
+    public interface IArticleConfigDetail : IArticleConfigFeatures, ICloneable
     {
-        ConfigCode Code();
         ConfigName Name();
-        ConfigGang Gang();
-        ConfigRole Role();
-        ConfigType Type();
-        ConfigBind Bind();
         ConfigCode[] Path();
         ConfigStub Stub();
         void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path);

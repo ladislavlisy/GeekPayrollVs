@@ -103,9 +103,13 @@
     <Compile Include="Legalist.Rounding\RoundingDec.cs" />
     <Compile Include="Legalist.Rounding\RoundingInt.cs" />
     <Compile Include="Legalist.Rounding\RoundingPay.cs" />
+    <Compile Include="Matrixus.Config\ArticleConfigFeatures.cs" />
+    <Compile Include="Matrixus.Config\ArticleReferenceSort.cs" />
     <Compile Include="Module.Codes\ArticleBind.cs" />
     <Compile Include="Module.Codes\ArticleGang.cs" />
     <Compile Include="Module.Interfaces.Elements\IArticleResultValues.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleConfigFeatures.cs" />
+    <Compile Include="Module.Interfaces.Matrixus\IArticleReferenceSort.cs" />
     <Compile Include="Module.Items.Utils\FormatUtils.cs" />
     <Compile Include="Module.Items.Utils\MaybeMonadUtils.cs" />
     <Compile Include="Module.Items.Utils\ResultMonadUtils.cs" />

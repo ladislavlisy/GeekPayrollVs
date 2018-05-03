@@ -28,11 +28,11 @@ namespace ElementsLib.Matrixus.Config
         {
             this.InternalRanks = new Dictionary<ConfigCode, ConfigSort>();
 
-            this.InternalQueue = new Dictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>>();
+            this.InternalQueue = new Dictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>>();
         }
 
         protected IDictionary<ConfigCode, ConfigSort> InternalRanks { get; set; }
-        protected IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> InternalQueue { get; set; }
+        protected IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> InternalQueue { get; set; }
 
         public IDictionary<ConfigCode, ConfigSort> Ranks()
         {
@@ -82,7 +82,7 @@ namespace ElementsLib.Matrixus.Config
 
         protected void ConfigureModelDependency()
         {
-            IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsZero = new Dictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>>();
+            IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> resultsZero = new Dictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>>();
 
             InternalQueue = InternalModels.Aggregate(resultsZero, (agr, c) => agr.Merge(c.Value.Code(), c.Value.Gang(), ResolveDependencyPath(agr, c.Value.Code(), c.Value.Path(), InternalModels)));
 
@@ -95,7 +95,7 @@ namespace ElementsLib.Matrixus.Config
             InternalRanks = SortPair.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        protected ConfigCode[] ResolveDependencyPath(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected ConfigCode[] ResolveDependencyPath(IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> resultsHead, ConfigCode articleCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink = new Dictionary<ConfigCode, IEnumerable<ConfigCode>>();
 
@@ -108,7 +108,7 @@ namespace ElementsLib.Matrixus.Config
             return resultsList.ToArray();
         }
 
-        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveDependencyIter(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
+        protected IDictionary<ConfigCode, IEnumerable<ConfigCode>> ResolveDependencyIter(IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> resultsHead, ConfigCode resolveCode, IEnumerable<ConfigCode> articlePath, IDictionary<ConfigCode, IEnumerable<ConfigCode>> resultsSink, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
             if (articlePath.Contains(resolveCode))
             {
@@ -118,12 +118,12 @@ namespace ElementsLib.Matrixus.Config
 
             ConfigCode[] articleSubs = articlePath.Merge(resolveCode).ToArray();
 
-            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> pathHead;
+            ArticleReferenceSort<ConfigGang, ConfigCode> pathHead;
             bool foundHead = resultsHead.TryGetValue(resolveCode, out pathHead);
 
-            if (foundHead && pathHead.Value != null)
+            if (foundHead && pathHead != null)
             {
-                return resultsSink.Merge(resolveCode, pathHead.Value);
+                return resultsSink.Merge(resolveCode, pathHead.Path());
             }
 
             IEnumerable<ConfigCode> pathSink;
@@ -164,9 +164,9 @@ namespace ElementsLib.Matrixus.Config
         }
         public IEnumerable<ConfigCode> GetSuccessQueue(ConfigCode configCode)
         {
-            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> successConfig = InternalQueue.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value;
+            ArticleReferenceSort<ConfigGang, ConfigCode> successConfig = InternalQueue.FirstOrDefault((kvx) => (kvx.Key == configCode)).Value;
 
-            return successConfig.Value.ToList();
+            return successConfig.Path().ToList();
         }
         protected ConfigCode[] ResolveSuccessQueue(ConfigCode resolveCode, IDictionary<ConfigCode, ConfigItem> articleTree)
         {
@@ -195,9 +195,9 @@ namespace ElementsLib.Matrixus.Config
 
     internal class CompareConfigCode : IComparer<ConfigCode>
     {
-        private IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> ModelOrderDict;
+        private IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> ModelOrderDict;
 
-        public CompareConfigCode(IDictionary<ConfigCode, KeyValuePair<ConfigGang, IEnumerable<ConfigCode>>> modelOrderDict)
+        public CompareConfigCode(IDictionary<ConfigCode, ArticleReferenceSort<ConfigGang, ConfigCode>> modelOrderDict)
         {
             this.ModelOrderDict = modelOrderDict;
         }
@@ -211,29 +211,29 @@ namespace ElementsLib.Matrixus.Config
 
             ConfigGang xResolveGang = 0;
             IEnumerable<ConfigCode> xResolvePath;
-            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> xResolve;
+            ArticleReferenceSort<ConfigGang, ConfigCode> xResolve;
             bool foundX = ModelOrderDict.TryGetValue(x, out xResolve);
 
-            if (foundX == false || xResolve.Value == null)
+            if (foundX == false || xResolve == null)
             {
                 xResolveGang = 0;
                 xResolvePath = new ConfigCode[0];
             }
-            xResolveGang = xResolve.Key;
-            xResolvePath = xResolve.Value;
+            xResolveGang = xResolve.Gang();
+            xResolvePath = xResolve.Path();
 
             ConfigGang yResolveGang = 0;
             IEnumerable<ConfigCode> yResolvePath;
-            KeyValuePair<ConfigGang, IEnumerable<ConfigCode>> yResolve;
+            ArticleReferenceSort<ConfigGang, ConfigCode> yResolve;
             bool foundY = ModelOrderDict.TryGetValue(y, out yResolve);
 
-            if (foundY == false || yResolve.Value == null)
+            if (foundY == false || yResolve == null)
             {
                 yResolveGang = 0;
                 yResolvePath = new ConfigCode[0];
             }
-            yResolveGang = yResolve.Key;
-            yResolvePath = yResolve.Value;
+            yResolveGang = yResolve.Gang();
+            yResolvePath = yResolve.Path();
 
             bool xDependsOnY = xResolvePath.Contains(y);
 

@@ -16,50 +16,17 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Elements;
     using Module.Libs;
 
-    public class ArticleConfigDetail : IArticleConfigDetail
+    public class ArticleConfigDetail : ArticleConfigFeatures, IArticleConfigDetail
     {
-        protected ConfigCode InternalCode { get; set; }
-        protected ConfigGang InternalGang { get; set; }
-        protected ConfigRole InternalRole { get; set; }
-        protected ConfigType InternalType { get; set; }
-        protected ConfigBind InternalBind { get; set; }
         protected ConfigName InternalName { get; set; }
         protected IList<ConfigCode> InternalPath { get; set; }
         protected ConfigStub InternalStub { get; set; }
 
-        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
+        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path) : base(_code, _gang, _type, _bind)
         {
-            InternalCode = _code;
-
             InternalName = _name;
 
-            InternalGang = _gang;
-
-            InternalType = _type;
-
-            InternalBind = _bind;
-
             InternalPath = _path.ToList();
-        }
-        public ConfigCode Code()
-        {
-            return InternalCode;
-        }
-        public ConfigRole Role()
-        {
-            return InternalRole;
-        }
-        public ConfigGang Gang()
-        {
-            return InternalGang;
-        }
-        public ConfigType Type()
-        {
-            return InternalType;
-        }
-        public ConfigBind Bind()
-        {
-            return InternalBind;
         }
         public ConfigName Name()
         {
@@ -76,23 +43,19 @@ namespace ElementsLib.Matrixus.Config
 
         public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
         {
-            InternalCode = _code;
+            base.SetSymbolCode(_code, _gang, _type, _bind);
 
             InternalName = _name;
-
-            InternalGang = _gang;
-
-            InternalType = _type;
 
             InternalPath = _path.ToList();
         }
         public void SetSymbolRole(ConfigRole _role, ConfigStub _stub)
         {
-            InternalRole = _role;
+            base.SetSymbolRole(_role);
 
             InternalStub = _stub;
         }
-        public virtual object Clone()
+        public override object Clone()
         {
             ArticleConfigDetail cloneMaster = (ArticleConfigDetail)this.MemberwiseClone();
             cloneMaster.InternalCode = this.InternalCode;
