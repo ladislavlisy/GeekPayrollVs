@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Interfaces.Elements
 {
     using ConfigCode = UInt16;
+    using ConfigGang = UInt16;
+    using ConfigRole = UInt16;
+    using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ResultCode = UInt16;
+
     using TDay = Byte;
     using TSeconds = Int32;
     using TAmount = Decimal;
@@ -17,6 +22,10 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleResult : ICloneable
     {
         ConfigCode Code();
+        ConfigGang Gang();
+        ConfigRole Role();
+        ConfigType Type();
+        ConfigBind Bind();
         IArticleResult AddContractFromStop(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType);
         IArticleResult AddPositionFromStop(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType);
         IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop);

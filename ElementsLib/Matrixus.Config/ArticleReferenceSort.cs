@@ -5,7 +5,7 @@ using System.Linq;
 namespace ElementsLib.Matrixus.Config
 {
     using ElementsLib.Module.Interfaces.Matrixus;
-    public class ArticleReferenceSort<TGang, TCode> : IArticleReferenceSort<TGang, TCode>, ICloneable
+    public class ArticleReferenceSort<TGang, TCode> : IArticleReferenceSort<TGang, TCode>
     {
         public ArticleReferenceSort()
         {
@@ -17,8 +17,8 @@ namespace ElementsLib.Matrixus.Config
             this.InternalGang = _gang;
             this.InternalPath = _path.ToArray();
         }
-        public TGang InternalGang { get; protected set; }
-        public IEnumerable<TCode> InternalPath { get; protected set; }
+        protected TGang InternalGang { get;  set; }
+        protected IEnumerable<TCode> InternalPath { get; set; }
 
         public TGang Gang()
         {

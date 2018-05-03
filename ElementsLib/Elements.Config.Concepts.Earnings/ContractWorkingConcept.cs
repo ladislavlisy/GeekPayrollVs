@@ -5,6 +5,7 @@ using System.Linq;
 namespace ElementsLib.Elements.Config.Concepts
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRole = UInt16;
 
     using TDay = Byte;
@@ -31,7 +32,7 @@ namespace ElementsLib.Elements.Config.Concepts
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "ContractWorkingConcept(ARTICLE_CONTRACT_WORKING, 3): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
-        public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
+        public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
             IEmployProfile conceptProfile = evalProfile.Employ();
@@ -52,7 +53,7 @@ namespace ElementsLib.Elements.Config.Concepts
             }
             // EVALUATION
 
-            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+            IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
             conceptResult.AddWorkMonthRealScheduleValue(contractMonth);
             // SET RESULT VALUES

@@ -14,8 +14,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     {
         ConfigName Name();
         ConfigCode[] Path();
-        ConfigStub Stub();
-        void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path);
+        ConfigStub DetailStub();
         void SetSymbolRole(ConfigRole _role, ConfigStub _stub);
     }
 }

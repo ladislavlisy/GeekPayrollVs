@@ -118,7 +118,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = \"" + FullClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\";");
             WriteBlokLine(writer, "public static string CONCEPT_PROFILE_NULL_TEXT = \"Employ profile is null!\";");
             DelimitLine(writer);
-            WriteBlokLine(writer, "public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,");
+            WriteBlokLine(writer, "public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,");
             WriteIndentBlokLine(writer, 1, "Result<MasterItem.EvaluateSource, string> prepValues)");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "IEmployProfile conceptProfile = evalProfile.Employ();");
@@ -131,7 +131,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "// EVALUATION");
             WriteIndentBlokLine(writer, 1, "// EVALUATION");
             DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "IArticleResult conceptResult = new ArticleGeneralResult(evalCode);");
+            WriteIndentBlokLine(writer, 1, "IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);");
             WriteIndentBlokLine(writer, 1, "// SET RESULT VALUES");
             WriteIndentBlokLine(writer, 1, "// SET RESULT VALUES");
             DelimitLine(writer);

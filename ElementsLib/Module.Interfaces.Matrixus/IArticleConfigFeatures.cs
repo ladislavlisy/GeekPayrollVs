@@ -11,14 +11,15 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using ConfigRole = UInt16;
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
-    public interface IArticleConfigFeatures
+    public interface IArticleConfigFeatures : ICloneable
     {
         ConfigCode Code();
         ConfigGang Gang();
         ConfigRole Role();
         ConfigType Type();
         ConfigBind Bind();
-        void SetSymbolCode(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind);
+        void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind);
+        void SetSymbolCode(ConfigCode _code);
         void SetSymbolRole(ConfigRole _role);
     }
 }

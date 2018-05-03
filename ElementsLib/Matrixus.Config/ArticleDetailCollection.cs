@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace ElementsLib.Matrixus.Config
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigGang = UInt16;
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
@@ -63,11 +64,11 @@ namespace ElementsLib.Matrixus.Config
             {
                 return ResultMonad.Result.Fail<SourceItem, SourceErrs>("Config model doesn't exist!"); ;
             }
-            if (configModel.Stub() == null)
+            if (configModel.DetailStub() == null)
             {
                 return ResultMonad.Result.Fail<SourceItem, SourceErrs>("Config source doesn't exist!"); ;
             }
-            return ResultMonad.Result.Ok<SourceItem, SourceErrs>(configModel.Stub());
+            return ResultMonad.Result.Ok<SourceItem, SourceErrs>(configModel.DetailStub());
         }
         public ResultMonad.Result<SourceItem, SourceErrs> CloneInstanceForCode(ConfigCode configCode, SourceVals sourceVals)
         {

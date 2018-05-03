@@ -158,7 +158,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, FullClassName + " cloneArticle = (" + FullClassName + ")this.MemberwiseClone();");
             DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalCode = this.InternalCode;");
+            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);");
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalRole = this.InternalRole;");
             DelimitLine(writer);
             WriteIndentBlokLine(writer, 1, "return cloneArticle;");

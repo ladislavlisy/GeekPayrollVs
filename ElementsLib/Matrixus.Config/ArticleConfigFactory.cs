@@ -56,9 +56,9 @@ namespace ElementsLib.Matrixus.Config
         {
             MasterItem elementNode = masterStore.FindArticleConfig(symbolRole);
 
-            MasterStub elementStub = elementNode.Stub();
-
             DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolGang, symbolType, symbolBind, symbolPath);
+
+            MasterStub elementStub = elementNode.CloneMasterStub(symbolCode, symbolRole, symbolGang, symbolType, symbolBind);
 
             elementItem.SetSymbolRole(symbolRole, elementStub);
 

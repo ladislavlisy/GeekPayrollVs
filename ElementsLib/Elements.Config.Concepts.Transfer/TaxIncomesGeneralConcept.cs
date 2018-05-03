@@ -5,6 +5,7 @@ using System.Linq;
 namespace ElementsLib.Elements.Config.Concepts
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -30,7 +31,7 @@ namespace ElementsLib.Elements.Config.Concepts
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxIncomesGeneralConcept(ARTICLE_TAX_INCOMES_GENERAL, 1004): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
-        public static IEnumerable<ResultPack> EvaluateConcept(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile,
+        public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
             ITaxingProfile conceptProfile = evalProfile.Taxing();
@@ -47,7 +48,7 @@ namespace ElementsLib.Elements.Config.Concepts
             TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
             // EVALUATION
 
-            IArticleResult conceptResult = new ArticleGeneralResult(evalCode);
+            IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
             conceptResult.AddIncomeTaxGeneralValue(conceptValues.SummarizeType, incomeEmployRelated, incomeTotalsExclude);
             // SET RESULT VALUES

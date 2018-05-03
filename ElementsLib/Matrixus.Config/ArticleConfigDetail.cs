@@ -36,19 +36,11 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalPath.ToArray();
         }
-        public ConfigStub Stub()
+        public ConfigStub DetailStub()
         {
             return InternalStub;
         }
 
-        public void SetSymbolCode(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path)
-        {
-            base.SetSymbolCode(_code, _gang, _type, _bind);
-
-            InternalName = _name;
-
-            InternalPath = _path.ToList();
-        }
         public void SetSymbolRole(ConfigRole _role, ConfigStub _stub)
         {
             base.SetSymbolRole(_role);

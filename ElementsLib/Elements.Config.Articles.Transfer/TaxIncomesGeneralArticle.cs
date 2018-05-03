@@ -6,6 +6,7 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
@@ -26,10 +27,13 @@ namespace ElementsLib.Elements.Config.Articles
     using Utils;
     using Results;
     using Legalist.Constants;
+    using Module.Interfaces.Matrixus;
+    using Module.Codes;
+    using Module.Items.Utils;
 
     public class TaxIncomesGeneralArticle : GeneralArticle, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
+        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
         public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesGeneralArticle(ARTICLE_TAX_INCOMES_GENERAL, 1004): {0}";
 
@@ -49,7 +53,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
-        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigBase evalConfig, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             if (InternalEvaluate == null)
             {
@@ -63,7 +67,7 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, bundleValues.Error);
             }
-            return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
+            return InternalEvaluate(evalConfig, evalPeriod, evalProfile, bundleValues);
         }
 
         public TaxIncomesGeneralSource SourceValues { get; set; }
@@ -87,7 +91,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             TaxIncomesGeneralArticle cloneArticle = (TaxIncomesGeneralArticle)this.MemberwiseClone();
 
-            cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
             cloneArticle.InternalEvaluate = this.InternalEvaluate;
 
@@ -135,9 +139,25 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode declaracyCode = (ConfigCode)ArticleCodeCz.FACT_TAX_DECLARATION;
+
+                    Result<DeclarationTaxingValue, string> declaracyResult = InternalValues
+                        .FindResultValueForCodePlusHead<ArticleGeneralResult, DeclarationTaxingValue>(
+                        declaracyCode, InternalTarget.Head(),
+                        (x) => (x.IsDeclarationTaxingValue()));
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult))
+                    {
+                        return ReturnFailureAndError(initValues, declaracyResult.Error);
+                    }
+
+                    DeclarationTaxingValue declaracyValues = declaracyResult.Value;
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        SummarizeType = declaracyValues.SummarizeType,
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

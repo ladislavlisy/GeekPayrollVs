@@ -6,6 +6,7 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
@@ -37,10 +38,11 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultMonad.Extensions.ResultWithValueAndErrorMonad.OnSuccess;
     using MaybeMonad;
     using Module.Items.Utils;
+    using Module.Interfaces.Matrixus;
 
     public class ContractTimesheetArticle : GeneralArticle, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
+        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
         public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "ContractTimesheetArticle(ARTICLE_CONTRACT_TIMESHEET, 2): {0}";
 
@@ -60,7 +62,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
-        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigBase evalConfig, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             if (InternalEvaluate == null)
             {
@@ -74,7 +76,7 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, bundleValues.Error);
             }
-            return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);
+            return InternalEvaluate(evalConfig, evalPeriod, evalProfile, bundleValues);
         }
 
         public ContractTimesheetSource SourceValues { get; set; }
@@ -98,7 +100,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             ContractTimesheetArticle cloneArticle = (ContractTimesheetArticle)this.MemberwiseClone();
 
-            cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
             cloneArticle.InternalEvaluate = this.InternalEvaluate;
 

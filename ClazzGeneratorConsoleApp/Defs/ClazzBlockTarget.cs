@@ -105,7 +105,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             string CLASS_ENUM = ClassRole.GetSymbol();
             string CLASS_UINT = ((UInt16)ClassRole).ToString();
 
-            WriteBlokLine(writer, "protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);");
+            WriteBlokLine(writer, "protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);");
             DelimitLine(writer);
             WriteBlokLine(writer, "public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = \"" + FullClassName + "(" + CLASS_ENUM + ", " + CLASS_UINT + "): {0}\";");
             DelimitLine(writer);
@@ -125,7 +125,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBlokLine(writer, "protected EvaluateConceptDelegate InternalEvaluate { get; set; }");
             DelimitLine(writer);
-            WriteBlokLine(writer, "protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
+            WriteBlokLine(writer, "protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigBase evalConfig, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)");
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, "if (InternalEvaluate == null)");
             WriteIndentBlokLine(writer, 1, "{");
@@ -139,7 +139,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteIndentBlokLine(writer, 1, "{");
             WriteIndentBlokLine(writer, 2, "return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, bundleValues.Error);");
             WriteIndentBlokLine(writer, 1, "}");
-            WriteIndentBlokLine(writer, 1, "return InternalEvaluate(evalCode, evalPeriod, evalProfile, bundleValues);");
+            WriteIndentBlokLine(writer, 1, "return InternalEvaluate(evalConfig, evalPeriod, evalProfile, bundleValues);");
             WriteBlokLine(writer, "}");
             DelimitLine(writer);
             WriteBlokLine(writer, "public " + ValsClassName + " SourceValues { get; set; }");
@@ -188,7 +188,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBlokLine(writer, "{");
             WriteIndentBlokLine(writer, 1, FullClassName + " cloneArticle = (" + FullClassName + ")this.MemberwiseClone();");
             DelimitLine(writer);
-            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalCode = this.InternalCode;");
+            WriteIndentBlokLine(writer, 1, "cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);");
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalRole = this.InternalRole;");
             WriteIndentBlokLine(writer, 1, "cloneArticle.InternalEvaluate = this.InternalEvaluate;");
             DelimitLine(writer);

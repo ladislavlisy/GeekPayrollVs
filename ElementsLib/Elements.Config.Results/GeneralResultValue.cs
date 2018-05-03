@@ -54,5 +54,17 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_ATTN_MONTH_HOURS);
         }
+        public bool IsDeclarationTaxingValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_TAXING);
+        }
+        public bool IsDeclarationHealthValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_HEALTH);
+        }
+        public bool IsDeclarationSocialValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_SOCIAL);
+        }
     }
 }

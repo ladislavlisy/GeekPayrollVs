@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 namespace ElementsLib.Elements.Config.Results
 {
     using ConfigCode = UInt16;
+    using ConfigGang = UInt16;
+    using ConfigRole = UInt16;
+    using ConfigType = UInt16;
+    using ConfigBind = UInt16;
     using ResultCode = UInt16;
 
     using TDay = Byte;
@@ -18,12 +22,14 @@ namespace ElementsLib.Elements.Config.Results
     using MaybeMonad;
     using Module.Codes;
     using Legalist.Constants;
+    using Module.Interfaces.Matrixus;
 
     public class ArticleGeneralResult : IArticleResult
     {
-        public ArticleGeneralResult(ConfigCode code)
+        public ArticleGeneralResult(IArticleConfigFeatures config)
         {
-            InternalCode = code;
+            InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(config);
+
             ResultValues = new ResultValuesStore();
         }
         public IArticleResult AddWorkWeeksFullScheduleValue(TSeconds[] hoursWeek)
@@ -161,18 +167,34 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-
-        protected ConfigCode InternalCode { get; set; }
+ 
+        protected IArticleConfigFeatures InternalConfig { get; set; }
         protected ResultValuesStore ResultValues { get; set; }
 
         public ConfigCode Code()
         {
-            return InternalCode;
+            return InternalConfig.Code();
+        }
+        public ConfigRole Role()
+        {
+            return InternalConfig.Role();
+        }
+        public ConfigGang Gang()
+        {
+            return InternalConfig.Gang();
+        }
+        public ConfigType Type()
+        {
+            return InternalConfig.Type();
+        }
+        public ConfigBind Bind()
+        {
+            return InternalConfig.Bind();
         }
         public object Clone()
         {
             ArticleGeneralResult cloneResult = (ArticleGeneralResult)this.MemberwiseClone();
-            cloneResult.InternalCode = InternalCode;
+            cloneResult.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(InternalConfig);
             cloneResult.ResultValues = CloneUtils<ResultValuesStore>.CloneOrNull(ResultValues);
 
             return cloneResult;
@@ -180,7 +202,7 @@ namespace ElementsLib.Elements.Config.Results
 
         public override string ToString()
         {
-            string articleCode = ArticleCodeAdapter.GetSymbol(InternalCode);
+            string articleCode = ArticleCodeAdapter.GetSymbol(InternalConfig.Code());
 
             string articleDesc = string.Join("\r\n", ResultValues.Select((v) => (v.Description())));
 

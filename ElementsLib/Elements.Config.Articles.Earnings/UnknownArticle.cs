@@ -6,6 +6,7 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
@@ -25,10 +26,11 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Legalist;
     using Utils;
     using Results;
+    using Module.Interfaces.Matrixus;
 
     public class UnknownArticle : GeneralArticle, ICloneable
     {
-        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigCode evalCode, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
+        protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
         public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "UnknownArticle(ARTICLE_UNKNOWN, 0): {0}";
 
@@ -44,7 +46,7 @@ namespace ElementsLib.Elements.Config.Articles
         }
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
 
-        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigCode evalCode, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
+        protected override IEnumerable<ResultPack> EvaluateArticleResults(TargetItem evalTarget, ConfigBase evalConfig, ISourceValues evalValues, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults)
         {
             return EvaluateUtils.DecoratedError(ARTICLE_DESCRIPTION_ERROR_FORMAT, EXCEPTION_RESULT_NONE_TEXT);
         }
@@ -68,7 +70,7 @@ namespace ElementsLib.Elements.Config.Articles
         {
             UnknownArticle cloneArticle = (UnknownArticle)this.MemberwiseClone();
 
-            cloneArticle.InternalCode = this.InternalCode;
+            cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
             cloneArticle.InternalEvaluate = this.InternalEvaluate;
 

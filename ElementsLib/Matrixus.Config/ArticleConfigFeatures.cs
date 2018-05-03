@@ -12,7 +12,7 @@ namespace ElementsLib.Matrixus.Config
 
     using ElementsLib.Module.Interfaces.Matrixus;
 
-    public class ArticleConfigFeatures : IArticleConfigFeatures, ICloneable
+    public class ArticleConfigFeatures : IArticleConfigFeatures
     {
         protected ConfigCode InternalCode { get; set; }
         protected ConfigGang InternalGang { get; set; }
@@ -20,6 +20,16 @@ namespace ElementsLib.Matrixus.Config
         protected ConfigType InternalType { get; set; }
         protected ConfigBind InternalBind { get; set; }
 
+        public ArticleConfigFeatures()
+        {
+            InternalCode = 0;
+
+            InternalGang = 0;
+
+            InternalType = 0;
+
+            InternalBind = 0;
+        }
         public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
         {
             InternalCode = _code;
@@ -50,13 +60,19 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalBind;
         }
-        public void SetSymbolCode(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
+        public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
         {
             InternalCode = _code;
+
+            InternalRole = _role;
 
             InternalGang = _gang;
 
             InternalType = _type;
+        }
+        public void SetSymbolCode(ConfigCode _code)
+        {
+            InternalCode = _code;
         }
         public void SetSymbolRole(ConfigRole _role)
         {
@@ -64,7 +80,7 @@ namespace ElementsLib.Matrixus.Config
         }
         public virtual object Clone()
         {
-            ArticleConfigDetail cloneMaster = (ArticleConfigDetail)this.MemberwiseClone();
+            ArticleConfigFeatures cloneMaster = (ArticleConfigFeatures)this.MemberwiseClone();
             cloneMaster.InternalCode = this.InternalCode;
             cloneMaster.InternalGang = this.InternalGang;
             cloneMaster.InternalRole = this.InternalRole;
