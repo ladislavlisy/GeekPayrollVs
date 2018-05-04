@@ -33,6 +33,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Legalist.Constants;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class PositionTermArticle : GeneralArticle, ICloneable
     {
@@ -152,8 +153,8 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TERM;
 
                     Result<MonthFromStopValue, string> termFindResult = InternalValues
-                        .FindContractResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
-                        termCode, InternalTarget.Head(), 
+                        .FindResultValue<ArticleGeneralResult, MonthFromStopValue>(
+                        TargetFilters.TargetCodePlusSeedFunc(termCode, InternalTarget.Head()), 
                         (x) => (x.IsMonthFromStopValue()));
 
                     if (termFindResult.IsFailure)

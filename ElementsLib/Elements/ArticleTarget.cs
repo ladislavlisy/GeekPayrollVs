@@ -115,6 +115,10 @@ namespace ElementsLib.Elements
         {
             return (this.InternalHead == other.Head() && this.InternalPart == other.Part());
         }
+        public bool IsEqualByCode(ConfigCode otherCode)
+        {
+            return (this.InternalCode == otherCode);
+        }
         public bool IsEqualByHead(TargetHead otherHead)
         {
             return (this.InternalHead == otherHead);

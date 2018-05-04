@@ -148,13 +148,13 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode absencesCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_ABSENCE;
 
                     Result<MonthScheduleValue, string> scheduleResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(scheduleCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsTermMonthValue()));
 
                     Result<MonthScheduleValue, string> absencesResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        absencesCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(absencesCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsTermMonthValue()));
 
                     if (ResultMonadUtils.HaveAnyResultFailed(scheduleResult, absencesResult))

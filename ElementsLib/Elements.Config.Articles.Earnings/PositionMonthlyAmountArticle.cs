@@ -33,6 +33,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Module.Items.Utils;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class PositionMonthlyAmountArticle : GeneralArticle, ICloneable
     {
@@ -156,20 +157,20 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode worksheetCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_WORKING;
 
                     Result<WeekScheduleValue, string> fullWeekResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WeekScheduleValue>(
-                        scheduledCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, WeekScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(scheduledCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsFullWeeksValue()));
                     Result<WeekScheduleValue, string> realWeekResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, WeekScheduleValue>(
-                        scheduledCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, WeekScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(scheduledCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsRealWeeksValue()));
                     Result<MonthScheduleValue, string> timesheetResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        timesheetCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(timesheetCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsRealMonthValue()));
                     Result<MonthScheduleValue, string> worksheetResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        worksheetCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(worksheetCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsTermMonthValue()));
 
                     if (ResultMonadUtils.HaveAnyResultFailed(

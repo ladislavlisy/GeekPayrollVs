@@ -33,6 +33,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Module.Items.Utils;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class PositionTimesheetArticle : GeneralArticle, ICloneable
     {
@@ -138,16 +139,16 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode workCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_SCHEDULE;
 
                     Result<MonthScheduleValue, string> workFindResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        workCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(workCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsRealMonthValue()));
                     MonthScheduleValue workValuesPrep = workFindResult.Value;
 
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
                     Result<MonthFromStopValue, string> termFindResult = InternalValues
-                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
-                        termCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthFromStopValue>(
+                        TargetFilters.TargetCodePlusHeadAndSeedFunc(termCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsMonthFromStopValue()));
 
                     if (ResultMonadUtils.HaveAnyResultFailed(workFindResult, workFindResult))

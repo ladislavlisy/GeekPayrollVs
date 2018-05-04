@@ -155,18 +155,20 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode declaracyCode = (ConfigCode)ArticleCodeCz.FACT_TAX_DECLARATION;
 
                     Result<DeclarationTaxingValue, string> declaracyResult = InternalValues
-                        .FindResultValueForCodePlusHead<ArticleGeneralResult, DeclarationTaxingValue>(
-                        declaracyCode, InternalTarget.Head(),
-                        (x) => (x.IsDeclarationTaxingValue()));
+                        .FindResultValue<ArticleGeneralResult, DeclarationTaxingValue>(
+                            TargetFilters.TargetCodePlusHeadAndNullPartFunc(declaracyCode, InternalTarget.Head()),
+                            (x) => (x.IsDeclarationTaxingValue()));
 
-                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult))
+                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncomes = GetTaxableIncomes(InternalValues, InternalTarget);
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult, taxableIncomes))
                     {
-                        return ReturnFailureAndError(initValues, declaracyResult.Error);
+                        return ReturnFailureAndError(initValues, 
+                            ResultMonadUtils.FirstFailedResultError(declaracyResult, taxableIncomes));
                     }
 
                     DeclarationTaxingValue declaracyValues = declaracyResult.Value;
 
-                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncomes = GetTaxableIncomes(InternalValues, InternalTarget);
 
                     return new EvaluateSource
                     {

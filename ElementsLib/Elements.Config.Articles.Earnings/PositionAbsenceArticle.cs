@@ -229,9 +229,9 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode termCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
 
                     Result<MonthFromStopValue, string> termFindResult = InternalValues
-                        .FindPositionResultValueForCode<ArticleGeneralResult, MonthFromStopValue>(
-                        termCode, InternalTarget.Head(), InternalTarget.Part(),
-                        (x) => (x.IsMonthFromStopValue()));
+                        .FindResultValue<ArticleGeneralResult, MonthFromStopValue>(
+                            TargetFilters.TargetCodePlusHeadAndSeedFunc(termCode, InternalTarget.Head(), InternalTarget.Part()),
+                            (x) => (x.IsMonthFromStopValue()));
 
                     if (termFindResult.IsFailure)
                     {

@@ -33,6 +33,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Legalist.Constants;
     using System.Linq;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class ContractAttendItemArticle : GeneralArticle, ICloneable
     {
@@ -157,8 +158,8 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_TIMESHEET;
 
                     Result<MonthScheduleValue, string> scheduleResult = InternalValues
-                        .FindResultValueForCodePlusPart<ArticleGeneralResult, MonthScheduleValue>(
-                        scheduleCode, InternalTarget.Head(), InternalTarget.Part(),
+                        .FindResultValue<ArticleGeneralResult, MonthScheduleValue>(
+                        TargetFilters.TargetCodePlusPartFunc(scheduleCode, InternalTarget.Head(), InternalTarget.Part()),
                         (x) => (x.IsRealMonthValue()));
 
                     if (scheduleResult.IsFailure)

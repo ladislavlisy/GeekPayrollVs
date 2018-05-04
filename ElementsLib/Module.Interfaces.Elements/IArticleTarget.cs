@@ -25,6 +25,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         bool IsEqualByCodePlusHead(ConfigCode otherCode, IArticleTarget other);
         bool IsEqualByCodePlusHeadAndPart(ConfigCode otherCode, IArticleTarget other);
 
+        bool IsEqualByCode(ConfigCode otherCode);
         bool IsEqualByHead(TargetHead otherHead);
         bool IsEqualByHeadAndPart(TargetHead otherHead, TargetPart otherPart);
         bool IsEqualByCodePlusSeed(ConfigCode otherCode, TargetSeed otherSeed);
