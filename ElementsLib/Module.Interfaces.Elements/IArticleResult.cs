@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ElementsLib.Module.Interfaces.Elements
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleBaseFeatures;
     using ConfigGang = UInt16;
     using ConfigRole = UInt16;
     using ConfigType = UInt16;
@@ -19,13 +20,11 @@ namespace ElementsLib.Module.Interfaces.Elements
 
     using ElementsLib.Legalist.Constants;
     using MaybeMonad;
-    public interface IArticleResult : ICloneable
+    using Matrixus;
+
+    public interface IArticleResult : IArticleBaseFeatures, ICloneable
     {
-        ConfigCode Code();
-        ConfigGang Gang();
-        ConfigRole Role();
-        ConfigType Type();
-        ConfigBind Bind();
+        ConfigBase Config();
         IArticleResult AddContractFromStop(DateTime? dateFrom, DateTime? dateStop, WorkEmployTerms contractType);
         IArticleResult AddPositionFromStop(DateTime? dateFrom, DateTime? dateStop, WorkPositionType positionType);
         IArticleResult AddMonthFromStop(TDay dayFrom, TDay dayStop);

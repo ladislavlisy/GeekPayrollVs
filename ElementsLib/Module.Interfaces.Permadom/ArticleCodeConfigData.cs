@@ -12,6 +12,7 @@ namespace ElementsLib.Module.Interfaces.Permadom
     using ConfigType = UInt16;
     using ConfigBind = UInt16;
     using SymbolName = String;
+    using ElementsLib.Legalist.Constants;
 
     public class ArticleCodeConfigData
     {
@@ -22,11 +23,11 @@ namespace ElementsLib.Module.Interfaces.Permadom
         public ConfigBind Bind { get; set; }
         public SymbolName Name { get; set; }
         public ConfigCode[] Path { get; set; }
-
+        public TaxingBehaviour TaxingType { get; set; }
         public ArticleCodeConfigData(ConfigCode _code, ConfigRole _role, 
-            ConfigGang _gang, ConfigType _type, 
-            ConfigBind _bind, SymbolName _name, 
-            params ConfigCode[] _path)
+            ConfigGang _gang, ConfigType _type, ConfigBind _bind,
+            TaxingBehaviour taxingType,
+            SymbolName _name, params ConfigCode[] _path)
         {
             Code = _code;
             Role = _role;
@@ -35,6 +36,7 @@ namespace ElementsLib.Module.Interfaces.Permadom
             Bind = _bind;
             Name = _name;
             Path = _path.ToArray();
+            TaxingType = taxingType;
         }
 
         public override string ToString()

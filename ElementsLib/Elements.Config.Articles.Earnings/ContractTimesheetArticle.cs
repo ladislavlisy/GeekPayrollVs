@@ -39,6 +39,7 @@ namespace ElementsLib.Elements.Config.Articles
     using MaybeMonad;
     using Module.Items.Utils;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class ContractTimesheetArticle : GeneralArticle, ICloneable
     {
@@ -249,13 +250,19 @@ namespace ElementsLib.Elements.Config.Articles
                     ConfigCode positionCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TERM;
                     ConfigCode scheduleCode = (ConfigCode)ArticleCodeCz.FACT_POSITION_TIMESHEET;
 
-                    IEnumerable<ResultPair> positionList = InternalValues.GetResultForCodePlusHeadOrderBySeed(
-                        positionCode, InternalTarget.Head());
+                    Result<IEnumerable<ResultPair>, string> positionList = InternalValues
+                        .GetTypedResultsInListAndError<ArticleGeneralResult>(
+                            TargetFilters.TargetCodePlusHeadFunc(positionCode, InternalTarget.Head()));
+                    Result<IEnumerable<ResultPair>, string> scheduleList = InternalValues
+                        .GetTypedResultsInListAndError<ArticleGeneralResult>(
+                            TargetFilters.TargetCodePlusHeadFunc(scheduleCode, InternalTarget.Head()));
+                    if (ResultMonadUtils.HaveAnyResultFailed(positionList, scheduleList))
+                    {
+                        return Result.Fail<IEnumerable<PositionEvaluateSource>, string>(
+                            ResultMonadUtils.FirstFailedResultError(positionList, scheduleList));
+                    }
 
-                    IEnumerable<ResultPair> scheduleList = InternalValues.GetResultForCodePlusHeadOrderBySeed(
-                        scheduleCode, InternalTarget.Head());
-                    
-                    var positionZips = GetZip2Position(positionList, scheduleList);
+                    var positionZips = GetZip2Position(positionList.Value, scheduleList.Value);
                     if (positionZips.IsFailure)
                     {
                         return Result.Fail<IEnumerable<PositionEvaluateSource>, string>(positionZips.Error);

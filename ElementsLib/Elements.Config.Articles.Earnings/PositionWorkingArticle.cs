@@ -32,6 +32,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Module.Items.Utils;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class PositionWorkingArticle : GeneralArticle, ICloneable
     {

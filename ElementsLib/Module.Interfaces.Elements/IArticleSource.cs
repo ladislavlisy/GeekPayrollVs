@@ -17,12 +17,14 @@ namespace ElementsLib.Module.Interfaces.Elements
 
     using Items;
     using Legalist;
+    using ElementsLib.Legalist.Constants;
+
     public interface IArticleSource : ICloneable
     {
         ConfigCode Code();
         void ImportSourceValues(ISourceValues values);
         void SetSourceCode(ConfigCode code);
-        void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind);
+        void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax);
         ISourceValues ExportSourceValues();
         ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ConfigCode configCode, ISourceValues values) where T : class, IArticleSource;
         IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);

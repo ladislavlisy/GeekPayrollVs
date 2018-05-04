@@ -15,6 +15,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Matrixus;
     using Module.Interfaces.Elements;
     using Module.Libs;
+    using Legalist.Constants;
 
     public class ArticleConfigDetail : ArticleConfigFeatures, IArticleConfigDetail
     {
@@ -22,7 +23,7 @@ namespace ElementsLib.Matrixus.Config
         protected IList<ConfigCode> InternalPath { get; set; }
         protected ConfigStub InternalStub { get; set; }
 
-        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, params ConfigCode[] _path) : base(_code, _gang, _type, _bind)
+        public ArticleConfigDetail(ConfigCode _code, ConfigName _name, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _taxing, params ConfigCode[] _path) : base(_code, _gang, _type, _bind, _taxing)
         {
             InternalName = _name;
 

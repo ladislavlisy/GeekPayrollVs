@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace ElementsLib.Elements.Config.Results
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleBaseFeatures;
+    using ConfigProp = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigGang = UInt16;
     using ConfigRole = UInt16;
     using ConfigType = UInt16;
@@ -168,9 +170,13 @@ namespace ElementsLib.Elements.Config.Results
             return this;
         }
  
-        protected IArticleConfigFeatures InternalConfig { get; set; }
+        protected ConfigProp InternalConfig { get; set; }
         protected ResultValuesStore ResultValues { get; set; }
 
+        public ConfigBase Config()
+        {
+            return InternalConfig;
+        }
         public ConfigCode Code()
         {
             return InternalConfig.Code();
@@ -191,10 +197,15 @@ namespace ElementsLib.Elements.Config.Results
         {
             return InternalConfig.Bind();
         }
+
+        public bool IsTaxingIncome()
+        {
+            return InternalConfig.IsTaxingIncome();
+        }
         public object Clone()
         {
             ArticleGeneralResult cloneResult = (ArticleGeneralResult)this.MemberwiseClone();
-            cloneResult.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(InternalConfig);
+            cloneResult.InternalConfig = CloneUtils<ConfigProp>.CloneOrNull(InternalConfig);
             cloneResult.ResultValues = CloneUtils<ResultValuesStore>.CloneOrNull(ResultValues);
 
             return cloneResult;

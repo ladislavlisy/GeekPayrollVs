@@ -15,8 +15,10 @@ namespace ElementsLib.Elements.Config.Articles
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.TaxIncomesGeneralSource;
+    using ResultType = Results.ArticleGeneralResult;
 
     using Sources;
     using Concepts;
@@ -30,6 +32,7 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Matrixus;
     using Module.Codes;
     using Module.Items.Utils;
+    using Matrixus.Config;
 
     public class TaxIncomesGeneralArticle : GeneralArticle, ICloneable
     {
@@ -137,6 +140,16 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
+                private Result<IEnumerable<MoneyPaymentValue>, string> GetTaxableIncomes(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncome = results.GetResultValuesInListAndError<ResultItem, MoneyPaymentValue>(
+                            TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxIncomeFunc,
+                            ResultFilters.PaymentMoneyFunc);
+
+                    return taxableIncome;
+                }
+
+
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
                     ConfigCode declaracyCode = (ConfigCode)ArticleCodeCz.FACT_TAX_DECLARATION;
@@ -152,6 +165,9 @@ namespace ElementsLib.Elements.Config.Articles
                     }
 
                     DeclarationTaxingValue declaracyValues = declaracyResult.Value;
+
+                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncomes = GetTaxableIncomes(InternalValues, InternalTarget);
+
                     return new EvaluateSource
                     {
                         // PROPERTIES SET

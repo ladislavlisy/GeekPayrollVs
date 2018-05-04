@@ -38,6 +38,7 @@ namespace ElementsLib.Elements.Config.Articles
     using MaybeMonad;
     using Legalist.Constants;
     using Module.Interfaces.Matrixus;
+    using Matrixus.Config;
 
     public class PositionAbsenceArticle : GeneralArticle, ICloneable
     {
@@ -200,40 +201,28 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
-                protected ResultMonad.Result<AbsenceEvaluateSource, string> BuildItem(ConfigCode code, ResultItem resultAttn)
+                protected ResultMonad.Result<AbsenceEvaluateSource, string> BuildItem(TargetItem target, MonthAttendanceValue resultValue)
                 {
-                    ArticleGeneralResult attnResult = resultAttn as ArticleGeneralResult;
-                    if (MaybeMonadUtils.HaveAnyResultNullValue(attnResult))
-                    {
-                        return Result.Fail<AbsenceEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-
-                    Maybe<MonthAttendanceValue> attnValues = attnResult.ReturnMonthAttendanceValue();
-                    if (MaybeMonadUtils.HaveAnyResultNoValues(attnValues))
-                    {
-                        return Result.Fail<AbsenceEvaluateSource, string>(CONCEPT_RESULT_INVALID_TEXT);
-                    }
-
-                    MonthAttendanceValue attnSchedule = attnValues.Value;
-
                     AbsenceEvaluateSource buildResult = new AbsenceEvaluateSource
                     {
-                        AbsenceCode = code,
-                        DayPeriodFrom = attnSchedule.PeriodDayFrom,
-                        DayPeriodStop = attnSchedule.PeriodDayStop,
-                        ScheduleMonth = attnSchedule.HoursMonth,
+                        AbsenceCode = target.Code(),
+                        DayPeriodFrom = resultValue.PeriodDayFrom,
+                        DayPeriodStop = resultValue.PeriodDayStop,
+                        ScheduleMonth = resultValue.HoursMonth,
                     };
                     return Result.Ok<AbsenceEvaluateSource, string>(buildResult);
                 }
                 private Result<IEnumerable<AbsenceEvaluateSource>, string> GetAbsenceValues()
                 {
-                    ConfigCode absenceCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_ATTEND_ITEM;
+                    ConfigCode filterCode = (ConfigCode)ArticleCodeCz.FACT_CONTRACT_ATTEND_ITEM;
+                    TargetHead filterHead = InternalTarget.Head();
 
-                    IEnumerable<ResultPair> absenceList = InternalValues.GetResultForCodePlusHeadOrderBySeed(absenceCode, InternalTarget.Head());
+                    Result<IEnumerable<AbsenceEvaluateSource>, string> absenceList = InternalValues
+                        .GetResultValuesInListAndError<ArticleGeneralResult, MonthAttendanceValue, AbsenceEvaluateSource>(
+                            TargetFilters.TargetCodePlusHeadFunc(filterCode, filterHead), ArticleFilters.SelectAllFunc,
+                            ResultFilters.MonthAttendanceFunc, BuildItem);
 
-                    var absenceStream = absenceList.ToResultWithValueListAndError((t, x) => BuildItem(t.Code(), x));
-
-                    return absenceStream;
+                    return absenceList;
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {

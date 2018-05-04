@@ -16,6 +16,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Matrixus;
     using Module.Interfaces.Elements;
     using Module.Libs;
+    using Legalist.Constants;
 
     public class ArticleConfigMaster : IArticleConfigMaster
     {
@@ -47,11 +48,11 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalPath.ToArray();
         }
-        public ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
+        public ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
         {
             ConfigStub returnStub = CloneUtils<ConfigStub>.CloneOrNull(InternalStub);
 
-            returnStub.SetSourceConfig(_code, _role, _gang, _type, _bind);
+            returnStub.SetSourceConfig(_code, _role, _gang, _type, _bind, _tax);
 
             return returnStub;
         }

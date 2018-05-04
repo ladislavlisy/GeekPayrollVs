@@ -26,6 +26,7 @@ namespace ElementsLib.Elements
     using Module.Interfaces.Matrixus;
     using Matrixus.Config;
     using Module.Libs;
+    using Legalist.Constants;
 
     public abstract class GeneralArticle : IArticleSource, ICloneable
     {
@@ -66,9 +67,9 @@ namespace ElementsLib.Elements
         {
             InternalConfig.SetSymbolCode(code);
         }
-        public void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
+        public void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
         {
-            InternalConfig.SetSymbolData(_code, _role, _gang, _type, _bind);
+            InternalConfig.SetSymbolData(_code, _role, _gang, _type, _bind, _tax);
         }
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
         {

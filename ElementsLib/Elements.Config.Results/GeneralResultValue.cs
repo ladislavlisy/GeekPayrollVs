@@ -54,6 +54,10 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_ATTN_MONTH_HOURS);
         }
+        public bool IsPaymentMoneyValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_PAYMENT_MONEY);
+        }
         public bool IsDeclarationTaxingValue()
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_TAXING);

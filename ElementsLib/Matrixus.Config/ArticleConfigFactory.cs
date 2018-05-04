@@ -19,6 +19,7 @@ namespace ElementsLib.Matrixus.Config
     using Module.Interfaces.Matrixus;
     using System.Reflection;
     using Module.Common;
+    using Legalist.Constants;
 
     public class ArticleConfigFactory : IArticleConfigFactory
     {
@@ -52,13 +53,13 @@ namespace ElementsLib.Matrixus.Config
 
             return symbolClass;
         }
-        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailGang symbolGang, DetailType symbolType, DetailBind symbolBind, params DetailCode[] symbolPath)
+        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailGang symbolGang, DetailType symbolType, DetailBind symbolBind, TaxingBehaviour taxingType, params DetailCode[] symbolPath)
         {
             MasterItem elementNode = masterStore.FindArticleConfig(symbolRole);
 
-            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolGang, symbolType, symbolBind, symbolPath);
+            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolGang, symbolType, symbolBind, taxingType, symbolPath);
 
-            MasterStub elementStub = elementNode.CloneMasterStub(symbolCode, symbolRole, symbolGang, symbolType, symbolBind);
+            MasterStub elementStub = elementNode.CloneMasterStub(symbolCode, symbolRole, symbolGang, symbolType, symbolBind, taxingType);
 
             elementItem.SetSymbolRole(symbolRole, elementStub);
 

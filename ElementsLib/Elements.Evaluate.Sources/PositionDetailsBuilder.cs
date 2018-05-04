@@ -24,6 +24,7 @@ namespace ElementsLib.Elements.Evaluate.Sources
     using Config.Results;
     using Module.Items.Utils;
     using MaybeMonad;
+    using Matrixus.Config;
 
     public static class PositionDetailsBuilder
     {
@@ -79,11 +80,19 @@ namespace ElementsLib.Elements.Evaluate.Sources
         }
         public static Result<IEnumerable<PositionScheduleEvalDetail>, string> GetPositionValues(IEnumerable<ResultPair> results, ConfigCode termCode, ConfigCode dataCode, TargetHead headCode)
         {
-            IEnumerable<ResultPair> termList = results.GetResultForCodePlusHeadOrderBySeed(termCode, headCode);
+            Result<IEnumerable<ResultPair>, string> termList = results
+                .GetTypedResultsInListAndError<ArticleGeneralResult>(
+                    TargetFilters.TargetCodePlusHeadFunc(termCode, headCode));
+            Result<IEnumerable<ResultPair>, string> dataList = results
+                .GetTypedResultsInListAndError<ArticleGeneralResult>(
+                    TargetFilters.TargetCodePlusHeadFunc(dataCode, headCode));
+            if (ResultMonadUtils.HaveAnyResultFailed(termList, dataList))
+            {
+                return Result.Fail<IEnumerable<PositionScheduleEvalDetail>, string>(
+                      ResultMonadUtils.FirstFailedResultError(termList, dataList));
+            }
 
-            IEnumerable<ResultPair> dataList = results.GetResultForCodePlusHeadOrderBySeed(dataCode, headCode);
-
-            var zipsList = GetZip2Position(termList, dataList);
+            var zipsList = GetZip2Position(termList.Value, dataList.Value);
             if (zipsList.IsFailure)
             {
                 return Result.Fail<IEnumerable<PositionScheduleEvalDetail>, string>(zipsList.Error);

@@ -12,6 +12,8 @@ namespace ElementsLib.Module.Interfaces.Matrixus
     using ConfigStub = Elements.IArticleSource;
 
     using Elements;
+    using ElementsLib.Legalist.Constants;
+
     public interface IArticleConfigMaster : ICloneable
     {
         ConfigRole Role();
@@ -19,7 +21,7 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 
         ConfigRole[] Path();
 
-        ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind);
+        ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax);
         void SetSymbolRole(ConfigRole _role, ConfigName _name, ConfigStub _stub, params ConfigRole[] _path);
     }
 }

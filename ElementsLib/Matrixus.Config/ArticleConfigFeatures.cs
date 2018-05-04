@@ -11,6 +11,7 @@ namespace ElementsLib.Matrixus.Config
     using ConfigBind = UInt16;
 
     using ElementsLib.Module.Interfaces.Matrixus;
+    using Legalist.Constants;
 
     public class ArticleConfigFeatures : IArticleConfigFeatures
     {
@@ -19,6 +20,7 @@ namespace ElementsLib.Matrixus.Config
         protected ConfigRole InternalRole { get; set; }
         protected ConfigType InternalType { get; set; }
         protected ConfigBind InternalBind { get; set; }
+        protected TaxingBehaviour InternalTaxing { get; set; }
 
         public ArticleConfigFeatures()
         {
@@ -29,8 +31,9 @@ namespace ElementsLib.Matrixus.Config
             InternalType = 0;
 
             InternalBind = 0;
+            InternalTaxing = TaxingBehaviour.TAXING_NOTHING;
         }
-        public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
+        public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _taxing)
         {
             InternalCode = _code;
 
@@ -39,6 +42,8 @@ namespace ElementsLib.Matrixus.Config
             InternalType = _type;
 
             InternalBind = _bind;
+
+            InternalTaxing = _taxing;
         }
         public ConfigCode Code()
         {
@@ -60,7 +65,13 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalBind;
         }
-        public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind)
+
+        public bool IsTaxingIncome()
+        {
+            return (InternalTaxing == TaxingBehaviour.TAXING_ADVANCE || InternalTaxing == TaxingBehaviour.TAXING_WITHHOLD);
+        }
+
+        public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
         {
             InternalCode = _code;
 
@@ -69,6 +80,8 @@ namespace ElementsLib.Matrixus.Config
             InternalGang = _gang;
 
             InternalType = _type;
+
+            InternalTaxing = _tax;
         }
         public void SetSymbolCode(ConfigCode _code)
         {
