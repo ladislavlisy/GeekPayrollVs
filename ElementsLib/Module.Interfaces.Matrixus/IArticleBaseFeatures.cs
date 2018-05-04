@@ -16,5 +16,11 @@ namespace ElementsLib.Module.Interfaces.Matrixus
         ConfigBind Bind();
 
         bool IsTaxingIncome();
+        bool IsTaxingPartner();
+        bool IsTaxingExclude();
+        bool IsHealthIncome();
+        bool IsHealthExclude();
+        bool IsSocialIncome();
+        bool IsSocialExclude();
     }
 }

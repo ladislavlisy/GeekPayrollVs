@@ -192,7 +192,7 @@ namespace ElementsLib.Service.Permadom
         public static decimal BasicSalary = 15000m;
 
         public static Byte TaxStatementType = 1;
-        public static WorkTaxingTerms TaxingPartyType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+        public static WorkTaxingTerms TaxingPartyType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
         public static Byte TaxDeclaracyType = 1;
         public static Byte TaxResidencyType = 0;
 

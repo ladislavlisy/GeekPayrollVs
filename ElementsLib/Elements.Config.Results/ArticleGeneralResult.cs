@@ -144,9 +144,10 @@ namespace ElementsLib.Elements.Config.Results
             return this;
         }
 
-        public IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, TAmount related, TAmount exclude)
+        public IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency,
+            TAmount related, TAmount agrtask, TAmount partner, TAmount exclude)
         {
-            IArticleResultValues value = new IncomeTaxGeneralValue(summarize, related, exclude);
+            IArticleResultValues value = new IncomeTaxGeneralValue(summarize, statement, residency, related, agrtask, partner,  exclude);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -202,6 +203,31 @@ namespace ElementsLib.Elements.Config.Results
         {
             return InternalConfig.IsTaxingIncome();
         }
+        public bool IsTaxingPartner()
+        {
+            return InternalConfig.IsTaxingPartner();
+        }
+        public bool IsTaxingExclude()
+        {
+            return InternalConfig.IsTaxingExclude();
+        }
+        public bool IsHealthIncome()
+        {
+            return InternalConfig.IsHealthIncome();
+        }
+        public bool IsHealthExclude()
+        {
+            return InternalConfig.IsHealthExclude();
+        }
+        public bool IsSocialIncome()
+        {
+            return InternalConfig.IsSocialIncome();
+        }
+        public bool IsSocialExclude()
+        {
+            return InternalConfig.IsSocialExclude();
+        }
+
         public object Clone()
         {
             ArticleGeneralResult cloneResult = (ArticleGeneralResult)this.MemberwiseClone();

@@ -15,8 +15,12 @@ namespace ElementsLib.Elements.Config.Articles
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.InsIncomesSocialSource;
+    using SourceItem = Sources.TaxIncomesGeneralSource;
+    using ResultType = Results.ArticleGeneralResult;
+
+    using TAmount = Decimal;
 
     using Sources;
     using Concepts;
@@ -28,6 +32,9 @@ namespace ElementsLib.Elements.Config.Articles
     using Results;
     using Legalist.Constants;
     using Module.Interfaces.Matrixus;
+    using Module.Codes;
+    using Matrixus.Config;
+    using Module.Items.Utils;
 
     public class InsIncomesSocialArticle : GeneralArticle, ICloneable
     {
@@ -101,9 +108,13 @@ namespace ElementsLib.Elements.Config.Articles
             public EvaluateSource()
             {
                 SummarizeType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT;
+                IncludeIncome = decimal.Zero;
+                ExcludeIncome = decimal.Zero;
             }
             // PROPERTIES DEF
             public WorkSocialTerms SummarizeType { get; set; }
+            public TAmount IncludeIncome { get; set; }
+            public TAmount ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -135,11 +146,63 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
+                private Result<MoneyPaymentSum, string> GetIncludeIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
+
+                    Result<MoneyPaymentSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
+                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsIncomeSocialFunc,
+                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+                private Result<MoneyPaymentSum, string> GetExcludeIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
+
+                    Result<MoneyPaymentSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
+                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsExcludeSocialFunc,
+                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+                private Result<MoneyPaymentSum, string> GetSumPayments(MoneyPaymentSum agr, TargetItem resultTarget, MoneyPaymentValue resultValue)
+                {
+                    return Result.Ok<MoneyPaymentSum, string>(agr.Aggregate(resultValue.Payment));
+                }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    ConfigCode declaracyCode = (ConfigCode)ArticleCodeCz.FACT_INS_DECLARATION_SOCIAL;
+
+                    Result<DeclarationSocialValue, string> declaracyResult = InternalValues
+                        .FindResultValue<ArticleGeneralResult, DeclarationSocialValue>(
+                            TargetFilters.TargetCodePlusHeadAndNullPartFunc(declaracyCode, InternalTarget.Head()),
+                            (x) => (x.IsDeclarationSocialValue()));
+
+                    Result<MoneyPaymentSum, string> includeIncome = GetIncludeIncome(InternalValues, InternalTarget);
+                    Result<MoneyPaymentSum, string> excludeIncome = GetExcludeIncome(InternalValues, InternalTarget);
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult, includeIncome, excludeIncome))
+                    {
+                        return ReturnFailureAndError(initValues,
+                            ResultMonadUtils.FirstFailedResultError(declaracyResult, includeIncome, excludeIncome));
+                    }
+
+                    DeclarationSocialValue declaracyValues = declaracyResult.Value;
+
+                    MoneyPaymentSum includeValues = includeIncome.Value;
+                    MoneyPaymentSum excludeValues = excludeIncome.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        SummarizeType = declaracyValues.SummarizeType,
+                        IncludeIncome = includeValues.Balance(),
+                        ExcludeIncome = excludeValues.Balance(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

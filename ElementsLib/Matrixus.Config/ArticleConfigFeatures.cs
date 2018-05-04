@@ -21,6 +21,8 @@ namespace ElementsLib.Matrixus.Config
         protected ConfigType InternalType { get; set; }
         protected ConfigBind InternalBind { get; set; }
         protected TaxingBehaviour InternalTaxing { get; set; }
+        protected HealthBehaviour InternalHealth { get; set; }
+        protected SocialBehaviour InternalSocial { get; set; }
 
         public ArticleConfigFeatures()
         {
@@ -32,6 +34,8 @@ namespace ElementsLib.Matrixus.Config
 
             InternalBind = 0;
             InternalTaxing = TaxingBehaviour.TAXING_NOTHING;
+            InternalHealth = HealthBehaviour.HEALTH_NOTHING;
+            InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
         }
         public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _taxing)
         {
@@ -44,6 +48,8 @@ namespace ElementsLib.Matrixus.Config
             InternalBind = _bind;
 
             InternalTaxing = _taxing;
+            InternalHealth = HealthBehaviour.HEALTH_NOTHING;
+            InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
         }
         public ConfigCode Code()
         {
@@ -70,6 +76,31 @@ namespace ElementsLib.Matrixus.Config
         {
             return (InternalTaxing == TaxingBehaviour.TAXING_ADVANCE || InternalTaxing == TaxingBehaviour.TAXING_WITHHOLD);
         }
+        public bool IsTaxingPartner()
+        {
+            return (InternalTaxing == TaxingBehaviour.TAXING_PARTNER);
+        }
+        public bool IsTaxingExclude()
+        {
+            return (InternalTaxing == TaxingBehaviour.TAXING_EXCLUDE);
+        }
+        public bool IsHealthIncome()
+        {
+            return (InternalHealth == HealthBehaviour.HEALTH_INCOMES);
+        }
+        public bool IsHealthExclude()
+        {
+            return (InternalHealth == HealthBehaviour.HEALTH_EXCLUDE);
+        }
+        public bool IsSocialIncome()
+        {
+            return (InternalSocial == SocialBehaviour.SOCIAL_INCOMES);
+        }
+        public bool IsSocialExclude()
+        {
+            return (InternalSocial == SocialBehaviour.SOCIAL_EXCLUDE);
+        }
+
 
         public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
         {
@@ -82,6 +113,8 @@ namespace ElementsLib.Matrixus.Config
             InternalType = _type;
 
             InternalTaxing = _tax;
+            InternalHealth = HealthBehaviour.HEALTH_NOTHING;
+            InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
         }
         public void SetSymbolCode(ConfigCode _code)
         {
@@ -99,7 +132,9 @@ namespace ElementsLib.Matrixus.Config
             cloneMaster.InternalRole = this.InternalRole;
             cloneMaster.InternalType = this.InternalType;
             cloneMaster.InternalBind = this.InternalBind;
-
+            cloneMaster.InternalTaxing = this.InternalTaxing;
+            cloneMaster.InternalHealth = this.InternalHealth;
+            cloneMaster.InternalSocial = this.InternalSocial;
             return cloneMaster;
         }
     }

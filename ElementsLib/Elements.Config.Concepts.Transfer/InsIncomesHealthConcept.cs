@@ -41,13 +41,15 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount incomeTotalsRelated = conceptProfile.IncludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
-            TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
+            TAmount incomeTotalsGeneral = conceptProfile.IncludeGeneralIncomes(evalPeriod, 
+                conceptValues.SummarizeType, conceptValues.IncludeIncome, conceptValues.ExcludeIncome);
+            TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.IncludeIncome, conceptValues.ExcludeIncome);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddIncomeInsHealthValue(conceptValues.SummarizeType, incomeTotalsRelated, incomeTotalsExclude);
+            conceptResult.AddIncomeInsHealthValue(conceptValues.SummarizeType, incomeTotalsGeneral, incomeTotalsExclude);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

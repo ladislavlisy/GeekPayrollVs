@@ -23,7 +23,7 @@ namespace ElementsLib.Elements.Config.Sources
         public TaxDeclarationSource()
         {
             StatementType = 0;
-            SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+            SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
             DeclaracyType = 0;
             ResidencyType = 0;
         }

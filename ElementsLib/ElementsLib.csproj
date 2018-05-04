@@ -99,6 +99,8 @@
     <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
     <Compile Include="Elements\EvalValuesBuilder.cs" />
     <Compile Include="Elements\ResultValuesStore.cs" />
+    <Compile Include="Legalist.Constants\HealthConstants.cs" />
+    <Compile Include="Legalist.Constants\SocialConstants.cs" />
     <Compile Include="Legalist.Constants\TaxingConstants.cs" />
     <Compile Include="Legalist.Operations\OperationsDec.cs" />
     <Compile Include="Legalist.Rounding\RoundingDec.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Module.Items.Utils\FormatUtils.cs" />
     <Compile Include="Module.Items.Utils\MaybeMonadUtils.cs" />
     <Compile Include="Module.Items.Utils\ResultMonadUtils.cs" />
+    <Compile Include="Module.Items\MoneyPaymentSum.cs" />
     <Compile Include="Module.Libs\CloneUtils.cs" />
     <Compile Include="Module.Libs\DateTimeExtensions.cs" />
     <Compile Include="Module.Libs\DecimalExtensions.cs" />

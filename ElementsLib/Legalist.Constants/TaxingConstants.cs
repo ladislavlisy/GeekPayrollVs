@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Constants
 {
@@ -11,7 +7,9 @@ namespace ElementsLib.Legalist.Constants
     public enum TaxingBehaviour : CONSTANTS_CODE
     {
         TAXING_NOTHING = 0,
-        TAXING_ADVANCE = 1,
-        TAXING_WITHHOLD = 2,
+        TAXING_EXCLUDE = 1,
+        TAXING_ADVANCE = 2,
+        TAXING_WITHHOLD = 3,
+        TAXING_PARTNER = 4,
     }
 }

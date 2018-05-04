@@ -28,14 +28,36 @@ namespace ElementsLib.Legalist.Versions.Social
             return InternalGuides;
         }
 
-        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize)
+        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmount includeIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT:
+                case WorkSocialTerms.SOCIAL_TERM_SMALL_EMPL:
+                case WorkSocialTerms.SOCIAL_TERM_SHORT_MEET:
+                case WorkSocialTerms.SOCIAL_TERM_SHORT_DENY:
+                    totalIncome = decimal.Add(totalIncome, includeIncome);
+                    break;
+            }
+            return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize)
+        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmount includeIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT:
+                case WorkSocialTerms.SOCIAL_TERM_SMALL_EMPL:
+                case WorkSocialTerms.SOCIAL_TERM_SHORT_MEET:
+                case WorkSocialTerms.SOCIAL_TERM_SHORT_DENY:
+                    totalIncome = decimal.Add(totalIncome, excludeIncome);
+                    break;
+            }
+            return totalIncome;
         }
     }
 }

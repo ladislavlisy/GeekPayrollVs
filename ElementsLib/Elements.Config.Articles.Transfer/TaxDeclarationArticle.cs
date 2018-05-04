@@ -101,7 +101,7 @@ namespace ElementsLib.Elements.Config.Articles
             public EvaluateSource()
             {
                 StatementType = 0;
-                SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+                SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
                 DeclaracyType = 0;
                 ResidencyType = 0;
             }

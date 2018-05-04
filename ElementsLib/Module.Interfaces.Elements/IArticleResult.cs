@@ -38,7 +38,8 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
         IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, Byte foreigner);
         IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, Byte foreigner);
-        IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, TAmount related, TAmount exclude);
+        IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
+            TAmount related, TAmount agrtask, TAmount partner, TAmount exclude);
         IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmount related, TAmount exclude);
         IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmount related, TAmount exclude);
 

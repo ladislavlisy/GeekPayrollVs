@@ -28,24 +28,70 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return InternalGuides;
         }
 
-        public TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        public TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+                TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY:
+                    totalIncome = decimal.Add(totalIncome, taxableIncome);
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_FOR_TASK_AGREEMENT:
+                case WorkTaxingTerms.TAXING_TERM_STATUTORY_PARTNER:
+                    break;
+            }
+            return totalIncome;
         }
 
-        public TAmount TaxableAggWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        public TAmount TaxableAgrWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+                TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY:
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_FOR_TASK_AGREEMENT:
+                    totalIncome = decimal.Add(totalIncome, taxableIncome);
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_STATUTORY_PARTNER:
+                    break;
+            }
+            return totalIncome;
         }
 
-        public TAmount TaxableStatutsIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        public TAmount TaxablePartnerIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+                TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY:
+                case WorkTaxingTerms.TAXING_TERM_FOR_TASK_AGREEMENT:
+                    totalIncome = decimal.Add(totalIncome, partnerIncome);
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_STATUTORY_PARTNER:
+                    totalIncome = decimal.Add(totalIncome, taxableIncome);
+                    totalIncome = decimal.Add(totalIncome, partnerIncome);
+                    break;
+            }
+            return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize)
+        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+                TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY:
+                case WorkTaxingTerms.TAXING_TERM_FOR_TASK_AGREEMENT:
+                case WorkTaxingTerms.TAXING_TERM_STATUTORY_PARTNER:
+                    totalIncome = decimal.Add(totalIncome, excludeIncome);
+                    break;
+            }
+            return totalIncome;
         }
     }
 }

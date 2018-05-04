@@ -10,6 +10,8 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TAmount = Decimal;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
@@ -105,10 +107,20 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
-                SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT;
+                SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
+                StatementType = 0;
+                ResidencyType = 0;
+                TaxableIncome = decimal.Zero;
+                PartnerIncome = decimal.Zero;
+                ExcludeIncome = decimal.Zero;
             }
             // PROPERTIES DEF
             public WorkTaxingTerms SummarizeType { get; set; }
+            public Byte StatementType { get; set; }
+            public Byte ResidencyType { get; set; }
+            public TAmount TaxableIncome { get; set; }
+            public TAmount PartnerIncome { get; set; }
+            public TAmount ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -140,15 +152,45 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
-                private Result<IEnumerable<MoneyPaymentValue>, string> GetTaxableIncomes(IEnumerable<ResultPair> results, TargetItem target)
+                private Result<MoneyPaymentSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncome = results.GetResultValuesInListAndError<ResultItem, MoneyPaymentValue>(
-                            TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxIncomeFunc,
-                            ResultFilters.PaymentMoneyFunc);
+                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
+
+                    Result<MoneyPaymentSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
+                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxIncomeFunc, 
+                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+                private Result<MoneyPaymentSum, string> GetPartnerIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
+
+                    Result<MoneyPaymentSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
+                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxPartnerFunc, 
+                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
 
                     return taxableIncome;
                 }
 
+                private Result<MoneyPaymentSum, string> GetExcludeIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
+
+                    Result<MoneyPaymentSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
+                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxExcludeFunc, 
+                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+
+                private Result<MoneyPaymentSum, string> GetSumPayments(MoneyPaymentSum agr, TargetItem resultTarget, MoneyPaymentValue resultValue)
+                {
+                    return Result.Ok<MoneyPaymentSum, string>(agr.Aggregate(resultValue.Payment));
+                }
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
@@ -159,21 +201,31 @@ namespace ElementsLib.Elements.Config.Articles
                             TargetFilters.TargetCodePlusHeadAndNullPartFunc(declaracyCode, InternalTarget.Head()),
                             (x) => (x.IsDeclarationTaxingValue()));
 
-                    Result<IEnumerable<MoneyPaymentValue>, string> taxableIncomes = GetTaxableIncomes(InternalValues, InternalTarget);
+                    Result<MoneyPaymentSum, string> taxableIncome = GetTaxableIncome(InternalValues, InternalTarget);
+                    Result<MoneyPaymentSum, string> partnerIncome = GetPartnerIncome(InternalValues, InternalTarget);
+                    Result<MoneyPaymentSum, string> excludeIncome = GetExcludeIncome(InternalValues, InternalTarget);
 
-                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult, taxableIncomes))
+                    if (ResultMonadUtils.HaveAnyResultFailed(declaracyResult, taxableIncome, partnerIncome))
                     {
                         return ReturnFailureAndError(initValues, 
-                            ResultMonadUtils.FirstFailedResultError(declaracyResult, taxableIncomes));
+                            ResultMonadUtils.FirstFailedResultError(declaracyResult, taxableIncome, partnerIncome));
                     }
 
                     DeclarationTaxingValue declaracyValues = declaracyResult.Value;
 
+                    MoneyPaymentSum taxableValues = taxableIncome.Value;
+                    MoneyPaymentSum partnerValues = partnerIncome.Value;
+                    MoneyPaymentSum excludeValues = excludeIncome.Value;
 
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
                         SummarizeType = declaracyValues.SummarizeType,
+                        StatementType = declaracyValues.StatementType,
+                        ResidencyType = declaracyValues.ResidencyType,
+                        TaxableIncome = taxableValues.Balance(),
+                        PartnerIncome = partnerValues.Balance(),
+                        ExcludeIncome = excludeValues.Balance(),
                         // PROPERTIES SET
                     };
                 }

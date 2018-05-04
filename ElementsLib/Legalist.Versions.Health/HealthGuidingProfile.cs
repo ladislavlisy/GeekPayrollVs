@@ -28,14 +28,36 @@ namespace ElementsLib.Legalist.Versions.Health
             return InternalGuides;
         }
 
-        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize)
+        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize, 
+            TAmount includeIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENT:
+                case WorkHealthTerms.HEALTH_TERM_AGREE_WORK:
+                case WorkHealthTerms.HEALTH_TERM_AGREE_TASK:
+                case WorkHealthTerms.HEALTH_TERM_OUT_EMPLOY:
+                    totalIncome = decimal.Add(totalIncome, includeIncome);
+                    break;
+            }
+            return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize)
+        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize,
+            TAmount includeIncome, TAmount excludeIncome)
         {
-            throw new NotImplementedException();
+            TAmount totalIncome = decimal.Zero;
+            switch (summarize)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENT:
+                case WorkHealthTerms.HEALTH_TERM_AGREE_WORK:
+                case WorkHealthTerms.HEALTH_TERM_AGREE_TASK:
+                case WorkHealthTerms.HEALTH_TERM_OUT_EMPLOY:
+                    totalIncome = decimal.Add(totalIncome, excludeIncome);
+                    break;
+            }
+            return totalIncome;
         }
     }
 }

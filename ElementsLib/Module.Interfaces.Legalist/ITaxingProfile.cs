@@ -10,9 +10,13 @@ namespace ElementsLib.Module.Interfaces.Legalist
     public interface ITaxingProfile
     {
         ITaxingGuides Guides();
-        TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize);
-        TAmount TaxableAggWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize);
-        TAmount TaxableStatutsIncomes(Period evalPeriod, WorkTaxingTerms summarize);
-        TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize);
+        TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome);
+        TAmount TaxableAgrWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome);
+        TAmount TaxablePartnerIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome);
+        TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize, Byte statement, Byte residency,
+            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome);
     }
 }

@@ -42,15 +42,25 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount incomeEmployRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
-            TAmount incomeAgWorkRelated = conceptProfile.TaxableAggWorkIncomes(evalPeriod, conceptValues.SummarizeType);
-            TAmount incomeStatutRelated = conceptProfile.TaxableStatutsIncomes(evalPeriod, conceptValues.SummarizeType);
-            TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType);
+            TAmount incomeGeneralRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod, 
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType, 
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddIncomeTaxGeneralValue(conceptValues.SummarizeType, incomeEmployRelated, incomeTotalsExclude);
+            conceptResult.AddIncomeTaxGeneralValue(conceptValues.SummarizeType, 
+                conceptValues.StatementType, conceptValues.ResidencyType,
+                incomeGeneralRelated, incomeAgrWorkRelated, incomePartnerRelated, incomeGeneralExclude);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

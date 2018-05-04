@@ -9,7 +9,9 @@ namespace ElementsLib.Module.Interfaces.Legalist
     public interface ISocialProfile
     {
         ISocialGuides Guides();
-        TAmount IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize);
-        TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize);
+        TAmount IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmount includeIncome, TAmount excludeIncome);
+        TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmount includeIncome, TAmount excludeIncome);
     }
 }

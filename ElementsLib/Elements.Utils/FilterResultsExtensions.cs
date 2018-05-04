@@ -208,5 +208,55 @@ namespace ElementsLib.Elements.Utils
             Result<IEnumerable<TSValue>, string> initResult = Result.Ok<IEnumerable<TSValue>, string>(new List<TSValue>());
             return evalResults.Aggregate(initResult, (agr, x) => agrFunc(agr, x, filterTargetFunc, filterValuesFunc, selectValuesFunc, selectResultFunc));
         }
+        public static Result<TAValue, string> GetResultValuesInAggrAndError<TResult, TRValue, TAValue>(this IEnumerable<ResultPair> evalResults, TAValue initValues,
+            Func<TargetItem, bool> filterTargetFunc, Func<TResult, bool> filterValuesFunc,
+            Func<ValuesItem, bool> selectValuesFunc, Func<TAValue, TargetItem, TRValue, Result<TAValue, string>> selectResultFunc)
+            where TResult : class, ResultItem
+            where TRValue : class, ValuesItem
+        {
+            Func<Result<TAValue, string>, ResultPair,
+                Func<TargetItem, bool>, Func<TResult, bool>, Func<ValuesItem, bool>, Func<TAValue, TargetItem, TRValue, Result<TAValue, string>>,
+                Result<TAValue, string>> agrFunc = (bAgr, a, tFilter, vFilter, vSelect, rSelect) => {
+                    if (bAgr.IsFailure)
+                    {
+                        return Result.Fail<TAValue, string>(bAgr.Error);
+                    }
+                    TAValue bAgrValue = bAgr.Value;
+                    Result<ResultItem, string> aResult = a.Value;
+                    if (aResult.IsFailure)
+                    {
+                        return Result.Fail<TAValue, string>(aResult.Error);
+                    }
+                    TargetItem aParamKey = a.Key;
+                    if (tFilter(aParamKey) == false)
+                    {
+                        return Result.Ok<TAValue, string>(bAgrValue);
+                    }
+                    TResult aParamVal = aResult.Value as TResult;
+                    if (aParamVal == null)
+                    {
+                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                    }
+                    if (vFilter(aParamVal) == false)
+                    {
+                        return Result.Ok<TAValue, string>(bAgrValue);
+                    }
+                    Maybe<TRValue> typeValues = aParamVal.ReturnValue<TRValue>(vSelect);
+                    if (typeValues.HasNoValue)
+                    {
+                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                    }
+                    Result<TAValue, string> selResult = rSelect(bAgrValue, aParamKey, typeValues.Value);
+                    if (selResult.IsFailure)
+                    {
+                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_SELECT_FAILED);
+                    }
+
+                    return Result.Ok<TAValue, string>(selResult.Value);
+                };
+
+            Result<TAValue, string> initResult = Result.Ok<TAValue, string>(initValues);
+            return evalResults.Aggregate(initResult, (agr, x) => agrFunc(agr, x, filterTargetFunc, filterValuesFunc, selectValuesFunc, selectResultFunc));
+        }
     }
 }
