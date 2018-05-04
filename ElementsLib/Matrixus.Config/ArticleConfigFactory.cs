@@ -53,13 +53,23 @@ namespace ElementsLib.Matrixus.Config
 
             return symbolClass;
         }
-        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, DetailName symbolName, MasterCode symbolRole, DetailGang symbolGang, DetailType symbolType, DetailBind symbolBind, TaxingBehaviour taxingType, params DetailCode[] symbolPath)
+        public DetailItem CreateDetailItem(IArticleMasterCollection masterStore, DetailCode symbolCode, 
+            DetailName symbolName, MasterCode symbolRole, DetailGang symbolGang, 
+            DetailType symbolType, DetailBind symbolBind, 
+            TaxingBehaviour taxingType, HealthBehaviour healthType, SocialBehaviour socialType, 
+            params DetailCode[] symbolPath)
         {
             MasterItem elementNode = masterStore.FindArticleConfig(symbolRole);
 
-            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, symbolGang, symbolType, symbolBind, taxingType, symbolPath);
+            DetailItem elementItem = new ArticleConfigDetail(symbolCode, symbolName, 
+                symbolGang, symbolType, symbolBind, 
+                taxingType, healthType, socialType, 
+                symbolPath);
 
-            MasterStub elementStub = elementNode.CloneMasterStub(symbolCode, symbolRole, symbolGang, symbolType, symbolBind, taxingType);
+            MasterStub elementStub = elementNode.CloneMasterStub(
+                symbolCode, symbolRole, symbolGang, 
+                symbolType, symbolBind, 
+                taxingType, healthType, socialType);
 
             elementItem.SetSymbolRole(symbolRole, elementStub);
 

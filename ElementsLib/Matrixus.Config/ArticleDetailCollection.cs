@@ -42,8 +42,11 @@ namespace ElementsLib.Matrixus.Config
 
         public void LoadConfigData(IArticleMasterCollection masterStore, IEnumerable<ConfigData> configList, IArticleConfigFactory configFactory)
         {
-            IEnumerable<ConfigPair> configTypeList = configList.Select((c) => (new ConfigPair(
-                c.Code, configFactory.CreateDetailItem(masterStore, c.Code, c.Name, c.Role, c.Gang, c.Type, c.Bind, c.TaxingType, c.Path)))).ToList();
+            IEnumerable<ConfigPair> configTypeList = configList.Select((c) => 
+                (new ConfigPair(c.Code, 
+                    configFactory.CreateDetailItem(masterStore, c.Code, c.Name, 
+                        c.Role, c.Gang, c.Type, c.Bind, 
+                        c.TaxingType, c.HealthType, c.SocialType, c.Path)))).ToList();
 
             ConfigureModel(configTypeList);
 

@@ -21,7 +21,9 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 
         ConfigRole[] Path();
 
-        ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax);
+        ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind,
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social);
         void SetSymbolRole(ConfigRole _role, ConfigName _name, ConfigStub _stub, params ConfigRole[] _path);
     }
 }

@@ -24,7 +24,9 @@ namespace ElementsLib.Module.Interfaces.Elements
         ConfigCode Code();
         void ImportSourceValues(ISourceValues values);
         void SetSourceCode(ConfigCode code);
-        void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax);
+        void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind,
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social);
         ISourceValues ExportSourceValues();
         ResultMonad.Result<IArticleSource, string> CloneSourceAndSetValues<T>(ConfigCode configCode, ISourceValues values) where T : class, IArticleSource;
         IEnumerable<ResultPack> EvaluateResults(TargetItem evalTarget, Period evalPeriod, IPeriodProfile evalProfile, IEnumerable<ResultPair> evalResults);

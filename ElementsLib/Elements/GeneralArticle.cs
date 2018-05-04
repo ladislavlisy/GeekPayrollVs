@@ -67,9 +67,11 @@ namespace ElementsLib.Elements
         {
             InternalConfig.SetSymbolCode(code);
         }
-        public void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
+        public void SetSourceConfig(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind, 
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social)
         {
-            InternalConfig.SetSymbolData(_code, _role, _gang, _type, _bind, _tax);
+            InternalConfig.SetSymbolData(_code, _role, _gang, _type, _bind, _taxing, _health, _social);
         }
         public T SetSourceValues<T>(ISourceValues values) where T : class, ICloneable
         {

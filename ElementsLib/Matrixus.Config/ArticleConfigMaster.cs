@@ -48,11 +48,13 @@ namespace ElementsLib.Matrixus.Config
         {
             return InternalPath.ToArray();
         }
-        public ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
+        public ConfigStub CloneMasterStub(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind, 
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social)
         {
             ConfigStub returnStub = CloneUtils<ConfigStub>.CloneOrNull(InternalStub);
 
-            returnStub.SetSourceConfig(_code, _role, _gang, _type, _bind, _tax);
+            returnStub.SetSourceConfig(_code, _role, _gang, _type, _bind, _taxing, _health, _social);
 
             return returnStub;
         }

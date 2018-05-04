@@ -15,7 +15,9 @@ namespace ElementsLib.Module.Interfaces.Matrixus
 
     public interface IArticleConfigFeatures : IArticleBaseFeatures, ICloneable
     {
-        void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax);
+        void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind,
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social);
         void SetSymbolCode(ConfigCode _code);
         void SetSymbolRole(ConfigRole _role);
     }

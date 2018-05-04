@@ -24,9 +24,11 @@ namespace ElementsLib.Module.Interfaces.Permadom
         public SymbolName Name { get; set; }
         public ConfigCode[] Path { get; set; }
         public TaxingBehaviour TaxingType { get; set; }
+        public HealthBehaviour HealthType { get; set; }
+        public SocialBehaviour SocialType { get; set; }
         public ArticleCodeConfigData(ConfigCode _code, ConfigRole _role, 
             ConfigGang _gang, ConfigType _type, ConfigBind _bind,
-            TaxingBehaviour taxingType,
+            TaxingBehaviour taxingType, HealthBehaviour healthType, SocialBehaviour socialType,
             SymbolName _name, params ConfigCode[] _path)
         {
             Code = _code;
@@ -37,6 +39,8 @@ namespace ElementsLib.Module.Interfaces.Permadom
             Name = _name;
             Path = _path.ToArray();
             TaxingType = taxingType;
+            HealthType = healthType;
+            SocialType = socialType;
         }
 
         public override string ToString()

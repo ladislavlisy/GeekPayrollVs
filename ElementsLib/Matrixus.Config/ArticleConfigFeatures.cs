@@ -37,7 +37,9 @@ namespace ElementsLib.Matrixus.Config
             InternalHealth = HealthBehaviour.HEALTH_NOTHING;
             InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
         }
-        public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _taxing)
+        public ArticleConfigFeatures(ConfigCode _code, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind, 
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social)
         {
             InternalCode = _code;
 
@@ -48,8 +50,8 @@ namespace ElementsLib.Matrixus.Config
             InternalBind = _bind;
 
             InternalTaxing = _taxing;
-            InternalHealth = HealthBehaviour.HEALTH_NOTHING;
-            InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
+            InternalHealth = _health;
+            InternalSocial = _social;
         }
         public ConfigCode Code()
         {
@@ -102,7 +104,9 @@ namespace ElementsLib.Matrixus.Config
         }
 
 
-        public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, ConfigType _type, ConfigBind _bind, TaxingBehaviour _tax)
+        public void SetSymbolData(ConfigCode _code, ConfigRole _role, ConfigGang _gang, 
+            ConfigType _type, ConfigBind _bind, 
+            TaxingBehaviour _taxing, HealthBehaviour _health, SocialBehaviour _social)
         {
             InternalCode = _code;
 
@@ -112,9 +116,9 @@ namespace ElementsLib.Matrixus.Config
 
             InternalType = _type;
 
-            InternalTaxing = _tax;
-            InternalHealth = HealthBehaviour.HEALTH_NOTHING;
-            InternalSocial = SocialBehaviour.SOCIAL_NOTHING;
+            InternalTaxing = _taxing;
+            InternalHealth = _health;
+            InternalSocial = _social;
         }
         public void SetSymbolCode(ConfigCode _code)
         {
