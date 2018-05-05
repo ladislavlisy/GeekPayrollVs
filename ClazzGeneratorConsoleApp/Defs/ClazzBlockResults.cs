@@ -78,6 +78,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         public override void StartBlok(StreamWriter writer)
         {
             WriteBaseBlokLine(writer, "using ConfigCode = UInt16;");
+            WriteBaseBlokLine(writer, "using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;");
             WriteBaseBlokLine(writer, "using ConfigRole = UInt16;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using TargetItem = Module.Interfaces.Elements.IArticleTarget;");
@@ -98,6 +99,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             {
                 DelimitLine(writer);
             }
+            WriteBaseBlokLine(writer, "using Legalist.Constants;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
             WriteBaseBlokLine(writer, "using Module.Items;");

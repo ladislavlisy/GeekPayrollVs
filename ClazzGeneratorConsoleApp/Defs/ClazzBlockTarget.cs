@@ -76,6 +76,7 @@ namespace ClazzGeneratorConsoleApp.Defs
         {
             WriteBaseBlokLine(writer, "using ConfigCodeEnum = Module.Codes.ArticleCodeCz;");
             WriteBaseBlokLine(writer, "using ConfigCode = UInt16;");
+            WriteBaseBlokLine(writer, "using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;");
             WriteBaseBlokLine(writer, "using ConfigRoleEnum = Module.Codes.ArticleRoleCz;");
             WriteBaseBlokLine(writer, "using ConfigRole = UInt16;");
             DelimitLine(writer);
@@ -89,10 +90,12 @@ namespace ClazzGeneratorConsoleApp.Defs
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "using Sources;");
             WriteBaseBlokLine(writer, "using Concepts;");
+            WriteBaseBlokLine(writer, "using Legalist.Constants;");
             WriteBaseBlokLine(writer, "using Module.Items;");
             WriteBaseBlokLine(writer, "using Module.Libs;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
+            WriteBaseBlokLine(writer, "using Module.Interfaces.Matrixus;");
             WriteBaseBlokLine(writer, "using Utils;");
             WriteBaseBlokLine(writer, "using Results;");
             DelimitLine(writer);

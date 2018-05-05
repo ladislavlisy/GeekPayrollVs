@@ -52,6 +52,8 @@
     <Compile Include="Elements.Config.Articles.Earnings\PositionMonthlyAmountArticle.cs" />
     <Compile Include="Elements.Config.Articles.Transfer\TaxDeclarationArticle.cs" />
     <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesGeneralArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesHealthArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesSocialArticle.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractAbsenceConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractAttendItemConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractTermConcept.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="Elements.Config.Concepts.Earnings\PositionWorkingConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Transfer\TaxDeclarationConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesGeneralConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesHealthConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesSocialConcept.cs" />
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
     <Compile Include="Elements.Config.Results\ArticleResultCode.cs" />
     <Compile Include="Elements.Config.Results\DeclarationHealthValue.cs" />
@@ -93,6 +97,8 @@
     <Compile Include="Elements.Config.Sources.Earnings\MonthlyAmountSource.cs" />
     <Compile Include="Elements.Config.Sources.Transfer\TaxDeclarationSource.cs" />
     <Compile Include="Elements.Config.Sources.Transfer\TaxIncomesGeneralSource.cs" />
+    <Compile Include="Elements.Config.Sources.Transfer\TaxIncomesHealthSource.cs" />
+    <Compile Include="Elements.Config.Sources.Transfer\TaxIncomesSocialSource.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionDetailsBuilder.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionScheduleEvalDetail.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />

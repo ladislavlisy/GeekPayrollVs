@@ -11,8 +11,12 @@ namespace ClazzGeneratorConsoleApp.Definitions
             ArticleSources = ArticleDefinition.CreateParams();
             ArticleResults = ArticleDefinition.CreateParams(
                 CreateParam("SummarizeType", FieldType.WorkTaxingTerms),
-                CreateParam("IncomeExclude", FieldType.TAmount),
-                CreateParam("IncomeRelated", FieldType.TAmount));
-		}
-	}
+                CreateParam("StatementType", FieldType.BYTE),
+                CreateParam("ResidencyType", FieldType.BYTE),
+                CreateParam("IncomeGeneral", FieldType.TAmount),
+                CreateParam("IncomeAgrTask", FieldType.TAmount),
+                CreateParam("IncomePartner", FieldType.TAmount),
+                CreateParam("IncomeExclude", FieldType.TAmount));
+        }
+    }
 }

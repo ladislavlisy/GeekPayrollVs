@@ -83,11 +83,11 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;");
             WriteBaseBlokLine(writer, "using ValidsPack = ResultMonad.Result<bool, string>;");
             DelimitLine(writer);
+            WriteBaseBlokLine(writer, "using Matrixus.Target;");
             WriteBaseBlokLine(writer, "using Module.Items;");
             WriteBaseBlokLine(writer, "using Module.Libs;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Elements;");
             WriteBaseBlokLine(writer, "using Module.Interfaces.Legalist;");
-            WriteBaseBlokLine(writer, "using Matrixus.Target;");
             DelimitLine(writer);
             WriteBaseBlokLine(writer, "public class " + FullClassName + " : ArticleGeneralTarget, ICloneable");
             WriteBaseBlokLine(writer, "{");

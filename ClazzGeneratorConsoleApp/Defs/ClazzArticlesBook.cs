@@ -36,6 +36,8 @@ namespace ClazzGeneratorConsoleApp.Defs
                 new InsDeclarationHealthDefinition(),
                 new InsDeclarationSocialDefinition(),
                 new TaxIncomesGeneralDefinition(),
+                new TaxIncomesHealthDefinition(),
+                new TaxIncomesSocialDefinition(),
                 new InsIncomesHealthDefinition(),
                 new InsIncomesSocialDefinition(),
 #if ALL_ARTICLES_DEF

@@ -81,6 +81,14 @@ namespace ElementsLib.Service.Permadom
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_INCOMES_GENERAL,
                     Tags = null,
                 },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_INCOMES_HEALTH,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_INCOMES_SOCIAL,
+                    Tags = null,
+                },
                 //FACT_POSITION_TIMESHEET,
                 //FACT_POSITION_WORKING,
                 //FACT_POSITION_ABSENCE,
@@ -145,9 +153,13 @@ namespace ElementsLib.Service.Permadom
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_SOCIAL_DECLARATION"),
                 new ArticleCodeConfigData(10004, 1004, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_GENERAL", 10001),
-                new ArticleCodeConfigData(10007, 1007, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
+                new ArticleCodeConfigData(10005, 1005, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_HEALTH", 10001, 10002),
+                new ArticleCodeConfigData(10006, 1006, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_SOCIAL", 10001, 10003),
+                new ArticleCodeConfigData(10009, 1009, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_INCOMES_HEALTH", 10002),
-                new ArticleCodeConfigData(10008, 1008, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
+                new ArticleCodeConfigData(10010, 1010, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_INCOMES_SOCIAL", 10003),
             };
         }
@@ -171,8 +183,10 @@ namespace ElementsLib.Service.Permadom
                 new ArticleRoleConfigData(1002, "ARTICLE_INS_DECLARATION_HEALTH"),
                 new ArticleRoleConfigData(1003, "ARTICLE_INS_DECLARATION_SOCIAL"),
                 new ArticleRoleConfigData(1004, "ARTICLE_TAX_INCOMES_GENERAL"),
-                new ArticleRoleConfigData(1007, "ARTICLE_INS_INCOMES_HEALTH"),
-                new ArticleRoleConfigData(1008, "ARTICLE_INS_INCOMES_SOCIAL"),
+                new ArticleRoleConfigData(1005, "ARTICLE_TAX_INCOMES_HEALTH"),
+                new ArticleRoleConfigData(1006, "ARTICLE_TAX_INCOMES_SOCIAL"),
+                new ArticleRoleConfigData(1009, "ARTICLE_INS_INCOMES_HEALTH"),
+                new ArticleRoleConfigData(1010, "ARTICLE_INS_INCOMES_SOCIAL"),
            };
         }
 

@@ -40,7 +40,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialArticle(ARTICLE_INS_INCOMES_SOCIAL, 1008): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialArticle(ARTICLE_INS_INCOMES_SOCIAL, 1010): {0}";
 
         public InsIncomesSocialArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL)
         {

@@ -27,7 +27,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class InsIncomesSocialConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialConcept(ARTICLE_INS_INCOMES_SOCIAL, 1008): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsIncomesSocialConcept(ARTICLE_INS_INCOMES_SOCIAL, 1010): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Social profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
