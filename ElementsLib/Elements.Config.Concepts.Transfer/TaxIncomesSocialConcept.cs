@@ -33,7 +33,7 @@ namespace ElementsLib.Elements.Config.Concepts
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ITaxingProfile conceptProfile = evalProfile.Taxing();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -41,10 +41,25 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TAmount incomeGeneralRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
+            TAmount incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod,
+                conceptValues.SummarizeType, conceptValues.StatementType, conceptValues.ResidencyType,
+                conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
+            conceptResult.AddIncomeTaxGeneralValue(conceptValues.SummarizeType,
+                conceptValues.StatementType, conceptValues.ResidencyType,
+                incomeGeneralRelated, incomeAgrWorkRelated, incomePartnerRelated, incomeGeneralExclude);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

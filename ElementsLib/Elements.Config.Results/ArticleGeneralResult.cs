@@ -127,17 +127,17 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, Byte foreigner)
+        public IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmount totalBase, Byte foreigner)
         {
-            IArticleResultValues value = new DeclarationHealthValue(statement, summarize, foreigner);
+            IArticleResultValues value = new DeclarationHealthValue(statement, summarize, totalBase, foreigner);
 
             ResultValues = ResultValues.Concat(value);
 
             return this;
         }
-        public IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, Byte foreigner)
+        public IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmount totalBase, Byte foreigner)
         {
-            IArticleResultValues value = new DeclarationSocialValue(statement, summarize, foreigner);
+            IArticleResultValues value = new DeclarationSocialValue(statement, summarize, totalBase, foreigner);
 
             ResultValues = ResultValues.Concat(value);
 

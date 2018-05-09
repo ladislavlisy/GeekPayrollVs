@@ -10,6 +10,8 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TAmount = Decimal;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
@@ -102,10 +104,12 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 StatementType = 0;
                 SummarizeType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT;
+                TotalYearBase = 0m;
             }
             // PROPERTIES DEF
             public Byte StatementType { get; set; }
             public WorkSocialTerms SummarizeType { get; set; }
+            public TAmount TotalYearBase { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -125,6 +129,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         StatementType = conceptValues.StatementType,
                         SummarizeType = conceptValues.SummarizeType,
+                        TotalYearBase = conceptValues.TotalYearBase,
                         // PROPERTIES SET
                     };
                 }

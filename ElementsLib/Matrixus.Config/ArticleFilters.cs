@@ -17,13 +17,37 @@ namespace ElementsLib.Matrixus.Config
         {
             return result.IsTaxingIncome();
         }
+        public static bool TaxIncomeHealthFunc(ResultItem result)
+        {
+            return result.IsTaxingIncome() && result.IsHealthIncome();
+        }
+        public static bool TaxIncomeSocialFunc(ResultItem result)
+        {
+            return result.IsTaxingIncome() && result.IsSocialIncome();
+        }
         public static bool TaxPartnerFunc(ResultItem result)
         {
             return result.IsTaxingPartner();
         }
+        public static bool TaxPartnerHealthFunc(ResultItem result)
+        {
+            return result.IsTaxingPartner() && result.IsHealthIncome();
+        }
+        public static bool TaxPartnerSocialFunc(ResultItem result)
+        {
+            return result.IsTaxingPartner() && result.IsSocialIncome();
+        }
         public static bool TaxExcludeFunc(ResultItem result)
         {
             return result.IsTaxingExclude();
+        }
+        public static bool TaxExcludeHealthFunc(ResultItem result)
+        {
+            return result.IsTaxingExclude() && result.IsHealthIncome();
+        }
+        public static bool TaxExcludeSocialFunc(ResultItem result)
+        {
+            return result.IsTaxingExclude() && result.IsSocialIncome();
         }
         public static bool InsIncomeHealthFunc(ResultItem result)
         {

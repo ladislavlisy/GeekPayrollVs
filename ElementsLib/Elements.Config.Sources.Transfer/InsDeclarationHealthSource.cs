@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config.Sources
 {
+    using TAmount = Decimal;
+
     using Legalist.Constants;
     using Module.Interfaces.Elements;
 
@@ -13,17 +15,20 @@ namespace ElementsLib.Elements.Config.Sources
     {
         public Byte StatementType { get; set; }
         public WorkHealthTerms SummarizeType { get; set; }
+        public TAmount TotalYearBase { get; set; }
 
         public InsDeclarationHealthSource()
         {
             StatementType = 0;
             SummarizeType = WorkHealthTerms.HEALTH_TERM_EMPLOYMENT;
+            TotalYearBase = decimal.Zero;
         }
 
-        public InsDeclarationHealthSource(Byte statementType, WorkHealthTerms summarizeType)
+        public InsDeclarationHealthSource(Byte statementType, WorkHealthTerms summarizeType, TAmount totalYearBase)
         {
             StatementType = statementType;
             SummarizeType = summarizeType;
+            TotalYearBase = totalYearBase;
         }
 
         public virtual object Clone()
@@ -32,6 +37,7 @@ namespace ElementsLib.Elements.Config.Sources
 
             cloneSource.StatementType = this.StatementType;
             cloneSource.SummarizeType = this.SummarizeType;
+            cloneSource.TotalYearBase = this.TotalYearBase;
 
             return cloneSource;
         }

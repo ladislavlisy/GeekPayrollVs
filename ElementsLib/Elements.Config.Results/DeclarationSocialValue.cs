@@ -3,6 +3,7 @@
 namespace ElementsLib.Elements.Config.Results
 {
     using TDay = Byte;
+    using TAmount = Decimal;
     using ResultCode = UInt16;
 
     using Module.Libs;
@@ -13,18 +14,20 @@ namespace ElementsLib.Elements.Config.Results
         public Byte StatementType { get; protected set; }
         public WorkSocialTerms SummarizeType { get; protected set; }
         public Byte ForeignerType { get; protected set; }
+        public TAmount TotalYearBase { get; protected set; }
 
-        public DeclarationSocialValue(Byte statement, WorkSocialTerms summarize, Byte foreigner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_SOCIAL)
+        public DeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmount totalBase, Byte foreigner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_SOCIAL)
         {
             this.StatementType = statement;
             this.SummarizeType = summarize;
             this.ForeignerType = foreigner;
+            this.TotalYearBase = totalBase;
         }
         public override string Description()
         {
-            return string.Format("{0}: Statement: {1}, Summarize: {2}, Foreigner: {3}",
+            return string.Format("{0}: Statement: {1}, Summarize: {2}, Foreigner: {3}, Total Year Base: {4}",
                 Code.ToEnum<ArticleResultCode>().GetSymbol(),
-                StatementType.ToString(), SummarizeType.GetSymbol(), ForeignerType.ToString());
+                StatementType.ToString(), SummarizeType.GetSymbol(), ForeignerType.ToString(), TotalYearBase.FormatAmount());
         }
     }
 }

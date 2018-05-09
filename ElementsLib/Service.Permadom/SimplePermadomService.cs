@@ -55,7 +55,7 @@ namespace ElementsLib.Service.Permadom
                 },
                 new ArticleData() {
                     Head = 1, Part = 1, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_POSITION_MONTHLY_AMOUNT,
-                    Tags = new MonthlyAmountSource(TestModule.BasicSalary),
+                    Tags = new MonthlyAmountSource(TestModule.BasicSalaryPeriod),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_DECLARATION,
@@ -63,11 +63,11 @@ namespace ElementsLib.Service.Permadom
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_HEALTH,
-                    Tags = new InsDeclarationHealthSource(TestModule.HealthStatementType, TestModule.HealthPartyType),
+                    Tags = new InsDeclarationHealthSource(TestModule.HealthStatementType, TestModule.HealthPartyType, TestModule.BasicSalarySubTotal),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_SOCIAL,
-                    Tags = new InsDeclarationSocialSource(TestModule.SocialStatementType, TestModule.SocialPartyType),
+                    Tags = new InsDeclarationSocialSource(TestModule.SocialStatementType, TestModule.SocialPartyType, TestModule.BasicSalarySubTotal),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_INCOMES_HEALTH,
@@ -154,9 +154,9 @@ namespace ElementsLib.Service.Permadom
                 new ArticleCodeConfigData(10004, 1004, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_GENERAL", 10001),
                 new ArticleCodeConfigData(10005, 1005, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
-                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_HEALTH", 10001, 10002),
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_HEALTH", 10001, 10002, 10009),
                 new ArticleCodeConfigData(10006, 1006, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
-                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_SOCIAL", 10001, 10003),
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_SOCIAL", 10001, 10003, 10010),
                 new ArticleCodeConfigData(10009, 1009, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_INCOMES_HEALTH", 10002),
                 new ArticleCodeConfigData(10010, 1010, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
@@ -225,7 +225,8 @@ namespace ElementsLib.Service.Permadom
             WorkDayPieceType.WORKDAY_NONE,
             WorkDayPieceType.WORKDAY_NONE };
         public static TSeconds[] AbsenceDaysHours = new TSeconds[7] {0, 0, 0, 0, 0, 0, 0 };
-        public static decimal BasicSalary = 15000m;
+        public static decimal BasicSalaryPeriod = 15000m;
+        public static decimal BasicSalarySubTotal = 1500000m;
 
         public static Byte TaxStatementType = 1;
         public static WorkTaxingTerms TaxingPartyType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;

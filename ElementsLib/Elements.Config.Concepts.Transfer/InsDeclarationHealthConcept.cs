@@ -44,7 +44,8 @@ namespace ElementsLib.Elements.Config.Concepts
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddDeclarationHealthValue(conceptValues.StatementType, conceptValues.SummarizeType, foreignerType);
+            conceptResult.AddDeclarationHealthValue(conceptValues.StatementType, 
+                conceptValues.SummarizeType, conceptValues.TotalYearBase, foreignerType);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);
