@@ -14,18 +14,20 @@ namespace ElementsLib.Elements.Config.Results
         public Byte StatementType { get; protected set; }
         public Byte ResidencyType { get; protected set; } 
         public TAmount IncomeGeneral { get; protected set; }
+        public TAmount IncomeLolevel { get; protected set; }
         public TAmount IncomeAgrTask { get; protected set; }
         public TAmount IncomePartner { get; protected set; }
         public TAmount IncomeExclude { get; protected set; }
 
         public IncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
-            TAmount general, TAmount agrtask, TAmount partner, TAmount exclude) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_TAXING)
+            TAmount general, TAmount lolevel, TAmount agrtask, TAmount partner, TAmount exclude) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_TAXING)
         {
             this.SummarizeType = summarize;
             this.StatementType = statement;
             this.ResidencyType = residency;
 
             this.IncomeGeneral = general;
+            this.IncomeLolevel = lolevel;
             this.IncomeAgrTask = agrtask;
             this.IncomePartner = partner;
             this.IncomeExclude = exclude;

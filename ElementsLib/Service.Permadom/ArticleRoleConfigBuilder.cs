@@ -24,6 +24,7 @@ namespace ElementsLib.Service.Permadom
 
             return new ArticleRoleConfigData(roleData, roleName, rolePath);
         }
+        #region CONFIG_DATA
         public static IEnumerable<ConfigItem> GetConfigDataList()
         {
             IList<ConfigItem> configList = new List<ConfigItem>()
@@ -48,9 +49,13 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_SOCIAL),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL),
-           };
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_ADVANCE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_WITHHOLD),
+            };
             return configList;
         }
-
+        #endregion
     }
 }

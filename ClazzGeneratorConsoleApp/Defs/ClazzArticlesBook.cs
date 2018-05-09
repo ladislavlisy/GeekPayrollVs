@@ -40,10 +40,11 @@ namespace ClazzGeneratorConsoleApp.Defs
                 new TaxIncomesSocialDefinition(),
                 new InsIncomesHealthDefinition(),
                 new InsIncomesSocialDefinition(),
-#if ALL_ARTICLES_DEF
                 new TaxIncomesAdvanceDefinition(),
                 new TaxIncomesWithholdDefinition(),
-                new TaxAdvanceBaseDefinition(),
+                new TaxBaseAdvanceDefinition(),
+                new TaxBaseWithholdDefinition(),
+#if ALL_ARTICLES_DEF
                 new TaxAdvanceHealthDefinition(),
                 new TaxAdvanceSocialDefinition(),
                 new TaxAdvancePartDefinition(),
@@ -51,7 +52,6 @@ namespace ClazzGeneratorConsoleApp.Defs
                 new TaxAdvanceDefinition(),
                 new TaxSolidaryDefinition(),
                 new TaxAdvanceFinalDefinition(),
-                new TaxWithholdBaseDefinition(),
                 new TaxWithholdHealthDefinition(),
                 new TaxWithholdSocialDefinition(),
                 new TaxWithholdPartDefinition(),

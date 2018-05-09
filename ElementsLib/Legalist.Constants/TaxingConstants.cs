@@ -12,4 +12,15 @@ namespace ElementsLib.Legalist.Constants
         TAXING_WITHHOLD = 3,
         TAXING_PARTNER = 4,
     }
+
+    public static class TaxStatement
+    {
+        public static Byte TAXABLE = 1;
+        public static Byte NONTAXABLE = 0;
+    }
+    public static class TaxDeclaracy
+    {
+        public static Byte SIGNED = 1;
+        public static Byte NONSIGNED = 0;
+    }
 }

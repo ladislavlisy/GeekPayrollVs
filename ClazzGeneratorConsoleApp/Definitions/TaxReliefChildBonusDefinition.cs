@@ -4,9 +4,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
     using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
-    public class TaxAdvanceHealthDefinition : ArticleDefinition
+    public class TaxReliefChildBonusDefinition : ArticleDefinition
 	{
-		public TaxAdvanceHealthDefinition() : base(ArticleRole.ARTICLE_TAX_ADVANCE_HEALTH)
+		public TaxReliefChildBonusDefinition() : base(ArticleRole.ARTICLE_TAX_RELIEF_CHILD_BONUS)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

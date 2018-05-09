@@ -5,6 +5,7 @@ using System.Linq;
 namespace ElementsLib.Elements.Config.Concepts
 {
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRole = UInt16;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
@@ -14,6 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.InsDeclarationHealthArticle;
 
+    using Legalist.Constants;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
     using Module.Items;

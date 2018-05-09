@@ -6,6 +6,7 @@ namespace ElementsLib.Elements.Config.Articles
 {
     using ConfigCodeEnum = Module.Codes.ArticleCodeCz;
     using ConfigCode = UInt16;
+    using ConfigBase = Module.Interfaces.Matrixus.IArticleConfigFeatures;
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
@@ -19,10 +20,12 @@ namespace ElementsLib.Elements.Config.Articles
 
     using Sources;
     using Concepts;
+    using Legalist.Constants;
     using Module.Items;
     using Module.Libs;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
+    using Module.Interfaces.Matrixus;
     using Utils;
     using Results;
 

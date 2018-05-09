@@ -108,6 +108,7 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
                 StatementType = 0;
+                DeclaracyType = 0;
                 ResidencyType = 0;
                 TaxableIncome = decimal.Zero;
                 PartnerIncome = decimal.Zero;
@@ -116,6 +117,7 @@ namespace ElementsLib.Elements.Config.Articles
             // PROPERTIES DEF
             public WorkTaxingTerms SummarizeType { get; set; }
             public Byte StatementType { get; set; }
+            public Byte DeclaracyType { get; set; }
             public Byte ResidencyType { get; set; }
             public TAmount TaxableIncome { get; set; }
             public TAmount PartnerIncome { get; set; }
@@ -228,6 +230,7 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         SummarizeType = declaracyValues.SummarizeType,
                         StatementType = declaracyValues.StatementType,
+                        DeclaracyType = declaracyValues.DeclaracyType,
                         ResidencyType = declaracyValues.ResidencyType,
                         TaxableIncome = taxableValues.Balance(),
                         PartnerIncome = partnerValues.Balance(),

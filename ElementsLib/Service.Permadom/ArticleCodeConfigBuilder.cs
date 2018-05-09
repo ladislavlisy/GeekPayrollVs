@@ -150,6 +150,27 @@ namespace ElementsLib.Service.Permadom
                     ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ, 
                     TaxingBehaviour.TAXING_NOTHING, HealthBehaviour.HEALTH_NOTHING, SocialBehaviour.SOCIAL_NOTHING,
                     ConfigCodeEnum.FACT_INS_DECLARATION_SOCIAL),
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_INCOMES_ADVANCE, ConfigRoleEnum.ARTICLE_TAX_INCOMES_ADVANCE,
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ, 
+                    TaxingBehaviour.TAXING_NOTHING, HealthBehaviour.HEALTH_NOTHING, SocialBehaviour.SOCIAL_NOTHING,
+                    ConfigCodeEnum.FACT_TAX_INCOMES_GENERAL, ConfigCodeEnum.FACT_TAX_INCOMES_HEALTH, ConfigCodeEnum.FACT_TAX_INCOMES_SOCIAL), 
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_INCOMES_WITHHOLD, ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD,
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ, 
+                    TaxingBehaviour.TAXING_NOTHING, HealthBehaviour.HEALTH_NOTHING, SocialBehaviour.SOCIAL_NOTHING, 
+                    ConfigCodeEnum.FACT_TAX_INCOMES_ADVANCE, ConfigCodeEnum.FACT_TAX_INCOMES_GENERAL, ConfigCodeEnum.FACT_TAX_INCOMES_HEALTH, ConfigCodeEnum.FACT_TAX_INCOMES_SOCIAL), 
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_BASE_ADVANCE, ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE,
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ, 
+                    TaxingBehaviour.TAXING_NOTHING, HealthBehaviour.HEALTH_NOTHING, SocialBehaviour.SOCIAL_NOTHING,
+                    ConfigCodeEnum.FACT_TAX_INCOMES_ADVANCE), 
+                CreateConfigItem(ConfigCodeEnum.FACT_TAX_BASE_WITHHOLD, ConfigRoleEnum.ARTICLE_TAX_BASE_WITHHOLD,
+                    ConfigGangEnum.TRANSFER_GANG, 
+                    ConfigTypeEnum.HEAD_CODE_ARTICLE, ConfigBindEnum.ARTICLE_REQ, 
+                    TaxingBehaviour.TAXING_NOTHING, HealthBehaviour.HEALTH_NOTHING, SocialBehaviour.SOCIAL_NOTHING,
+                    ConfigCodeEnum.FACT_TAX_INCOMES_WITHHOLD), 
+
 #endregion
             };
             return configList;

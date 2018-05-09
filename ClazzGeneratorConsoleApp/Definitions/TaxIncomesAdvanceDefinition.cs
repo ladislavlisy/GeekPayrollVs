@@ -9,7 +9,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
 		public TaxIncomesAdvanceDefinition() : base(ArticleRole.ARTICLE_TAX_INCOMES_ADVANCE)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
-			ArticleResults = ArticleDefinition.CreateParams();
+			ArticleResults = ArticleDefinition.CreateParams(
+                CreateParam("IncomeTaxable", FieldType.TAmount)
+            );
 		}
 	}
 }

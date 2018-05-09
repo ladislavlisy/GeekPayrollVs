@@ -89,6 +89,14 @@ namespace ElementsLib.Service.Permadom
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_INCOMES_SOCIAL,
                     Tags = null,
                 },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_ADVANCE,
+                    Tags = null,
+                },
+                new ArticleData() {
+                    Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_WITHHOLD,
+                    Tags = null,
+                },
                 //FACT_POSITION_TIMESHEET,
                 //FACT_POSITION_WORKING,
                 //FACT_POSITION_ABSENCE,
@@ -121,7 +129,7 @@ namespace ElementsLib.Service.Permadom
 
             return new List<ArticleCodeConfigItem>()
             {
-                new ArticleCodeConfigData(0, 0, EARNINGS_GANG, NO_HEAD_PART_TYPE, ARTICLE_OPT, 
+                new ArticleCodeConfigData(0, 0, EARNINGS_GANG, NO_HEAD_PART_TYPE, ARTICLE_OPT,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_UNKNOWN"),
                 new ArticleCodeConfigData(1, 1, EARNINGS_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_CONTRACT_TERM"),
@@ -143,7 +151,7 @@ namespace ElementsLib.Service.Permadom
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_POSITION_ABSENCE", 8, 5),
                 new ArticleCodeConfigData(9, 9, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_POSITION_WORKING", 8, 10),
-                new ArticleCodeConfigData(10000, 1000, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_OPT, 
+                new ArticleCodeConfigData(10000, 1000, EARNINGS_GANG, PART_CODE_ARTICLE, ARTICLE_OPT,
                     TAXING_ADVANCE, HEALTH_INCOMES, SOCIAL_INCOMES, "FACT_POSITION_MONTHLY_AMOUNT", 8, 9),
                 new ArticleCodeConfigData(10001, 1001, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_DECLARATION"),
@@ -153,14 +161,22 @@ namespace ElementsLib.Service.Permadom
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_SOCIAL_DECLARATION"),
                 new ArticleCodeConfigData(10004, 1004, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_GENERAL", 10001),
-                new ArticleCodeConfigData(10005, 1005, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                new ArticleCodeConfigData(10005, 1005, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_HEALTH", 10001, 10002, 10009),
-                new ArticleCodeConfigData(10006, 1006, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                new ArticleCodeConfigData(10006, 1006, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_SOCIAL", 10001, 10003, 10010),
                 new ArticleCodeConfigData(10009, 1009, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_INCOMES_HEALTH", 10002),
                 new ArticleCodeConfigData(10010, 1010, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_INS_INCOMES_SOCIAL", 10003),
+                new ArticleCodeConfigData(10007, 1007, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ,
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_ADVANCE", 10004, 10005, 10006),
+                new ArticleCodeConfigData(10008, 1008, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_INCOMES_WITHHOLD", 10007, 10004, 10005, 10006),
+                new ArticleCodeConfigData(10011, 1011, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_ADVANCE", 10007),
+                new ArticleCodeConfigData(10019, 1019, TRANSFER_GANG, HEAD_CODE_ARTICLE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_WITHHOLD", 10008),
             };
         }
         public IEnumerable<ArticleRoleConfigItem> GetArticleRoleData()
@@ -187,6 +203,10 @@ namespace ElementsLib.Service.Permadom
                 new ArticleRoleConfigData(1006, "ARTICLE_TAX_INCOMES_SOCIAL"),
                 new ArticleRoleConfigData(1009, "ARTICLE_INS_INCOMES_HEALTH"),
                 new ArticleRoleConfigData(1010, "ARTICLE_INS_INCOMES_SOCIAL"),
+                new ArticleRoleConfigData(1007, "ARTICLE_TAX_INCOMES_ADVANCE"),
+                new ArticleRoleConfigData(1008, "ARTICLE_TAX_INCOMES_WITHHOLD"),
+                new ArticleRoleConfigData(1011, "ARTICLE_TAX_BASE_ADVANCE"),
+                new ArticleRoleConfigData(1019, "ARTICLE_TAX_BASE_WITHHOLD"),
            };
         }
 

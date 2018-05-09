@@ -145,9 +145,9 @@ namespace ElementsLib.Elements.Config.Results
         }
 
         public IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency,
-            TAmount related, TAmount agrtask, TAmount partner, TAmount exclude)
+            TAmount general, TAmount lolevel, TAmount agrtask, TAmount partner, TAmount exclude)
         {
-            IArticleResultValues value = new IncomeTaxGeneralValue(summarize, statement, residency, related, agrtask, partner,  exclude);
+            IArticleResultValues value = new IncomeTaxGeneralValue(summarize, statement, residency, general, lolevel, agrtask, partner,  exclude);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -241,9 +241,9 @@ namespace ElementsLib.Elements.Config.Results
         {
             string articleCode = ArticleCodeAdapter.GetSymbol(InternalConfig.Code());
 
-            string articleDesc = string.Join("\r\n", ResultValues.Select((v) => (v.Description())));
+            string articleDesc = string.Join("\t", ResultValues.Select((v) => (v.Description())));
 
-            return string.Format("{0}\r\n{1}", articleCode, articleDesc);
+            return string.Format("{0}\t\t{1}", articleCode, articleDesc);
         }
         public Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues
         {
