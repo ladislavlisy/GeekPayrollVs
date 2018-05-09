@@ -10,11 +10,14 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TAmount = Decimal;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.TaxIncomesAdvanceSource;
 
@@ -28,6 +31,10 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Matrixus;
     using Utils;
     using Results;
+    using Matrixus.Config;
+    using Evaluate.Sources;
+    using Module.Codes;
+    using Module.Items.Utils;
 
     public class TaxIncomesAdvanceArticle : GeneralArticle, ICloneable
     {
@@ -100,10 +107,19 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
+                GeneralIncome = TAmount.Zero;
+                LolevelIncome = TAmount.Zero;
+                AgrTaskIncome = TAmount.Zero;
+                PartnerIncome = TAmount.Zero;
+                ExcludeIncome = TAmount.Zero;
             }
 
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public TAmount GeneralIncome { get; set; }
+            public TAmount LolevelIncome { get; set; }
+            public TAmount AgrTaskIncome { get; set; }
+            public TAmount PartnerIncome { get; set; }
+            public TAmount ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -135,11 +151,45 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
+                private Result<TaxableIncomeSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_GENERAL;
+
+                    TaxableIncomeSum initBalance = new TaxableIncomeSum();
+
+                    Result<TaxableIncomeSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, IncomeTaxGeneralValue, TaxableIncomeSum>(
+                            initBalance, TargetFilters.TargetCodeFunc(incomeTaxingCode), ArticleFilters.SelectAllFunc,
+                            ResultFilters.IncomeTaxableFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+                private Result<TaxableIncomeSum, string> GetSumPayments(TaxableIncomeSum agr, TargetItem resultTarget, IncomeTaxGeneralValue resultValue)
+                {
+                    return Result.Ok<TaxableIncomeSum, string>(agr.Aggregate(resultValue.IncomeGeneral, resultValue.IncomeExclude, 
+                        resultValue.IncomeLolevel, resultValue.IncomeAgrTask, resultValue.IncomePartner));
+                }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    Result<TaxableIncomeSum, string> taxableIncome = GetTaxableIncome(InternalValues, InternalTarget);
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(taxableIncome))
+                    {
+                        return ReturnFailureAndError(initValues, taxableIncome.Error);
+                    }
+
+                    TaxableIncomeSum taxableValues = taxableIncome.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        GeneralIncome = taxableValues.IncomeGeneral(),
+                        ExcludeIncome = taxableValues.IncomeExclude(),
+                        LolevelIncome = taxableValues.IncomeLolevel(),
+                        AgrTaskIncome = taxableValues.IncomeAgrTask(),
+                        PartnerIncome = taxableValues.IncomePartner(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

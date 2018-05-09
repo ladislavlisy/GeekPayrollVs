@@ -76,6 +76,34 @@ namespace ElementsLib.Elements.Utils
             }
             return Result.Ok<TRValue, string>(typeValues.Value);
         }
+        public static Result<TAValue, string> FindAndTransformResultValue<TResult, TRValue, TAValue>(this IEnumerable<ResultPair> evalResults, 
+            Func<TargetItem, bool> filterTargetFunc,
+            Func<ValuesItem, bool> selectValuesFunc, Func<TRValue, Result<TAValue, string>> selectResultFunc)
+            where TResult : class, ResultItem
+            where TRValue : class, ValuesItem
+        {
+            ResultPack findResult = evalResults.FirstToResultWithValueAndError(filterTargetFunc, ERROR_TEXT_CONTRACT_NOT_FOUND);
+            if (findResult.IsFailure)
+            {
+                return Result.Fail<TAValue, string>(findResult.Error);
+            }
+            TResult typeResult = findResult.Value as TResult;
+            if (typeResult == null)
+            {
+                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+            }
+            Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(selectValuesFunc);
+            if (typeValues.HasNoValue)
+            {
+                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+            }
+            Result<TAValue, string> tranResult = selectResultFunc(typeValues.Value);
+            if (tranResult.IsFailure)
+            {
+                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_SELECT_FAILED);
+            }
+            return Result.Ok<TAValue, string>(tranResult.Value);
+        }
 
         public static Result<IEnumerable<ResultPair>, string> GetTypedResultsInListAndError<TResult>(this IEnumerable<ResultPair> evalResults,
             Func<TargetItem, bool> filterTargetFunc) where TResult : class, ResultItem

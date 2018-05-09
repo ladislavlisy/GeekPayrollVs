@@ -10,6 +10,8 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TAmount = Decimal;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
@@ -28,6 +30,9 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Matrixus;
     using Utils;
     using Results;
+    using Module.Codes;
+    using Matrixus.Config;
+    using Module.Items.Utils;
 
     public class TaxBaseWithholdArticle : GeneralArticle, ICloneable
     {
@@ -100,10 +105,11 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
+                IncomeWithhold = TAmount.Zero;
             }
 
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public TAmount IncomeWithhold { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -135,11 +141,39 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
+                private Result<MoneyAmountSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_WITHHOLD_GENERAL;
+
+                    TaxableIncomeSum initBalance = new TaxableIncomeSum();
+
+                    Result<MoneyAmountSum, string> taxableIncome = results
+                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyTransferIncomeValue, MoneyAmountSum>(
+                        TargetFilters.TargetCodeFunc(incomeTaxingCode), ResultFilters.TransferIncomeValue, GetIncomeAmount);
+
+                    return taxableIncome;
+                }
+                private Result<MoneyAmountSum, string> GetIncomeAmount(MoneyTransferIncomeValue resultValue)
+                {
+                    return Result.Ok<MoneyAmountSum, string>(new MoneyAmountSum(resultValue.Payment));
+                }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    Result<MoneyAmountSum, string> taxableIncome = GetTaxableIncome(InternalValues, InternalTarget);
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(taxableIncome))
+                    {
+                        return ReturnFailureAndError(initValues, taxableIncome.Error);
+                    }
+
+                    MoneyAmountSum taxableValues = taxableIncome.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        IncomeWithhold = taxableValues.Balance(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

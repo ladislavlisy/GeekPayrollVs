@@ -29,12 +29,12 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class TaxBaseWithholdConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseWithholdConcept(ARTICLE_TAX_BASE_WITHHOLD, 1019): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ITaxingProfile conceptProfile = evalProfile.Taxing();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -42,10 +42,13 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TAmount basisWithhold = conceptProfile.TaxableBaseWithholdTaxingMode(evalPeriod,
+                conceptValues.IncomeWithhold);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
+            conceptResult.AddMoneyTransferBasisValue(basisWithhold);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

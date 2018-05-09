@@ -17,5 +17,17 @@ namespace ElementsLib.Matrixus.Config
         {
             return (result.IsMonthAttendanceValue());
         }
+        public static bool IncomeTaxableFunc(ResultItem result)
+        {
+            return (result.IsIncomeTaxableValue());
+        }
+        public static bool TransferIncomeValue(ResultItem result)
+        {
+            return (result.IsTransferIncomeValue());
+        }
+        public static bool TransferBasisValue(ResultItem result)
+        {
+            return (result.IsTransferBasisValue());
+        }
     }
 }

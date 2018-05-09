@@ -34,7 +34,10 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth);
-        IArticleResult AddMoneyPaymentValue(TAmount payment);
+        IArticleResult AddMoneyPaymentValue(TAmount paymentAmount);
+        IArticleResult AddMoneyTransferValue(TAmount transferAmount);
+        IArticleResult AddMoneyTransferIncomeValue(TAmount incomeAmount);
+        IArticleResult AddMoneyTransferBasisValue(TAmount basisAmount);
         IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
         IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmount totalBase, Byte foreigner);
         IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmount totalBase, Byte foreigner);

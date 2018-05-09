@@ -85,6 +85,7 @@ namespace ClazzGeneratorConsoleApp.Defs
             WriteBaseBlokLine(writer, "using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;");
             WriteBaseBlokLine(writer, "using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;");
             WriteBaseBlokLine(writer, "using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;");
+            WriteBaseBlokLine(writer, "using ResultItem = Module.Interfaces.Elements.IArticleResult;");
             WriteBaseBlokLine(writer, "using ValidsPack = ResultMonad.Result<bool, string>;");
             WriteBaseBlokLine(writer, "using SourceItem = Sources." + ClassName + "Source;");
             DelimitLine(writer);

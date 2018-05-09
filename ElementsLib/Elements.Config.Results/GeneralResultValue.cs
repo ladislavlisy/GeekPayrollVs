@@ -70,5 +70,17 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_SOCIAL);
         }
+        public bool IsIncomeTaxableValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_TAXING);
+        }
+        public bool IsTransferIncomeValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_INCOME_MONEY);
+        }
+        public bool IsTransferBasisValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_BASIS_MONEY);
+        }
     }
 }

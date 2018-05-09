@@ -29,12 +29,12 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class TaxIncomesAdvanceConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxIncomesAdvanceConcept(ARTICLE_TAX_INCOMES_ADVANCE, 1007): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ITaxingProfile conceptProfile = evalProfile.Taxing();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -42,10 +42,14 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TAmount incomeAdvance = conceptProfile.TaxableIncomesAdvanceTaxingMode(evalPeriod, 
+                conceptValues.GeneralIncome, conceptValues.ExcludeIncome, 
+                conceptValues.LolevelIncome, conceptValues.AgrTaskIncome, conceptValues.PartnerIncome);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
+            conceptResult.AddMoneyTransferIncomeValue(incomeAdvance);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

@@ -110,9 +110,33 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyPaymentValue(TAmount payment)
+        public IArticleResult AddMoneyPaymentValue(TAmount paymentAmount)
         {
-            IArticleResultValues value = new MoneyPaymentValue((ResultCode)ArticleResultCode.RESULT_VALUE_PAYMENT_MONEY, payment);
+            IArticleResultValues value = new MoneyPaymentValue((ResultCode)ArticleResultCode.RESULT_VALUE_PAYMENT_MONEY, paymentAmount);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddMoneyTransferValue(TAmount transferAmount)
+        {
+            IArticleResultValues value = new MoneyTransferValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_MONEY, transferAmount);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddMoneyTransferIncomeValue(TAmount incomeAmount)
+        {
+            IArticleResultValues value = new MoneyTransferIncomeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_INCOME_MONEY, incomeAmount);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddMoneyTransferBasisValue(TAmount basisAmount)
+        {
+            IArticleResultValues value = new MoneyTransferBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_BASIS_MONEY, basisAmount);
 
             ResultValues = ResultValues.Concat(value);
 

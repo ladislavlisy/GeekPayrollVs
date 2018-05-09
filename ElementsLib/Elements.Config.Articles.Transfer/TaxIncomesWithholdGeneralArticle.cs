@@ -10,11 +10,14 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
+    using TAmount = Decimal;
+
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.TaxIncomesWithholdSource;
 
@@ -28,21 +31,24 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Matrixus;
     using Utils;
     using Results;
+    using Module.Items.Utils;
+    using Module.Codes;
+    using Matrixus.Config;
 
-    public class TaxIncomesWithholdArticle : GeneralArticle, ICloneable
+    public class TaxIncomesWithholdGeneralArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdArticle(ARTICLE_TAX_INCOMES_WITHHOLD, 1008): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdGeneralArticle(ARTICLE_TAX_INCOMES_WITHHOLD_GENERAL, 1008): {0}";
 
-        public TaxIncomesWithholdArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD)
+        public TaxIncomesWithholdGeneralArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_GENERAL)
         {
             SourceValues = new TaxIncomesWithholdSource();
 
-            InternalEvaluate = TaxIncomesWithholdConcept.EvaluateConcept;
+            InternalEvaluate = TaxIncomesWithholdGeneralConcept.EvaluateConcept;
         }
 
-        public TaxIncomesWithholdArticle(ISourceValues values) : this()
+        public TaxIncomesWithholdGeneralArticle(ISourceValues values) : this()
         {
             TaxIncomesWithholdSource sourceValues = values as TaxIncomesWithholdSource;
 
@@ -87,7 +93,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxIncomesWithholdArticle cloneArticle = (TaxIncomesWithholdArticle)this.MemberwiseClone();
+            TaxIncomesWithholdGeneralArticle cloneArticle = (TaxIncomesWithholdGeneralArticle)this.MemberwiseClone();
 
             cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
@@ -100,10 +106,19 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
+                GeneralIncome = TAmount.Zero;
+                LolevelIncome = TAmount.Zero;
+                AgrTaskIncome = TAmount.Zero;
+                PartnerIncome = TAmount.Zero;
+                ExcludeIncome = TAmount.Zero;
             }
 
             // PROPERTIES DEF
-            // public XXX ZZZ { get; set; }
+            public TAmount GeneralIncome { get; set; }
+            public TAmount LolevelIncome { get; set; }
+            public TAmount AgrTaskIncome { get; set; }
+            public TAmount PartnerIncome { get; set; }
+            public TAmount ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -135,11 +150,45 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
+                private Result<TaxableIncomeSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
+                {
+                    ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_GENERAL;
+
+                    TaxableIncomeSum initBalance = new TaxableIncomeSum();
+
+                    Result<TaxableIncomeSum, string> taxableIncome = results
+                        .GetResultValuesInAggrAndError<ResultItem, IncomeTaxGeneralValue, TaxableIncomeSum>(
+                            initBalance, TargetFilters.TargetCodeFunc(incomeTaxingCode), ArticleFilters.SelectAllFunc,
+                            ResultFilters.IncomeTaxableFunc, GetSumPayments);
+
+                    return taxableIncome;
+                }
+                private Result<TaxableIncomeSum, string> GetSumPayments(TaxableIncomeSum agr, TargetItem resultTarget, IncomeTaxGeneralValue resultValue)
+                {
+                    return Result.Ok<TaxableIncomeSum, string>(agr.Aggregate(resultValue.IncomeGeneral, resultValue.IncomeExclude,
+                        resultValue.IncomeLolevel, resultValue.IncomeAgrTask, resultValue.IncomePartner));
+                }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    // PROPERTIES SET
-                    // PROPERTIES SET
-                    return initValues;
+                    Result<TaxableIncomeSum, string> taxableIncome = GetTaxableIncome(InternalValues, InternalTarget);
+
+                    if (ResultMonadUtils.HaveAnyResultFailed(taxableIncome))
+                    {
+                        return ReturnFailureAndError(initValues, taxableIncome.Error);
+                    }
+
+                    TaxableIncomeSum taxableValues = taxableIncome.Value;
+
+                    return new EvaluateSource
+                    {
+                        // PROPERTIES SET
+                        GeneralIncome = taxableValues.IncomeGeneral(),
+                        ExcludeIncome = taxableValues.IncomeExclude(),
+                        LolevelIncome = taxableValues.IncomeLolevel(),
+                        AgrTaskIncome = taxableValues.IncomeAgrTask(),
+                        PartnerIncome = taxableValues.IncomePartner(),
+                        // PROPERTIES SET
+                    };
                 }
             }
         }

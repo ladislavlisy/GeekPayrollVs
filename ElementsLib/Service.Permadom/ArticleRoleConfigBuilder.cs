@@ -50,7 +50,10 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_INS_INCOMES_SOCIAL),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_ADVANCE),
-                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_GENERAL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_LOLEVEL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_TASKAGR),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_PARTNER),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_WITHHOLD),
             };

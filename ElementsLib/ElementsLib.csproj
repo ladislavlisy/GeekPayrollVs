@@ -57,7 +57,10 @@
     <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesGeneralArticle.cs" />
     <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesHealthArticle.cs" />
     <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesSocialArticle.cs" />
-    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesWithholdArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesWithholdTaskagrArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesWithholdGeneralArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesWithholdLolevelArticle.cs" />
+    <Compile Include="Elements.Config.Articles.Transfer\TaxIncomesWithholdPartnerArticle.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractAbsenceConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractAttendItemConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Earnings\ContractTermConcept.cs" />
@@ -80,7 +83,10 @@
     <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesGeneralConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesHealthConcept.cs" />
     <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesSocialConcept.cs" />
-    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesWithholdConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesWithholdTaskagrConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesWithholdGeneralConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesWithholdLolevelConcept.cs" />
+    <Compile Include="Elements.Config.Concepts.Transfer\TaxIncomesWithholdPartnerConcept.cs" />
     <Compile Include="Elements.Config.Results\ArticleGeneralResult.cs" />
     <Compile Include="Elements.Config.Results\ArticleResultCode.cs" />
     <Compile Include="Elements.Config.Results\DeclarationHealthValue.cs" />
@@ -90,7 +96,10 @@
     <Compile Include="Elements.Config.Results\IncomeInsHealthValue.cs" />
     <Compile Include="Elements.Config.Results\IncomeInsSocialValue.cs" />
     <Compile Include="Elements.Config.Results\IncomeTaxGeneralValue.cs" />
+    <Compile Include="Elements.Config.Results\MoneyTransferIncomeValue.cs" />
     <Compile Include="Elements.Config.Results\MoneyPaymentValue.cs" />
+    <Compile Include="Elements.Config.Results\MoneyTransferBasisValue.cs" />
+    <Compile Include="Elements.Config.Results\MoneyTransferValue.cs" />
     <Compile Include="Elements.Config.Results\MonthAttendanceValue.cs" />
     <Compile Include="Elements.Config.Results\MonthFromStopValue.cs" />
     <Compile Include="Elements.Config.Results\ContractFromStopValue.cs" />
@@ -113,6 +122,8 @@
     <Compile Include="Elements.Config.Sources.Transfer\TaxIncomesWithholdSource.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionDetailsBuilder.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionScheduleEvalDetail.cs" />
+    <Compile Include="Module.Items\MoneyAmountSum.cs" />
+    <Compile Include="Module.Items\TaxableIncomeSum.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />
     <Compile Include="Elements.Utils\FilterResultsExtensions.cs" />
     <Compile Include="Elements\EvalValuesBuilder.cs" />

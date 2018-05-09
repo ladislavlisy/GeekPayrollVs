@@ -134,5 +134,66 @@ namespace ElementsLib.Legalist.Versions.Taxing
             }
             return totalIncome;
         }
+
+        public TAmount TaxableIncomesAdvanceTaxingMode(Period evalPeriod,
+            TAmount generalIncome, TAmount excludeIncome,
+            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        {
+            TAmount totalIncome = decimal.Zero;
+            totalIncome = decimal.Add(totalIncome, generalIncome);
+            // valid_lolevel_limit == true && lolevelIncome > lolevel_limit
+            totalIncome = decimal.Add(totalIncome, lolevelIncome);
+            // valid_agrtask_limit == true && agrtaskIncome > agrtask_limit
+            totalIncome = decimal.Add(totalIncome, agrtaskIncome);
+            return totalIncome;
+        }
+        public TAmount TaxableIncomesWithholdLolevelMode(Period evalPeriod,
+            TAmount generalIncome, TAmount excludeIncome,
+            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        {
+            TAmount totalIncome = decimal.Zero;
+            // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
+            totalIncome = decimal.Add(totalIncome, lolevelIncome);
+            // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
+            totalIncome = decimal.Add(totalIncome, agrtaskIncome);
+            // valid_partner_limit == true && partnerIncome > 0
+            return totalIncome;
+        }
+
+        public TAmount TaxableIncomesWithholdAgrTaskMode(Period evalPeriod,
+            TAmount generalIncome, TAmount excludeIncome,
+            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        {
+            TAmount totalIncome = decimal.Zero;
+            // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
+            totalIncome = decimal.Add(totalIncome, lolevelIncome);
+            // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
+            totalIncome = decimal.Add(totalIncome, agrtaskIncome);
+            // valid_partner_limit == true && partnerIncome > 0
+            return totalIncome;
+        }
+
+        public TAmount TaxableIncomesWithholdPartnerMode(Period evalPeriod,
+            TAmount generalIncome, TAmount excludeIncome,
+            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        {
+            TAmount totalIncome = decimal.Zero;
+            // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
+            totalIncome = decimal.Add(totalIncome, lolevelIncome);
+            // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
+            totalIncome = decimal.Add(totalIncome, agrtaskIncome);
+            // valid_partner_limit == true && partnerIncome > 0
+            return totalIncome;
+        }
+        public TAmount TaxableBaseAdvanceTaxingMode(Period evalPeriod, TAmount generalIncome)
+        {
+            return generalIncome;
+        }
+
+        public TAmount TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmount generalIncome)
+        {
+            return generalIncome;
+        }
+
     }
 }

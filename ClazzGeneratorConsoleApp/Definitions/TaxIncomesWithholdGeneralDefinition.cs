@@ -4,9 +4,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
     using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
-    public class TaxIncomesWithholdDefinition : ArticleDefinition
+    public class TaxIncomesWithholdGeneralDefinition : ArticleDefinition
 	{
-		public TaxIncomesWithholdDefinition() : base(ArticleRole.ARTICLE_TAX_INCOMES_WITHHOLD)
+		public TaxIncomesWithholdGeneralDefinition() : base(ArticleRole.ARTICLE_TAX_INCOMES_WITHHOLD_GENERAL)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams(

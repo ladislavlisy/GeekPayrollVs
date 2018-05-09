@@ -94,7 +94,7 @@
     <Compile Include="Definitions\TaxDeclarationDefinition.cs" />
     <Compile Include="Definitions\TaxIncomesAdvanceDefinition.cs" />
     <Compile Include="Definitions\TaxIncomesGeneralDefinition.cs" />
-    <Compile Include="Definitions\TaxIncomesWithholdDefinition.cs" />
+    <Compile Include="Definitions\TaxIncomesWithholdGeneralDefinition.cs" />
     <Compile Include="Definitions\TaxReliefChildDefinition.cs" />
     <Compile Include="Definitions\TaxReliefPayerDefinition.cs" />
     <Compile Include="Definitions\TaxSolidaryBaseDefinition.cs" />

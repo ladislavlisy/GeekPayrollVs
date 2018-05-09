@@ -28,7 +28,7 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class TaxIncomesHealthConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxIncomesHealthConcept(ARTICLE_TAX_INCOMES_HEALTH, 1005): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
@@ -44,16 +44,16 @@ namespace ElementsLib.Elements.Config.Concepts
             TAmount incomeGeneralRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod, conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod, conceptValues.SummarizeType,
+            TAmount incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
             TAmount incomeLolevelRelated = conceptProfile.TaxableLolevelIncomes(evalPeriod, conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod, conceptValues.SummarizeType,
+            TAmount incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod, conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType,
+            TAmount incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod, conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
             // EVALUATION
@@ -62,7 +62,8 @@ namespace ElementsLib.Elements.Config.Concepts
             // SET RESULT VALUES
             conceptResult.AddIncomeTaxGeneralValue(conceptValues.SummarizeType,
                 conceptValues.StatementType, conceptValues.ResidencyType,
-                incomeGeneralRelated, incomeLolevelRelated, incomeAgrWorkRelated, incomePartnerRelated, incomeGeneralExclude);
+                incomeGeneralRelated, incomeGeneralExclude, 
+                incomeLolevelRelated, incomeAgrWorkRelated, incomePartnerRelated);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

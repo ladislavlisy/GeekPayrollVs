@@ -25,6 +25,9 @@ namespace ElementsLib.Elements.Config.Results
         RESULT_VALUE_INCOME_SUM_TAXING,
         RESULT_VALUE_INCOME_SUM_HEALTH,
         RESULT_VALUE_INCOME_SUM_SOCIAL,
+        RESULT_VALUE_TRANSFER_INCOME_MONEY,
+        RESULT_VALUE_TRANSFER_BASIS_MONEY,
+        RESULT_VALUE_TRANSFER_MONEY,
     }
     public static class ArticleCzCodeExtensions
     {
