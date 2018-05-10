@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxBaseAdvanceArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -42,7 +42,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount basisAdvance = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
+            TAmountDec basisAdvance = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
                 conceptValues.IncomeAdvance);
             // EVALUATION
 

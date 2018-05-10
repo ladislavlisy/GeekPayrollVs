@@ -12,6 +12,12 @@ namespace ElementsLib.Legalist.Constants
         TAXING_WITHHOLD = 3,
         TAXING_PARTNER = 4,
     }
+    public enum TaxingPartnerIncome : CONSTANTS_CODE
+    {
+        TAXING_ADVANCE = 0,
+        NONSIGNED_WITHHOLD = 1,
+        TAXING_WITHHOLD = 2,
+    }
 
     public static class TaxStatement
     {

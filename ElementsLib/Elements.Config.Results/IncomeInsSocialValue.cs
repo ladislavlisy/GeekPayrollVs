@@ -2,7 +2,7 @@
 
 namespace ElementsLib.Elements.Config.Results
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     using ResultCode = UInt16;
 
     using Module.Libs;
@@ -11,10 +11,10 @@ namespace ElementsLib.Elements.Config.Results
     public class IncomeInsSocialValue : GeneralResultValue
     {
         public WorkSocialTerms SummarizeType { get; protected set; }
-        public TAmount IncomeRelated { get; protected set; }
-        public TAmount IncomeExclude { get; protected set; }
+        public TAmountDec IncomeRelated { get; protected set; }
+        public TAmountDec IncomeExclude { get; protected set; }
 
-        public IncomeInsSocialValue(WorkSocialTerms summarize, TAmount realted, TAmount exclude) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_SOCIAL)
+        public IncomeInsSocialValue(WorkSocialTerms summarize, TAmountDec realted, TAmountDec exclude) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_SOCIAL)
         {
             this.SummarizeType = summarize;
             this.IncomeRelated = realted;

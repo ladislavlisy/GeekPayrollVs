@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Config
 {
+    using Constants;
     using BundleVersion = UInt16;
     internal static class TaxingPropertiesDefault
     {
@@ -26,7 +27,8 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = 0;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 0;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = 0;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = 0;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = 0;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = 0;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 0;
     }
     public static class TaxingPropertiesVersion2011
@@ -48,7 +50,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = 5025;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 8000;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = 100;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = 5000;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = 5000;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = 0;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPartnerIncome.TAXING_ADVANCE;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 0;
     }
 
@@ -71,7 +75,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2011.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = TaxingPropertiesVersion2011.MIN_VALID_INCOME_OF_TAXBONUS;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2011.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2011.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2011.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2011.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2011.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = TaxingPropertiesVersion2011.MIN_VALID_INCOME_OF_SOLIDARY;
     }
 
@@ -94,7 +100,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2012.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = TaxingPropertiesVersion2012.MIN_VALID_INCOME_OF_TAXBONUS;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2012.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2012.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2012.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2012.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2012.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 103536;
     }
 
@@ -117,7 +125,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2013.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 8500;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2013.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = 10000;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = 10000;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2013.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2013.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 103768;
     }
 
@@ -140,7 +150,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2014.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 9200;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2014.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2014.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2014.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2014.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2014.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 106444;
     }
     public static class TaxingPropertiesVersion2016
@@ -162,7 +174,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2015.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 9200;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2015.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2015.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2015.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2015.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2015.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 106444;
     }
     public static class TaxingPropertiesVersion2017
@@ -184,7 +198,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2016.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 9200;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2016.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2016.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2016.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2016.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2016.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 106444;
     }
     public static class TaxingPropertiesVersion2018
@@ -206,7 +222,9 @@ namespace ElementsLib.Legalist.Config
         public const Int32 MAX_VALID_AMOUNT_OF_TAXBONUS = TaxingPropertiesVersion2017.MAX_VALID_AMOUNT_OF_TAXBONUS;
         public const Int32 MIN_VALID_INCOME_OF_TAXBONUS = 9200;
         public const Int32 MAX_VALID_INCOME_OF_ROUNDING = TaxingPropertiesVersion2017.MAX_VALID_INCOME_OF_ROUNDING;
-        public const Int32 MAX_VALID_INCOME_OF_WITHHOLD = TaxingPropertiesVersion2017.MAX_VALID_INCOME_OF_WITHHOLD;
+        public const Int32 MAX_TASKAGR_INCOMES_WITHHOLD = TaxingPropertiesVersion2017.MAX_TASKAGR_INCOMES_WITHHOLD;
+        public const Int32 MAX_LOLEVEL_INCOMES_WITHHOLD = TaxingPropertiesVersion2017.MAX_LOLEVEL_INCOMES_WITHHOLD;
+        public const TaxingPartnerIncome TAX_PARTNER_INCOMES_WITHHOLD = TaxingPropertiesVersion2017.TAX_PARTNER_INCOMES_WITHHOLD;
         public const Int32 MIN_VALID_INCOME_OF_SOLIDARY = 106444;
     }
 }

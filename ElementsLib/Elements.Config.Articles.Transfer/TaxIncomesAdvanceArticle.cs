@@ -10,7 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -107,19 +107,19 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
-                GeneralIncome = TAmount.Zero;
-                LolevelIncome = TAmount.Zero;
-                AgrTaskIncome = TAmount.Zero;
-                PartnerIncome = TAmount.Zero;
-                ExcludeIncome = TAmount.Zero;
+                GeneralIncome = TAmountDec.Zero;
+                LolevelIncome = TAmountDec.Zero;
+                AgrTaskIncome = TAmountDec.Zero;
+                PartnerIncome = TAmountDec.Zero;
+                ExcludeIncome = TAmountDec.Zero;
             }
 
             // PROPERTIES DEF
-            public TAmount GeneralIncome { get; set; }
-            public TAmount LolevelIncome { get; set; }
-            public TAmount AgrTaskIncome { get; set; }
-            public TAmount PartnerIncome { get; set; }
-            public TAmount ExcludeIncome { get; set; }
+            public TAmountDec GeneralIncome { get; set; }
+            public TAmountDec LolevelIncome { get; set; }
+            public TAmountDec AgrTaskIncome { get; set; }
+            public TAmountDec PartnerIncome { get; set; }
+            public TAmountDec ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {

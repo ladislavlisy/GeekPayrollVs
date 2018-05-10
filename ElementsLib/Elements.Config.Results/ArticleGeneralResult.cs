@@ -17,7 +17,7 @@ namespace ElementsLib.Elements.Config.Results
 
     using TDay = Byte;
     using TSeconds = Int32;
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Libs;
@@ -110,7 +110,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyPaymentValue(TAmount paymentAmount)
+        public IArticleResult AddMoneyPaymentValue(TAmountDec paymentAmount)
         {
             IArticleResultValues value = new MoneyPaymentValue((ResultCode)ArticleResultCode.RESULT_VALUE_PAYMENT_MONEY, paymentAmount);
 
@@ -118,7 +118,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyTransferValue(TAmount transferAmount)
+        public IArticleResult AddMoneyTransferValue(TAmountDec transferAmount)
         {
             IArticleResultValues value = new MoneyTransferValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_MONEY, transferAmount);
 
@@ -126,7 +126,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyTransferIncomeValue(TAmount incomeAmount)
+        public IArticleResult AddMoneyTransferIncomeValue(TAmountDec incomeAmount)
         {
             IArticleResultValues value = new MoneyTransferIncomeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_INCOME_MONEY, incomeAmount);
 
@@ -134,7 +134,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyTransferBasisValue(TAmount basisAmount)
+        public IArticleResult AddMoneyTransferBasisValue(TAmountDec basisAmount)
         {
             IArticleResultValues value = new MoneyTransferBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_BASIS_MONEY, basisAmount);
 
@@ -151,7 +151,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmount totalBase, Byte foreigner)
+        public IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner)
         {
             IArticleResultValues value = new DeclarationHealthValue(statement, summarize, totalBase, foreigner);
 
@@ -159,7 +159,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmount totalBase, Byte foreigner)
+        public IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmountDec totalBase, Byte foreigner)
         {
             IArticleResultValues value = new DeclarationSocialValue(statement, summarize, totalBase, foreigner);
 
@@ -169,7 +169,7 @@ namespace ElementsLib.Elements.Config.Results
         }
 
         public IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency,
-            TAmount general, TAmount lolevel, TAmount agrtask, TAmount partner, TAmount exclude)
+            TAmountDec general, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner, TAmountDec exclude)
         {
             IArticleResultValues value = new IncomeTaxGeneralValue(summarize, statement, residency, general, lolevel, agrtask, partner,  exclude);
 
@@ -178,7 +178,7 @@ namespace ElementsLib.Elements.Config.Results
             return this;
         }
 
-        public IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmount related, TAmount exclude)
+        public IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmountDec related, TAmountDec exclude)
         {
             IArticleResultValues value = new IncomeInsHealthValue(summarize, related, exclude);
 
@@ -186,7 +186,7 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmount related, TAmount exclude)
+        public IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmountDec related, TAmountDec exclude)
         {
             IArticleResultValues value = new IncomeInsSocialValue(summarize, related, exclude);
 

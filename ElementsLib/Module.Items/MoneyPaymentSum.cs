@@ -2,19 +2,19 @@
 
 namespace ElementsLib.Module.Items
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     public class MoneyPaymentSum
     {
-        protected TAmount InternalBalance { get; set; }
-        public MoneyPaymentSum(TAmount initBalance)
+        protected TAmountDec InternalBalance { get; set; }
+        public MoneyPaymentSum(TAmountDec initBalance)
         {
             InternalBalance = initBalance;
         }
-        public TAmount Balance()
+        public TAmountDec Balance()
         {
             return InternalBalance;
         }
-        public MoneyPaymentSum Aggregate(TAmount other)
+        public MoneyPaymentSum Aggregate(TAmountDec other)
         {
             return new MoneyPaymentSum(InternalBalance + other);
         }

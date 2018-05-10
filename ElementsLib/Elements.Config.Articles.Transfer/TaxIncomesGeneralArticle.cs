@@ -10,7 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -120,9 +120,9 @@ namespace ElementsLib.Elements.Config.Articles
             public Byte StatementType { get; set; }
             public Byte DeclaracyType { get; set; }
             public Byte ResidencyType { get; set; }
-            public TAmount TaxableIncome { get; set; }
-            public TAmount PartnerIncome { get; set; }
-            public TAmount ExcludeIncome { get; set; }
+            public TAmountDec TaxableIncome { get; set; }
+            public TAmountDec PartnerIncome { get; set; }
+            public TAmountDec ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {

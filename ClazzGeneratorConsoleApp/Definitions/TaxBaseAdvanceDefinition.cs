@@ -10,7 +10,7 @@ namespace ClazzGeneratorConsoleApp.Definitions
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams(
-                CreateParam("TaxableBasis", FieldType.TAmount)
+                CreateParam("TaxableBasis", FieldType.TAmountDec)
             );
 		}
 	}

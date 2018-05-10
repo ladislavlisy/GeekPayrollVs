@@ -10,7 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -109,7 +109,7 @@ namespace ElementsLib.Elements.Config.Articles
             // PROPERTIES DEF
             public Byte StatementType { get; set; }
             public WorkHealthTerms SummarizeType { get; set; }
-            public TAmount TotalYearBase { get; set; }
+            public TAmountDec TotalYearBase { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {

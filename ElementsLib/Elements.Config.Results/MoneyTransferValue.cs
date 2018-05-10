@@ -2,7 +2,7 @@
 
 namespace ElementsLib.Elements.Config.Results
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     using ResultCode = UInt16;
 
     using Module.Libs;
@@ -11,8 +11,8 @@ namespace ElementsLib.Elements.Config.Results
 
     public class MoneyTransferValue : GeneralResultValue
     {
-        public TAmount Payment { get; protected set; }
-        public MoneyTransferValue(ResultCode code, TAmount payment) : base(code)
+        public TAmountDec Payment { get; protected set; }
+        public MoneyTransferValue(ResultCode code, TAmountDec payment) : base(code)
         {
             this.Payment = payment;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Versions.Social
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Constants;
     using Module.Interfaces.Legalist;
@@ -28,10 +28,10 @@ namespace ElementsLib.Legalist.Versions.Social
             return InternalGuides;
         }
 
-        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
-            TAmount includeIncome, TAmount excludeIncome)
+        public TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmountDec includeIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             switch (summarize)
             {
                 case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT:
@@ -44,10 +44,10 @@ namespace ElementsLib.Legalist.Versions.Social
             return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
-            TAmount includeIncome, TAmount excludeIncome)
+        public TAmountDec ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
+            TAmountDec includeIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             switch (summarize)
             {
                 case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENT:

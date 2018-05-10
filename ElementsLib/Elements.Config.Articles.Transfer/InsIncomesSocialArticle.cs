@@ -20,7 +20,7 @@ namespace ElementsLib.Elements.Config.Articles
     using SourceItem = Sources.TaxIncomesGeneralSource;
     using ResultType = Results.ArticleGeneralResult;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Sources;
     using Concepts;
@@ -113,8 +113,8 @@ namespace ElementsLib.Elements.Config.Articles
             }
             // PROPERTIES DEF
             public WorkSocialTerms SummarizeType { get; set; }
-            public TAmount IncludeIncome { get; set; }
-            public TAmount ExcludeIncome { get; set; }
+            public TAmountDec IncludeIncome { get; set; }
+            public TAmountDec ExcludeIncome { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {

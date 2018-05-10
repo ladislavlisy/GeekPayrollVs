@@ -16,7 +16,7 @@ namespace ElementsLib.Module.Interfaces.Elements
 
     using TDay = Byte;
     using TSeconds = Int32;
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using ElementsLib.Legalist.Constants;
     using MaybeMonad;
@@ -34,17 +34,17 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddWorkMonthRealScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddWorkMonthTermScheduleValue(TSeconds[] hoursMonth);
         IArticleResult AddMonthAttendanceScheduleValue(TDay dayFrom, TDay dayStop, TSeconds[] hoursMonth);
-        IArticleResult AddMoneyPaymentValue(TAmount paymentAmount);
-        IArticleResult AddMoneyTransferValue(TAmount transferAmount);
-        IArticleResult AddMoneyTransferIncomeValue(TAmount incomeAmount);
-        IArticleResult AddMoneyTransferBasisValue(TAmount basisAmount);
+        IArticleResult AddMoneyPaymentValue(TAmountDec paymentAmount);
+        IArticleResult AddMoneyTransferValue(TAmountDec transferAmount);
+        IArticleResult AddMoneyTransferIncomeValue(TAmountDec incomeAmount);
+        IArticleResult AddMoneyTransferBasisValue(TAmountDec basisAmount);
         IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
-        IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmount totalBase, Byte foreigner);
-        IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmount totalBase, Byte foreigner);
+        IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner);
+        IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmountDec totalBase, Byte foreigner);
         IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
-            TAmount general, TAmount lolevel, TAmount agrtask, TAmount partner, TAmount exclude);
-        IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmount related, TAmount exclude);
-        IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmount related, TAmount exclude);
+            TAmountDec general, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner, TAmountDec exclude);
+        IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmountDec related, TAmountDec exclude);
+        IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmountDec related, TAmountDec exclude);
 
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;

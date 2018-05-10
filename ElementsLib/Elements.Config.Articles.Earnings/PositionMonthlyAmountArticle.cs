@@ -12,7 +12,7 @@ namespace ElementsLib.Elements.Config.Articles
 
     using TDay = Byte;
     using TSeconds = Int32;
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -113,7 +113,7 @@ namespace ElementsLib.Elements.Config.Articles
                 HoursWorked = 0;
             }
             // PROPERTIES DEF
-            public TAmount MonthlyAmount { get; set; }
+            public TAmountDec MonthlyAmount { get; set; }
             public TSeconds ShiftLiable { get; set; }
             public TSeconds ShiftWorked { get; set; }
             public TSeconds HoursLiable { get; set; }

@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.PositionMonthlyAmountArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -41,7 +41,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount salaryPaymentValue = conceptProfile.SalaryAmountScheduleWork(evalPeriod, 
+            TAmountDec salaryPaymentValue = conceptProfile.SalaryAmountScheduleWork(evalPeriod, 
                 conceptValues.MonthlyAmount,
                 conceptValues.HoursLiable, 
                 conceptValues.HoursWorked);

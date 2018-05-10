@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config.Sources
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Sources
     {
         public Byte StatementType { get; set; }
         public WorkSocialTerms SummarizeType { get; set; }
-        public TAmount TotalYearBase { get; set; }
+        public TAmountDec TotalYearBase { get; set; }
 
         public InsDeclarationSocialSource()
         {
@@ -24,7 +24,7 @@ namespace ElementsLib.Elements.Config.Sources
             TotalYearBase = decimal.Zero;
         }
 
-        public InsDeclarationSocialSource(Byte statementType, WorkSocialTerms summarizeType, TAmount totalYearBase)
+        public InsDeclarationSocialSource(Byte statementType, WorkSocialTerms summarizeType, TAmountDec totalYearBase)
         {
             StatementType = statementType;
             SummarizeType = summarizeType;

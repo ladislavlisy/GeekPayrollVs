@@ -3,7 +3,7 @@
 namespace ElementsLib.Elements.Config.Results
 {
     using TDay = Byte;
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     using ResultCode = UInt16;
 
     using Module.Libs;
@@ -14,9 +14,9 @@ namespace ElementsLib.Elements.Config.Results
         public Byte StatementType { get; protected set; }
         public WorkHealthTerms SummarizeType { get; protected set; }
         public Byte ForeignerType { get; protected set; }
-        public TAmount TotalYearBase { get; protected set; }
+        public TAmountDec TotalYearBase { get; protected set; }
 
-        public DeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmount totalBase, Byte foreigner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_HEALTH)
+        public DeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_HEALTH)
         {
             this.StatementType = statement;
             this.SummarizeType = summarize;

@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config.Sources
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Module.Interfaces.Elements;
 
     public class MonthlyAmountSource : ISourceValues, ICloneable
     {
-        public TAmount MonthlyAmount { get; set; }
+        public TAmountDec MonthlyAmount { get; set; }
 
         public MonthlyAmountSource()
         {
-            MonthlyAmount = TAmount.Zero;
+            MonthlyAmount = TAmountDec.Zero;
         }
 
-        public MonthlyAmountSource(TAmount monthlyAmount)
+        public MonthlyAmountSource(TAmountDec monthlyAmount)
         {
             MonthlyAmount = monthlyAmount;
         }

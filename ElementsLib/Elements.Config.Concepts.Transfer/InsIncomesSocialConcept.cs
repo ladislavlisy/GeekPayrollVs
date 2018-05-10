@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.InsIncomesSocialArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -41,9 +41,9 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount incomeTotalsGeneral = conceptProfile.IncludeGeneralIncomes(evalPeriod, 
+            TAmountDec incomeTotalsGeneral = conceptProfile.IncludeGeneralIncomes(evalPeriod, 
                 conceptValues.SummarizeType, conceptValues.IncludeIncome, conceptValues.ExcludeIncome);
-            TAmount incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, 
+            TAmountDec incomeTotalsExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, 
                 conceptValues.SummarizeType, conceptValues.IncludeIncome, conceptValues.ExcludeIncome);
             // EVALUATION
 

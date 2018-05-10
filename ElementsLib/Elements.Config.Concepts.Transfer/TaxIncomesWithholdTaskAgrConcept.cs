@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxIncomesWithholdTaskagrArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -42,7 +42,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount incomeAdvance = conceptProfile.TaxableIncomesWithholdLolevelMode(evalPeriod,
+            TAmountDec incomeAdvance = conceptProfile.TaxableIncomesWithholdLolevelMode(evalPeriod,
                 conceptValues.GeneralIncome, conceptValues.ExcludeIncome,
                 conceptValues.LolevelIncome, conceptValues.AgrTaskIncome, conceptValues.PartnerIncome);
             // EVALUATION

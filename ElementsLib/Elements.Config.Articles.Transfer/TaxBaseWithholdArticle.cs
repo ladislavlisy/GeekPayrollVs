@@ -10,7 +10,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ConfigRoleEnum = Module.Codes.ArticleRoleCz;
     using ConfigRole = UInt16;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using TargetItem = Module.Interfaces.Elements.IArticleTarget;
     using TargetErrs = String;
@@ -105,11 +105,11 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
-                IncomeWithhold = TAmount.Zero;
+                IncomeWithhold = TAmountDec.Zero;
             }
 
             // PROPERTIES DEF
-            public TAmount IncomeWithhold { get; set; }
+            public TAmountDec IncomeWithhold { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {

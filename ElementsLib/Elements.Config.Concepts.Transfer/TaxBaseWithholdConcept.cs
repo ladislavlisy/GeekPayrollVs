@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxBaseWithholdArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -42,7 +42,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount basisWithhold = conceptProfile.TaxableBaseWithholdTaxingMode(evalPeriod,
+            TAmountDec basisWithhold = conceptProfile.TaxableBaseWithholdTaxingMode(evalPeriod,
                 conceptValues.IncomeWithhold);
             // EVALUATION
 

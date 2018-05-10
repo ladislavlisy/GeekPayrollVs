@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Versions.Taxing
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Constants;
     using Module.Interfaces.Legalist;
@@ -28,11 +28,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return InternalGuides;
         }
 
-        public TAmount TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize,
+        public TAmountDec TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize,
             Byte statement, Byte declaracy, Byte residency,
-            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
+            TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             if (statement == TaxStatement.TAXABLE)
             {
                 if (declaracy == TaxDeclaracy.SIGNED)
@@ -44,11 +44,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxableLolevelIncomes(Period evalPeriod, WorkTaxingTerms summarize,
+        public TAmountDec TaxableLolevelIncomes(Period evalPeriod, WorkTaxingTerms summarize,
             Byte statement, Byte declaracy, Byte residency,
-            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
+            TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             if (statement == TaxStatement.TAXABLE)
             {
                 if (declaracy == TaxDeclaracy.NONSIGNED)
@@ -68,11 +68,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxableAgrWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize,
+        public TAmountDec TaxableAgrWorkIncomes(Period evalPeriod, WorkTaxingTerms summarize,
             Byte statement, Byte declaracy, Byte residency,
-            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
+            TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             if (statement == TaxStatement.TAXABLE)
             {
                 if (declaracy == TaxDeclaracy.NONSIGNED)
@@ -92,11 +92,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxablePartnerIncomes(Period evalPeriod, WorkTaxingTerms summarize,
+        public TAmountDec TaxablePartnerIncomes(Period evalPeriod, WorkTaxingTerms summarize,
             Byte statement, Byte declaracy, Byte residency,
-            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
+            TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             if (statement == TaxStatement.TAXABLE)
             {
                 if (declaracy == TaxDeclaracy.NONSIGNED)
@@ -117,11 +117,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize,
+        public TAmountDec ExcludeGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize,
             Byte statement, Byte declaracy, Byte residency,
-            TAmount taxableIncome, TAmount partnerIncome, TAmount excludeIncome)
+            TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             if (statement == TaxStatement.NONTAXABLE)
             {
                 totalIncome = decimal.Add(totalIncome, taxableIncome);
@@ -135,23 +135,24 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxableIncomesAdvanceTaxingMode(Period evalPeriod,
-            TAmount generalIncome, TAmount excludeIncome,
-            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        public TAmountDec TaxableIncomesAdvanceTaxingMode(Period evalPeriod,
+            TAmountDec generalIncome, TAmountDec excludeIncome,
+            TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             totalIncome = decimal.Add(totalIncome, generalIncome);
+            //if (InternalGuides.)
             // valid_lolevel_limit == true && lolevelIncome > lolevel_limit
             totalIncome = decimal.Add(totalIncome, lolevelIncome);
             // valid_agrtask_limit == true && agrtaskIncome > agrtask_limit
             totalIncome = decimal.Add(totalIncome, agrtaskIncome);
             return totalIncome;
         }
-        public TAmount TaxableIncomesWithholdLolevelMode(Period evalPeriod,
-            TAmount generalIncome, TAmount excludeIncome,
-            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        public TAmountDec TaxableIncomesWithholdLolevelMode(Period evalPeriod,
+            TAmountDec generalIncome, TAmountDec excludeIncome,
+            TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
             totalIncome = decimal.Add(totalIncome, lolevelIncome);
             // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
@@ -160,11 +161,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxableIncomesWithholdAgrTaskMode(Period evalPeriod,
-            TAmount generalIncome, TAmount excludeIncome,
-            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        public TAmountDec TaxableIncomesWithholdAgrTaskMode(Period evalPeriod,
+            TAmountDec generalIncome, TAmountDec excludeIncome,
+            TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
             totalIncome = decimal.Add(totalIncome, lolevelIncome);
             // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
@@ -173,11 +174,11 @@ namespace ElementsLib.Legalist.Versions.Taxing
             return totalIncome;
         }
 
-        public TAmount TaxableIncomesWithholdPartnerMode(Period evalPeriod,
-            TAmount generalIncome, TAmount excludeIncome,
-            TAmount lolevelIncome, TAmount agrtaskIncome, TAmount partnerIncome)
+        public TAmountDec TaxableIncomesWithholdPartnerMode(Period evalPeriod,
+            TAmountDec generalIncome, TAmountDec excludeIncome,
+            TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             // valid_lolevel_limit == true && lolevelIncome > 0 && lolevelIncome <= lolevel_limit
             totalIncome = decimal.Add(totalIncome, lolevelIncome);
             // valid_agrtask_limit == true && agrtaskIncome > 0 && agrtaskIncome <= agrtask_limit
@@ -185,12 +186,12 @@ namespace ElementsLib.Legalist.Versions.Taxing
             // valid_partner_limit == true && partnerIncome > 0
             return totalIncome;
         }
-        public TAmount TaxableBaseAdvanceTaxingMode(Period evalPeriod, TAmount generalIncome)
+        public TAmountDec TaxableBaseAdvanceTaxingMode(Period evalPeriod, TAmountDec generalIncome)
         {
             return generalIncome;
         }
 
-        public TAmount TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmount generalIncome)
+        public TAmountDec TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmountDec generalIncome)
         {
             return generalIncome;
         }

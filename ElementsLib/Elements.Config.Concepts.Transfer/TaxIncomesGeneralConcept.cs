@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxIncomesGeneralArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -42,19 +42,19 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmount incomeGeneralRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod, conceptValues.SummarizeType, 
+            TAmountDec incomeGeneralRelated = conceptProfile.TaxableGeneralIncomes(evalPeriod, conceptValues.SummarizeType, 
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType, 
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType, 
+            TAmountDec incomeGeneralExclude = conceptProfile.ExcludeGeneralIncomes(evalPeriod, conceptValues.SummarizeType, 
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomeLolevelRelated = conceptProfile.TaxableLolevelIncomes(evalPeriod, conceptValues.SummarizeType, 
+            TAmountDec incomeLolevelRelated = conceptProfile.TaxableLolevelIncomes(evalPeriod, conceptValues.SummarizeType, 
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType, 
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod, conceptValues.SummarizeType, 
+            TAmountDec incomeAgrWorkRelated = conceptProfile.TaxableAgrWorkIncomes(evalPeriod, conceptValues.SummarizeType, 
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
-            TAmount incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod, conceptValues.SummarizeType, 
+            TAmountDec incomePartnerRelated = conceptProfile.TaxablePartnerIncomes(evalPeriod, conceptValues.SummarizeType, 
                 conceptValues.StatementType, conceptValues.DeclaracyType, conceptValues.ResidencyType,
                 conceptValues.TaxableIncome, conceptValues.PartnerIncome, conceptValues.ExcludeIncome);
             // EVALUATION

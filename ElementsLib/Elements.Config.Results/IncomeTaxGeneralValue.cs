@@ -2,7 +2,7 @@
 
 namespace ElementsLib.Elements.Config.Results
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     using ResultCode = UInt16;
 
     using Module.Libs;
@@ -13,14 +13,14 @@ namespace ElementsLib.Elements.Config.Results
         public WorkTaxingTerms SummarizeType { get; protected set; }
         public Byte StatementType { get; protected set; }
         public Byte ResidencyType { get; protected set; } 
-        public TAmount IncomeGeneral { get; protected set; }
-        public TAmount IncomeExclude { get; protected set; }
-        public TAmount IncomeLolevel { get; protected set; }
-        public TAmount IncomeAgrTask { get; protected set; }
-        public TAmount IncomePartner { get; protected set; }
+        public TAmountDec IncomeGeneral { get; protected set; }
+        public TAmountDec IncomeExclude { get; protected set; }
+        public TAmountDec IncomeLolevel { get; protected set; }
+        public TAmountDec IncomeAgrTask { get; protected set; }
+        public TAmountDec IncomePartner { get; protected set; }
 
         public IncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
-            TAmount general, TAmount exclude, TAmount lolevel, TAmount agrtask, TAmount partner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_TAXING)
+            TAmountDec general, TAmountDec exclude, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_INCOME_SUM_TAXING)
         {
             this.SummarizeType = summarize;
             this.StatementType = statement;

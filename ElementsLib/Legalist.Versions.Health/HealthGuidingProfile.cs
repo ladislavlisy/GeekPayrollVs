@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Legalist.Versions.Health
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Constants;
     using Module.Interfaces.Legalist;
@@ -28,10 +28,10 @@ namespace ElementsLib.Legalist.Versions.Health
             return InternalGuides;
         }
 
-        public TAmount IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize, 
-            TAmount includeIncome, TAmount excludeIncome)
+        public TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize, 
+            TAmountDec includeIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             switch (summarize)
             {
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENT:
@@ -44,10 +44,10 @@ namespace ElementsLib.Legalist.Versions.Health
             return totalIncome;
         }
 
-        public TAmount ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize,
-            TAmount includeIncome, TAmount excludeIncome)
+        public TAmountDec ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize,
+            TAmountDec includeIncome, TAmountDec excludeIncome)
         {
-            TAmount totalIncome = decimal.Zero;
+            TAmountDec totalIncome = decimal.Zero;
             switch (summarize)
             {
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENT:

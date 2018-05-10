@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Module.Items
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
     public class TaxableIncomeSum
     {
-        protected TAmount InternalIncomeGeneral { get; set; }
-        protected TAmount InternalIncomeExclude { get; set; }
-        protected TAmount InternalIncomeLolevel { get; set; }
-        protected TAmount InternalIncomeAgrTask { get; set; }
-        protected TAmount InternalIncomePartner { get; set; }
+        protected TAmountDec InternalIncomeGeneral { get; set; }
+        protected TAmountDec InternalIncomeExclude { get; set; }
+        protected TAmountDec InternalIncomeLolevel { get; set; }
+        protected TAmountDec InternalIncomeAgrTask { get; set; }
+        protected TAmountDec InternalIncomePartner { get; set; }
 
         public TaxableIncomeSum()
         {
-            this.InternalIncomeGeneral = TAmount.Zero;
-            this.InternalIncomeExclude = TAmount.Zero;
-            this.InternalIncomeLolevel = TAmount.Zero;
-            this.InternalIncomeAgrTask = TAmount.Zero;
-            this.InternalIncomePartner = TAmount.Zero;
+            this.InternalIncomeGeneral = TAmountDec.Zero;
+            this.InternalIncomeExclude = TAmountDec.Zero;
+            this.InternalIncomeLolevel = TAmountDec.Zero;
+            this.InternalIncomeAgrTask = TAmountDec.Zero;
+            this.InternalIncomePartner = TAmountDec.Zero;
         }
-        public TaxableIncomeSum(TAmount general, TAmount exclude, TAmount lolevel, TAmount agrtask, TAmount partner)
+        public TaxableIncomeSum(TAmountDec general, TAmountDec exclude, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner)
         {
             this.InternalIncomeGeneral = general;
             this.InternalIncomeExclude = exclude;
@@ -31,27 +31,27 @@ namespace ElementsLib.Module.Items
             this.InternalIncomeAgrTask = agrtask;
             this.InternalIncomePartner = partner;
         }
-        public TAmount IncomeGeneral()
+        public TAmountDec IncomeGeneral()
         {
             return InternalIncomeGeneral;
         }
-        public TAmount IncomeExclude()
+        public TAmountDec IncomeExclude()
         {
             return InternalIncomeExclude;
         }
-        public TAmount IncomeLolevel()
+        public TAmountDec IncomeLolevel()
         {
             return InternalIncomeLolevel;
         }
-        public TAmount IncomeAgrTask()
+        public TAmountDec IncomeAgrTask()
         {
             return InternalIncomeAgrTask;
         }
-        public TAmount IncomePartner()
+        public TAmountDec IncomePartner()
         {
             return InternalIncomePartner;
         }
-        public TaxableIncomeSum Aggregate(TAmount general, TAmount exclude, TAmount lolevel, TAmount agrtask, TAmount partner)
+        public TaxableIncomeSum Aggregate(TAmountDec general, TAmountDec exclude, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner)
         {
             return new TaxableIncomeSum(InternalIncomeGeneral + general, InternalIncomeExclude + exclude, 
                 InternalIncomeLolevel + lolevel, InternalIncomeAgrTask + agrtask, InternalIncomePartner + partner);
