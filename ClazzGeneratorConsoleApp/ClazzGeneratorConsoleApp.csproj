@@ -84,7 +84,7 @@
     <Compile Include="Definitions\TaxAdvanceDefinition.cs" />
     <Compile Include="Definitions\TaxAdvanceFinalDefinition.cs" />
     <Compile Include="Definitions\TaxBaseAdvanceHealthDefinition.cs" />
-    <Compile Include="Definitions\TaxAdvancePartDefinition.cs" />
+    <Compile Include="Definitions\TaxBaseAdvancePartDefinition.cs" />
     <Compile Include="Definitions\TaxBaseAdvanceSocialDefinition.cs" />
     <Compile Include="Definitions\TaxReliefChildBonusDefinition.cs" />
     <Compile Include="Definitions\TaxClaimChildDefinition.cs" />
@@ -97,7 +97,7 @@
     <Compile Include="Definitions\TaxIncomesWithholdGeneralDefinition.cs" />
     <Compile Include="Definitions\TaxReliefChildDefinition.cs" />
     <Compile Include="Definitions\TaxReliefPayerDefinition.cs" />
-    <Compile Include="Definitions\TaxSolidaryBaseDefinition.cs" />
+    <Compile Include="Definitions\TaxBaseSolidaryDefinition.cs" />
     <Compile Include="Definitions\TaxSolidaryDefinition.cs" />
     <Compile Include="Definitions\TaxBaseWithholdDefinition.cs" />
     <Compile Include="Definitions\TaxWithholdFinalDefinition.cs" />

@@ -16,7 +16,7 @@ namespace ElementsLib.Elements.Config.Results
         public TAmountDec IncomeGeneral { get; protected set; }
         public TAmountDec IncomeExclude { get; protected set; }
         public TAmountDec IncomeLolevel { get; protected set; }
-        public TAmountDec IncomeAgrTask { get; protected set; }
+        public TAmountDec IncomeTaskAgr { get; protected set; }
         public TAmountDec IncomePartner { get; protected set; }
 
         public IncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
@@ -29,15 +29,17 @@ namespace ElementsLib.Elements.Config.Results
             this.IncomeGeneral = general;
             this.IncomeExclude = exclude;
             this.IncomeLolevel = lolevel;
-            this.IncomeAgrTask = agrtask;
+            this.IncomeTaskAgr = agrtask;
             this.IncomePartner = partner;
         }
 
         public override string Description()
         {
-            return string.Format("{0}: Summarize: {1}, Income Related: {2}, Income Exclude: {3}",
-                Code.ToEnum<ArticleResultCode>().GetSymbol(),
-                SummarizeType.GetSymbol(), IncomeGeneral.FormatAmount(), IncomeExclude.FormatAmount());
+            return string.Format("{0}: Summarize: {1}, Income General: {2}, Income LoLevel: {3}, Income TaskAgr: {4}, Income Partner: {5}, Income Exclude: {6}",
+                Code.ToEnum<ArticleResultCode>().GetSymbol(), SummarizeType.GetSymbol(), 
+                IncomeGeneral.FormatAmount(), 
+                IncomeLolevel.FormatAmount(), IncomeTaskAgr.FormatAmount(), IncomePartner.FormatAmount(), 
+                IncomeExclude.FormatAmount());
         }
     }
 }

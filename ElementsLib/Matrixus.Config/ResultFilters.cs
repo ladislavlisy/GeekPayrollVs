@@ -25,9 +25,13 @@ namespace ElementsLib.Matrixus.Config
         {
             return (result.IsTransferIncomeValue());
         }
-        public static bool TransferBasisValue(ResultItem result)
+        public static bool InsuranceBasisValue(ResultItem result)
         {
-            return (result.IsTransferBasisValue());
+            return (result.IsInsuranceBasisValue());
+        }
+        public static bool TaxingBasisValue(ResultItem result)
+        {
+            return (result.IsTaxingBasisValue());
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxBaseAdvanceArticle;
 
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -28,7 +28,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
     public static class TaxBaseAdvanceConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvanceConcept(ARTICLE_TAX_BASE_ADVANCE, 1011): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvanceConcept(ARTICLE_TAX_BASE_ADVANCE, 1014): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,

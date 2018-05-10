@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config.Sources
 {
-    using TAmount = Decimal;
+    using TAmountDec = Decimal;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
 
     public class PositionMonthlyAmountSource : ISourceValues, ICloneable
     {
-        public TAmount MonthlyAmount { get; set; }
+        public TAmountDec MonthlyAmount { get; set; }
         public Int16 ShiftLiable { get; set; }
         public Int16 ShiftWorked { get; set; }
         public Int16 HoursLiable { get; set; }
@@ -28,7 +28,7 @@ namespace ElementsLib.Elements.Config.Sources
             HoursWorked = 0;
         }
 
-        public PositionMonthlyAmountSource(TAmount monthlyAmount, Int16 shiftLiable, Int16 shiftWorked, Int16 hoursLiable, Int16 hoursWorked)
+        public PositionMonthlyAmountSource(TAmountDec monthlyAmount, Int16 shiftLiable, Int16 shiftWorked, Int16 hoursLiable, Int16 hoursWorked)
         {
             MonthlyAmount = monthlyAmount;
             ShiftLiable = shiftLiable;

@@ -13,7 +13,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using MasterItem = Articles.TaxBaseAdvanceArticle;
+    using MasterItem = Articles.TaxIncomesAdvanceArticle;
 
     using TAmountDec = Decimal;
 
@@ -26,9 +26,9 @@ namespace ElementsLib.Elements.Config.Concepts
     using Results;
     using ResultMonad;
 
-    public static class TaxBaseAdvanceConcept
+    public static class TaxIncomesAdvanceConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvanceConcept(ARTICLE_TAX_BASE_ADVANCE, 1011): {0}";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxIncomesAdvanceConcept(ARTICLE_TAX_INCOMES_ADVANCE, 1007): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
@@ -42,13 +42,14 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmountDec basisAdvance = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
-                conceptValues.IncomeAdvance);
+            TAmountDec incomeAdvance = conceptProfile.TaxableIncomesAdvanceTaxingMode(evalPeriod, 
+                conceptValues.GeneralIncome, conceptValues.ExcludeIncome, 
+                conceptValues.LolevelIncome, conceptValues.TaskAgrIncome, conceptValues.PartnerIncome);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddMoneyTransferBasisValue(basisAdvance);
+            conceptResult.AddMoneyTransferIncomeValue(incomeAdvance);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

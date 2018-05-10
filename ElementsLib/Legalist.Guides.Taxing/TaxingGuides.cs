@@ -133,9 +133,17 @@ namespace ElementsLib.Legalist.Guides.Taxing
         {
             return __MaxTaskAgrIncomeWithhold;
         }
+        public bool TaxTaskAgrIncomeWithhold()
+        {
+            return (__MaxTaskAgrIncomeWithhold != 0);
+        }
         public TAmountInt MaxLoLevelIncomeWithhold()
         {
             return __MaxLoLevelIncomeWithhold;
+        }
+        public bool TaxLoLevelIncomeWithhold()
+        {
+            return (__MaxLoLevelIncomeWithhold != 0);
         }
         public TaxingPartnerIncome TaxPartnerIncomeWithhold()
         {

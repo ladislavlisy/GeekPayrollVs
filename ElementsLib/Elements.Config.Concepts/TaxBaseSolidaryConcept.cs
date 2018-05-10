@@ -13,9 +13,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using MasterItem = Articles.TaxBaseWithholdArticle;
-
-    using TAmountDec = Decimal;
+    using MasterItem = Articles.TaxBaseSolidaryArticle;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -26,15 +24,15 @@ namespace ElementsLib.Elements.Config.Concepts
     using Results;
     using ResultMonad;
 
-    public static class TaxBaseWithholdConcept
+    public static class TaxBaseSolidaryConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseWithholdConcept(ARTICLE_TAX_BASE_WITHHOLD, 1019): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseSolidaryConcept(ARTICLE_TAX_BASE_SOLIDARY, 1018): {0}";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            ITaxingProfile conceptProfile = evalProfile.Taxing();
+            IEmployProfile conceptProfile = evalProfile.Employ();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -42,13 +40,10 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmountDec basisWithhold = conceptProfile.TaxableBaseWithholdTaxingMode(evalPeriod,
-                conceptValues.IncomeWithhold);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddMoneyTransferBasisValue(basisWithhold);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

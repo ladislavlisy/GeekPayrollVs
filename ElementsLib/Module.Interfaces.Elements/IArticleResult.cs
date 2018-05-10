@@ -37,7 +37,8 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddMoneyPaymentValue(TAmountDec paymentAmount);
         IArticleResult AddMoneyTransferValue(TAmountDec transferAmount);
         IArticleResult AddMoneyTransferIncomeValue(TAmountDec incomeAmount);
-        IArticleResult AddMoneyTransferBasisValue(TAmountDec basisAmount);
+        IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRaw, TAmountDec basisRnd, TAmountDec basisCut, TAmountDec aboveCut, TAmountDec basisFin);
+        IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisAmount);
         IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
         IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner);
         IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmountDec totalBase, Byte foreigner);
@@ -45,6 +46,7 @@ namespace ElementsLib.Module.Interfaces.Elements
             TAmountDec general, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner, TAmountDec exclude);
         IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmountDec related, TAmountDec exclude);
         IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmountDec related, TAmountDec exclude);
+        string DecoratedError(string message);
 
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;

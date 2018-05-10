@@ -15,6 +15,7 @@ namespace ElementsLib.Elements.Config.Articles
     using SourcePack = ResultMonad.Result<Module.Interfaces.Elements.IArticleSource, string>;
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
+    using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.InsIncomesHealthSource;
 
@@ -33,7 +34,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesHealthArticle(ARTICLE_INS_INCOMES_HEALTH, 1009): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsIncomesHealthArticle(ARTICLE_INS_INCOMES_HEALTH, 1012): {0}";
 
         public InsIncomesHealthArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_INCOMES_HEALTH)
         {

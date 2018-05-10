@@ -46,10 +46,12 @@ namespace ElementsLib.Elements.Utils
             {
                 return Result.Fail<TResult, string>(findResult.Error);
             }
-            TResult typeResult = findResult.Value as TResult;
+            ResultItem itemResult = findResult.Value;
+
+            TResult typeResult = itemResult as TResult;
             if (typeResult == null)
             {
-                return Result.Fail<TResult, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                return Result.Fail<TResult, string>(itemResult.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
             }
             return Result.Ok<TResult, string>(typeResult);
         }
@@ -64,15 +66,17 @@ namespace ElementsLib.Elements.Utils
             {
                 return Result.Fail<TRValue, string>(findResult.Error);
             }
-            TResult typeResult = findResult.Value as TResult;
+            ResultItem itemResult = findResult.Value;
+
+            TResult typeResult = itemResult as TResult;
             if (typeResult == null)
             {
-                return Result.Fail<TRValue, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                return Result.Fail<TRValue, string>(itemResult.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
             }
             Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(selectValuesFunc);
             if (typeValues.HasNoValue)
             {
-                return Result.Fail<TRValue, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                return Result.Fail<TRValue, string>(typeResult.DecoratedError(ERROR_TEXT_RESULTS_LOOKUP_FAILED));
             }
             return Result.Ok<TRValue, string>(typeValues.Value);
         }
@@ -87,20 +91,22 @@ namespace ElementsLib.Elements.Utils
             {
                 return Result.Fail<TAValue, string>(findResult.Error);
             }
-            TResult typeResult = findResult.Value as TResult;
+            ResultItem itemResult = findResult.Value;
+
+            TResult typeResult = itemResult as TResult;
             if (typeResult == null)
             {
-                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                return Result.Fail<TAValue, string>(itemResult.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
             }
             Maybe<TRValue> typeValues = typeResult.ReturnValue<TRValue>(selectValuesFunc);
             if (typeValues.HasNoValue)
             {
-                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                return Result.Fail<TAValue, string>(typeResult.DecoratedError(ERROR_TEXT_RESULTS_LOOKUP_FAILED));
             }
             Result<TAValue, string> tranResult = selectResultFunc(typeValues.Value);
             if (tranResult.IsFailure)
             {
-                return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_SELECT_FAILED);
+                return Result.Fail<TAValue, string>(typeResult.DecoratedError(ERROR_TEXT_RESULTS_SELECT_FAILED));
             }
             return Result.Ok<TAValue, string>(tranResult.Value);
         }
@@ -125,10 +131,12 @@ namespace ElementsLib.Elements.Utils
                     {
                         return Result.Ok<IEnumerable<ResultPair>, string>(bAgrList);
                     }
-                    TResult typeResult = aResult.Value as TResult;
+                    ResultItem itemResult = aResult.Value;
+
+                    TResult typeResult = itemResult as TResult;
                     if (typeResult == null)
                     {
-                        return Result.Fail<IEnumerable<ResultPair>, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                        return Result.Fail<IEnumerable<ResultPair>, string>(itemResult.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
                     }
                     IEnumerable<ResultPair> resultList = bAgrList.Merge(a).OrderBy((x) => (x.Key));
 
@@ -162,10 +170,12 @@ namespace ElementsLib.Elements.Utils
                     {
                         return Result.Ok<IEnumerable<TRValue>, string>(bAgrList);
                     }
-                    TResult aParamVal = aResult.Value as TResult;
+                    ResultItem aParamRes = aResult.Value;
+
+                    TResult aParamVal = aParamRes as TResult;
                     if (aParamVal == null)
                     {
-                        return Result.Fail<IEnumerable<TRValue>, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                        return Result.Fail<IEnumerable<TRValue>, string>(aParamRes.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
                     }
                     if (vFilter(aParamVal) == false)
                     {
@@ -174,7 +184,7 @@ namespace ElementsLib.Elements.Utils
                     Maybe<TRValue> typeValues = aParamVal.ReturnValue<TRValue>(exfunc);
                     if (typeValues.HasNoValue)
                     {
-                        return Result.Fail<IEnumerable<TRValue>, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                        return Result.Fail<IEnumerable<TRValue>, string>(aParamVal.DecoratedError(ERROR_TEXT_RESULTS_LOOKUP_FAILED));
                     }
                     IEnumerable<TRValue> resultList = bAgrList.Merge(typeValues.Value);
 
@@ -208,10 +218,12 @@ namespace ElementsLib.Elements.Utils
                     {
                         return Result.Ok<IEnumerable<TSValue>, string>(bAgrList);
                     }
-                    TResult aParamVal = aResult.Value as TResult;
+                    ResultItem aParamRes = aResult.Value;
+
+                    TResult aParamVal = aParamRes as TResult;
                     if (aParamVal == null)
                     {
-                        return Result.Fail<IEnumerable<TSValue>, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                        return Result.Fail<IEnumerable<TSValue>, string>(aParamRes.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
                     }
                     if (vFilter(aParamVal) == false)
                     {
@@ -220,12 +232,12 @@ namespace ElementsLib.Elements.Utils
                     Maybe<TRValue> typeValues = aParamVal.ReturnValue<TRValue>(vSelect);
                     if (typeValues.HasNoValue)
                     {
-                        return Result.Fail<IEnumerable<TSValue>, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                        return Result.Fail<IEnumerable<TSValue>, string>(aParamVal.DecoratedError(ERROR_TEXT_RESULTS_LOOKUP_FAILED));
                     }
                     Result<TSValue, string> selResult = rSelect(aParamKey, typeValues.Value);
                     if (selResult.IsFailure)
                     {
-                        return Result.Fail<IEnumerable<TSValue>, string>(ERROR_TEXT_RESULTS_SELECT_FAILED);
+                        return Result.Fail<IEnumerable<TSValue>, string>(aParamVal.DecoratedError(ERROR_TEXT_RESULTS_SELECT_FAILED));
                     }
 
                     IEnumerable<TSValue> resultList = bAgrList.Merge(selResult.Value);
@@ -260,10 +272,12 @@ namespace ElementsLib.Elements.Utils
                     {
                         return Result.Ok<TAValue, string>(bAgrValue);
                     }
-                    TResult aParamVal = aResult.Value as TResult;
+                    ResultItem aParamRes = aResult.Value;
+
+                    TResult aParamVal = aParamRes as TResult;
                     if (aParamVal == null)
                     {
-                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_CASTING_FAILED);
+                        return Result.Fail<TAValue, string>(aParamRes.DecoratedError(ERROR_TEXT_RESULTS_CASTING_FAILED));
                     }
                     if (vFilter(aParamVal) == false)
                     {
@@ -272,12 +286,12 @@ namespace ElementsLib.Elements.Utils
                     Maybe<TRValue> typeValues = aParamVal.ReturnValue<TRValue>(vSelect);
                     if (typeValues.HasNoValue)
                     {
-                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_LOOKUP_FAILED);
+                        return Result.Fail<TAValue, string>(aParamVal.DecoratedError(ERROR_TEXT_RESULTS_LOOKUP_FAILED));
                     }
                     Result<TAValue, string> selResult = rSelect(bAgrValue, aParamKey, typeValues.Value);
                     if (selResult.IsFailure)
                     {
-                        return Result.Fail<TAValue, string>(ERROR_TEXT_RESULTS_SELECT_FAILED);
+                        return Result.Fail<TAValue, string>(aParamVal.DecoratedError(ERROR_TEXT_RESULTS_SELECT_FAILED));
                     }
 
                     return Result.Ok<TAValue, string>(selResult.Value);

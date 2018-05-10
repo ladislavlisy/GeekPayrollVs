@@ -26,6 +26,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         bool IsDeclarationSocialValue();
         bool IsIncomeTaxableValue();
         bool IsTransferIncomeValue();
-        bool IsTransferBasisValue();
+        bool IsInsuranceBasisValue();
+        bool IsTaxingBasisValue();
     }
 }

@@ -39,7 +39,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdAgrTaskArticle(ARTICLE_TAX_INCOMES_WITHHOLD_TASKAGR, 1010): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdTaskAgrArticle(ARTICLE_TAX_INCOMES_WITHHOLD_TASKAGR, 1010): {0}";
 
         public TaxIncomesWithholdTaskagrArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_TASKAGR)
         {
@@ -108,7 +108,7 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 GeneralIncome = TAmountDec.Zero;
                 LolevelIncome = TAmountDec.Zero;
-                AgrTaskIncome = TAmountDec.Zero;
+                TaskAgrIncome = TAmountDec.Zero;
                 PartnerIncome = TAmountDec.Zero;
                 ExcludeIncome = TAmountDec.Zero;
             }
@@ -116,7 +116,7 @@ namespace ElementsLib.Elements.Config.Articles
             // PROPERTIES DEF
             public TAmountDec GeneralIncome { get; set; }
             public TAmountDec LolevelIncome { get; set; }
-            public TAmountDec AgrTaskIncome { get; set; }
+            public TAmountDec TaskAgrIncome { get; set; }
             public TAmountDec PartnerIncome { get; set; }
             public TAmountDec ExcludeIncome { get; set; }
             // PROPERTIES DEF
@@ -166,7 +166,7 @@ namespace ElementsLib.Elements.Config.Articles
                 private Result<TaxableIncomeSum, string> GetSumPayments(TaxableIncomeSum agr, TargetItem resultTarget, IncomeTaxGeneralValue resultValue)
                 {
                     return Result.Ok<TaxableIncomeSum, string>(agr.Aggregate(resultValue.IncomeGeneral, resultValue.IncomeExclude,
-                        resultValue.IncomeLolevel, resultValue.IncomeAgrTask, resultValue.IncomePartner));
+                        resultValue.IncomeLolevel, resultValue.IncomeTaskAgr, resultValue.IncomePartner));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
@@ -185,7 +185,7 @@ namespace ElementsLib.Elements.Config.Articles
                         GeneralIncome = taxableValues.IncomeGeneral(),
                         ExcludeIncome = taxableValues.IncomeExclude(),
                         LolevelIncome = taxableValues.IncomeLolevel(),
-                        AgrTaskIncome = taxableValues.IncomeAgrTask(),
+                        TaskAgrIncome = taxableValues.IncomeTaskAgr(),
                         PartnerIncome = taxableValues.IncomePartner(),
                         // PROPERTIES SET
                     };

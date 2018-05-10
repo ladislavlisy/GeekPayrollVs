@@ -23,7 +23,9 @@ namespace ElementsLib.Module.Interfaces.Legalist
         TAmountInt MinValidIncomeOfTaxBonus();
         TAmountInt MaxValidIncomeOfRounding();
         TAmountInt MaxTaskAgrIncomeWithhold();
+        bool TaxTaskAgrIncomeWithhold();
         TAmountInt MaxLoLevelIncomeWithhold();
+        bool TaxLoLevelIncomeWithhold();
         TaxingPartnerIncome TaxPartnerIncomeWithhold();
         TAmountInt MinValidIncomeOfSolidary();
     }

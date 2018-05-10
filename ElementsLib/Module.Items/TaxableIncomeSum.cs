@@ -12,7 +12,7 @@ namespace ElementsLib.Module.Items
         protected TAmountDec InternalIncomeGeneral { get; set; }
         protected TAmountDec InternalIncomeExclude { get; set; }
         protected TAmountDec InternalIncomeLolevel { get; set; }
-        protected TAmountDec InternalIncomeAgrTask { get; set; }
+        protected TAmountDec InternalIncomeTaskAgr { get; set; }
         protected TAmountDec InternalIncomePartner { get; set; }
 
         public TaxableIncomeSum()
@@ -20,7 +20,7 @@ namespace ElementsLib.Module.Items
             this.InternalIncomeGeneral = TAmountDec.Zero;
             this.InternalIncomeExclude = TAmountDec.Zero;
             this.InternalIncomeLolevel = TAmountDec.Zero;
-            this.InternalIncomeAgrTask = TAmountDec.Zero;
+            this.InternalIncomeTaskAgr = TAmountDec.Zero;
             this.InternalIncomePartner = TAmountDec.Zero;
         }
         public TaxableIncomeSum(TAmountDec general, TAmountDec exclude, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner)
@@ -28,7 +28,7 @@ namespace ElementsLib.Module.Items
             this.InternalIncomeGeneral = general;
             this.InternalIncomeExclude = exclude;
             this.InternalIncomeLolevel = lolevel;
-            this.InternalIncomeAgrTask = agrtask;
+            this.InternalIncomeTaskAgr = agrtask;
             this.InternalIncomePartner = partner;
         }
         public TAmountDec IncomeGeneral()
@@ -43,9 +43,9 @@ namespace ElementsLib.Module.Items
         {
             return InternalIncomeLolevel;
         }
-        public TAmountDec IncomeAgrTask()
+        public TAmountDec IncomeTaskAgr()
         {
-            return InternalIncomeAgrTask;
+            return InternalIncomeTaskAgr;
         }
         public TAmountDec IncomePartner()
         {
@@ -54,7 +54,7 @@ namespace ElementsLib.Module.Items
         public TaxableIncomeSum Aggregate(TAmountDec general, TAmountDec exclude, TAmountDec lolevel, TAmountDec agrtask, TAmountDec partner)
         {
             return new TaxableIncomeSum(InternalIncomeGeneral + general, InternalIncomeExclude + exclude, 
-                InternalIncomeLolevel + lolevel, InternalIncomeAgrTask + agrtask, InternalIncomePartner + partner);
+                InternalIncomeLolevel + lolevel, InternalIncomeTaskAgr + agrtask, InternalIncomePartner + partner);
         }
     }
 }

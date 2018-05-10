@@ -15,7 +15,7 @@
                 CreateParam("ResidencyType", FieldType.BYTE),
                 CreateParam("IncomeGeneral", FieldType.TAmountDec),
                 CreateParam("IncomeExclude", FieldType.TAmountDec),
-                CreateParam("IncomeAgrTask", FieldType.TAmountDec),
+                CreateParam("IncomeTaskAgr", FieldType.TAmountDec),
                 CreateParam("IncomePartner", FieldType.TAmountDec));
         }
     }

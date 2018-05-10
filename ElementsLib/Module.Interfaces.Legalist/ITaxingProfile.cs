@@ -31,7 +31,7 @@ namespace ElementsLib.Module.Interfaces.Legalist
         TAmountDec TaxableIncomesWithholdLolevelMode(Period evalPeriod, 
             TAmountDec generalIncome, TAmountDec excludeIncome, 
             TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome);
-        TAmountDec TaxableIncomesWithholdAgrTaskMode(Period evalPeriod, 
+        TAmountDec TaxableIncomesWithholdTaskAgrMode(Period evalPeriod, 
             TAmountDec generalIncome, TAmountDec excludeIncome, 
             TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome);
         TAmountDec TaxableIncomesWithholdPartnerMode(Period evalPeriod, 

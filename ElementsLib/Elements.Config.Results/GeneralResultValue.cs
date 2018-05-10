@@ -78,9 +78,13 @@ namespace ElementsLib.Elements.Config.Results
         {
             return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_INCOME_MONEY);
         }
-        public bool IsTransferBasisValue()
+        public bool IsInsuranceBasisValue()
         {
-            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_BASIS_MONEY);
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_INSURANCE_BASIS_MONEY);
+        }
+        public bool IsTaxingBasisValue()
+        {
+            return IsResultCodeValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY);
         }
     }
 }

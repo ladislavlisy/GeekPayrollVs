@@ -28,6 +28,8 @@ namespace ElementsLib.Elements.Config.Results
 
     public class ArticleGeneralResult : IArticleResult
     {
+        public static string RESULT_DESCRIPTION_ERROR_FORMAT = "({0}, {1}): {2}";
+
         public ArticleGeneralResult(IArticleConfigFeatures config)
         {
             InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(config);
@@ -134,9 +136,17 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyTransferBasisValue(TAmountDec basisAmount)
+        public IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRaw, TAmountDec basisRnd, TAmountDec basisCut, TAmountDec aboveCut, TAmountDec basisFin)
         {
-            IArticleResultValues value = new MoneyTransferBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TRANSFER_BASIS_MONEY, basisAmount);
+            IArticleResultValues value = new MoneyInsuranceBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_INSURANCE_BASIS_MONEY, basisRaw, basisRnd, basisCut, aboveCut, basisFin);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisAmount)
+        {
+            IArticleResultValues value = new MoneyTaxingBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY, basisAmount, basisAmount, basisAmount);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -267,8 +277,24 @@ namespace ElementsLib.Elements.Config.Results
 
             string articleDesc = string.Join("\t", ResultValues.Select((v) => (v.Description())));
 
+            if (ResultValues.Count()==0)
+            {
+                articleDesc = ">>------------------------------------------------------<<";
+            }
+
             return string.Format("{0}\t\t{1}", articleCode, articleDesc);
         }
+        public string DecoratedError(string message)
+        {
+            string articleEnum = ArticleCodeAdapter.GetSymbol(InternalConfig.Code());
+
+            string articleCode = InternalConfig.Code().ToString();
+
+            string decoratedMessage = string.Format(RESULT_DESCRIPTION_ERROR_FORMAT, articleEnum, articleCode, message);
+
+            return (decoratedMessage);
+        }
+
         public Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues
         {
             IArticleResultValues generalvalue = ResultValues.SingleOrDefault(filterFunc);

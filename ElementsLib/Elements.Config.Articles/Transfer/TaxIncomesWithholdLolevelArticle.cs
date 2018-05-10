@@ -35,20 +35,20 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Codes;
     using Matrixus.Config;
 
-    public class TaxIncomesWithholdPartnerArticle : GeneralArticle, ICloneable
+    public class TaxIncomesWithholdLolevelArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdPartnerArticle(ARTICLE_TAX_INCOMES_WITHHOLD_PARTNER, 1011): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxIncomesWithholdLolevelArticle(ARTICLE_TAX_INCOMES_WITHHOLD_LOLEVEL, 1009): {0}";
 
-        public TaxIncomesWithholdPartnerArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_PARTNER)
+        public TaxIncomesWithholdLolevelArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_INCOMES_WITHHOLD_LOLEVEL)
         {
             SourceValues = new TaxIncomesWithholdSource();
 
-            InternalEvaluate = TaxIncomesWithholdPartnerConcept.EvaluateConcept;
+            InternalEvaluate = TaxIncomesWithholdLolevelConcept.EvaluateConcept;
         }
 
-        public TaxIncomesWithholdPartnerArticle(ISourceValues values) : this()
+        public TaxIncomesWithholdLolevelArticle(ISourceValues values) : this()
         {
             TaxIncomesWithholdSource sourceValues = values as TaxIncomesWithholdSource;
 
@@ -93,7 +93,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxIncomesWithholdPartnerArticle cloneArticle = (TaxIncomesWithholdPartnerArticle)this.MemberwiseClone();
+            TaxIncomesWithholdLolevelArticle cloneArticle = (TaxIncomesWithholdLolevelArticle)this.MemberwiseClone();
 
             cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
@@ -108,7 +108,7 @@ namespace ElementsLib.Elements.Config.Articles
             {
                 GeneralIncome = TAmountDec.Zero;
                 LolevelIncome = TAmountDec.Zero;
-                AgrTaskIncome = TAmountDec.Zero;
+                TaskAgrIncome = TAmountDec.Zero;
                 PartnerIncome = TAmountDec.Zero;
                 ExcludeIncome = TAmountDec.Zero;
             }
@@ -116,7 +116,7 @@ namespace ElementsLib.Elements.Config.Articles
             // PROPERTIES DEF
             public TAmountDec GeneralIncome { get; set; }
             public TAmountDec LolevelIncome { get; set; }
-            public TAmountDec AgrTaskIncome { get; set; }
+            public TAmountDec TaskAgrIncome { get; set; }
             public TAmountDec PartnerIncome { get; set; }
             public TAmountDec ExcludeIncome { get; set; }
             // PROPERTIES DEF
@@ -166,7 +166,7 @@ namespace ElementsLib.Elements.Config.Articles
                 private Result<TaxableIncomeSum, string> GetSumPayments(TaxableIncomeSum agr, TargetItem resultTarget, IncomeTaxGeneralValue resultValue)
                 {
                     return Result.Ok<TaxableIncomeSum, string>(agr.Aggregate(resultValue.IncomeGeneral, resultValue.IncomeExclude,
-                        resultValue.IncomeLolevel, resultValue.IncomeAgrTask, resultValue.IncomePartner));
+                        resultValue.IncomeLolevel, resultValue.IncomeTaskAgr, resultValue.IncomePartner));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
@@ -185,7 +185,7 @@ namespace ElementsLib.Elements.Config.Articles
                         GeneralIncome = taxableValues.IncomeGeneral(),
                         ExcludeIncome = taxableValues.IncomeExclude(),
                         LolevelIncome = taxableValues.IncomeLolevel(),
-                        AgrTaskIncome = taxableValues.IncomeAgrTask(),
+                        TaskAgrIncome = taxableValues.IncomeTaskAgr(),
                         PartnerIncome = taxableValues.IncomePartner(),
                         // PROPERTIES SET
                     };
