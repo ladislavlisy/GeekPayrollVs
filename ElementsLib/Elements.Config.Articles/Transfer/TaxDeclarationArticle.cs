@@ -18,6 +18,8 @@ namespace ElementsLib.Elements.Config.Articles
     using ValidsPack = ResultMonad.Result<bool, string>;
     using SourceItem = Sources.TaxDeclarationSource;
 
+    using TAmountDec = Decimal;
+
     using Sources;
     using Concepts;
     using Module.Items;
@@ -104,12 +106,16 @@ namespace ElementsLib.Elements.Config.Articles
                 SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
                 DeclaracyType = 0;
                 ResidencyType = 0;
+                HealthAnnuity = TAmountDec.Zero;
+                SocialAnnuity = TAmountDec.Zero;
             }
             // PROPERTIES DEF
             public Byte StatementType { get; set; }
             public WorkTaxingTerms SummarizeType { get; set; }
             public Byte DeclaracyType { get; set; }
             public Byte ResidencyType { get; set; }
+            public TAmountDec HealthAnnuity { get; set; }
+            public TAmountDec SocialAnnuity { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -131,6 +137,8 @@ namespace ElementsLib.Elements.Config.Articles
                         SummarizeType = conceptValues.SummarizeType,
                         DeclaracyType = conceptValues.DeclaracyType,
                         ResidencyType = conceptValues.ResidencyType,
+                        HealthAnnuity = conceptValues.HealthAnnuity,
+                        SocialAnnuity = conceptValues.SocialAnnuity,
                         // PROPERTIES SET
                     };
                 }

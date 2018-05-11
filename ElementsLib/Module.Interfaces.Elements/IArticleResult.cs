@@ -37,9 +37,11 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddMoneyPaymentValue(TAmountDec paymentAmount);
         IArticleResult AddMoneyTransferValue(TAmountDec transferAmount);
         IArticleResult AddMoneyTransferIncomeValue(TAmountDec incomeAmount);
-        IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRaw, TAmountDec basisRnd, TAmountDec basisCut, TAmountDec aboveCut, TAmountDec basisFin);
-        IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisAmount);
-        IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency);
+        IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRawly, TAmountDec basisRound, TAmountDec basisCuter, TAmountDec aboveCuter, TAmountDec basisFinal);
+        IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisRawly, TAmountDec basisRound, TAmountDec basisFinal);
+        IArticleResult AddTaxPartialBaseValue(TAmountDec partialBase);
+        IArticleResult AddTaxSolidaryBaseValue(TAmountDec partialBase);
+        IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency, TAmountDec healthSum, TAmountDec socialSum);
         IArticleResult AddDeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner);
         IArticleResult AddDeclarationSocialValue(Byte statement, WorkSocialTerms summarize, TAmountDec totalBase, Byte foreigner);
         IArticleResult AddIncomeTaxGeneralValue(WorkTaxingTerms summarize, Byte statement, Byte residency, 
@@ -47,6 +49,7 @@ namespace ElementsLib.Module.Interfaces.Elements
         IArticleResult AddIncomeInsHealthValue(WorkHealthTerms summarize, TAmountDec related, TAmountDec exclude);
         IArticleResult AddIncomeInsSocialValue(WorkSocialTerms summarize, TAmountDec related, TAmountDec exclude);
         string DecoratedError(string message);
+        string ToResultExport(string targetSymbol);
 
         Maybe<T> ReturnValue<T>(Func<IArticleResultValues, bool> filterFunc) where T : class, IArticleResultValues;
         Maybe<T> ReturnValueForResultCode<T>(ResultCode filterCode) where T : class, IArticleResultValues;

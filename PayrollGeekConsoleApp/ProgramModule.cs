@@ -83,7 +83,8 @@ namespace PayrollGeekConsoleApp
             {
                 StreamWriter writerFile = new StreamWriter(payrollFilePath, false, Encoding.GetEncoding("windows-1250"));
 
-                evaluationCase.ForEach((c) => writerFile.WriteLine(c.Description()));
+                //evaluationCase.ForEach((c) => writerFile.WriteLine(c.Description()));
+                evaluationCase.ForEach((c) => writerFile.WriteLine(c.ToResultExport()));
 
                 writerFile.Flush();
 

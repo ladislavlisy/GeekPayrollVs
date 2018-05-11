@@ -59,15 +59,16 @@ namespace ElementsLib.Service.Permadom
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_DECLARATION,
-                    Tags = new TaxDeclarationSource(TestModule.TaxStatementType, TestModule.TaxingPartyType, TestModule.TaxDeclaracyType, TestModule.TaxResidencyType),
+                    Tags = new TaxDeclarationSource(TestModule.TaxStatementType, TestModule.TaxingPartyType, TestModule.TaxDeclaracyType, TestModule.TaxResidencyType,
+                        TestModule.BasicSalaryAnnual, TestModule.BasicSalaryAnnual),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_HEALTH,
-                    Tags = new InsDeclarationHealthSource(TestModule.HealthStatementType, TestModule.HealthPartyType, TestModule.BasicSalarySubTotal),
+                    Tags = new InsDeclarationHealthSource(TestModule.HealthStatementType, TestModule.HealthPartyType, TestModule.BasicSalaryAnnual),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_DECLARATION_SOCIAL,
-                    Tags = new InsDeclarationSocialSource(TestModule.SocialStatementType, TestModule.SocialPartyType, TestModule.BasicSalarySubTotal),
+                    Tags = new InsDeclarationSocialSource(TestModule.SocialStatementType, TestModule.SocialPartyType, TestModule.BasicSalaryAnnual),
                 },
                 new ArticleData() {
                     Head = 1, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_INS_INCOMES_HEALTH,
@@ -299,7 +300,7 @@ namespace ElementsLib.Service.Permadom
             WorkDayPieceType.WORKDAY_NONE };
         public static TSeconds[] AbsenceDaysHours = new TSeconds[7] {0, 0, 0, 0, 0, 0, 0 };
         public static decimal BasicSalaryPeriod = 15000m;
-        public static decimal BasicSalarySubTotal = 1500000m;
+        public static decimal BasicSalaryAnnual = 1500000m;
 
         public static Byte TaxStatementType = 1;
         public static WorkTaxingTerms TaxingPartyType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;

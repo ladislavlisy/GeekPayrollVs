@@ -44,6 +44,7 @@ namespace ElementsLib.Elements.Config.Concepts
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
+            conceptResult.AddTaxPartialBaseValue(conceptValues.GeneralBaseAmount);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

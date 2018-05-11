@@ -10,6 +10,7 @@ namespace ElementsLib.Module.Interfaces.Elements
     public interface IArticleResultValues
     {
         string Description();
+        string ToResultExport(string targetSymbol);
         bool IsResultCodeValue(ResultCode code);
         bool IsContractFromStopValue();
         bool IsPositionFromStopValue();

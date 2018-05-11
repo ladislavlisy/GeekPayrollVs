@@ -13,6 +13,7 @@ namespace ElementsLib.Elements.Config.Results
         }
         protected ResultCode Code { get; set; }
         public abstract string Description();
+        public abstract string ToResultExport(string targetSymbol);
         public bool IsResultCodeValue(ResultCode code)
         {
             return (this.Code == code);

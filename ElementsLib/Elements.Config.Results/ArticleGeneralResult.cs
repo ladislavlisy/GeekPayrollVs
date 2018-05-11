@@ -136,26 +136,41 @@ namespace ElementsLib.Elements.Config.Results
 
             return this;
         }
-        public IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRaw, TAmountDec basisRnd, TAmountDec basisCut, TAmountDec aboveCut, TAmountDec basisFin)
+        public IArticleResult AddMoneyInsuranceBasisValue(TAmountDec basisRawly, TAmountDec basisRound, TAmountDec basisCuter, TAmountDec aboveCuter, TAmountDec basisFinal)
         {
-            IArticleResultValues value = new MoneyInsuranceBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_INSURANCE_BASIS_MONEY, basisRaw, basisRnd, basisCut, aboveCut, basisFin);
+            IArticleResultValues value = new MoneyInsuranceBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_INSURANCE_BASIS_MONEY, basisRawly, basisRound, basisCuter, aboveCuter, basisFinal);
 
             ResultValues = ResultValues.Concat(value);
 
             return this;
         }
-        public IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisAmount)
+        public IArticleResult AddMoneyTaxingBasisValue(TAmountDec basisRawly, TAmountDec basisRound, TAmountDec basisFinal)
         {
-            IArticleResultValues value = new MoneyTaxingBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY, basisAmount, basisAmount, basisAmount);
+            IArticleResultValues value = new MoneyTaxingBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY, basisRawly, basisRound, basisFinal);
 
             ResultValues = ResultValues.Concat(value);
 
             return this;
         }
-
-        public IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency)
+        public IArticleResult AddTaxPartialBaseValue(TAmountDec partialBase)
         {
-            IArticleResultValues value = new DeclarationTaxingValue(statement, summarize, declaracy, residency);
+            IArticleResultValues value = new MoneyTaxingBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY, partialBase);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddTaxSolidaryBaseValue(TAmountDec solidaryBase)
+        {
+            IArticleResultValues value = new MoneyTaxingBasisValue((ResultCode)ArticleResultCode.RESULT_VALUE_TAXING_BASIS_MONEY, solidaryBase);
+
+            ResultValues = ResultValues.Concat(value);
+
+            return this;
+        }
+        public IArticleResult AddDeclarationTaxingValue(Byte statement, WorkTaxingTerms summarize, Byte declaracy, Byte residency, TAmountDec healthSum, TAmountDec socialSum)
+        {
+            IArticleResultValues value = new DeclarationTaxingValue(statement, summarize, declaracy, residency, healthSum, socialSum);
 
             ResultValues = ResultValues.Concat(value);
 
@@ -283,6 +298,22 @@ namespace ElementsLib.Elements.Config.Results
             }
 
             return string.Format("{0}\t\t{1}", articleCode, articleDesc);
+        }
+        public string ToResultExport(string targetSymbol)
+        {
+            string eresultFormat = "{0}\tNONE\tHours\tEMPTY\tDays\tEMPTY\tIncome Amount\tEMPTY\tBasis Amount\tEMPTY\tPayment\tEMPTY";
+            string articleSymbol = ArticleCodeAdapter.GetSymbol(InternalConfig.Code());
+
+            string articleFormat = string.Join("\t", targetSymbol, articleSymbol);
+
+            string resultsFormat = string.Join("\n", ResultValues.Select((v) => (v.ToResultExport(articleFormat))));
+
+            if (ResultValues.Count()==0)
+            {
+                resultsFormat = string.Format(eresultFormat, articleFormat);
+            }
+
+            return resultsFormat;
         }
         public string DecoratedError(string message)
         {

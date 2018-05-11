@@ -42,13 +42,17 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmountDec basisAdvance = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
+            TAmountDec basisSourced = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
+                conceptValues.IncomeAdvance);
+            TAmountDec basisRounded = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
+                conceptValues.IncomeAdvance);
+            TAmountDec basisFinally = conceptProfile.TaxableBaseAdvanceTaxingMode(evalPeriod,
                 conceptValues.IncomeAdvance);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddMoneyTaxingBasisValue(basisAdvance);
+            conceptResult.AddMoneyTaxingBasisValue(basisSourced, basisRounded, basisFinally);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

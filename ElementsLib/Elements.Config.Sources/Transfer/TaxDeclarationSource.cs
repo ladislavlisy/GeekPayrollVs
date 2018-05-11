@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ElementsLib.Elements.Config.Sources
 {
+    using TAmountDec = Decimal;
+
     using Legalist.Constants;
     using Module.Interfaces.Elements;
 
@@ -15,6 +17,8 @@ namespace ElementsLib.Elements.Config.Sources
         public WorkTaxingTerms SummarizeType { get; set; }
         public Byte DeclaracyType { get; set; }
         public Byte ResidencyType { get; set; }
+        public TAmountDec HealthAnnuity { get; set; }
+        public TAmountDec SocialAnnuity { get; set; }
 
         public TaxDeclarationSource()
         {
@@ -22,14 +26,18 @@ namespace ElementsLib.Elements.Config.Sources
             SummarizeType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENT_POLICY;
             DeclaracyType = 0;
             ResidencyType = 0;
+            HealthAnnuity = TAmountDec.Zero;
+            SocialAnnuity = TAmountDec.Zero;
         }
 
-        public TaxDeclarationSource(Byte statementType, WorkTaxingTerms summarizeType, Byte declaracyType, Byte residencyType)
+        public TaxDeclarationSource(Byte statementType, WorkTaxingTerms summarizeType, Byte declaracyType, Byte residencyType, TAmountDec healthAnnuity, TAmountDec socialAnnuity)
         {
             StatementType = statementType;
             SummarizeType = summarizeType;
             DeclaracyType = declaracyType;
             ResidencyType = residencyType;
+            HealthAnnuity = healthAnnuity;
+            SocialAnnuity = socialAnnuity;
         }
 
         public virtual object Clone()
@@ -40,6 +48,8 @@ namespace ElementsLib.Elements.Config.Sources
             cloneSource.SummarizeType = this.SummarizeType;
             cloneSource.DeclaracyType = this.DeclaracyType;
             cloneSource.ResidencyType = this.ResidencyType;
+            cloneSource.HealthAnnuity = this.HealthAnnuity;
+            cloneSource.SocialAnnuity = this.SocialAnnuity;
 
             return cloneSource;
         }

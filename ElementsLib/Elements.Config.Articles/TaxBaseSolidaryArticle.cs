@@ -106,11 +106,11 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
-                IncomeAdvance = TAmountDec.Zero;
+                GeneralBaseAmount = TAmountDec.Zero;
             }
 
             // PROPERTIES DEF
-            public TAmountDec IncomeAdvance { get; set; }
+            public TAmountDec GeneralBaseAmount { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -170,7 +170,7 @@ namespace ElementsLib.Elements.Config.Articles
                     return new EvaluateSource
                     {
                         // PROPERTIES SET
-                        IncomeAdvance = taxableValues.Balance(),
+                        GeneralBaseAmount = taxableValues.Balance(),
                         // PROPERTIES SET
                     };
                 }

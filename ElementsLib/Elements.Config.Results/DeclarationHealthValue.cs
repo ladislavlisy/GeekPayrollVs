@@ -14,20 +14,32 @@ namespace ElementsLib.Elements.Config.Results
         public Byte StatementType { get; protected set; }
         public WorkHealthTerms SummarizeType { get; protected set; }
         public Byte ForeignerType { get; protected set; }
-        public TAmountDec TotalYearBase { get; protected set; }
+        public TAmountDec HealthAnnuity { get; protected set; }
 
         public DeclarationHealthValue(Byte statement, WorkHealthTerms summarize, TAmountDec totalBase, Byte foreigner) : base((ResultCode)ArticleResultCode.RESULT_VALUE_DECLARATION_HEALTH)
         {
             this.StatementType = statement;
             this.SummarizeType = summarize;
             this.ForeignerType = foreigner;
-            this.TotalYearBase = totalBase;
+            this.HealthAnnuity = totalBase;
         }
         public override string Description()
         {
-            return string.Format("{0}: Statement: {1}, Summarize: {2}, Foreigner: {3}, Total Year Base: {4}",
+            return string.Format("{0}: Statement: {1}, Summarize: {2}, Foreigner: {3}, Health Annuity: {4}",
                 Code.ToEnum<ArticleResultCode>().GetSymbol(),
-                StatementType.ToString(), SummarizeType.GetSymbol(), ForeignerType.ToString(), TotalYearBase.FormatAmount());
+                StatementType.ToString(), SummarizeType.GetSymbol(), ForeignerType.ToString(), HealthAnnuity.FormatAmount());
+        }
+        public override string ToResultExport(string targetSymbol)
+        {
+            string hoursFormated = "";
+            string dayesFormated = "";
+            string moneyFormated = "";
+            string basisFormated = "";
+            string payeeFormated = "";
+
+            return string.Format("{0}\t{1}\tHours\t{2}\tDays\t{3}\tIncome Amount\t{4}\tBasis Amount\t{5}\tPayment\t{6}",
+                targetSymbol, Code.ToEnum<ArticleResultCode>().GetSymbol(),
+                hoursFormated, dayesFormated, moneyFormated, basisFormated, payeeFormated);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace ElementsLib.Elements.Config.Concepts
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
             conceptResult.AddDeclarationTaxingValue(conceptValues.StatementType, conceptValues.SummarizeType, 
-                conceptValues.DeclaracyType, conceptValues.ResidencyType);
+                conceptValues.DeclaracyType, conceptValues.ResidencyType, conceptValues.HealthAnnuity, conceptValues.SocialAnnuity);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

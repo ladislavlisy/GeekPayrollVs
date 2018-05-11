@@ -16,13 +16,13 @@ namespace ElementsLib.Elements.Config.Results
         public TAmountDec BasisCutdown { get; protected set; }
         public TAmountDec AboveCutdown { get; protected set; }
         public TAmountDec BasisFinNumb { get; protected set; }
-        public MoneyInsuranceBasisValue(ResultCode code, TAmountDec basicRaw, TAmountDec basicRnd, TAmountDec basicCut, TAmountDec aboveCut, TAmountDec basicFin) : base(code)
+        public MoneyInsuranceBasisValue(ResultCode code, TAmountDec basisRawly, TAmountDec basisRound, TAmountDec basisCuter, TAmountDec aboveCuter, TAmountDec basisFinal) : base(code)
         {
-            this.BasisRawNumb = basicRaw;
-            this.BasisRounded = basicRnd;
-            this.BasisCutdown = basicCut;
-            this.AboveCutdown = aboveCut;
-            this.BasisFinNumb = basicFin;
+            this.BasisRawNumb = basisRawly;
+            this.BasisRounded = basisRound;
+            this.BasisCutdown = basisCuter;
+            this.AboveCutdown = aboveCuter;
+            this.BasisFinNumb = basisFinal;
         }
         public override string Description()
         {
@@ -35,6 +35,18 @@ namespace ElementsLib.Elements.Config.Results
             return string.Format("{0}: Raw Basis for Insurance: {1}, Rounded Basis for Insurance: {2}, CutDown Basis for Insurance: {3}, Above CutDown for Insurance: {4}, Final Basis for Insurance: {5}",
                 Code.ToEnum<ArticleResultCode>().GetSymbol(),
                 formatedRawValue, formatedRndValue, formatedCutValue, formatedCutAbove, formatedFinValue);
+        }
+        public override string ToResultExport(string targetSymbol)
+        {
+            string hoursFormated = "";
+            string dayesFormated = "";
+            string moneyFormated = "";
+            string basisFormated = "";
+            string payeeFormated = "";
+
+            return string.Format("{0}\t{1}\tHours\t{2}\tDays\t{3}\tIncome Amount\t{4}\tBasis Amount\t{5}\tPayment\t{6}",
+                targetSymbol, Code.ToEnum<ArticleResultCode>().GetSymbol(),
+                hoursFormated, dayesFormated, moneyFormated, basisFormated, payeeFormated);
         }
     }
 }
