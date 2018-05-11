@@ -145,8 +145,6 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_ADVANCE;
 
-                    TaxableIncomeSum initBalance = new TaxableIncomeSum();
-
                     Result<MoneyAmountSum, string> taxableIncome = results
                         .FindAndTransformResultValue<ArticleGeneralResult, MoneyTransferIncomeValue, MoneyAmountSum>(
                         TargetFilters.TargetCodeFunc(incomeTaxingCode), ResultFilters.TransferIncomeValue, GetIncomeAmount);
