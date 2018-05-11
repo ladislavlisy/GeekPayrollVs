@@ -15,6 +15,8 @@ namespace ElementsLib.Elements.Config.Concepts
     using ValidsPack = ResultMonad.Result<bool, string>;
     using MasterItem = Articles.TaxBaseSolidaryArticle;
 
+    using TAmountDec = Decimal;
+
     using Legalist.Constants;
     using Module.Interfaces.Elements;
     using Module.Interfaces.Legalist;
@@ -27,12 +29,12 @@ namespace ElementsLib.Elements.Config.Concepts
     public static class TaxBaseSolidaryConcept
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseSolidaryConcept(ARTICLE_TAX_BASE_SOLIDARY, 1018): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            IEmployProfile conceptProfile = evalProfile.Employ();
+            ITaxingProfile conceptProfile = evalProfile.Taxing();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -40,11 +42,12 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
+            TAmountDec solidaryBasis = conceptProfile.BasisSolidaryRounded(conceptValues.GeneralBaseAmount);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddTaxPartialBaseValue(conceptValues.GeneralBaseAmount);
+            conceptResult.AddTaxSolidaryBaseValue(solidaryBasis);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

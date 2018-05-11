@@ -37,9 +37,11 @@ namespace ElementsLib.Elements.Config.Results
         }
         public override string ToResultExport(string targetSymbol)
         {
+            TAmountDec TotalsAnnuity = decimal.Add(HealthAnnuity, SocialAnnuity);
+
             string hoursFormated = "";
             string dayesFormated = "";
-            string moneyFormated = "";
+            string moneyFormated = TotalsAnnuity.FormatAmount();
             string basisFormated = "";
             string payeeFormated = "";
 

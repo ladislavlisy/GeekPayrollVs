@@ -25,7 +25,9 @@ namespace ElementsLib.Elements.Config.Results
         }
         public override string ToResultExport(string targetSymbol)
         {
-            string hoursFormated = "";
+            TSeconds hoursSummary = HoursWeek.Aggregate(0, (agr, x) => (agr + x));
+
+            string hoursFormated = FormatUtils.HoursFormat(hoursSummary);
             string dayesFormated = "";
             string moneyFormated = "";
             string basisFormated = "";

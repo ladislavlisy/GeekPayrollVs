@@ -33,7 +33,7 @@ namespace ElementsLib.Elements.Config.Results
         {
             string hoursFormated = "";
             string dayesFormated = "";
-            string moneyFormated = "";
+            string moneyFormated = SocialAnnuity.FormatAmount();
             string basisFormated = "";
             string payeeFormated = "";
 

@@ -32,8 +32,11 @@ namespace ElementsLib.Elements.Config.Results
         }
         public override string ToResultExport(string targetSymbol)
         {
-            string hoursFormated = "";
-            string dayesFormated = "";
+            TSeconds hoursSummary = HoursMonth.Aggregate(0, (agr, x) => (agr + x));
+            Int32 dayesSummary = (PeriodDayStop - PeriodDayFrom + 1);
+
+            string hoursFormated = FormatUtils.HoursFormat(hoursSummary);
+            string dayesFormated = dayesSummary.ToString();
             string moneyFormated = "";
             string basisFormated = "";
             string payeeFormated = "";

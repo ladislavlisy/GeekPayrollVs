@@ -121,11 +121,11 @@
     <Compile Include="Elements.Config.Sources\Transfer\InsIncomesHealthSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\InsIncomesSocialSource.cs" />
     <Compile Include="Elements.Config.Sources\Earnings\MonthlyAmountSource.cs" />
-    <Compile Include="Elements.Config.Sources\TaxBaseAdvanceHealthSource.cs" />
-    <Compile Include="Elements.Config.Sources\TaxBaseAdvancePartSource.cs" />
-    <Compile Include="Elements.Config.Sources\TaxBaseAdvanceSocialSource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceHealthSource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvancePartSource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceSocialSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceSource.cs" />
-    <Compile Include="Elements.Config.Sources\TaxBaseSolidarySource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseSolidarySource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseWithholdSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxDeclarationSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxIncomesAdvanceSource.cs" />

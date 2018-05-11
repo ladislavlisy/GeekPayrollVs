@@ -45,7 +45,7 @@ namespace ElementsLib.Elements.Config.Results
         {
             string hoursFormated = "";
             string dayesFormated = "";
-            string moneyFormated = "";
+            string moneyFormated = IncomeGeneral.FormatAmount();
             string basisFormated = "";
             string payeeFormated = "";
 

@@ -56,6 +56,17 @@ namespace ElementsLib.Legalist.Operations
             return valueToMax;
         }
 
+        public static decimal MaxDecAccumAbove(decimal valueToMax, decimal accumToMax, decimal maxLimitTo)
+        {
+            if (maxLimitTo > 0m)
+            {
+                decimal underToLimits = MaxDecAccumValue(valueToMax, accumToMax, maxLimitTo);
+
+                return Math.Max(0, valueToMax - underToLimits);
+            }
+            return decimal.Zero;
+        }
+
         public static decimal MinIncValue(decimal valueToMin, decimal minLimitTo)
         {
             if (minLimitTo > 0m)
@@ -76,6 +87,16 @@ namespace ElementsLib.Legalist.Operations
             }
             return valueToMax;
         }
+
+        public static decimal SuppressNegative(bool suppress, decimal valueDec)
+        {
+            if (suppress && valueDec < decimal.Zero)
+            {
+                return decimal.Zero;
+            }
+            return valueDec;
+        }
+
     }
 }
 

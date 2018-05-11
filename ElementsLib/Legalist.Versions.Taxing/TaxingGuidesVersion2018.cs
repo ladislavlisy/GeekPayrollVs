@@ -31,6 +31,10 @@ namespace ElementsLib.Legalist.Versions.Taxing
             TaxingPropertiesVersion2018.MAX_TASKAGR_INCOMES_WITHHOLD,
             TaxingPropertiesVersion2018.MAX_LOLEVEL_INCOMES_WITHHOLD,
             TaxingPropertiesVersion2018.TAX_PARTNER_INCOMES_WITHHOLD,
+            TaxingPropertiesVersion2018.MAX_HEALTH_ANNUAL_BASIS_ADVANCE,
+            TaxingPropertiesVersion2018.MAX_SOCIAL_ANNUAL_BASIS_ADVANCE,
+            TaxingPropertiesVersion2018.MAX_HEALTH_ANNUAL_BASIS_WITHHOLD,
+            TaxingPropertiesVersion2018.MAX_SOCIAL_ANNUAL_BASIS_WITHHOLD,
             TaxingPropertiesVersion2018.MIN_VALID_INCOME_OF_SOLIDARY)
         {
         }
@@ -105,6 +109,22 @@ namespace ElementsLib.Legalist.Versions.Taxing
         public override TaxingPartnerIncome TaxPartnerIncomeWithhold(Period period)
         {
             return _TaxPartnerIncomeWithhold;
+        }
+        public override TAmountInt MaxHealthAnnualBasisAdvance(Period period)
+        {
+            return _MaxHealthAnnualBasisAdvance;
+        }
+        public override TAmountInt MaxSocialAnnualBasisAdvance(Period period)
+        {
+            return _MaxSocialAnnualBasisAdvance;
+        }
+        public override TAmountInt MaxHealthAnnualBasisWithhold(Period period)
+        {
+            return _MaxHealthAnnualBasisWithhold;
+        }
+        public override TAmountInt MaxSocialAnnualBasisWithhold(Period period)
+        {
+            return _MaxSocialAnnualBasisWithhold;
         }
         public override TAmountInt MinValidIncomeOfSolidary(Period period)
         {

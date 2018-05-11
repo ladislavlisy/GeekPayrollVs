@@ -77,7 +77,7 @@ namespace PayrollGeekConsoleApp
                 System.Diagnostics.Debug.Print(ex.Message);
             }
 
-            string payrollFilePath = System.IO.Path.Combine(configFolder, "PROCESS_EVALUATE.TXT");
+            string payrollFilePath = System.IO.Path.Combine(configFolder, "PROCESS_EVALUATE.XLS");
 
             try
             {

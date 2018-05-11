@@ -29,7 +29,7 @@ namespace ElementsLib.Elements.Config.Results
             string dayesFormated = "";
             string moneyFormated = "";
             string basisFormated = "";
-            string payeeFormated = "";
+            string payeeFormated = Payment.FormatAmount();
 
             return string.Format("{0}\t{1}\tHours\t{2}\tDays\t{3}\tIncome Amount\t{4}\tBasis Amount\t{5}\tPayment\t{6}",
                 targetSymbol, Code.ToEnum<ArticleResultCode>().GetSymbol(),

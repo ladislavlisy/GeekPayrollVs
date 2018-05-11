@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 namespace ElementsLib.Legalist.Versions.Taxing
 {
     using TAmountDec = Decimal;
+    using TAmountInt = Int32;
 
     using Constants;
     using Module.Interfaces.Legalist;
     using Module.Items;
+    using Rounding;
+    using Operations;
+
     public class TaxingGuidingProfile : ITaxingProfile
     {
+        public const TAmountInt NUMBER_ONE_HUNDRED = 100;
+        public const TAmountDec NUMBER_100_PERCENT = 100m;
         protected Period InternalPeriod { get; set; }
         protected ITaxingGuides InternalGuides { get; set; }
 
@@ -26,6 +32,47 @@ namespace ElementsLib.Legalist.Versions.Taxing
         public ITaxingGuides Guides()
         {
             return InternalGuides;
+        }
+
+        public TAmountDec DecRoundUp(TAmountDec valueDec)
+        {
+            return RoundingDec.RoundUp(valueDec);
+        }
+
+        public TAmountInt IntRoundUp(TAmountDec valueDec)
+        {
+            return RoundingInt.RoundUp(valueDec);
+        }
+
+        public TAmountDec DecRoundDown(TAmountDec valueDec)
+        {
+            return RoundingDec.RoundDown(valueDec);
+        }
+
+        public TAmountInt IntRoundDown(TAmountDec valueDec)
+        {
+            return RoundingInt.RoundDown(valueDec);
+        }
+
+        public TAmountDec DecRoundUpHundreds(TAmountDec valueDec)
+        {
+            return RoundingDec.NearRoundUp(valueDec, NUMBER_ONE_HUNDRED);
+        }
+
+        public TAmountDec DecFactorResult(TAmountDec valueDec, TAmountDec factor)
+        {
+            return OperationsDec.MultiplyAndDivide(valueDec, factor, NUMBER_100_PERCENT);
+        }
+
+        public TAmountInt RebateResult(TAmountDec rebateBasis, TAmountDec rebateApply, TAmountDec rebateClaim)
+        {
+            TAmountDec afterApply = TAmountDec.Subtract(rebateBasis, rebateApply);
+
+            TAmountDec afterClaim = Math.Max(0m, TAmountDec.Subtract(rebateClaim, afterApply));
+
+            TAmountDec rebateResult = TAmountDec.Subtract(rebateClaim, afterClaim);
+
+            return RoundingInt.RoundToInt(rebateResult);
         }
 
         public TAmountDec TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize,
@@ -221,11 +268,49 @@ namespace ElementsLib.Legalist.Versions.Taxing
         {
             return generalIncome;
         }
-
         public TAmountDec TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmountDec generalIncome)
         {
             return generalIncome;
         }
+        public TAmountDec TaxablePartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome)
+        {
+            TAmountDec annuityBaseLimit = InternalGuides.MaxHealthAnnualBasisAdvance();
+            TAmountDec cutdownBaseValue = OperationsDec.MaxDecAccumValue(generalIncome, annuityIncome, annuityBaseLimit);
+            return cutdownBaseValue;
+        }
+        public TAmountDec CutDownPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome)
+        {
+            TAmountDec annuityBaseLimit = InternalGuides.MaxHealthAnnualBasisAdvance();
+            TAmountDec cutdownBaseAbove = OperationsDec.MaxDecAccumAbove(generalIncome, annuityIncome, annuityBaseLimit);
+            return cutdownBaseAbove;
+        }
+        public TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome)
+        {
+            return generalIncome;
+        }
+        public TAmountDec TaxablePartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome)
+        {
+            TAmountDec annuityBaseLimit = InternalGuides.MaxSocialAnnualBasisAdvance();
+            TAmountDec cutdownBaseValue = OperationsDec.MaxDecAccumValue(generalIncome, annuityIncome, annuityBaseLimit);
+            return cutdownBaseValue;
+        }
+        public TAmountDec CutDownPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome)
+        {
+            TAmountDec annuityBaseLimit = InternalGuides.MaxSocialAnnualBasisAdvance();
+            TAmountDec cutdownBaseAbove = OperationsDec.MaxDecAccumAbove(generalIncome, annuityIncome, annuityBaseLimit);
+            return cutdownBaseAbove;
+        }
+        public TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome)
+        {
+            return generalIncome;
+        }
+        public TAmountDec BasisSolidaryRounded(TAmountDec generalIncome)
+        {
+            decimal solidaryLimit = InternalGuides.MinValidIncomeOfSolidary();
 
+            decimal solidaryBasis = Math.Max(0, generalIncome - solidaryLimit);
+
+            return solidaryBasis;
+        }
     }
 }

@@ -35,6 +35,10 @@ namespace ElementsLib.Legalist.Guides.Taxing
         protected readonly TAmountInt _MaxTaskAgrIncomeWithhold;
         protected readonly TAmountInt _MaxLoLevelIncomeWithhold;
         protected readonly TaxingPartnerIncome _TaxPartnerIncomeWithhold;
+        protected readonly TAmountInt _MaxHealthAnnualBasisAdvance;
+        protected readonly TAmountInt _MaxSocialAnnualBasisAdvance;
+        protected readonly TAmountInt _MaxHealthAnnualBasisWithhold;
+        protected readonly TAmountInt _MaxSocialAnnualBasisWithhold;
         protected readonly TAmountInt _MinValidIncomeOfSolidary;
 
         public TaxingGuidesBuilder(BundleVersion version, 
@@ -46,8 +50,9 @@ namespace ElementsLib.Legalist.Guides.Taxing
             TAmountInt minValidAmountOfTaxBonus, TAmountInt maxValidAmountOfTaxBonus,
             TAmountInt minValidIncomeOfTaxBonus, TAmountInt maxValidIncomeOfRounding,
             TAmountInt maxTaskAgrIncomeWithhold, TAmountInt maxLoLevelIncomeWithhold, TaxingPartnerIncome taxPartnerIncomeWithhold,
+            TAmountInt maxHealthAnnualBasisAdvance, TAmountInt maxSocialAnnualBasisAdvance,
+            TAmountInt maxHealthAnnualBasisWithhold, TAmountInt maxSocialAnnualBasisWithhold,
             TAmountInt minValidIncomeOfSolidary) : base(version)
-        
         {
             this._AllowancePayer = allowancePayer;
             this._AllowanceDisab1st = allowanceDisab1st;
@@ -67,6 +72,10 @@ namespace ElementsLib.Legalist.Guides.Taxing
             this._MaxTaskAgrIncomeWithhold = maxTaskAgrIncomeWithhold;
             this._MaxLoLevelIncomeWithhold = maxLoLevelIncomeWithhold;
             this._TaxPartnerIncomeWithhold = taxPartnerIncomeWithhold;
+            this._MaxHealthAnnualBasisAdvance = maxHealthAnnualBasisAdvance;
+            this._MaxSocialAnnualBasisAdvance = maxSocialAnnualBasisAdvance;
+            this._MaxHealthAnnualBasisWithhold = maxHealthAnnualBasisWithhold;
+            this._MaxSocialAnnualBasisWithhold = maxSocialAnnualBasisWithhold;
             this._MinValidIncomeOfSolidary = minValidIncomeOfSolidary;
         }
 
@@ -96,6 +105,10 @@ namespace ElementsLib.Legalist.Guides.Taxing
                 MaxTaskAgrIncomeWithhold(period),
                 MaxLoLevelIncomeWithhold(period),
                 TaxPartnerIncomeWithhold(period),
+                MaxHealthAnnualBasisAdvance(period),
+                MaxSocialAnnualBasisAdvance(period),
+                MaxHealthAnnualBasisWithhold(period),
+                MaxSocialAnnualBasisWithhold(period),
                 MinValidIncomeOfSolidary(period));
         }
 
@@ -117,6 +130,10 @@ namespace ElementsLib.Legalist.Guides.Taxing
         public abstract TAmountInt MaxTaskAgrIncomeWithhold(Period period);
         public abstract TAmountInt MaxLoLevelIncomeWithhold(Period period);
         public abstract TaxingPartnerIncome TaxPartnerIncomeWithhold(Period period);
+        public abstract TAmountInt MaxHealthAnnualBasisAdvance(Period period);
+        public abstract TAmountInt MaxSocialAnnualBasisAdvance(Period period);
+        public abstract TAmountInt MaxHealthAnnualBasisWithhold(Period period);
+        public abstract TAmountInt MaxSocialAnnualBasisWithhold(Period period);
         public abstract TAmountInt MinValidIncomeOfSolidary(Period period);
     }
 }

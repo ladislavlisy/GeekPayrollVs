@@ -3,6 +3,7 @@
 namespace ElementsLib.Module.Interfaces.Legalist
 {
     using TAmountDec = Decimal;
+    using TAmountInt = Int32;
 
     using ElementsLib.Legalist.Constants;
     using Items;
@@ -10,6 +11,13 @@ namespace ElementsLib.Module.Interfaces.Legalist
     public interface ITaxingProfile
     {
         ITaxingGuides Guides();
+        TAmountDec DecRoundUp(TAmountDec valueDec);
+        TAmountInt IntRoundUp(TAmountDec valueDec);
+        TAmountDec DecRoundDown(TAmountDec valueDec);
+        TAmountInt IntRoundDown(TAmountDec valueDec);
+        TAmountDec DecRoundUpHundreds(TAmountDec valueDec);
+        TAmountDec DecFactorResult(TAmountDec valueDec, TAmountDec factor);
+        TAmountInt RebateResult(TAmountDec rebateBasis, TAmountDec rebateApply, TAmountDec rebateClaim);
         TAmountDec TaxableGeneralIncomes(Period evalPeriod, WorkTaxingTerms summarize, 
             Byte statement, Byte declaracy, Byte residency,
             TAmountDec taxableIncome, TAmountDec partnerIncome, TAmountDec excludeIncome);
@@ -39,5 +47,13 @@ namespace ElementsLib.Module.Interfaces.Legalist
             TAmountDec lolevelIncome, TAmountDec agrtaskIncome, TAmountDec partnerIncome);
         TAmountDec TaxableBaseAdvanceTaxingMode(Period evalPeriod, TAmountDec generalIncome);
         TAmountDec TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmountDec generalIncome);
+        TAmountDec TaxablePartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
+        TAmountDec CutDownPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
+        TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome);
+        TAmountDec TaxablePartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
+        TAmountDec CutDownPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
+        TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome);
+
+        TAmountDec BasisSolidaryRounded(TAmountDec generalIncome);
     }
 }

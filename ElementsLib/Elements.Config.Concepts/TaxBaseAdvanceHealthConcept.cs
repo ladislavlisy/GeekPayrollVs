@@ -46,10 +46,10 @@ namespace ElementsLib.Elements.Config.Concepts
                 conceptValues.GeneralIncome, conceptValues.ExcludeIncome,
                 conceptValues.LolevelIncome, conceptValues.TaskAgrIncome, conceptValues.PartnerIncome);
 
-            TAmountDec roundedBasisAmount = 0m;
-            TAmountDec cutdownBasisAmount = 0m;
-            TAmountDec cutdownAboveAmount = 0m;
-            TAmountDec finaledBasisAmount = 0m;
+            TAmountDec roundedBasisAmount = conceptProfile.DecRoundUp(startedBasisAmount);
+            TAmountDec cutdownBasisAmount = conceptProfile.TaxablePartialAdvanceHealth(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
+            TAmountDec cutdownAboveAmount = conceptProfile.CutDownPartialAdvanceHealth(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
+            TAmountDec finaledBasisAmount = conceptProfile.EployerPartialAdvanceHealth(evalPeriod, cutdownBasisAmount);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);

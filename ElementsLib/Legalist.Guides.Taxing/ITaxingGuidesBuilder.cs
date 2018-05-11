@@ -37,6 +37,10 @@ namespace ElementsLib.Legalist.Guides.Taxing
         TAmountInt MaxTaskAgrIncomeWithhold(Period period);
         TAmountInt MaxLoLevelIncomeWithhold(Period period);
         TaxingPartnerIncome TaxPartnerIncomeWithhold(Period period);
+        TAmountInt MaxHealthAnnualBasisAdvance(Period period);
+        TAmountInt MaxSocialAnnualBasisAdvance(Period period);
+        TAmountInt MaxHealthAnnualBasisWithhold(Period period);
+        TAmountInt MaxSocialAnnualBasisWithhold(Period period);
         TAmountInt MinValidIncomeOfSolidary(Period period);
     }
 }

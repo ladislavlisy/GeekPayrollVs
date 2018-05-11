@@ -27,6 +27,10 @@ namespace ElementsLib.Module.Interfaces.Legalist
         TAmountInt MaxLoLevelIncomeWithhold();
         bool TaxLoLevelIncomeWithhold();
         TaxingPartnerIncome TaxPartnerIncomeWithhold();
+        TAmountInt MaxHealthAnnualBasisAdvance();
+        TAmountInt MaxSocialAnnualBasisAdvance();
+        TAmountInt MaxHealthAnnualBasisWithhold();
+        TAmountInt MaxSocialAnnualBasisWithhold();
         TAmountInt MinValidIncomeOfSolidary();
     }
 }
