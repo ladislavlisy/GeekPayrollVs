@@ -9,16 +9,20 @@ namespace ElementsLib.Elements.Config.Sources
     using Legalist.Constants;
     using Module.Interfaces.Elements;
 
-    public class TaxBaseSolidarySource : ISourceValues, ICloneable
+    public class InsSocialFinalSource : ISourceValues, ICloneable
     {
 
-        public TaxBaseSolidarySource()
+        public InsSocialFinalSource()
+        {
+        }
+
+        public InsSocialFinalSource()
         {
         }
 
         public virtual object Clone()
         {
-            TaxBaseSolidarySource cloneSource = (TaxBaseSolidarySource)this.MemberwiseClone();
+            InsSocialFinalSource cloneSource = (InsSocialFinalSource)this.MemberwiseClone();
 
 
             return cloneSource;

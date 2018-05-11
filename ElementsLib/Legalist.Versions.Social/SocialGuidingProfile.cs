@@ -27,7 +27,10 @@ namespace ElementsLib.Legalist.Versions.Social
         {
             return InternalGuides;
         }
-
+        public TAmountDec FactorEmployer()
+        {
+            return InternalGuides.FactorEmployer();
+        }
         public TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
             TAmountDec includeIncome, TAmountDec excludeIncome)
         {

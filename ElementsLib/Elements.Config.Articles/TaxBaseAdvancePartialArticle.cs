@@ -17,7 +17,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.TaxBaseAdvancePartSource;
+    using SourceItem = Sources.TaxBaseAdvancePartialSource;
 
     using TAmountDec = Decimal;
 
@@ -35,24 +35,24 @@ namespace ElementsLib.Elements.Config.Articles
     using Matrixus.Config;
     using Module.Codes;
 
-    public class TaxBaseAdvancePartArticle : GeneralArticle, ICloneable
+    public class TaxBaseAdvancePartialArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvancePartArticle(ARTICLE_TAX_BASE_ADVANCE_PART, 1017): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvancePartialArticle(ARTICLE_TAX_BASE_ADVANCE_PARTIAL, 1017): {0}";
 
-        public TaxBaseAdvancePartArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_PART)
+        public TaxBaseAdvancePartialArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_PARTIAL)
         {
-            SourceValues = new TaxBaseAdvancePartSource();
+            SourceValues = new TaxBaseAdvancePartialSource();
 
-            InternalEvaluate = TaxBaseAdvancePartConcept.EvaluateConcept;
+            InternalEvaluate = TaxBaseAdvancePartialConcept.EvaluateConcept;
         }
 
-        public TaxBaseAdvancePartArticle(ISourceValues values) : this()
+        public TaxBaseAdvancePartialArticle(ISourceValues values) : this()
         {
-            TaxBaseAdvancePartSource sourceValues = values as TaxBaseAdvancePartSource;
+            TaxBaseAdvancePartialSource sourceValues = values as TaxBaseAdvancePartialSource;
 
-            SourceValues = CloneUtils<TaxBaseAdvancePartSource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<TaxBaseAdvancePartialSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -74,11 +74,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalConfig, evalPeriod, evalProfile, bundleValues);
         }
 
-        public TaxBaseAdvancePartSource SourceValues { get; set; }
+        public TaxBaseAdvancePartialSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<TaxBaseAdvancePartSource>(values);
+            SourceValues = SetSourceValues<TaxBaseAdvancePartialSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -93,7 +93,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxBaseAdvancePartArticle cloneArticle = (TaxBaseAdvancePartArticle)this.MemberwiseClone();
+            TaxBaseAdvancePartialArticle cloneArticle = (TaxBaseAdvancePartialArticle)this.MemberwiseClone();
 
             cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;

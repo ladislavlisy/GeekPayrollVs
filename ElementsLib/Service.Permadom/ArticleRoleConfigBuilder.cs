@@ -58,8 +58,15 @@ namespace ElementsLib.Service.Permadom
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_WITHHOLD),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_HEALTH),
                 CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_SOCIAL),
-                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_PART),
-                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_SOLIDARY),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_PARTIAL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_ORDINARY),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_TAX_BASE_ADVANCE_SOLIDARY),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_BASE_HEALTH_COMPOUND),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_BASE_HEALTH_EMPLOYER),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_BASE_HEALTH_EMPLOYEE),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_HEALTH_FINAL),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_BASE_SOCIAL_COMPOUND),
+                CreateConfigData(ConfigRoleEnum.ARTICLE_INS_SOCIAL_FINAL),
             };
             return configList;
         }

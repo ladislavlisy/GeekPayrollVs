@@ -123,11 +123,11 @@ namespace ElementsLib.Service.Permadom
                     Tags = null,
                 },
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_ADVANCE_PART,
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_ADVANCE_PARTIAL,
                     Tags = null,
                 },
                 new ArticleData() {
-                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_SOLIDARY,
+                    Head = 0, Part = 0, Seed = 1, Code = (UInt16)ArticleCodeCz.FACT_TAX_BASE_ADVANCE_SOLIDARY,
                     Tags = null,
                 },
                 //FACT_POSITION_TIMESHEET,
@@ -219,10 +219,10 @@ namespace ElementsLib.Service.Permadom
                 new ArticleCodeConfigData(10016, 1016, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_ADVANCE_SOCIAL", 10006),
                 new ArticleCodeConfigData(10017, 1017, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
-                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_ADVANCE_PART", 10014, 10015, 10016),
-                new ArticleCodeConfigData(10018, 1018, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
-                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_SOLIDARY", 10007),
-                new ArticleCodeConfigData(10022, 1022, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_ADVANCE_PARTIAL", 10014, 10015, 10016),
+                new ArticleCodeConfigData(10019, 1019, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
+                    TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_ADVANCE_SOLIDARY", 10007),
+                new ArticleCodeConfigData(10023, 1023, TRANSFER_GANG, NO_HEAD_PART_TYPE, ARTICLE_REQ, 
                     TAXING_NOTHING, HEALTH_NOTHING, SOCIAL_NOTHING, "FACT_TAX_BASE_WITHHOLD", 10007, 10008, 10009, 10010, 10011),
             };
         }
@@ -258,9 +258,9 @@ namespace ElementsLib.Service.Permadom
                 new ArticleRoleConfigData(1014, "ARTICLE_TAX_BASE_ADVANCE"),
                 new ArticleRoleConfigData(1015, "ARTICLE_TAX_BASE_ADVANCE_HEALTH"),
                 new ArticleRoleConfigData(1016, "ARTICLE_TAX_BASE_ADVANCE_SOCIAL"),
-                new ArticleRoleConfigData(1017, "ARTICLE_TAX_BASE_ADVANCE_PART"),
-                new ArticleRoleConfigData(1018, "ARTICLE_TAX_BASE_SOLIDARY"),
-                new ArticleRoleConfigData(1022, "ARTICLE_TAX_BASE_WITHHOLD"),
+                new ArticleRoleConfigData(1017, "ARTICLE_TAX_BASE_ADVANCE_PARTIAL"),
+                new ArticleRoleConfigData(1019, "ARTICLE_TAX_BASE_ADVANCE_SOLIDARY"),
+                new ArticleRoleConfigData(1023, "ARTICLE_TAX_BASE_WITHHOLD"),
            };
         }
 

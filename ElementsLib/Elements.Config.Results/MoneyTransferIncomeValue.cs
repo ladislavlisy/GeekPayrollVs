@@ -25,9 +25,9 @@ namespace ElementsLib.Elements.Config.Results
         {
             string hoursFormated = "";
             string dayesFormated = "";
-            string moneyFormated = "";
+            string moneyFormated = Payment.FormatAmount();
             string basisFormated = "";
-            string payeeFormated = Payment.FormatAmount();
+            string payeeFormated = "";
 
             return string.Format("{0}\t{1}\tHours\t{2}\tDays\t{3}\tIncome Amount\t{4}\tBasis Amount\t{5}\tPayment\t{6}",
                 targetSymbol, Code.ToEnum<ArticleResultCode>().GetSymbol(),

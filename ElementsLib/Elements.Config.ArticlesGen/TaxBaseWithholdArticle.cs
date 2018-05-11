@@ -34,7 +34,7 @@ namespace ElementsLib.Elements.Config.Articles
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxBaseWithholdArticle(ARTICLE_TAX_BASE_WITHHOLD, 1022): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxBaseWithholdArticle(ARTICLE_TAX_BASE_WITHHOLD, 1023): {0}";
 
         public TaxBaseWithholdArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_BASE_WITHHOLD)
         {

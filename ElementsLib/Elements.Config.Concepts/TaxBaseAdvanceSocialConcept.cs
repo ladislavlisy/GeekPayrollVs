@@ -30,6 +30,7 @@ namespace ElementsLib.Elements.Config.Concepts
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvanceSocialConcept(ARTICLE_TAX_BASE_ADVANCE_SOCIAL, 1016): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
+        public static string SOCIALS_PROFILE_NULL_TEXT = "Social profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
@@ -39,6 +40,11 @@ namespace ElementsLib.Elements.Config.Concepts
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
             }
+            ISocialProfile socialsProfile = evalProfile.Social();
+            if (socialsProfile == null)
+            {
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, SOCIALS_PROFILE_NULL_TEXT);
+            }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
@@ -46,10 +52,11 @@ namespace ElementsLib.Elements.Config.Concepts
                 conceptValues.GeneralIncome, conceptValues.ExcludeIncome,
                 conceptValues.LolevelIncome, conceptValues.TaskAgrIncome, conceptValues.PartnerIncome);
 
-            TAmountDec roundedBasisAmount = 0m;
-            TAmountDec cutdownBasisAmount = 0m;
-            TAmountDec cutdownAboveAmount = 0m;
-            TAmountDec finaledBasisAmount = 0m;
+            TAmountDec employerPercFactor = socialsProfile.FactorEmployer();
+            TAmountDec roundedBasisAmount = conceptProfile.DecRoundUp(startedBasisAmount);
+            TAmountDec cutdownBasisAmount = conceptProfile.TaxablePartialAdvanceSocial(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
+            TAmountDec cutdownAboveAmount = conceptProfile.CutDownPartialAdvanceSocial(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
+            TAmountDec finaledBasisAmount = conceptProfile.EployerPartialAdvanceSocial(evalPeriod, cutdownBasisAmount, employerPercFactor);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);

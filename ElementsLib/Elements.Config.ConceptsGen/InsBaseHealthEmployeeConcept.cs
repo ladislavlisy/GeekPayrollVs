@@ -13,9 +13,7 @@ namespace ElementsLib.Elements.Config.Concepts
     using ResultPack = ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>;
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using MasterItem = Articles.TaxBaseAdvancePartArticle;
-
-    using TAmountDec = Decimal;
+    using MasterItem = Articles.InsBaseHealthEmployeeArticle;
 
     using Legalist.Constants;
     using Module.Interfaces.Elements;
@@ -26,15 +24,15 @@ namespace ElementsLib.Elements.Config.Concepts
     using Results;
     using ResultMonad;
 
-    public static class TaxBaseAdvancePartConcept
+    public static class InsBaseHealthEmployeeConcept
     {
-        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvancePartConcept(ARTICLE_TAX_BASE_ADVANCE_PART, 1017): {0}";
-        public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
+        public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "InsBaseHealthEmployeeConcept(ARTICLE_INS_BASE_HEALTH_EMPLOYEE, 1036): {0}";
+        public static string CONCEPT_PROFILE_NULL_TEXT = "Employ profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
         {
-            ITaxingProfile conceptProfile = evalProfile.Taxing();
+            IEmployProfile conceptProfile = evalProfile.Employ();
             if (conceptProfile == null)
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
@@ -42,14 +40,10 @@ namespace ElementsLib.Elements.Config.Concepts
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
-            TAmountDec employerPart = TAmountDec.Add(conceptValues.HealthsPartAmount, conceptValues.SocialsPartAmount);
-            TAmountDec partialsBase = TAmountDec.Add(conceptValues.GeneralBaseAmount, employerPart);
-            TAmountDec definiteBase = conceptProfile.DecRoundUp(partialsBase);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);
             // SET RESULT VALUES
-            conceptResult.AddTaxPartialBaseValue(definiteBase);
             // SET RESULT VALUES
 
             return EvaluateUtils.Results(conceptResult);

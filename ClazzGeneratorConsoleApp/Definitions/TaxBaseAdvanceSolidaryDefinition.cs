@@ -4,9 +4,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
     using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
-    public class TaxBaseSolidaryDefinition : ArticleDefinition
+    public class TaxBaseAdvanceSolidaryDefinition : ArticleDefinition
 	{
-		public TaxBaseSolidaryDefinition() : base(ArticleRole.ARTICLE_TAX_BASE_SOLIDARY)
+		public TaxBaseAdvanceSolidaryDefinition() : base(ArticleRole.ARTICLE_TAX_BASE_ADVANCE_SOLIDARY)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

@@ -9,6 +9,8 @@ namespace ElementsLib.Module.Interfaces.Legalist
     public interface ISocialProfile
     {
         ISocialGuides Guides();
+
+        TAmountDec FactorEmployer();
         TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,
             TAmountDec includeIncome, TAmountDec excludeIncome);
         TAmountDec ExcludeGeneralIncomes(Period evalPeriod, WorkSocialTerms summarize,

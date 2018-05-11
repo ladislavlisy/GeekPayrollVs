@@ -9,6 +9,8 @@ namespace ElementsLib.Module.Interfaces.Legalist
     public interface IHealthProfile
     {
         IHealthGuides Guides();
+
+        TAmountDec FactorCompound();
         TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize,
             TAmountDec includeIncome, TAmountDec excludeIncome);
         TAmountDec ExcludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize,

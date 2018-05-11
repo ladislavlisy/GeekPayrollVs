@@ -284,9 +284,33 @@ namespace ElementsLib.Legalist.Versions.Taxing
             TAmountDec cutdownBaseAbove = OperationsDec.MaxDecAccumAbove(generalIncome, annuityIncome, annuityBaseLimit);
             return cutdownBaseAbove;
         }
-        public TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome)
+        private TAmountInt CompoundPartialWithHealthFactor(decimal compoundBasis, decimal compoundFactor)
         {
-            return generalIncome;
+            TAmountDec decimalResult = DecFactorResult(compoundBasis, compoundFactor);
+
+            TAmountInt roundedResult = IntRoundUp(decimalResult);
+
+            return roundedResult;
+        }
+        private TAmountInt EmployeePartialWithHealthFactor(decimal compoundBasis, decimal compoundFactor)
+        {
+            TAmountDec decimalResult = DecFactorResult(compoundBasis, compoundFactor);
+
+            TAmountDec thirdedResult = OperationsDec.Divide(decimalResult, 3);
+
+            TAmountInt roundedResult = IntRoundUp(thirdedResult);
+
+            return roundedResult;
+        }
+        public TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec compoundFactor)
+        {
+            Int32 compoundPartialValue = CompoundPartialWithHealthFactor(generalIncome, compoundFactor);
+
+            Int32 employeePartialValue = EmployeePartialWithHealthFactor(generalIncome, compoundFactor);
+
+            Int32 employerPartialValue = (compoundPartialValue - employeePartialValue);
+
+            return employerPartialValue;
         }
         public TAmountDec TaxablePartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome)
         {
@@ -300,9 +324,19 @@ namespace ElementsLib.Legalist.Versions.Taxing
             TAmountDec cutdownBaseAbove = OperationsDec.MaxDecAccumAbove(generalIncome, annuityIncome, annuityBaseLimit);
             return cutdownBaseAbove;
         }
-        public TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome)
+        private TAmountInt EmployerPartialWithSocialFactor(decimal employerBasis, decimal employerFactor)
         {
-            return generalIncome;
+            TAmountDec decimalResult = DecFactorResult(employerBasis, employerFactor);
+
+            TAmountInt roundedResult = IntRoundUp(decimalResult);
+
+            return roundedResult;
+        }
+        public TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec employerFactor)
+        {
+            Int32 employerPartialValue = EmployerPartialWithSocialFactor(generalIncome, employerFactor);
+
+            return employerPartialValue;
         }
         public TAmountDec BasisSolidaryRounded(TAmountDec generalIncome)
         {

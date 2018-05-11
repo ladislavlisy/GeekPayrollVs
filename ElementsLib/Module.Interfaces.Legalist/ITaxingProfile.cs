@@ -49,10 +49,10 @@ namespace ElementsLib.Module.Interfaces.Legalist
         TAmountDec TaxableBaseWithholdTaxingMode(Period evalPeriod, TAmountDec generalIncome);
         TAmountDec TaxablePartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
         TAmountDec CutDownPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
-        TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome);
+        TAmountDec EployerPartialAdvanceHealth(Period evalPeriod, TAmountDec generalIncome, TAmountDec compoundFactor);
         TAmountDec TaxablePartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
         TAmountDec CutDownPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec annuityIncome);
-        TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome);
+        TAmountDec EployerPartialAdvanceSocial(Period evalPeriod, TAmountDec generalIncome, TAmountDec employerFactor);
 
         TAmountDec BasisSolidaryRounded(TAmountDec generalIncome);
     }

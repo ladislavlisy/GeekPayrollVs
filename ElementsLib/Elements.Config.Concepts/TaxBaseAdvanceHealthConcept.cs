@@ -30,6 +30,7 @@ namespace ElementsLib.Elements.Config.Concepts
     {
         public static string CONCEPT_DESCRIPTION_ERROR_FORMAT = "TaxBaseAdvanceHealthConcept(ARTICLE_TAX_BASE_ADVANCE_HEALTH, 1015): {0}";
         public static string CONCEPT_PROFILE_NULL_TEXT = "Taxing profile is null!";
+        public static string HEALTHS_PROFILE_NULL_TEXT = "Health profile is null!";
 
         public static IEnumerable<ResultPack> EvaluateConcept(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile,
             Result<MasterItem.EvaluateSource, string> prepValues)
@@ -39,6 +40,11 @@ namespace ElementsLib.Elements.Config.Concepts
             {
                 return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, CONCEPT_PROFILE_NULL_TEXT);
             }
+            IHealthProfile healthsProfile = evalProfile.Health();
+            if (healthsProfile == null)
+            {
+                return EvaluateUtils.DecoratedError(CONCEPT_DESCRIPTION_ERROR_FORMAT, HEALTHS_PROFILE_NULL_TEXT);
+            }
 
             MasterItem.EvaluateSource conceptValues = prepValues.Value;
             // EVALUATION
@@ -46,10 +52,11 @@ namespace ElementsLib.Elements.Config.Concepts
                 conceptValues.GeneralIncome, conceptValues.ExcludeIncome,
                 conceptValues.LolevelIncome, conceptValues.TaskAgrIncome, conceptValues.PartnerIncome);
 
+            TAmountDec compoundPercFactor = healthsProfile.FactorCompound();
             TAmountDec roundedBasisAmount = conceptProfile.DecRoundUp(startedBasisAmount);
             TAmountDec cutdownBasisAmount = conceptProfile.TaxablePartialAdvanceHealth(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
             TAmountDec cutdownAboveAmount = conceptProfile.CutDownPartialAdvanceHealth(evalPeriod, roundedBasisAmount, conceptValues.ExcludeIncome);
-            TAmountDec finaledBasisAmount = conceptProfile.EployerPartialAdvanceHealth(evalPeriod, cutdownBasisAmount);
+            TAmountDec finaledBasisAmount = conceptProfile.EployerPartialAdvanceHealth(evalPeriod, cutdownBasisAmount, compoundPercFactor);
             // EVALUATION
 
             IArticleResult conceptResult = new ArticleGeneralResult(evalConfig);

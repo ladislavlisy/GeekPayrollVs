@@ -27,7 +27,10 @@ namespace ElementsLib.Legalist.Versions.Health
         {
             return InternalGuides;
         }
-
+        public TAmountDec FactorCompound()
+        {
+            return InternalGuides.FactorCompound();
+        }
         public TAmountDec IncludeGeneralIncomes(Period evalPeriod, WorkHealthTerms summarize, 
             TAmountDec includeIncome, TAmountDec excludeIncome)
         {

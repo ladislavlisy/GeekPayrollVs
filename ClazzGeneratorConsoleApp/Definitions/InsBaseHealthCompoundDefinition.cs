@@ -4,9 +4,9 @@ namespace ClazzGeneratorConsoleApp.Definitions
     using ArticleCode = ElementsLib.Module.Codes.ArticleCodeCz;
     using ArticleRole = ElementsLib.Module.Codes.ArticleRoleCz;
 
-    public class InsHealthBaseDefinition : ArticleDefinition
+    public class InsBaseHealthCompoundDefinition : ArticleDefinition
 	{
-		public InsHealthBaseDefinition() : base(ArticleRole.ARTICLE_INS_HEALTH_BASE)
+		public InsBaseHealthCompoundDefinition() : base(ArticleRole.ARTICLE_INS_BASE_HEALTH_COMPOUND)
 		{
 			ArticleSources = ArticleDefinition.CreateParams();
 			ArticleResults = ArticleDefinition.CreateParams();

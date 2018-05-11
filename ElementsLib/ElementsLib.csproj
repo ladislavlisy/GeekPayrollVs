@@ -46,9 +46,9 @@
   <ItemGroup>
     <Compile Include="Elements.Config.Articles\Earnings\ContractAttendItemArticle.cs" />
     <Compile Include="Elements.Config.Articles\TaxBaseAdvanceHealthArticle.cs" />
-    <Compile Include="Elements.Config.Articles\TaxBaseAdvancePartArticle.cs" />
+    <Compile Include="Elements.Config.Articles\TaxBaseAdvancePartialArticle.cs" />
     <Compile Include="Elements.Config.Articles\TaxBaseAdvanceSocialArticle.cs" />
-    <Compile Include="Elements.Config.Articles\TaxBaseSolidaryArticle.cs" />
+    <Compile Include="Elements.Config.Articles\TaxBaseAdvanceSolidaryArticle.cs" />
     <Compile Include="Elements.Config.Articles\Transfer\InsDeclarationHealthArticle.cs" />
     <Compile Include="Elements.Config.Articles\Transfer\InsDeclarationSocialArticle.cs" />
     <Compile Include="Elements.Config.Articles\Transfer\InsIncomesHealthArticle.cs" />
@@ -82,9 +82,9 @@
     <Compile Include="Elements.Config.Concepts\Earnings\PositionWorkingConcept.cs" />
     <Compile Include="Elements.Config.Concepts\Transfer\TaxBaseAdvanceConcept.cs" />
     <Compile Include="Elements.Config.Concepts\TaxBaseAdvanceHealthConcept.cs" />
-    <Compile Include="Elements.Config.Concepts\TaxBaseAdvancePartConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\TaxBaseAdvancePartialConcept.cs" />
     <Compile Include="Elements.Config.Concepts\TaxBaseAdvanceSocialConcept.cs" />
-    <Compile Include="Elements.Config.Concepts\TaxBaseSolidaryConcept.cs" />
+    <Compile Include="Elements.Config.Concepts\TaxBaseAdvanceSolidaryConcept.cs" />
     <Compile Include="Elements.Config.Concepts\Transfer\TaxBaseWithholdConcept.cs" />
     <Compile Include="Elements.Config.Concepts\Transfer\TaxDeclarationConcept.cs" />
     <Compile Include="Elements.Config.Concepts\Transfer\TaxIncomesAdvanceConcept.cs" />
@@ -122,10 +122,10 @@
     <Compile Include="Elements.Config.Sources\Transfer\InsIncomesSocialSource.cs" />
     <Compile Include="Elements.Config.Sources\Earnings\MonthlyAmountSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceHealthSource.cs" />
-    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvancePartSource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvancePartialSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceSocialSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceSource.cs" />
-    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseSolidarySource.cs" />
+    <Compile Include="Elements.Config.Sources\Transfer\TaxBaseAdvanceSolidarySource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxBaseWithholdSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxDeclarationSource.cs" />
     <Compile Include="Elements.Config.Sources\Transfer\TaxIncomesAdvanceSource.cs" />

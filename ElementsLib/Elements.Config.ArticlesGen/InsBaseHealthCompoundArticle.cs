@@ -17,9 +17,7 @@ namespace ElementsLib.Elements.Config.Articles
     using ResultPair = KeyValuePair<Module.Interfaces.Elements.IArticleTarget, ResultMonad.Result<Module.Interfaces.Elements.IArticleResult, string>>;
     using ResultItem = Module.Interfaces.Elements.IArticleResult;
     using ValidsPack = ResultMonad.Result<bool, string>;
-    using SourceItem = Sources.TaxBaseSolidarySource;
-
-    using TAmountDec = Decimal;
+    using SourceItem = Sources.InsBaseHealthCompoundSource;
 
     using Sources;
     using Concepts;
@@ -31,28 +29,25 @@ namespace ElementsLib.Elements.Config.Articles
     using Module.Interfaces.Matrixus;
     using Utils;
     using Results;
-    using Module.Codes;
-    using Module.Items.Utils;
-    using Matrixus.Config;
 
-    public class TaxBaseSolidaryArticle : GeneralArticle, ICloneable
+    public class InsBaseHealthCompoundArticle : GeneralArticle, ICloneable
     {
         protected delegate IEnumerable<ResultPack> EvaluateConceptDelegate(ConfigBase evalConfig, Period evalPeriod, IPeriodProfile evalProfile, Result<EvaluateSource, string> prepValues);
 
-        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "TaxBaseSolidaryArticle(ARTICLE_TAX_BASE_SOLIDARY, 1018): {0}";
+        public static string ARTICLE_DESCRIPTION_ERROR_FORMAT = "InsBaseHealthCompoundArticle(ARTICLE_INS_BASE_HEALTH_COMPOUND, 1035): {0}";
 
-        public TaxBaseSolidaryArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_TAX_BASE_SOLIDARY)
+        public InsBaseHealthCompoundArticle() : base((ConfigRole)ConfigRoleEnum.ARTICLE_INS_BASE_HEALTH_COMPOUND)
         {
-            SourceValues = new TaxBaseSolidarySource();
+            SourceValues = new InsBaseHealthCompoundSource();
 
-            InternalEvaluate = TaxBaseSolidaryConcept.EvaluateConcept;
+            InternalEvaluate = InsBaseHealthCompoundConcept.EvaluateConcept;
         }
 
-        public TaxBaseSolidaryArticle(ISourceValues values) : this()
+        public InsBaseHealthCompoundArticle(ISourceValues values) : this()
         {
-            TaxBaseSolidarySource sourceValues = values as TaxBaseSolidarySource;
+            InsBaseHealthCompoundSource sourceValues = values as InsBaseHealthCompoundSource;
 
-            SourceValues = CloneUtils<TaxBaseSolidarySource>.CloneOrNull(sourceValues);
+            SourceValues = CloneUtils<InsBaseHealthCompoundSource>.CloneOrNull(sourceValues);
         }
 
         protected EvaluateConceptDelegate InternalEvaluate { get; set; }
@@ -74,11 +69,11 @@ namespace ElementsLib.Elements.Config.Articles
             return InternalEvaluate(evalConfig, evalPeriod, evalProfile, bundleValues);
         }
 
-        public TaxBaseSolidarySource SourceValues { get; set; }
+        public InsBaseHealthCompoundSource SourceValues { get; set; }
 
         public override void ImportSourceValues(ISourceValues values)
         {
-            SourceValues = SetSourceValues<TaxBaseSolidarySource>(values);
+            SourceValues = SetSourceValues<InsBaseHealthCompoundSource>(values);
         }
 
         public override ISourceValues ExportSourceValues()
@@ -93,7 +88,7 @@ namespace ElementsLib.Elements.Config.Articles
 
         public override object Clone()
         {
-            TaxBaseSolidaryArticle cloneArticle = (TaxBaseSolidaryArticle)this.MemberwiseClone();
+            InsBaseHealthCompoundArticle cloneArticle = (InsBaseHealthCompoundArticle)this.MemberwiseClone();
 
             cloneArticle.InternalConfig = CloneUtils<IArticleConfigFeatures>.CloneOrNull(this.InternalConfig);
             cloneArticle.InternalRole = this.InternalRole;
@@ -106,11 +101,10 @@ namespace ElementsLib.Elements.Config.Articles
         {
             public EvaluateSource()
             {
-                GeneralBaseAmount = TAmountDec.Zero;
             }
 
             // PROPERTIES DEF
-            public TAmountDec GeneralBaseAmount { get; set; }
+            // public XXX ZZZ { get; set; }
             // PROPERTIES DEF
             public class SourceBuilder : EvalValuesSourceBuilder<EvaluateSource>
             {
@@ -120,7 +114,6 @@ namespace ElementsLib.Elements.Config.Articles
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-#if GET_SOURCE_VALUE
                     SourceItem conceptValues = InternalValues as SourceItem;
                     if (conceptValues == null)
                     {
@@ -131,9 +124,6 @@ namespace ElementsLib.Elements.Config.Articles
                         // PROPERTIES SET
                         // PROPERTIES SET
                     };
-#else
-                    return initValues;
-#endif
                 }
             }
             public class ResultBuilder : EvalValuesResultBuilder<EvaluateSource>
@@ -142,37 +132,11 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                 }
 
-                private Result<MoneyAmountSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
-                {
-                    ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_ADVANCE;
-
-                    Result<MoneyAmountSum, string> taxableIncome = results
-                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyTransferIncomeValue, MoneyAmountSum>(
-                        TargetFilters.TargetCodeFunc(incomeTaxingCode), ResultFilters.TransferIncomeValue, GetIncomeAmount);
-
-                    return taxableIncome;
-                }
-                private Result<MoneyAmountSum, string> GetIncomeAmount(MoneyTransferIncomeValue resultValue)
-                {
-                    return Result.Ok<MoneyAmountSum, string>(new MoneyAmountSum(resultValue.Payment));
-                }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
-                    Result<MoneyAmountSum, string> taxableIncome = GetTaxableIncome(InternalValues, InternalTarget);
-
-                    if (ResultMonadUtils.HaveAnyResultFailed(taxableIncome))
-                    {
-                        return ReturnFailureAndError(initValues, taxableIncome.Error);
-                    }
-
-                    MoneyAmountSum taxableValues = taxableIncome.Value;
-
-                    return new EvaluateSource
-                    {
-                        // PROPERTIES SET
-                        GeneralBaseAmount = taxableValues.Balance(),
-                        // PROPERTIES SET
-                    };
+                    // PROPERTIES SET
+                    // PROPERTIES SET
+                    return initValues;
                 }
             }
         }
