@@ -148,23 +148,15 @@ namespace ElementsLib.Elements.Config.Articles
 
                 private Result<MoneyPaymentSum, string> GetIncludeIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
-
-                    Result<MoneyPaymentSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
-                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsIncomeSocialFunc,
-                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+                    Result<MoneyPaymentSum, string> taxableIncome = GetSumResultUtils.GetSumMoneyPayment(results,
+                        TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsIncomeSocialFunc);
 
                     return taxableIncome;
                 }
                 private Result<MoneyPaymentSum, string> GetExcludeIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
-
-                    Result<MoneyPaymentSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
-                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsExcludeSocialFunc,
-                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+                    Result<MoneyPaymentSum, string> taxableIncome = GetSumResultUtils.GetSumMoneyPayment(results,
+                        TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.InsExcludeSocialFunc);
 
                     return taxableIncome;
                 }

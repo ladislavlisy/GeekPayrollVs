@@ -156,42 +156,24 @@ namespace ElementsLib.Elements.Config.Articles
 
                 private Result<MoneyPaymentSum, string> GetTaxableIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
-
-                    Result<MoneyPaymentSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
-                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxIncomeFunc, 
-                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+                    Result<MoneyPaymentSum, string> taxableIncome = GetSumResultUtils.GetSumMoneyPayment(results,
+                        TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxIncomeFunc);
 
                     return taxableIncome;
                 }
                 private Result<MoneyPaymentSum, string> GetPartnerIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
-
-                    Result<MoneyPaymentSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
-                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxPartnerFunc, 
-                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
-
+                    Result<MoneyPaymentSum, string> taxableIncome = GetSumResultUtils.GetSumMoneyPayment(results,
+                        TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxPartnerFunc);
                     return taxableIncome;
                 }
 
                 private Result<MoneyPaymentSum, string> GetExcludeIncome(IEnumerable<ResultPair> results, TargetItem target)
                 {
-                    MoneyPaymentSum initBalance = new MoneyPaymentSum(decimal.Zero);
-
-                    Result<MoneyPaymentSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, MoneyPaymentValue, MoneyPaymentSum>(
-                            initBalance, TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxExcludeFunc, 
-                            ResultFilters.PaymentMoneyFunc, GetSumPayments);
+                    Result<MoneyPaymentSum, string> taxableIncome = GetSumResultUtils.GetSumMoneyPayment(results,
+                        TargetFilters.TargetHeadFunc(target.Head()), ArticleFilters.TaxExcludeFunc);
 
                     return taxableIncome;
-                }
-
-                private Result<MoneyPaymentSum, string> GetSumPayments(MoneyPaymentSum agr, TargetItem resultTarget, MoneyPaymentValue resultValue)
-                {
-                    return Result.Ok<MoneyPaymentSum, string>(agr.Aggregate(resultValue.Payment));
                 }
 
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)

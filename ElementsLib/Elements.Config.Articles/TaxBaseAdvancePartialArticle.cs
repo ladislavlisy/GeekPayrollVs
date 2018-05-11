@@ -150,9 +150,8 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode taxBaseCode = (ConfigCode)ArticleCodeCz.FACT_TAX_BASE_ADVANCE;
 
-                    Result<MoneyAmountSum, string> taxBaseAmount = results
-                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyTaxingBasisValue, MoneyAmountSum>(
-                        TargetFilters.TargetCodeFunc(taxBaseCode), ResultFilters.TaxingBasisValue, GetTaxBasisAmount);
+                    Result<MoneyAmountSum, string> taxBaseAmount = FindResultUtils.FindMoneyTaxingBasisValue(results,
+                        TargetFilters.TargetCodeFunc(taxBaseCode));
 
                     return taxBaseAmount;
                 }
@@ -160,27 +159,17 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode taxPartCode = (ConfigCode)ArticleCodeCz.FACT_TAX_BASE_ADVANCE_HEALTH;
 
-                    Result<MoneyAmountSum, string> taxPartAmount = results
-                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyInsuranceBasisValue, MoneyAmountSum>(
-                        TargetFilters.TargetCodeFunc(taxPartCode), ResultFilters.InsuranceBasisValue, GetInsBasisAmount);
+                    Result<MoneyAmountSum, string> taxPartAmount = FindResultUtils.FindMoneyInsuranceBasisValue(results, 
+                        TargetFilters.TargetCodeFunc(taxPartCode));
                     return taxPartAmount;
                 }
                 private Result<MoneyAmountSum, string> GetSocialsPart(IEnumerable<ResultPair> results, TargetItem target)
                 {
                     ConfigCode taxPartCode = (ConfigCode)ArticleCodeCz.FACT_TAX_BASE_ADVANCE_SOCIAL;
 
-                    Result<MoneyAmountSum, string> taxPartAmount = results
-                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyInsuranceBasisValue, MoneyAmountSum>(
-                        TargetFilters.TargetCodeFunc(taxPartCode), ResultFilters.InsuranceBasisValue, GetInsBasisAmount);
+                    Result<MoneyAmountSum, string> taxPartAmount = FindResultUtils.FindMoneyInsuranceBasisValue(results,
+                        TargetFilters.TargetCodeFunc(taxPartCode));
                     return taxPartAmount;
-                }
-                private Result<MoneyAmountSum, string> GetTaxBasisAmount(MoneyTaxingBasisValue resultValue)
-                {
-                    return Result.Ok<MoneyAmountSum, string>(new MoneyAmountSum(resultValue.BasisFinNumb));
-                }
-                private Result<MoneyAmountSum, string> GetInsBasisAmount(MoneyInsuranceBasisValue resultValue)
-                {
-                    return Result.Ok<MoneyAmountSum, string>(new MoneyAmountSum(resultValue.BasisFinNumb));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {

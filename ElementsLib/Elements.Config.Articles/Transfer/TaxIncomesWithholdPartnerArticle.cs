@@ -154,19 +154,10 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_GENERAL;
 
-                    TaxableIncomeSum initBalance = new TaxableIncomeSum();
-
-                    Result<TaxableIncomeSum, string> taxableIncome = results
-                        .GetResultValuesInAggrAndError<ResultItem, IncomeTaxGeneralValue, TaxableIncomeSum>(
-                            initBalance, TargetFilters.TargetCodeFunc(incomeTaxingCode), ArticleFilters.SelectAllFunc,
-                            ResultFilters.IncomeTaxableFunc, GetSumPayments);
+                    Result<TaxableIncomeSum, string> taxableIncome = GetSumResultUtils.GetSumIncomeTaxGeneral(results,
+                        TargetFilters.TargetCodeFunc(incomeTaxingCode), ArticleFilters.SelectAllFunc);
 
                     return taxableIncome;
-                }
-                private Result<TaxableIncomeSum, string> GetSumPayments(TaxableIncomeSum agr, TargetItem resultTarget, IncomeTaxGeneralValue resultValue)
-                {
-                    return Result.Ok<TaxableIncomeSum, string>(agr.Aggregate(resultValue.IncomeGeneral, resultValue.IncomeExclude,
-                        resultValue.IncomeLolevel, resultValue.IncomeTaskAgr, resultValue.IncomePartner));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {

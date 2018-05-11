@@ -135,6 +135,8 @@
     <Compile Include="Elements.Config.Sources\Transfer\TaxIncomesWithholdSource.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionDetailsBuilder.cs" />
     <Compile Include="Elements.Evaluate.Sources\PositionScheduleEvalDetail.cs" />
+    <Compile Include="Elements.Utils\FindResultUtils.cs" />
+    <Compile Include="Elements.Utils\GetSumResultUtils.cs" />
     <Compile Include="Module.Items\MoneyAmountSum.cs" />
     <Compile Include="Module.Items\TaxableIncomeSum.cs" />
     <Compile Include="Elements.Utils\EvaluateUtils.cs" />

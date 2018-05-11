@@ -145,15 +145,10 @@ namespace ElementsLib.Elements.Config.Articles
                 {
                     ConfigCode incomeTaxingCode = (ConfigCode)ArticleCodeCz.FACT_TAX_INCOMES_WITHHOLD_GENERAL;
 
-                    Result<MoneyAmountSum, string> taxableIncome = results
-                        .FindAndTransformResultValue<ArticleGeneralResult, MoneyTransferIncomeValue, MoneyAmountSum>(
-                        TargetFilters.TargetCodeFunc(incomeTaxingCode), ResultFilters.TransferIncomeValue, GetIncomeAmount);
+                    Result<MoneyAmountSum, string> taxableIncome = FindResultUtils.FindMoneyTransferIncomeValue(results,
+                        TargetFilters.TargetCodeFunc(incomeTaxingCode));
 
                     return taxableIncome;
-                }
-                private Result<MoneyAmountSum, string> GetIncomeAmount(MoneyTransferIncomeValue resultValue)
-                {
-                    return Result.Ok<MoneyAmountSum, string>(new MoneyAmountSum(resultValue.Payment));
                 }
                 public override EvaluateSource GetNewValues(EvaluateSource initValues)
                 {
